@@ -1,0 +1,52 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{info}}" class="card">
+    <view wx:if="{{nowText && info.useType != 1}}" class="now-text">{{nowText}}</view>
+    <view class="title">{{info.couponTitle}}</view>
+    <view wx:if="{{info.couponPrice}}" class="price">金额：{{info.couponPrice}}</view>
+    <view wx:if="{{info.timeText}}" class="time">{{info.timeText}}</view>
+
+    <view class="qrcode-box" wx:if="{{showQrcode}}">
+      <canvas class="qrcode-canvas" canvas-id="qrcode" id="qrcode"></canvas>
+      <view wx:if="{{qrcodeHint}}" class="qrcode-hint">{{qrcodeHint}}</view>
+    </view>
+
+    <view wx:if="{{!showQrcode}}" class="status-text">{{info.statusText}}</view>
+
+    <view wx:if="{{info.userName || info.userIdcard}}" class="user-info">
+      <view class="user-name">{{info.userName}}</view>
+      <view class="user-idcard">{{info.userIdcard}}</view>
+    </view>
+
+    <view class="row" bindtap="onTapOpenApplicableMerchants" wx:if="{{couponIssueId}}">
+      <view class="row-left">适用于</view>
+      <view class="row-right">
+        <text>{{suitable ? suitable.nickname : '加载中..'}}</text>
+        <text wx:if="{{suitable && suitable.distanceText}}">（{{suitable.distanceText}}）</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{info && info.remarkHtml}}" class="card">
+    <view class="card-title">使用细则</view>
+    <rich-text nodes="{{info.remarkHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{info && info.useTypeDescHtml}}" class="card">
+    <view class="card-title">核销规则</view>
+    <rich-text nodes="{{info.useTypeDescHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{info && info.writeoff}}" class="card">
+    <view class="card-title">核销信息</view>
+    <view class="writeoff">
+      <view wx:if="{{info.writeoff.userName}}">核销人：{{info.writeoff.userName}}</view>
+      <view wx:if="{{info.writeoff.createTime}}">核销时间：{{info.writeoff.createTime}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>

@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="icon-wrap">
+    <view class="icon">✓</view>
+  </view>
+  <view class="title">支付成功</view>
+
+  <view class="actions">
+    <ui-button wx:if="{{showOrder}}" type="primary" text="查看订单" bind:tap="onTapViewOrders" block="{{true}}" />
+    <ui-button text="返回首页" bind:tap="onTapHome" plain="{{true}}" block="{{true}}" class-name="hollow" />
+  </view>
+</view>

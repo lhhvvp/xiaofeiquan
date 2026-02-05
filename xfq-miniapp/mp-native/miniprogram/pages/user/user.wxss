@@ -1,0 +1,53 @@
+.container {
+  padding: 24rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.sub {
+  margin-top: 12rpx;
+  color: #666;
+  font-size: 26rpx;
+  word-break: break-all;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.actions {
+  margin-top: 24rpx;
+  display: flex;
+  gap: 16rpx;
+  flex-direction: column;
+}
+
+.box {
+  margin-top: 24rpx;
+  padding: 16rpx;
+  border: 1px solid #e5e7eb;
+  border-radius: 12rpx;
+}
+
+.box-title {
+  font-size: 26rpx;
+  color: #111827;
+  margin-bottom: 12rpx;
+}
+
+.json {
+  font-family: monospace;
+  font-size: 24rpx;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+

@@ -1,0 +1,37 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再管理常用游客
+  </view>
+
+  <checkbox-group bindchange="onCheckboxChange" wx:if="{{hasLogin && list.length}}">
+    <view wx:for="{{list}}" wx:key="id" class="item">
+      <view class="left">
+        <checkbox value="{{item.id}}" />
+      </view>
+      <view class="main">
+        <view class="title">
+          <text wx:if="{{item.cert_type_text}}" class="tag">{{item.cert_type_text}}</text>
+          <text>{{item.fullname}}</text>
+        </view>
+        <view class="sub">手机：{{item.mobile}}</view>
+        <view class="sub">证件：{{item.cert_id}}</view>
+      </view>
+      <view class="right" data-index="{{index}}" bindtap="onTapEdit">编辑</view>
+    </view>
+  </checkbox-group>
+
+  <view wx:if="{{hasLogin && empty}}" class="empty">暂无常用游客</view>
+
+  <view wx:if="{{hasLogin && loadingStatus == 'loading'}}" class="loading">加载中..</view>
+  <view wx:if="{{hasLogin && loadingStatus == 'no-more' && list.length}}" class="loading">没有更多了</view>
+
+  <view class="footer">
+    <button class="btn-gray" bindtap="onTapDelete">删除</button>
+    <button type="primary" bindtap="onTapAdd">新增</button>
+  </view>
+</view>
+

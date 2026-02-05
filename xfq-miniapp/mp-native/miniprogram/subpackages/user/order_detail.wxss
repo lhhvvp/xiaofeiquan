@@ -1,0 +1,205 @@
+.container {
+  padding: 0 24rpx 32rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.status {
+  margin-top: 16rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.price-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.price-tit {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.price {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #a00000;
+}
+
+.refresh {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.product {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.tit {
+  font-size: 30rpx;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.number {
+  font-size: 26rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.row {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.row2 {
+  margin-top: 16rpx;
+}
+
+.label {
+  font-size: 26rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.value {
+  font-size: 26rpx;
+  color: #333;
+  flex: 1;
+}
+
+.copy {
+  font-size: 26rpx;
+  color: #a00000;
+}
+
+.picker {
+  font-size: 26rpx;
+  color: #333;
+  text-align: right;
+  flex: 1;
+}
+
+.qrcode {
+  padding-top: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.qrcode-tip {
+  color: #666;
+  font-size: 26rpx;
+  padding: 24rpx 0;
+}
+
+.qrcode-canvas {
+  width: 440rpx;
+  height: 440rpx;
+}
+
+.tourist {
+  padding: 16rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.tourist:last-child {
+  border-bottom: none;
+}
+
+.tourist-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.tourist-name {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.tourist-sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.tourist-actions {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 24rpx 32rpx;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24rpx;
+}
+
+.modal {
+  width: 100%;
+  max-width: 640rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.modal-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #333;
+}
+

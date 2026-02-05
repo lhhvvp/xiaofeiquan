@@ -1,0 +1,539 @@
+﻿{
+    "generatedAt":  "2026-02-05T17:40:19",
+    "count":  50,
+    "apis":  [
+                 {
+                     "api":  "authorize",
+                     "fileCount":  1,
+                     "files":  "common\\common.js"
+                 },
+                 {
+                     "api":  "canvasToTempFilePath",
+                     "fileCount":  4,
+                     "files":  [
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\readme.md"
+                               ]
+                 },
+                 {
+                     "api":  "checkSession",
+                     "fileCount":  3,
+                     "files":  [
+                                   "pages\\getopenid\\getopenid - 副本.vue",
+                                   "pages\\getopenid\\getopenid.vue",
+                                   "pages\\user\\login\\login.vue"
+                               ]
+                 },
+                 {
+                     "api":  "chooseAddress",
+                     "fileCount":  1,
+                     "files":  "pages\\coupon\\my_coupon.vue"
+                 },
+                 {
+                     "api":  "chooseImage",
+                     "fileCount":  2,
+                     "files":  [
+                                   "components\\uni-file-picker\\choose-and-upload-file.js",
+                                   "pages\\user\\set.vue"
+                               ]
+                 },
+                 {
+                     "api":  "chooseVideo",
+                     "fileCount":  1,
+                     "files":  "components\\uni-file-picker\\choose-and-upload-file.js"
+                 },
+                 {
+                     "api":  "clearStorage",
+                     "fileCount":  1,
+                     "files":  "pages\\user\\user.vue"
+                 },
+                 {
+                     "api":  "createAnimation",
+                     "fileCount":  1,
+                     "files":  "components\\uni-transition\\createAnimation.js"
+                 },
+                 {
+                     "api":  "createCanvasContext",
+                     "fileCount":  4,
+                     "files":  [
+                                   "components\\chocolate-progress-bar\\chocolate-progress-bar.vue",
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue"
+                               ]
+                 },
+                 {
+                     "api":  "createSelectorQuery",
+                     "fileCount":  4,
+                     "files":  [
+                                   "components\\my-readMore\\my-readMore.vue",
+                                   "components\\uni-notice-bar\\uni-notice-bar.vue",
+                                   "components\\uni-rate\\uni-rate.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\mixin\\mixin.js"
+                               ]
+                 },
+                 {
+                     "api":  "downloadFile",
+                     "fileCount":  1,
+                     "files":  "uni_modules\\uv-ui-tools\\libs\\luch-request\\adapters\\index.js"
+                 },
+                 {
+                     "api":  "getImageInfo",
+                     "fileCount":  6,
+                     "files":  [
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "components\\uni-file-picker\\utils.js",
+                                   "pages\\coupon\\lineInfo.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue"
+                               ]
+                 },
+                 {
+                     "api":  "getLocation",
+                     "fileCount":  1,
+                     "files":  "common\\common.js"
+                 },
+                 {
+                     "api":  "getMenuButtonBoundingClientRect",
+                     "fileCount":  5,
+                     "files":  [
+                                   "components\\my-header\\my-header.vue",
+                                   "pages\\merchant\\merchant.vue",
+                                   "pages\\tickets\\tickets.vue",
+                                   "pages\\user\\collect.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "getNetworkType",
+                     "fileCount":  1,
+                     "files":  "httpRequest.js"
+                 },
+                 {
+                     "api":  "getStorageSync",
+                     "fileCount":  12,
+                     "files":  [
+                                   "common\\common.js",
+                                   "components\\uni-data-select\\uni-data-select.vue",
+                                   "httpRequest.js",
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\list\\list.vue",
+                                   "pages\\search\\search.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                   "pages\\user\\login\\login.vue",
+                                   "pages\\user\\user.vue",
+                                   "store\\index.js"
+                               ]
+                 },
+                 {
+                     "api":  "getSystemInfo",
+                     "fileCount":  1,
+                     "files":  "pages\\user\\user.vue"
+                 },
+                 {
+                     "api":  "getSystemInfoSync",
+                     "fileCount":  11,
+                     "files":  [
+                                   "common\\common.js",
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "components\\uni-load-more\\uni-load-more.vue",
+                                   "components\\uni-notice-bar\\uni-notice-bar.vue",
+                                   "pages\\coupon\\lineInfo.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\tickets\\info.vue",
+                                   "uni_modules\\liu-dropdown\\components\\liu-dropdown\\item4.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\function\\index.js"
+                               ]
+                 },
+                 {
+                     "api":  "getUpdateManager",
+                     "fileCount":  1,
+                     "files":  "App.vue"
+                 },
+                 {
+                     "api":  "getUserInfo",
+                     "fileCount":  1,
+                     "files":  "pages\\getopenid\\getopenid - 副本.vue"
+                 },
+                 {
+                     "api":  "getUserProfile",
+                     "fileCount":  2,
+                     "files":  [
+                                   "components\\my-complete-information\\my-complete-information.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "hideLoading",
+                     "fileCount":  17,
+                     "files":  [
+                                   "components\\my-file\\my-file.vue",
+                                   "httpRequest.js",
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\coupon\\coupon_CAV.vue",
+                                   "pages\\coupon\\coupon_CAV_Group\\coupon_CAV_Group.vue",
+                                   "pages\\getopenid\\getopenid - 副本.vue",
+                                   "pages\\getopenid\\getopenid.vue",
+                                   "pages\\getopenid\\travelorderinfo.vue",
+                                   "pages\\tickets\\order.vue",
+                                   "pages\\user\\coupon_CAV_order\\coupon_CAV_order.vue",
+                                   "pages\\user\\coupon_CAV_order\\coupon_CAV_user.vue",
+                                   "pages\\user\\coupon_CAV_subscribe\\coupon_CAV_subscribe.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                   "pages\\user\\order_detail.vue",
+                                   "pages\\user\\pay_order.vue",
+                                   "pages\\user\\signIn\\signIn.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "login",
+                     "fileCount":  6,
+                     "files":  [
+                                   "components\\my-complete-information\\my-complete-information.vue",
+                                   "pages\\getopenid\\getopenid - 副本.vue",
+                                   "pages\\getopenid\\getopenid.vue",
+                                   "pages\\getopenid\\travelorderinfo.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\login\\login.vue"
+                               ]
+                 },
+                 {
+                     "api":  "makePhoneCall",
+                     "fileCount":  4,
+                     "files":  [
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                   "pages\\user\\GroupCoupon\\touristInfo\\touristInfo.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "navigateBack",
+                     "fileCount":  18,
+                     "files":  [
+                                   "common\\common.js",
+                                   "pages\\common\\paySuccess.vue",
+                                   "pages\\coupon\\coupon_CAV.vue",
+                                   "pages\\coupon\\coupon_CAV_Group\\coupon_CAV_Group.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\commentAdd.vue",
+                                   "pages\\user\\complaints.vue",
+                                   "pages\\user\\coupon_CAV_order\\coupon_CAV_order.vue",
+                                   "pages\\user\\coupon_CAV_order\\coupon_CAV_user.vue",
+                                   "pages\\user\\coupon_CAV_subscribe\\coupon_CAV_subscribe.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                   "pages\\user\\order_CAV_info.vue",
+                                   "pages\\user\\person\\add.vue",
+                                   "pages\\user\\refunded.vue",
+                                   "pages\\user\\set.vue",
+                                   "pages\\user\\signIn\\info.vue",
+                                   "pages\\user\\subscribe\\detail.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\util\\route.js"
+                               ]
+                 },
+                 {
+                     "api":  "navigateTo",
+                     "fileCount":  36,
+                     "files":  [
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\coupon\\lineList.vue",
+                                   "pages\\coupon\\list.vue",
+                                   "pages\\coupon\\my_coupon.vue",
+                                   "pages\\index\\index.vue",
+                                   "pages\\list\\list.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\merchant\\merchant.vue",
+                                   "pages\\news\\info.vue",
+                                   "pages\\news\\news.vue",
+                                   "pages\\search\\search.vue",
+                                   "pages\\tickets\\info.vue",
+                                   "pages\\tickets\\order.vue",
+                                   "pages\\tickets\\tickets.vue",
+                                   "pages\\user\\collect.vue",
+                                   "pages\\user\\GroupCoupon\\GroupCoupon.vue",
+                                   "pages\\user\\GroupCoupon\\hotelList.vue",
+                                   "pages\\user\\GroupCoupon\\list.vue",
+                                   "pages\\user\\login\\login.vue",
+                                   "pages\\user\\my_order.vue",
+                                   "pages\\user\\my_order_refund.vue",
+                                   "pages\\user\\order.vue",
+                                   "pages\\user\\order_CAV.vue",
+                                   "pages\\user\\order_CAV_info.vue",
+                                   "pages\\user\\order_detail.vue",
+                                   "pages\\user\\order_groupCoupon.vue",
+                                   "pages\\user\\pay_order.vue",
+                                   "pages\\user\\person\\list.vue",
+                                   "pages\\user\\signIn\\signIn.vue",
+                                   "pages\\user\\subscribe\\detail.vue",
+                                   "pages\\user\\subscribe\\my_list.vue",
+                                   "pages\\user\\subscribe\\subscribe.vue",
+                                   "pages\\user\\task\\detail.vue",
+                                   "pages\\user\\task\\index.vue",
+                                   "pages\\user\\user.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\util\\route.js"
+                               ]
+                 },
+                 {
+                     "api":  "openLocation",
+                     "fileCount":  3,
+                     "files":  [
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\tickets\\info.vue"
+                               ]
+                 },
+                 {
+                     "api":  "openSetting",
+                     "fileCount":  1,
+                     "files":  "common\\common.js"
+                 },
+                 {
+                     "api":  "previewImage",
+                     "fileCount":  3,
+                     "files":  [
+                                   "components\\uni-file-picker\\upload-image.vue",
+                                   "pages\\coupon\\lineInfo.vue",
+                                   "pages\\user\\signIn\\signIn.vue"
+                               ]
+                 },
+                 {
+                     "api":  "redirectTo",
+                     "fileCount":  4,
+                     "files":  [
+                                   "pages\\getopenid\\travelorderinfo.vue",
+                                   "pages\\tickets\\order.vue",
+                                   "pages\\user\\order_detail.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\util\\route.js"
+                               ]
+                 },
+                 {
+                     "api":  "reLaunch",
+                     "fileCount":  5,
+                     "files":  [
+                                   "httpRequest.js",
+                                   "pages\\getopenid\\getopenid - 副本.vue",
+                                   "pages\\getopenid\\getopenid.vue",
+                                   "pages\\user\\user.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\util\\route.js"
+                               ]
+                 },
+                 {
+                     "api":  "removeStorageSync",
+                     "fileCount":  5,
+                     "files":  [
+                                   "common\\common.js",
+                                   "httpRequest.js",
+                                   "pages\\search\\search.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "report",
+                     "fileCount":  2,
+                     "files":  [
+                                   "components\\uni-goods-nav\\uni-goods-nav.vue",
+                                   "components\\uni-section\\uni-section.vue"
+                               ]
+                 },
+                 {
+                     "api":  "request",
+                     "fileCount":  2,
+                     "files":  [
+                                   "httpRequest.js",
+                                   "uni_modules\\uv-ui-tools\\libs\\luch-request\\adapters\\index.js"
+                               ]
+                 },
+                 {
+                     "api":  "requestPayment",
+                     "fileCount":  4,
+                     "files":  [
+                                   "common\\common.js",
+                                   "pages\\getopenid\\travelorderinfo.vue",
+                                   "pages\\tickets\\order.vue",
+                                   "pages\\user\\order_detail.vue"
+                               ]
+                 },
+                 {
+                     "api":  "requireNativePlugin",
+                     "fileCount":  2,
+                     "files":  [
+                                   "components\\uni-rate\\uni-rate.vue",
+                                   "components\\uni-transition\\createAnimation.js"
+                               ]
+                 },
+                 {
+                     "api":  "saveImageToPhotosAlbum",
+                     "fileCount":  4,
+                     "files":  [
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\readme.md"
+                               ]
+                 },
+                 {
+                     "api":  "scanCode",
+                     "fileCount":  2,
+                     "files":  [
+                                   "pages\\user\\task\\detail.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "setClipboardData",
+                     "fileCount":  6,
+                     "files":  [
+                                   "components\\StarLee-logistics\\logistics.vue",
+                                   "pages\\getopenid\\travelorderinfo.vue",
+                                   "pages\\user\\mymap.vue",
+                                   "pages\\user\\order_detail.vue",
+                                   "pages\\user\\subscribe\\detail.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "setNavigationBarColor",
+                     "fileCount":  1,
+                     "files":  "pages\\search\\search.vue"
+                 },
+                 {
+                     "api":  "setNavigationBarTitle",
+                     "fileCount":  7,
+                     "files":  [
+                                   "pages\\list\\list.vue",
+                                   "pages\\user\\agreement.vue",
+                                   "pages\\user\\GroupCoupon\\hotelList.vue",
+                                   "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                   "pages\\user\\GroupCoupon\\list.vue",
+                                   "pages\\user\\GroupCoupon\\touristInfo\\touristInfo.vue",
+                                   "pages\\user\\person\\add.vue"
+                               ]
+                 },
+                 {
+                     "api":  "setScreenBrightness",
+                     "fileCount":  2,
+                     "files":  [
+                                   "pages\\coupon\\my_coupon.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue"
+                               ]
+                 },
+                 {
+                     "api":  "setStorageSync",
+                     "fileCount":  10,
+                     "files":  [
+                                   "common\\common.js",
+                                   "components\\uni-data-select\\uni-data-select.vue",
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\index\\index.vue",
+                                   "pages\\list\\list.vue",
+                                   "pages\\search\\search.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\order.vue",
+                                   "pages\\user\\user.vue",
+                                   "store\\index.js"
+                               ]
+                 },
+                 {
+                     "api":  "showLoading",
+                     "fileCount":  11,
+                     "files":  [
+                                   "components\\my-file\\my-file.vue",
+                                   "httpRequest.js",
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\coupon\\coupon_CAV.vue",
+                                   "pages\\coupon\\coupon_CAV_Group\\coupon_CAV_Group.vue",
+                                   "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                   "pages\\user\\pay_order.vue",
+                                   "pages\\user\\signIn\\info.vue",
+                                   "pages\\user\\signIn\\signIn.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "showModal",
+                     "fileCount":  16,
+                     "files":  [
+                                   "App.vue",
+                                   "common\\common.js",
+                                   "httpRequest.js",
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\coupon\\logistics.vue",
+                                   "pages\\coupon\\my_coupon.vue",
+                                   "pages\\getopenid\\getopenid - 副本.vue",
+                                   "pages\\getopenid\\getopenid.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\search\\search.vue",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\GroupCoupon\\hotelList.vue",
+                                   "pages\\user\\order_detail.vue",
+                                   "pages\\user\\person\\list.vue",
+                                   "pages\\user\\task\\detail.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "api":  "showToast",
+                     "fileCount":  11,
+                     "files":  [
+                                   "common\\common.js",
+                                   "components\\calendar-select\\calendar-select.vue",
+                                   "components\\my-complete-information\\my-complete-information.vue",
+                                   "components\\uni-file-picker\\uni-file-picker.vue",
+                                   "components\\uni-file-picker\\utils.js",
+                                   "httpRequest.js",
+                                   "pages\\user\\attestation.vue",
+                                   "pages\\user\\login\\login.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\readme.md",
+                                   "uni_modules\\uv-ui-tools\\libs\\function\\index.js",
+                                   "源文件\\zmm-slider-verify\\components\\zmm-slider-verify\\zmm-slider-verify.vue"
+                               ]
+                 },
+                 {
+                     "api":  "stopPullDownRefresh",
+                     "fileCount":  2,
+                     "files":  [
+                                   "pages\\index\\index.vue",
+                                   "pages\\merchant\\merchant.vue"
+                               ]
+                 },
+                 {
+                     "api":  "switchTab",
+                     "fileCount":  5,
+                     "files":  [
+                                   "components\\my-complete-information\\my-complete-information.vue",
+                                   "pages\\merchant\\info\\info.vue",
+                                   "pages\\user\\agreement.vue",
+                                   "pages\\user\\login\\login.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\util\\route.js"
+                               ]
+                 },
+                 {
+                     "api":  "uploadFile",
+                     "fileCount":  3,
+                     "files":  [
+                                   "components\\my-file\\my-file.vue",
+                                   "pages\\user\\set.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\luch-request\\adapters\\index.js"
+                               ]
+                 },
+                 {
+                     "api":  "upx2px",
+                     "fileCount":  3,
+                     "files":  [
+                                   "components\\my-readMore\\my-readMore.vue",
+                                   "components\\tfgg-verify\\tfgg-verify.vue",
+                                   "uni_modules\\uv-ui-tools\\libs\\function\\index.js"
+                               ]
+                 }
+             ]
+}

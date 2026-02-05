@@ -1,0 +1,14 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "projectname": "xfq-mp-native",
+  "appid": "wx20985da6f7cff1a9",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "minifyWXML": true
+  }
+}
+

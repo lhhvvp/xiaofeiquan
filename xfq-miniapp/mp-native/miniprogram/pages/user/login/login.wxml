@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="title">登录 / 授权</view>
+  <view class="sub">redirect: {{redirect}}</view>
+  <view class="sub">baseUrl: {{baseUrl}}</view>
+
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="actions">
+    <button type="primary" bindtap="onTapLogin">微信登录（/index/miniwxlogin）</button>
+    <button bindtap="onTapClearLogin">清空登录态</button>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+
+  <view wx:if="{{loginResultText}}" class="box">
+    <view class="box-title">响应（JSON）</view>
+    <text selectable="true" class="json">{{loginResultText}}</text>
+  </view>
+</view>

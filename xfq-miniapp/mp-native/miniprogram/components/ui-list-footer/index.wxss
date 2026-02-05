@@ -1,0 +1,11 @@
+.ui-list-footer {
+  padding: 24rpx 24rpx 40rpx;
+  text-align: center;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.ui-list-footer__text--error {
+  color: #d14343;
+}
+

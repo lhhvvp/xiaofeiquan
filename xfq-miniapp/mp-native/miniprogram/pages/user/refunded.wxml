@@ -1,0 +1,31 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin}}" class="notice">
+    <view>申请退款需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <view class="card">
+    <view class="title">退款</view>
+    <view class="sub">订单号：{{tradeNo}}</view>
+    <textarea
+      class="textarea"
+      value="{{refundDesc}}"
+      placeholder="请输入退款备注"
+      bindinput="onInputRefundDesc"
+    ></textarea>
+    <ui-button
+      type="primary"
+      text="{{single ? '提交（单人退款）' : '提交'}}"
+      block="{{true}}"
+      loading="{{submitting}}"
+      bind:tap="onTapSubmit"
+    />
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onTapSubmit" />
+</view>
+

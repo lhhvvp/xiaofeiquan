@@ -1,0 +1,94 @@
+.container {
+  padding: 0 24rpx 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.tips {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.progress {
+  margin-top: 16rpx;
+}
+
+.progress-bar {
+  height: 16rpx;
+  background: #f3f4f6;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 16rpx;
+  background: #a00000;
+}
+
+.progress-text {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.row {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1px solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.row-left {
+  width: 120rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.row-right {
+  flex: 1;
+  text-align: right;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.actions {
+  margin-top: 16rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.error {
+  margin-top: 16rpx;
+  color: #b91c1c;
+  word-break: break-all;
+}
+

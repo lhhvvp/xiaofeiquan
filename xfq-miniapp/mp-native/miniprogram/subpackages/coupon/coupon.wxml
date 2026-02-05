@@ -1,0 +1,44 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="title">{{detail.couponTitle}}</view>
+    <view wx:if="{{detail.tips}}" class="tips">{{detail.tips}}</view>
+    <view wx:if="{{detail.tipsExtend}}" class="tips">{{detail.tipsExtend}}</view>
+
+    <view class="progress">
+      <view class="progress-bar">
+        <view class="progress-inner" style="width: {{progressPercent}}%;"></view>
+      </view>
+      <view class="progress-text">已抢 {{progressPercent}}%</view>
+    </view>
+
+    <view class="row" bindtap="onTapOpenApplicableMerchants">
+      <view class="row-left">适用于</view>
+      <view class="row-right">
+        <text>{{suitable ? suitable.nickname : '加载中...'}}</text>
+        <text wx:if="{{suitable && suitable.distanceText}}">（{{suitable.distanceText}}）</text>
+      </view>
+    </view>
+
+    <view class="actions">
+      <button type="primary" loading="{{receiving}}" bindtap="onTapReceive">领取</button>
+      <button bindtap="onTapOpenApplicableMerchants">适用商家</button>
+    </view>
+  </view>
+
+  <view wx:if="{{detail && detail.remarkHtml}}" class="card">
+    <view class="card-title">使用细则</view>
+    <rich-text nodes="{{detail.remarkHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{detail && detail.useTypeDescHtml}}" class="card">
+    <view class="card-title">核销规则</view>
+    <rich-text nodes="{{detail.useTypeDescHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>
+

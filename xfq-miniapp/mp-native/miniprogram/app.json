@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/merchant/merchant",
+    "pages/tickets/tickets",
+    "pages/user/user",
+    "pages/user/login/login",
+    "pages/getopenid/getopenid",
+    "pages/user/paySuccess",
+    "pages/user/refunded",
+    "pages/common/paySuccess"
+  ],
+  "usingComponents": {
+    "ui-button": "components/ui-button/index",
+    "ui-empty": "components/ui-empty/index",
+    "ui-error": "components/ui-error/index",
+    "ui-list-footer": "components/ui-list-footer/index"
+  },
+  "tabBar": {
+    "color": "#969696",
+    "selectedColor": "#a00000",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/merchant/merchant", "text": "商家" },
+      { "pagePath": "pages/tickets/tickets", "text": "门票" },
+      { "pagePath": "pages/user/user", "text": "我的" }
+    ]
+  },
+  "subpackages": [
+    {
+      "root": "subpackages/coupon",
+      "pages": ["list", "coupon", "my_coupon", "coupon_CAV"]
+    },
+    {
+      "root": "subpackages/merchant",
+      "pages": ["info/info", "search/search"]
+    },
+    {
+      "root": "subpackages/tickets",
+      "pages": ["info", "order"]
+    },
+    {
+      "root": "subpackages/user",
+      "pages": [
+        "order/order",
+        "person/list",
+        "person/add",
+        "pay_order",
+        "pay_detail",
+        "my_order",
+        "order_detail",
+        "my_order_refund",
+        "order_refund_detail"
+      ]
+    }
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取用户位置定位"
+    }
+  },
+  "window": {
+    "navigationBarTitleText": "消费券",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#ffffff"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

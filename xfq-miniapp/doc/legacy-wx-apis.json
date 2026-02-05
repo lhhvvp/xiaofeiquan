@@ -1,0 +1,28 @@
+﻿{
+    "generatedAt":  "2026-02-05T17:40:19",
+    "count":  3,
+    "apis":  [
+                 {
+                     "api":  "getFileSystemManager",
+                     "fileCount":  3,
+                     "files":  [
+                                   "components\\my-qrcode\\my-qrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\uqrcode\\uqrcode.vue",
+                                   "uni_modules\\Sansnn-uQRCode\\components\\u-qrcode\\u-qrcode.vue"
+                               ]
+                 },
+                 {
+                     "api":  "reportEvent",
+                     "fileCount":  1,
+                     "files":  "httpRequest.js"
+                 },
+                 {
+                     "api":  "setVisualEffectOnCapture",
+                     "fileCount":  2,
+                     "files":  [
+                                   "pages\\coupon\\my_coupon.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue"
+                               ]
+                 }
+             ]
+}

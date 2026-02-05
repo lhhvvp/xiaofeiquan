@@ -1,0 +1,37 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再编辑游客信息
+  </view>
+
+  <view wx:if="{{hasLogin}}" class="card">
+    <view class="row">
+      <view class="label">证件类型</view>
+      <picker mode="selector" range="{{certTypeOptions}}" range-key="text" value="{{certTypeIndex}}" bindchange="onPickCertType">
+        <view class="picker">{{certTypeText || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">姓名</view>
+      <input class="input" value="{{fullname}}" bindinput="onInputFullname" placeholder="请输入姓名" />
+    </view>
+    <view class="row">
+      <view class="label">证件号</view>
+      <input class="input" value="{{certId}}" bindinput="onInputCertId" placeholder="请输入证件号" />
+    </view>
+    <view class="row">
+      <view class="label">手机号</view>
+      <input class="input" value="{{mobile}}" bindinput="onInputMobile" placeholder="请输入手机号" />
+    </view>
+  </view>
+
+  <view class="footer">
+    <button type="primary" loading="{{saving}}" bindtap="onTapSave">保存</button>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>
+

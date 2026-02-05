@@ -1,0 +1,7 @@
+﻿codeTime
+coord
+coupon_id
+guide
+SearchHistory
+system
+uerInfo

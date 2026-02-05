@@ -1,0 +1,9 @@
+.ui-btn {
+  border-radius: 16rpx;
+  font-size: 30rpx;
+}
+
+.ui-btn--block {
+  width: 100%;
+}
+

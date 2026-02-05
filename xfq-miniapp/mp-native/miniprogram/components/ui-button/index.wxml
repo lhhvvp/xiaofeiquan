@@ -1,0 +1,14 @@
+<button
+  class="ui-btn {{block ? 'ui-btn--block' : ''}} {{className}}"
+  type="{{type}}"
+  size="{{size}}"
+  plain="{{plain}}"
+  disabled="{{disabled}}"
+  loading="{{loading}}"
+  open-type="{{openType}}"
+  form-type="{{formType}}"
+  bindtap="onTap"
+>
+  <slot>{{text}}</slot>
+</button>
+

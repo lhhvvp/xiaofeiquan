@@ -1,0 +1,85 @@
+.container {
+  padding: 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.price {
+  margin-top: 10rpx;
+  text-align: center;
+  font-size: 60rpx;
+  font-weight: 700;
+  color: #932027;
+}
+
+.sub {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+  text-align: center;
+  word-break: break-all;
+}
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+  z-index: 999;
+}
+
+.mask-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+}
+
+.mask-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+.mask-msg {
+  font-size: 28rpx;
+  color: #374151;
+  text-align: center;
+  margin-bottom: 20rpx;
+  word-break: break-all;
+}
+
+.error {
+  margin-top: 16rpx;
+  color: #b91c1c;
+  word-break: break-all;
+}
+

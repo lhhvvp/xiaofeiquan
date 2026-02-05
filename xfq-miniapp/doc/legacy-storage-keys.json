@@ -1,0 +1,86 @@
+﻿{
+    "generatedAt":  "2026-02-05T17:40:19",
+    "keys":  [
+                 {
+                     "key":  "codeTime",
+                     "ops":  [
+                                 "get",
+                                 "remove",
+                                 "set"
+                             ],
+                     "fileCount":  1,
+                     "files":  "pages\\user\\attestation.vue"
+                 },
+                 {
+                     "key":  "coord",
+                     "ops":  "remove",
+                     "fileCount":  1,
+                     "files":  "pages\\user\\user.vue"
+                 },
+                 {
+                     "key":  "coupon_id",
+                     "ops":  [
+                                 "get",
+                                 "set"
+                             ],
+                     "fileCount":  2,
+                     "files":  [
+                                   "pages\\coupon\\coupon.vue",
+                                   "pages\\user\\order.vue"
+                               ]
+                 },
+                 {
+                     "key":  "guide",
+                     "ops":  [
+                                 "get",
+                                 "set"
+                             ],
+                     "fileCount":  3,
+                     "files":  [
+                                   "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                   "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "key":  "SearchHistory",
+                     "ops":  [
+                                 "get",
+                                 "remove",
+                                 "set"
+                             ],
+                     "fileCount":  1,
+                     "files":  "pages\\search\\search.vue"
+                 },
+                 {
+                     "key":  "system",
+                     "ops":  [
+                                 "get",
+                                 "remove",
+                                 "set"
+                             ],
+                     "fileCount":  3,
+                     "files":  [
+                                   "pages\\index\\index.vue",
+                                   "pages\\list\\list.vue",
+                                   "pages\\user\\user.vue"
+                               ]
+                 },
+                 {
+                     "key":  "uerInfo",
+                     "ops":  [
+                                 "get",
+                                 "remove",
+                                 "set"
+                             ],
+                     "fileCount":  4,
+                     "files":  [
+                                   "httpRequest.js",
+                                   "pages\\user\\login\\login.vue",
+                                   "pages\\user\\user.vue",
+                                   "store\\index.js"
+                               ]
+                 }
+             ],
+    "count":  7
+}

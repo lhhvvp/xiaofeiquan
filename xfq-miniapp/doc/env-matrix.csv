@@ -1,0 +1,4 @@
+mini_env,backend_env,base_url,static_url,monitor_url,notes,owner,status
+develop,test,,,,测试环境；base_url 暂空（用 local.js 覆盖或后续补齐）,,
+trial,test,,,,测试环境；base_url 暂空（用 local.js 覆盖或后续补齐）,,
+release,test,,,,测试环境；base_url 暂空（用 local.js 覆盖或后续补齐）,,

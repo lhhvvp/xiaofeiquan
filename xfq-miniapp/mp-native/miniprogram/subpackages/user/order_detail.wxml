@@ -1,0 +1,143 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin}}" class="notice">
+    <view>查看订单需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <view wx:if="{{detail}}" class="status">{{detail.orderStatusText}}</view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="price-box">
+      <view class="price-tit">应付金额</view>
+      <view class="price">{{detail.amountPrice || '-'}}</view>
+    </view>
+
+    <view class="product">
+      <view class="tit">{{detail.sellerNickname}} - {{detail.ticketTitle}}</view>
+      <view class="number">x{{detail.ticketCount}}</view>
+    </view>
+
+    <view class="row">
+      <view class="label">有效期</view>
+      <view class="value">{{detail.ticketDate}}（仅限当天使用）</view>
+    </view>
+    <view class="row">
+      <view class="label">订单号</view>
+      <view class="value">{{detail.tradeNo}}</view>
+      <view class="copy" bindtap="onTapCopyTradeNo">复制</view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="price-box">
+      <view class="price-tit">二维码展示</view>
+      <view class="refresh" bindtap="onTapRefresh">刷新</view>
+    </view>
+
+    <view class="qrcode">
+      <view wx:if="{{detail.orderStatus==='used'}}" class="qrcode-tip">已使用</view>
+      <view wx:elif="{{detail.orderStatus==='paid' && qrcodeDisabled}}" class="qrcode-tip">二维码不可用</view>
+      <canvas
+        wx:elif="{{detail.orderStatus==='paid'}}"
+        class="qrcode-canvas"
+        canvas-id="orderQrcode"
+      ></canvas>
+    </view>
+
+    <view wx:if="{{rightsOptions.length}}" class="row">
+      <view class="label">二维码切换</view>
+      <picker
+        mode="selector"
+        range="{{rightsOptions}}"
+        range-key="text"
+        value="{{rightIndex}}"
+        bindchange="onRightChange"
+      >
+        <view class="picker">{{rightsOptions[rightIndex].text}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="price-box">
+      <view class="price-tit">游客列表</view>
+      <ui-button
+        wx:if="{{detail.orderStatus==='paid' && detail.canRefundAll}}"
+        size="mini"
+        plain="{{true}}"
+        text="全部退款"
+        bind:tap="onTapRefundAll"
+      />
+    </view>
+
+    <view wx:for="{{detail.tourists}}" wx:key="id" class="tourist">
+      <view class="tourist-main">
+        <view class="tourist-name">{{item.mobile}} {{item.fullname}}</view>
+        <view class="tourist-sub">{{item.refundText}}</view>
+      </view>
+      <view class="tourist-actions">
+        <ui-button
+          wx:if="{{detail.orderStatus==='paid'}}"
+          size="mini"
+          text="核销码"
+          data-index="{{index}}"
+          bind:tap="onTapShowTouristQr"
+        />
+        <ui-button
+          wx:if="{{detail.orderStatus==='paid' && item.canRefund}}"
+          size="mini"
+          plain="{{true}}"
+          text="退款"
+          data-index="{{index}}"
+          bind:tap="onTapRefundSingle"
+        />
+        <ui-button
+          wx:if="{{detail.orderStatus==='paid' && item.canCancelRefund}}"
+          size="mini"
+          plain="{{true}}"
+          text="取消退款"
+          data-index="{{index}}"
+          bind:tap="onTapCancelRefund"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail && (detail.explainBuyHtml || detail.explainUseHtml)}}" class="card">
+    <view wx:if="{{detail.explainBuyHtml}}" class="row2">
+      <view class="label">购买说明</view>
+      <rich-text nodes="{{detail.explainBuyHtml}}"></rich-text>
+    </view>
+    <view wx:if="{{detail.explainUseHtml}}" class="row2">
+      <view class="label">使用说明</view>
+      <rich-text nodes="{{detail.explainUseHtml}}"></rich-text>
+    </view>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <view wx:if="{{detail && detail.orderStatus==='created'}}" class="bottom">
+    <ui-button
+      type="primary"
+      text="{{paying ? '支付中...' : '立即购买'}}"
+      block="{{true}}"
+      loading="{{paying}}"
+      disabled="{{paying}}"
+      bind:tap="onTapOrderPay"
+    />
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+
+  <view wx:if="{{qrModal.show}}" class="mask" bindtap="onCloseQrModal">
+    <view class="modal" catchtap="noop">
+      <view class="modal-title">{{qrModal.title}}</view>
+      <canvas class="qrcode-canvas" canvas-id="touristQrcode"></canvas>
+      <ui-button text="关闭" plain="{{true}}" block="{{true}}" bind:tap="onCloseQrModal" />
+    </view>
+  </view>
+</view>

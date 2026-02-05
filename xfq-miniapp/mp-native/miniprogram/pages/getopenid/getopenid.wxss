@@ -1,0 +1,47 @@
+.container {
+  padding: 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.card {
+  margin-top: 16rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: #fff;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.sub {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+  word-break: break-all;
+}
+
+.status {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.error {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #b91c1c;
+  word-break: break-all;
+}
+

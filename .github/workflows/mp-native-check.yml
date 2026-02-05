@@ -1,0 +1,24 @@
+name: mp-native check
+
+on:
+  push:
+    paths:
+      - "xfq-miniapp/mp-native/**"
+      - ".github/workflows/mp-native-check.yml"
+  pull_request:
+    paths:
+      - "xfq-miniapp/mp-native/**"
+      - ".github/workflows/mp-native-check.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Run mp-native checks
+        working-directory: xfq-miniapp/mp-native
+        run: npm run check
+

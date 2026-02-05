@@ -1,0 +1,10 @@
+<view
+  wx:if="{{status === 'loading' || status === 'no-more' || status === 'error'}}"
+  class="ui-list-footer"
+  bindtap="onTap"
+>
+  <text wx:if="{{status==='loading'}}" class="ui-list-footer__text">{{loadingText}}</text>
+  <text wx:elif="{{status==='no-more'}}" class="ui-list-footer__text">{{noMoreText}}</text>
+  <text wx:elif="{{status==='error'}}" class="ui-list-footer__text ui-list-footer__text--error">{{errorText}}</text>
+</view>
+

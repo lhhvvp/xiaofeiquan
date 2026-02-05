@@ -1,0 +1,278 @@
+.container {
+  padding: 0 24rpx 140rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 14rpx 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 120rpx;
+  font-size: 28rpx;
+  color: #111827;
+  font-weight: 600;
+}
+
+.value {
+  flex: 1;
+  text-align: right;
+  font-size: 26rpx;
+  color: #374151;
+  word-break: break-all;
+}
+
+.picker {
+  flex: 1;
+  text-align: right;
+  font-size: 26rpx;
+  color: #111827;
+}
+
+.row-qty {
+  flex-wrap: wrap;
+}
+
+.qty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.qty-input {
+  width: 120rpx;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 12rpx;
+  padding: 10rpx 12rpx;
+  font-size: 28rpx;
+}
+
+.qty-hint {
+  width: 100%;
+  text-align: right;
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-top: 10rpx;
+}
+
+.tourist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.tourist-item {
+  padding: 12rpx;
+  border: 1px solid #f3f4f6;
+  border-radius: 12rpx;
+  background: #fafafa;
+}
+
+.tourist-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.tourist-sub {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.empty {
+  font-size: 26rpx;
+  color: #6b7280;
+  padding: 10rpx 0;
+}
+
+.hint {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 14rpx 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.input-row:last-child {
+  border-bottom: none;
+}
+
+.input {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 12rpx;
+  padding: 12rpx 14rpx;
+  font-size: 26rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 140rpx;
+  border: 1px solid #e5e7eb;
+  border-radius: 12rpx;
+  padding: 12rpx 14rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18rpx 24rpx 28rpx;
+  background: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid #f3f4f6;
+}
+
+.total {
+  font-size: 28rpx;
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.json {
+  font-family: monospace;
+  font-size: 24rpx;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.modal-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.modal-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-close {
+  font-size: 34rpx;
+  color: #6b7280;
+}
+
+.modal-body {
+  padding: 20rpx;
+  overflow: auto;
+}
+
+.tourist-option {
+  display: flex;
+  gap: 12rpx;
+  align-items: flex-start;
+  padding: 14rpx 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.tourist-option:last-child {
+  border-bottom: none;
+}
+
+.opt-main {
+  flex: 1;
+}
+
+.opt-title {
+  font-size: 28rpx;
+  color: #111827;
+  font-weight: 600;
+}
+
+.opt-sub {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #6b7280;
+  word-break: break-all;
+}
+
+.modal-actions {
+  padding: 16rpx 20rpx 20rpx;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  gap: 16rpx;
+}
+
+.modal-actions button {
+  flex: 1;
+}
+
+.error {
+  margin-top: 16rpx;
+  color: #b91c1c;
+  word-break: break-all;
+}
+

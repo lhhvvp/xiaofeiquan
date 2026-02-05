@@ -1,0 +1,18 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card">
+    <view class="title">核销人员绑定</view>
+    <view class="sub">scene: {{sceneRaw}}</view>
+    <view class="sub">mid: {{mid}}</view>
+    <view class="sub">uuid: {{uuid}}</view>
+  </view>
+
+  <button type="primary" bindtap="onTapAuthorize">授权/绑定</button>
+
+  <view wx:if="{{statusText}}" class="status">状态：{{statusText}}</view>
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>
+

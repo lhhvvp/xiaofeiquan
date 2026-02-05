@@ -1,0 +1,6 @@
+event_name,category,description,trigger,mandatory_params,optional_params,owner,status,notes
+biz_auth_login_success,biz,登录成功,完成登录并拿到token,"uid,app_version,env,page,trace_id,ts",openid,,draft,
+biz_coupon_claim_success,biz,领券成功,领券接口返回成功,"uid,coupon_id,app_version,env,page,trace_id,ts",coupon_type,,draft,
+biz_pay_invoke,trade,拉起支付,调用 wx.requestPayment,"uid,order_id,amount,app_version,env,page,trace_id,ts",channel,,draft,
+biz_pay_success,trade,支付成功,支付回调 success,"uid,order_id,amount,app_version,env,page,trace_id,ts",pay_time,,draft,
+err_request_timeout,error,请求超时,request层超时捕获,"app_version,env,page,trace_id,ts",endpoint,,"draft",

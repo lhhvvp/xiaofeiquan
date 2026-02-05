@@ -1,0 +1,28 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <image wx:if="{{detail && detail.image}}" class="banner" src="{{detail.image}}" mode="aspectFill" />
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="name">{{detail.nickname}}</view>
+    <view class="meta">评分 {{detail.commentRate}} 分 · {{detail.commentNum}} 条评论</view>
+    <view class="row">营业时间：{{detail.doBusinessTime}}</view>
+    <view class="row">电话：{{detail.mobile}}</view>
+    <view class="row">地址：{{detail.address}}</view>
+
+    <view class="actions">
+      <button size="mini" bindtap="onTapCall">拨打电话</button>
+      <button size="mini" bindtap="onTapNav">去这里</button>
+      <button type="primary" size="mini" bindtap="onTapGoTickets">查看门票</button>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{detail && detail.contentHtml}}">
+    <view class="section-title">介绍</view>
+    <rich-text nodes="{{detail.contentHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>

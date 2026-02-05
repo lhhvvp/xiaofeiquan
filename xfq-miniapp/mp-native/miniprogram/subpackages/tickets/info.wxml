@@ -1,0 +1,102 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <image wx:if="{{detail && detail.image}}" class="banner" src="{{detail.image}}" mode="aspectFill" />
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="name">{{detail.nickname}}</view>
+    <view class="meta">评分 {{detail.commentRate}} 分 · {{detail.commentNum}} 条评论</view>
+    <view class="row">营业时间：{{detail.doBusinessTime}}</view>
+    <view class="row">地址：{{detail.address}}</view>
+    <view class="actions">
+      <button size="mini" bindtap="onTapCall">拨打电话</button>
+      <button size="mini" bindtap="onTapNav">去这里</button>
+      <button wx:if="{{detail.apptOpen}}" type="primary" size="mini" bindtap="onTapTodo">立即预约</button>
+    </view>
+  </view>
+
+  <view wx:if="{{ticketGroups.length}}" class="card">
+    <view class="section-title">门票列表</view>
+    <view wx:for="{{ticketGroups}}" wx:key="index" wx:for-index="gIndex" wx:for-item="group">
+      <view class="group-title">{{group.title}}</view>
+      <view
+        wx:for="{{group.ticket_list}}"
+        wx:key="id"
+        wx:for-index="tIndex"
+        wx:for-item="ticket"
+        class="ticket-item"
+        data-gindex="{{gIndex}}"
+        data-tindex="{{tIndex}}"
+        bindtap="onTapTicketInfo"
+      >
+        <view class="ticket-left">
+          <view class="ticket-name">{{ticket.title}}</view>
+          <view class="ticket-hint">购买须知</view>
+        </view>
+        <view class="ticket-right">
+          <view class="ticket-price">
+            ￥{{ticket.min_price || '暂无'}}<text wx:if="{{ticket.min_price}}"> 起</text>
+          </view>
+          <view class="ticket-btn" data-id="{{ticket.id}}" catchtap="onTapOrder">预约</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{scenicList.length}}" class="card">
+    <view class="section-title">推荐景区</view>
+    <view wx:for="{{scenicList}}" wx:key="id" class="scenic-item">
+      <image class="scenic-img" src="{{item.image}}" mode="aspectFill" />
+      <view class="scenic-main">
+        <view class="scenic-title">{{item.nickname}}</view>
+        <view class="scenic-sub">
+          <text>{{item.areaText}}</text>
+          <text wx:if="{{item.distanceText}}"> | 距我 {{item.distanceText}}</text>
+        </view>
+        <view class="scenic-sub">门票 ￥{{item.minPrice}} 起</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{commentList.length}}" class="card">
+    <view class="section-title">热门评论</view>
+    <view wx:for="{{commentList}}" wx:key="index" class="comment-item">
+      <image class="comment-avatar" src="{{item.avatar}}" mode="aspectFill" />
+      <view class="comment-main">
+        <view class="comment-title">{{item.nickname}} · {{item.rate}}分</view>
+        <view class="comment-content">{{item.content}}</view>
+        <view class="comment-date">{{item.createTime}}</view>
+      </view>
+    </view>
+    <view class="more" bindtap="onTapTodo">查看更多</view>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+
+  <view wx:if="{{showTicketModal}}" class="modal-mask" bindtap="onTapCloseModal">
+    <view class="modal" catchtap="noop">
+      <view class="modal-header">
+        <view class="modal-title">{{currentTicket.title}}</view>
+        <view class="modal-close" bindtap="onTapCloseModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="modal-section" wx:if="{{currentTicket.explainBuyHtml}}">
+          <view class="modal-section-title">购买须知</view>
+          <rich-text nodes="{{currentTicket.explainBuyHtml}}"></rich-text>
+        </view>
+        <view class="modal-section" wx:if="{{currentTicket.explainUseHtml}}">
+          <view class="modal-section-title">使用须知</view>
+          <rich-text nodes="{{currentTicket.explainUseHtml}}"></rich-text>
+        </view>
+        <view class="modal-section" wx:if="{{currentTicket.rightsList.length}}">
+          <view class="modal-section-title">核销须知</view>
+          <view class="rights">
+            <text wx:for="{{currentTicket.rightsList}}" wx:key="index">{{item.title}} </text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

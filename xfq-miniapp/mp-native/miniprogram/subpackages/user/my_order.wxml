@@ -1,0 +1,48 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <scroll-view scroll-x class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="title"
+      class="tab {{index===currentIndex?'active':''}}"
+      data-index="{{index}}"
+      bindtap="onTapTab"
+    >
+      {{item.title}}
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!hasLogin}}" class="notice">
+    <view>查看门票订单需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty}}" text="暂无订单" />
+
+  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
+    <view class="top">
+      <view class="name">{{item.sellerNickname}}</view>
+      <view class="status">{{item.statusText}}</view>
+    </view>
+    <view class="bottom">
+      <image class="img" src="{{item.sellerImage}}" mode="aspectFill" />
+      <view class="main">
+        <view class="title">{{item.ticketTitle}}</view>
+        <view class="sub">张数：{{item.count}}</view>
+        <view class="sub">总价：{{item.amountPrice}} 元</view>
+      </view>
+    </view>
+  </view>
+
+  <ui-list-footer
+    wx:if="{{hasLogin && !empty}}"
+    status="{{loadingStatus}}"
+    bind:retry="onRetry"
+  />
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

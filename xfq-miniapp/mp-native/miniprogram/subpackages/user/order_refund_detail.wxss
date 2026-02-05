@@ -1,0 +1,94 @@
+.container {
+  padding: 0 24rpx 32rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.status {
+  margin-top: 16rpx;
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #333;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 800;
+  margin-bottom: 16rpx;
+}
+
+.text {
+  font-size: 26rpx;
+  color: #333;
+  word-break: break-all;
+}
+
+.price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.price-tit {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.price {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #a00000;
+}
+
+.row {
+  margin-top: 16rpx;
+  display: flex;
+  gap: 16rpx;
+  align-items: center;
+}
+
+.label {
+  width: 160rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.value {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+  word-break: break-all;
+}
+
+.copy {
+  font-size: 26rpx;
+  color: #a00000;
+}
+
+.ticket {
+  padding-top: 16rpx;
+  border-top: 1px solid #f0f0f0;
+}
+
+.ticket:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+

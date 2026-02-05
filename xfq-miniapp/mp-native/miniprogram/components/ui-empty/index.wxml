@@ -1,0 +1,11 @@
+<view class="ui-empty">
+  <view wx:if="{{image}}" class="ui-empty__image-wrap">
+    <image class="ui-empty__image" src="{{image}}" mode="aspectFit" />
+  </view>
+  <view class="ui-empty__text">{{text}}</view>
+  <view wx:if="{{subtext}}" class="ui-empty__subtext">{{subtext}}</view>
+  <view wx:if="{{showAction}}" class="ui-empty__action">
+    <button size="mini" type="primary" bindtap="onAction">{{actionText}}</button>
+  </view>
+</view>
+

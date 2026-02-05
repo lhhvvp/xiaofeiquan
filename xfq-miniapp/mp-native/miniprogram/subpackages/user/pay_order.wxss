@@ -1,0 +1,150 @@
+.container {
+  padding: 0 24rpx 32rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.tabs {
+  white-space: nowrap;
+  padding: 16rpx 0;
+}
+
+.tab {
+  display: inline-block;
+  padding: 12rpx 20rpx;
+  background: #f5f5f5;
+  color: #666;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  margin-right: 16rpx;
+}
+
+.tab.active {
+  background: #a00000;
+  color: #fff;
+}
+
+.item {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  display: flex;
+  gap: 20rpx;
+}
+
+.img {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
+  background: #f5f5f5;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 8rpx;
+}
+
+.title {
+  font-size: 30rpx;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  font-size: 24rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.status--paid {
+  color: #16a34a;
+}
+
+.status--unpaid {
+  color: #d97706;
+}
+
+.status--refunded {
+  color: #6b7280;
+}
+
+.sub {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 6rpx;
+  word-break: break-all;
+}
+
+.actions {
+  margin-top: 12rpx;
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24rpx;
+}
+
+.refund {
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+}
+
+.refund-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.refund-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.refund-close {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.refund-text {
+  margin-top: 20rpx;
+  width: 100%;
+  height: 200rpx;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background: #f7f7f7;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+

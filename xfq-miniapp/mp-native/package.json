@@ -1,0 +1,8 @@
+{
+  "name": "xfq-mp-native",
+  "private": true,
+  "scripts": {
+    "check": "node tools/check-miniprogram.js"
+  }
+}
+

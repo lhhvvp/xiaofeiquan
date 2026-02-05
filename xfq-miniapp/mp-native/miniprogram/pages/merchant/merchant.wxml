@@ -1,0 +1,47 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="search" bindtap="onTapSearch">
+    <view class="search-box">请输入关键字搜索商家</view>
+  </view>
+
+  <scroll-view scroll-x class="tabs" wx:if="{{categories.length}}">
+    <view
+      wx:for="{{categories}}"
+      wx:key="id"
+      class="tab {{index===currentIndex?'active':''}}"
+      data-index="{{index}}"
+      bindtap="onTapTab"
+    >
+      {{item.class_name}}
+    </view>
+  </scroll-view>
+
+  <ui-empty wx:if="{{categoryData.length && categoryData[currentIndex].empty}}" text="暂无数据" />
+
+  <view
+    wx:for="{{categoryData.length ? categoryData[currentIndex].list : []}}"
+    wx:key="id"
+    class="item"
+    data-id="{{item.id}}"
+    bindtap="onTapMerchant"
+  >
+    <image class="item-img" src="{{item.image}}" mode="aspectFill" />
+    <view class="item-main">
+      <view class="item-title">
+        <text class="item-name">{{item.nickname}}</text>
+        <text class="item-distance">{{item.distanceText}}</text>
+      </view>
+      <view class="item-sub">电话：{{item.mobile}}</view>
+      <view class="item-sub">营业时间：{{item.do_business_time}}</view>
+      <view class="item-sub">地址：{{item.address}}</view>
+    </view>
+  </view>
+
+  <ui-list-footer
+    wx:if="{{categoryData.length && !categoryData[currentIndex].empty}}"
+    status="{{categoryData[currentIndex].loadingStatus}}"
+  />
+</view>

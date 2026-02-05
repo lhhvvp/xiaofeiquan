@@ -1,0 +1,42 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <image wx:if="{{slideUrl}}" class="slide" src="{{slideUrl}}" mode="aspectFill" />
+
+  <view class="actions">
+    <ui-button wx:if="{{!hasLogin}}" size="mini" type="primary" text="去登录" bind:tap="onTapGoLogin" />
+    <ui-button size="mini" text="我的券" bind:tap="onTapMyCoupons" />
+    <ui-button size="mini" text="适用商家（测试页）" bind:tap="onTapOpenApplicableMerchants" />
+    <ui-button size="mini" text="{{debugOpen?'关闭调试':'打开调试'}}" bind:tap="onTapToggleDebug" />
+  </view>
+
+  <view wx:if="{{couponSections.length}}">
+    <view wx:for="{{couponSections}}" wx:key="id" wx:for-item="section" class="section">
+      <view class="section-title">{{section.title}}</view>
+      <view wx:for="{{section.list}}" wx:key="id" wx:for-item="coupon" class="coupon" data-id="{{coupon.id}}" bindtap="onTapCoupon">
+        <view class="coupon-left">
+          <view class="coupon-name">{{coupon.couponTitle}}</view>
+          <view class="coupon-sub">{{section.title}}</view>
+        </view>
+        <view class="coupon-right">
+          <view wx:if="{{coupon.couponPrice}}" class="coupon-price">{{coupon.couponPrice}}</view>
+          <view class="coupon-action {{coupon.isUse?'used':''}}">{{coupon.actionText}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{actRuleHtml}}" class="card">
+    <view class="card-title">活动规则</view>
+    <rich-text nodes="{{actRuleHtml}}"></rich-text>
+  </view>
+
+  <view wx:if="{{debugOpen}}" class="card">
+    <view class="card-title">调试信息</view>
+    <text selectable="true" class="json">{{debugText}}</text>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>

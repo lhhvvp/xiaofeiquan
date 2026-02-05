@@ -1,0 +1,6 @@
+id,risk,severity,probability,owner,trigger,mitigation_action,due_date,status,notes
+R001,范围漂移导致延期,High,High,,重构期持续插入非必要需求,建立里程碑必须项/可选项 + 需求分级审批 + 重构期默认不接新需求,,"open",
+R002,支付/退款链路回归不足,High,Medium,,灰度期支付失败率上升或投诉增加,关键链路E2E用例+真实环境演练+灰度看板阈值触发自动回滚,,"open",
+R003,主包体积超限导致无法发布,High,Medium,,主包逼近 2MB,从 M1 固化分包+资源审计+依赖白名单+CI 包体检查,,"open",
+R004,AppID/域名白名单/环境配置混乱,High,Medium,,不同环境无法请求/审核卡域名,在 M0 定稿环境矩阵与唯一来源+写入文档与CI校验,,"open",
+R005,团队原生能力不足导致效率低,Medium,Medium,,页面迁移吞吐低于预期,先做 P0 PoC + Pair review + 组件/服务层模板化,,"open",

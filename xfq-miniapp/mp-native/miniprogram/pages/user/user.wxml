@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="title">我的（占位页）</view>
+  <view class="sub">envVersion: {{envVersion}}</view>
+  <view class="sub">baseUrl: {{baseUrl}}</view>
+
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="actions">
+    <button type="primary" bindtap="onTapGoLogin">去登录页</button>
+    <button bindtap="onTapMyCoupons">我的券</button>
+    <button bindtap="onTapTicketOrders">门票订单</button>
+    <button bindtap="onTapPayOrders">支付订单</button>
+    <button bindtap="onTapRefundLogs">售后（退款记录）</button>
+    <button bindtap="onTapTourists">常用游客</button>
+    <button wx:if="{{mid}}" bindtap="onTapScanWriteoff">扫码核销</button>
+    <button bindtap="onTapLogout">退出登录</button>
+  </view>
+
+  <view class="box">
+    <view class="box-title">当前用户（storage: uerInfo）</view>
+    <text selectable="true" class="json">{{userText}}</text>
+  </view>
+</view>

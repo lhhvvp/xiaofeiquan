@@ -1,0 +1,135 @@
+.container {
+  padding: 0 24rpx 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.card {
+  margin-top: 16rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.now-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #a00000;
+  text-align: center;
+  margin-bottom: 14rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.price {
+  margin-top: 10rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #a00000;
+  font-weight: 600;
+}
+
+.time {
+  margin-top: 10rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.qrcode-box {
+  margin: 18rpx auto 0;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrcode-canvas {
+  width: 220px;
+  height: 220px;
+  background: #fff;
+}
+
+.qrcode-hint {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #666;
+  text-align: center;
+}
+
+.status-text {
+  margin-top: 18rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.user-info {
+  margin-top: 18rpx;
+  text-align: center;
+  color: #a3a3a3;
+}
+
+.user-name {
+  font-size: 34rpx;
+  color: #a00000;
+  line-height: 60rpx;
+  font-weight: 600;
+}
+
+.user-idcard {
+  font-size: 28rpx;
+}
+
+.row {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1px solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.row-left {
+  width: 120rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.row-right {
+  flex: 1;
+  text-align: right;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.writeoff {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 44rpx;
+}
+
+.error {
+  margin-top: 16rpx;
+  color: #b91c1c;
+  word-break: break-all;
+}

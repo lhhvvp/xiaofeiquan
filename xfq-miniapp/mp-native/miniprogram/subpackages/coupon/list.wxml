@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="search">
+    <input class="search-input" placeholder="请输入搜索内容" bindinput="onInputKeyword" />
+    <button class="search-btn" size="mini" bindtap="onTapSearch">搜索</button>
+  </view>
+
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无数据" />
+
+  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
+    <view class="left">
+      <view class="title">{{item.nickname}}</view>
+      <view class="addr">{{item.address}}</view>
+    </view>
+    <view class="right">
+      <view wx:if="{{item.distanceText}}" class="distance">{{item.distanceText}}</view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{!empty}}" status="{{loadingStatus}}" />
+</view>

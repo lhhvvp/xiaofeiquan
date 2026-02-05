@@ -1,0 +1,511 @@
+﻿{
+    "endpoints":  [
+                      {
+                          "url":  "/appt/cancelAppt",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\subscribe\\detail.vue"
+                      },
+                      {
+                          "url":  "/appt/createAppt",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\subscribe\\subscribe.vue"
+                      },
+                      {
+                          "url":  "/appt/getDatetime",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\subscribe\\subscribe.vue"
+                      },
+                      {
+                          "url":  "/appt/getDetail",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\user\\coupon_CAV_subscribe\\coupon_CAV_subscribe.vue",
+                                        "pages\\user\\subscribe\\detail.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/appt/getList",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\subscribe\\my_list.vue"
+                      },
+                      {
+                          "url":  "/appt/writeOff",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\coupon_CAV_subscribe\\coupon_CAV_subscribe.vue"
+                      },
+                      {
+                          "url":  "/coupon/applicableto",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\coupon\\list.vue",
+                                        "pages\\coupon\\my_coupon.vue",
+                                        "pages\\user\\order_CAV_info.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/coupon/applicabletoV2",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\coupon.vue"
+                      },
+                      {
+                          "url":  "/coupon/detail",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\coupon.vue"
+                      },
+                      {
+                          "url":  "/coupon/encryptAES",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\my_coupon.vue"
+                      },
+                      {
+                          "url":  "/coupon/getUserCouponRecordList",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\task\\detail.vue"
+                      },
+                      {
+                          "url":  "/coupon/idtocoupon",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\coupon\\coupon_CAV.vue",
+                                        "pages\\coupon\\my_coupon.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/coupon/index",
+                          "fileCount":  1,
+                          "files":  "pages\\index\\index.vue"
+                      },
+                      {
+                          "url":  "/coupon/line_detail",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\lineInfo.vue"
+                      },
+                      {
+                          "url":  "/coupon/line_list",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\coupon\\coupon.vue",
+                                        "pages\\coupon\\lineList.vue",
+                                        "pages\\merchant\\info\\info.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/coupon/list",
+                          "fileCount":  1,
+                          "files":  "pages\\list\\list.vue"
+                      },
+                      {
+                          "url":  "/coupon/receive",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\coupon\\coupon.vue",
+                                        "pages\\index\\index.vue",
+                                        "pages\\list\\list.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/coupon/tempApi",
+                          "fileCount":  1,
+                          "files":  "pages\\index\\index.vue"
+                      },
+                      {
+                          "url":  "/coupon/tourwriteofflog",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_groupCoupon.vue"
+                      },
+                      {
+                          "url":  "/coupon/writeoff",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\coupon_CAV.vue"
+                      },
+                      {
+                          "url":  "/coupon/writeoffdetail",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_CAV_info.vue"
+                      },
+                      {
+                          "url":  "/coupon/writeofflog",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_CAV.vue"
+                      },
+                      {
+                          "url":  "/index/getuserphonenumber",
+                          "fileCount":  3,
+                          "files":  [
+                                        "components\\my-complete-information\\my-complete-information.vue",
+                                        "pages\\user\\attestation.vue",
+                                        "pages\\user\\login\\login.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/index/miniwxlogin",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\getopenid\\getopenid - 副本.vue",
+                                        "pages\\getopenid\\getopenid.vue",
+                                        "pages\\user\\login\\login.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/index/note_detail",
+                          "fileCount":  1,
+                          "files":  "pages\\news\\info.vue"
+                      },
+                      {
+                          "url":  "/index/note_index",
+                          "fileCount":  1,
+                          "files":  "pages\\index\\index.vue"
+                      },
+                      {
+                          "url":  "/index/note_list",
+                          "fileCount":  1,
+                          "files":  "pages\\news\\news.vue"
+                      },
+                      {
+                          "url":  "/index/system",
+                          "fileCount":  7,
+                          "files":  [
+                                        "pages\\coupon\\coupon.vue",
+                                        "pages\\coupon\\my_coupon.vue",
+                                        "pages\\index\\index.vue",
+                                        "pages\\list\\list.vue",
+                                        "pages\\user\\agreement.vue",
+                                        "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                        "pages\\user\\user.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/index/transform",
+                          "fileCount":  4,
+                          "files":  [
+                                        "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                        "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                        "pages\\user\\signIn\\info.vue",
+                                        "pages\\user\\signIn\\signIn.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/pay/refund",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\pay_order.vue"
+                      },
+                      {
+                          "url":  "/pay/submit",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\coupon\\coupon.vue",
+                                        "pages\\user\\pay_order.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/seller/bindCheckOpenid",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\getopenid\\getopenid - 副本.vue",
+                                        "pages\\getopenid\\getopenid.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/seller/cate",
+                          "fileCount":  1,
+                          "files":  "pages\\merchant\\merchant.vue"
+                      },
+                      {
+                          "url":  "/seller/detail",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\merchant\\info\\info.vue",
+                                        "pages\\tickets\\info.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/seller/list",
+                          "fileCount":  1,
+                          "files":  "pages\\merchant\\merchant.vue"
+                      },
+                      {
+                          "url":  "/seller/search",
+                          "fileCount":  1,
+                          "files":  "pages\\search\\search.vue"
+                      },
+                      {
+                          "url":  "/test/rsyncTaohuaSign",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\user.vue"
+                      },
+                      {
+                          "url":  "/ticket/cancelRefund",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_detail.vue"
+                      },
+                      {
+                          "url":  "/ticket/getCommentList",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\tickets\\info.vue",
+                                        "pages\\user\\comment.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/ticket/getOrderDetail",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\user\\coupon_CAV_order\\coupon_CAV_order.vue",
+                                        "pages\\user\\order_detail.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/ticket/getOrderDetailDetail",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\coupon_CAV_order\\coupon_CAV_user.vue"
+                      },
+                      {
+                          "url":  "/ticket/getOrderList",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\my_order.vue"
+                      },
+                      {
+                          "url":  "/ticket/getRefundLogDetail",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_refund_detail.vue"
+                      },
+                      {
+                          "url":  "/ticket/getRefundLogList",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\my_order_refund.vue"
+                      },
+                      {
+                          "url":  "/ticket/getScenicList",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\tickets\\info.vue",
+                                        "pages\\tickets\\tickets.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/ticket/getTicketList",
+                          "fileCount":  1,
+                          "files":  "pages\\tickets\\info.vue"
+                      },
+                      {
+                          "url":  "/ticket/getTicketPirce",
+                          "fileCount":  1,
+                          "files":  "pages\\tickets\\order.vue"
+                      },
+                      {
+                          "url":  "/ticket/getTravelOrderDetail",
+                          "fileCount":  1,
+                          "files":  "pages\\getopenid\\travelorderinfo.vue"
+                      },
+                      {
+                          "url":  "/ticket/orderpay",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order_detail.vue"
+                      },
+                      {
+                          "url":  "/ticket/pay",
+                          "fileCount":  1,
+                          "files":  "pages\\tickets\\order.vue"
+                      },
+                      {
+                          "url":  "/ticket/travelOrderPay",
+                          "fileCount":  1,
+                          "files":  "pages\\getopenid\\travelorderinfo.vue"
+                      },
+                      {
+                          "url":  "/ticket/writeComment",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\commentAdd.vue"
+                      },
+                      {
+                          "url":  "/ticket/writeOff",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\user\\coupon_CAV_order\\coupon_CAV_order.vue",
+                                        "pages\\user\\coupon_CAV_order\\coupon_CAV_user.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/add_sign_record",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\GroupCoupon\\hotelList.vue"
+                      },
+                      {
+                          "url":  "/user/addguest",
+                          "fileCount":  1,
+                          "files":  "pages\\merchant\\info\\info.vue"
+                      },
+                      {
+                          "url":  "/user/auth_identity",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\attestation.vue"
+                      },
+                      {
+                          "url":  "/user/auth_info",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\tickets\\order.vue",
+                                        "pages\\user\\attestation.vue",
+                                        "pages\\user\\subscribe\\subscribe.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/clock",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\user\\GroupCoupon\\my_coupon.vue",
+                                        "pages\\user\\signIn\\info.vue",
+                                        "pages\\user\\signIn\\signIn.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/clock_list",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\signIn\\signIn.vue"
+                      },
+                      {
+                          "url":  "/user/collection",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\collect.vue"
+                      },
+                      {
+                          "url":  "/user/collection_action",
+                          "fileCount":  1,
+                          "files":  "pages\\merchant\\info\\info.vue"
+                      },
+                      {
+                          "url":  "/user/coupon_issue_user",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order.vue"
+                      },
+                      {
+                          "url":  "/user/coupon_order",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\pay_order.vue"
+                      },
+                      {
+                          "url":  "/user/coupon_order_detail",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\pay_detail.vue"
+                      },
+                      {
+                          "url":  "/user/delTourist",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\person\\list.vue"
+                      },
+                      {
+                          "url":  "/user/edit",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\user\\set.vue",
+                                        "pages\\user\\user.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/encryptAES",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\GroupCoupon\\my_coupon.vue"
+                      },
+                      {
+                          "url":  "/user/feed_back",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\complaints.vue"
+                      },
+                      {
+                          "url":  "/user/get_user_coupon_id",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\order.vue"
+                      },
+                      {
+                          "url":  "/user/getCertTypeList",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\person\\add.vue"
+                      },
+                      {
+                          "url":  "/user/getLogisticsInformation",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\logistics.vue"
+                      },
+                      {
+                          "url":  "/user/getTouristList",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\tickets\\order.vue",
+                                        "pages\\user\\person\\list.vue",
+                                        "pages\\user\\subscribe\\subscribe.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/guide_tour",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\GroupCoupon\\GroupCoupon.vue"
+                      },
+                      {
+                          "url":  "/user/hotel_clock",
+                          "fileCount":  3,
+                          "files":  [
+                                        "pages\\user\\GroupCoupon\\hotelUserList.vue",
+                                        "pages\\user\\signIn\\info.vue",
+                                        "pages\\user\\signIn\\signIn.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/hotel_tour",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\GroupCoupon\\hotelList.vue"
+                      },
+                      {
+                          "url":  "/user/index",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\user\\set.vue",
+                                        "pages\\user\\user.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/miniwxregister",
+                          "fileCount":  1,
+                          "files":  "components\\my-complete-information\\my-complete-information.vue"
+                      },
+                      {
+                          "url":  "/user/postTourist",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\person\\add.vue"
+                      },
+                      {
+                          "url":  "/user/saveDelivery",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\my_coupon.vue"
+                      },
+                      {
+                          "url":  "/user/smsVerification",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\attestation.vue"
+                      },
+                      {
+                          "url":  "/user/tour_coupon",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\GroupCoupon\\list.vue"
+                      },
+                      {
+                          "url":  "/user/tour_coupon_group",
+                          "fileCount":  2,
+                          "files":  [
+                                        "pages\\coupon\\coupon_CAV_Group\\coupon_CAV_Group.vue",
+                                        "pages\\user\\GroupCoupon\\my_coupon.vue"
+                                    ]
+                      },
+                      {
+                          "url":  "/user/userClock",
+                          "fileCount":  1,
+                          "files":  "pages\\user\\task\\detail.vue"
+                      },
+                      {
+                          "url":  "/user/writeoff_tour",
+                          "fileCount":  1,
+                          "files":  "pages\\coupon\\coupon_CAV_Group\\coupon_CAV_Group.vue"
+                      }
+                  ],
+    "generatedAt":  "2026-02-05T17:40:19",
+    "count":  84
+}

@@ -1,0 +1,27 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card" wx:if="{{info}}">
+    <view class="title">{{info.couponTitle}}</view>
+    <view class="price">￥{{info.couponPrice}}</view>
+    <view class="sub">使用类型：{{info.useTypeText}}</view>
+    <view class="sub" wx:if="{{info.timeText}}">有效期：{{info.timeText}}</view>
+  </view>
+
+  <view class="card" wx:if="{{!info && hasBaseUrl}}">
+    <view class="sub">加载中..</view>
+  </view>
+
+  <view wx:if="{{showMask}}" class="mask">
+    <view class="mask-card">
+      <view class="mask-title">{{statusTitle}}</view>
+      <view class="mask-msg">{{statusMsg}}</view>
+      <button type="primary" bindtap="onTapDone">确定</button>
+    </view>
+  </view>
+
+  <view wx:if="{{error}}" class="error">error: {{error}}</view>
+</view>
+

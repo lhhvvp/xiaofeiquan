@@ -1,0 +1,3 @@
+﻿getFileSystemManager
+reportEvent
+setVisualEffectOnCapture
