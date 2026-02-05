@@ -1,0 +1,556 @@
+{
+
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "消费券",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"container": "#a00000"
+				}
+			}
+		},
+		{
+			"path": "pages/user/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+
+			}
+
+		},
+		{
+			"path": "pages/getopenid/getopenid",
+			"style": {
+				"navigationBarTitleText": "授权",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/merchant/merchant",
+			"style": {
+				"navigationBarTitleText": "商家",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/user/order",
+			"style": {
+				"navigationBarTitleText": "领取记录",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/user/set",
+			"style": {
+				"navigationBarTitleText": "修改个人信息",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/merchant/info/info",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/coupon/coupon",
+			"style": {
+				"navigationBarTitleText": "消费券详情",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/coupon/my_coupon",
+			"style": {
+				"navigationBarTitleText": "我的消费券",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/coupon/logistics",
+			"style": {
+				"navigationBarTitleText": "物流信息进度",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/merchant/info/merchant",
+			"style": {
+				"navigationBarTitleText": "商家详情",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/user/order_CAV",
+			"style": {
+				"navigationBarTitleText": "核销记录",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/list/list",
+			"style": {
+				"navigationBarTitleText": "消费券列表",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/coupon/list",
+			"style": {
+				"navigationBarTitleText": "列表",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/news/news",
+			"style": {
+				"navigationBarTitleText": "公告",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/news/info",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/coupon/coupon_CAV",
+			"style": {
+				"navigationBarTitleText": "商户核销",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#a00000"
+			}
+
+		}, {
+			"path": "pages/user/collect",
+			"style": {
+				"navigationBarTitleText": "收藏",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/agreement",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/order_CAV_info",
+			"style": {
+				"navigationBarTitleText": "核销详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/signIn/signIn",
+			"style": {
+				"navigationBarTitleText": "打卡任务",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/signIn/info",
+			"style": {
+				"navigationBarTitleText": "签到",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/GroupCoupon/GroupCoupon",
+			"style": {
+				"navigationBarTitleText": "团体券",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/GroupCoupon/list",
+			"style": {
+				"navigationBarTitleText": "消费券列表",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/user/GroupCoupon/my_coupon",
+			"style": {
+				"navigationBarTitleText": "消费券详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/coupon/coupon_CAV_Group/coupon_CAV_Group",
+			"style": {
+				"navigationBarTitleText": "旅行团核销",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/order_groupCoupon",
+			"style": {
+				"navigationBarTitleText": "旅行团核销记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/GroupCoupon/touristInfo/touristInfo",
+			"style": {
+				"navigationBarTitleText": "游客信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/GroupCoupon/hotelList",
+			"style": {
+				"navigationBarTitleText": "酒店打卡列表",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/GroupCoupon/hotelUserList",
+			"style": {
+				"navigationBarTitleText": "用户列表",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/coupon/lineList",
+			"style": {
+				"navigationBarTitleText": "推荐线路",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/coupon/lineInfo",
+			"style": {
+				"navigationBarTitleText": "线路详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/coupon/travelList",
+			"style": {
+				"navigationBarTitleText": "旅行社列表",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/complaints",
+			"style": {
+				"navigationBarTitleText": "投诉和建议",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/common/paySuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/user/pay_order",
+			"style": {
+				"navigationBarTitleText": "订单",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/user/pay_detail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/attestation",
+			"style": {
+				"navigationBarTitleText": "实名认证",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/tickets/tickets",
+			"style": {
+				"navigationBarTitleText": "门票",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+
+		}, {
+			"path": "pages/tickets/info",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/tickets/order",
+			"style": {
+				"navigationBarTitleText": "预约",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/person/add",
+			"style": {
+				"navigationBarTitleText": "添加常用人",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/person/list",
+			"style": {
+				"navigationBarTitleText": "常用人列表",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/mymap",
+			"style": {
+				"navigationBarTitleText": "商户地图",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/my_order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/order_detail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/paySuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/comment",
+			"style": {
+				"navigationBarTitleText": "评论",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/commentAdd",
+			"style": {
+				"navigationBarTitleText": "添加评论",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/qrcode",
+			"style": {
+				"navigationBarTitleText": "二维码",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/subscribe/subscribe",
+			"style": {
+				"navigationBarTitleText": "分时预约",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/subscribe/my_list",
+			"style": {
+				"navigationBarTitleText": "我的预约",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/refunded",
+			"style": {
+				"navigationBarTitleText": "退款",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/coupon_CAV_order/coupon_CAV_order",
+			"style": {
+				"navigationBarTitleText": "核销门票",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/subscribe/detail",
+			"style": {
+				"navigationBarTitleText": "预约详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/coupon_CAV_subscribe/coupon_CAV_subscribe",
+			"style": {
+				"navigationBarTitleText": "核销预约人",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/coupon_CAV_order/coupon_CAV_user",
+			"style": {
+				"navigationBarTitleText": "核销人",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/my_order_refund",
+			"style": {
+				"navigationBarTitleText": "售后订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/order_refund_detail",
+			"style": {
+				"navigationBarTitleText": "退款详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/getopenid/travelorderinfo",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+		}, 
+		// {
+		// 	"path": "pages/user/task/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "我的任务",
+		// 		"enablePullDownRefresh": false
+		// 	}
+		// }, 
+		{
+			"path": "pages/user/task/detail",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"lazyCodeLoading": "requiredComponents",
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "消费券",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#a00000"
+	},
+	"easycom": { //easycom,按需自动注册组件。原则上可以把所有页面引入组件方法删掉，会自动引入。
+		"autoscan": true,
+		"custom": {
+			"my-(.*)": "@/components/my-$1/my-$1.vue",
+			"uni-(.*)": "@/components/uni-$1/uni-$1.vue"
+		}
+	},
+	"tabBar": {
+		"color": "#969696",
+		"selectedColor": "#a00000",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-hover.png",
+				"text": "消费券"
+			},
+			{
+				"pagePath": "pages/merchant/merchant",
+				"iconPath": "static/icon/merchants.png",
+				"selectedIconPath": "static/icon/merchants-hover.png",
+				"text": "商家"
+			},
+			{
+				"pagePath": "pages/tickets/tickets",
+				"iconPath": "static/icon/mp.png",
+				"selectedIconPath": "static/icon/mp-hover.png",
+				"text": "门票"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/icon/my.png",
+				"selectedIconPath": "static/icon/my-hover.png",
+				"text": "我的"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
