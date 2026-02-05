@@ -1,0 +1,140 @@
+ <!--内容开始-->
+<section class="content">
+    
+        <div class="container-fluid">
+        <div class="row">
+            
+                        <!--顶部提示开始-->
+                        <!--顶部提示结束-->
+                        <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/Line/addPost.html" >
+                <!---->
+                                    <!---->
+                                                
+                            <div class="row dd_input_group no-gutters " id="form_group_category_id">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="category_id">分类</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <select class="form-control" id="category_id" name="category_id" >
+            <option value="1">特色线路</option>
+                                </select>
+    </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_title">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="title">名称</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="title" name="title" value="" placeholder="请输入名称" >
+                </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_price">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="price">报价</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <input class="form-control" type="number" id="price" name="price" value="0.00" step="0.01" >
+    </div>
+    </div>
+
+
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_tags">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="tags">线路景点</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <input class="form-control tags" type="text" id="tags" name="tags" value="" placeholder="输入后请回车确认" >
+    </div>
+        <div class="col-12 offset-sm-2 offset-md-2 offset-lg-0 offset-xl-0 col-sm-10 col-md-10 col-lg-4 col-xl-7 dd_ts">
+        <small class="text-muted">
+            <i class="fa fa-info-circle"></i> 请填写线路景点，不要包含空格，多个景点用，号分割        </small>
+    </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_images">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="images">封面图片</label>
+    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+        <input class="form-control" type="text" id="images" name="images" value="" placeholder="请点击按钮上传或手动输入地址" >
+    </div>
+    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+        <!--上传图片-->
+        <!--用来存放item-->
+        <div id="fileList_images" class="uploader-list"></div>
+        <div id="filePicker_images"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+        <a href="/static/admin/images/nopic.png" target="_blank">
+            <img class="image_preview_info"
+                 src="/static/admin/images/nopic.png"
+                 id="images_preview">
+        </a>
+        <!--上传图片-->
+            </div>
+</div>
+<script type="text/javascript">
+    webupload('fileList_images', 'filePicker_images', 'images_preview', 'images', false, 'jpg,png,gif,jpeg,ico', '0');
+</script>
+
+
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_photo">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="photo">相册</label>
+    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+        <div class="more_images dd_ts">
+            <div id="more_images_photo">
+                <div class="hide">
+                    <input type="text" name="photo[]" value="">
+                    <input type="text" name="photo_title[]" value="">
+                </div>
+                            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+        <!--上传图片-->
+        <!--用来存放item-->
+        <div id="fileList_photo" class="uploader-list"></div>
+        <div id="filePicker_photo"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+        <!--上传图片-->
+            </div>
+</div>
+<script type="text/javascript">
+    webupload('fileList_photo', 'filePicker_photo', 'photo_preview', 'photo', true, 'jpg,png,gif,jpeg,ico', '0');
+</script>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_content">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="content">行程安排</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+        <textarea id="content" name="content"  style="width:100%;height: 400px"></textarea>
+    </div>
+    </div>
+<script>
+        CKEDITOR.replace('content', {height: '400px'});
+    </script>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_feeinclude">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="feeinclude">费用包含</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <textarea class="form-control" id="feeinclude" name="feeinclude" rows="3" placeholder="请输入费用包含" ></textarea>
+    </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_notice">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="notice">注意事项</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+        <textarea id="notice" name="notice"  style="width:100%;height: 400px"></textarea>
+    </div>
+    </div>
+<script>
+        CKEDITOR.replace('notice', {height: '400px'});
+    </script>
+                                                                <!---->
+                    <div class="row dd_input_group form-builder-submit no-gutters">
+                        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                                                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                                                        <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                                                    </div>
+                    </div>
+                    <!-- /.box -->
+                            </form>
+            <!--底部提示-->
+                        
+                        
+                    </div>
+    </div>
+</div>
+
+<!--内容结束-->

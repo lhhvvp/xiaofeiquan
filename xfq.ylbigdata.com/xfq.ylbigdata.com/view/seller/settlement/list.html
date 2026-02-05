@@ -1,0 +1,250 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        <label>结算任务号：</label> 
+                        <input type="text" id="search_uuno" name="uuno" value="" placeholder="请输入结算任务号">
+                    </li>
+                    <li>
+                        <label>结算名称：</label> 
+                        <input type="text" id="search_title" name="title" value="" placeholder="请输入结算名称">
+                    </li>
+                    <li>
+                        <label>创建时间：</label> 
+                        <input type="text" id="search_create_time" name="create_time" placeholder="请选创建时间"
+                                    value="" daterange="true" autocomplete="off" />
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--搜索区域结束-->
+
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success"  onclick="createSettlement()">
+            <i class="fa fa-plus"></i>创建结算任务</a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/seller/Settlement/list.html?getList=1",      // 请求后台的URL
+            addUrl        : "/seller/Settlement/add.html",       // 新增的地址
+            sortUrl       : "/seller/Settlement/sort.html",      // 排序的地址
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+			pagination    : true,			// 是否进行分页
+            parentIdField : "",   // 列表树模式需传递父id字段名（parent_id/pid）
+			clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+					// 当某行包含checkbox_disabled时禁止选择
+					formatter: function(value, row, index) {
+						if(row.checkbox_disabled =='1'){
+							 return {
+								 disabled : true
+							}
+						 }
+					}
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'uuno',  
+                    title: '结算编号', 
+                    sortable: false,                                                           
+                },
+                {
+                    field: 'title',  
+                    title: '结算名称', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'nickname',  
+                    title: '商户', 
+                    sortable: false,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'start_date',
+                    title: '开始日期', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },{
+                    field: 'ent_date',
+                    title: '结束日期', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },{
+                    field: 'amount',
+                    title: '结算金额', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },{
+                    field: 'order_numbers',
+                    title: '结算订单笔数', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },{
+                    field: 'status_text',
+                    title: '结算状态', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },{
+                    field: 'audit_status_text',
+                    title: '审核状态', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+					formatter: function(value, row, index) {
+						var actions = [];
+						var url = '/seller/settlement/show.html?uuno='+row.uuno;
+						if(row.status!='uploaded'){
+                            actions.push('<a class="btn badge badge-warning btn-xs confirm" target="" href="'+url+'"><i class="fa fa-search"></i> 查看</a> ');
+                        }
+                        if(row.status=='uploaded'){
+                            actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="'+url+'"><i class="far fa-arrow-alt-circle-up"></i> 上传附件</a> ');
+                        }
+                        // 2023-03-20 重新生成文件
+                        if(row.is_files_exits==1){
+                            actions.push('<a class="btn btn-success btn-xs confirm" target="downloadFile" href="'+row.data_detail+'?response-content-type=application/octet-stream" download><i class="far fa-arrow-alt-circle-down"></i> 下载审核明细</a> ');
+                        }else{
+                            actions.push('<a class="btn btn-danger btn-xs confirm"  href="javascript:void(0)" onclick="remake(\'' + row.uuno + '\')"><i class="far fa-arrow-alt-circle-up"></i> 重新生成文件</a> ');
+                        }
+                        return actions.join('');
+					}
+                }
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+	//HTML反转义
+	function HTMLDecode(text) {
+		var temp = document.createElement("div");
+		temp.innerHTML = text;
+		var output = temp.innerText || temp.textContent;
+		temp = null;
+		return output;
+	}
+
+    // 创建结算任务
+    function createSettlement(id) {
+        var url = $.operate.addUrl(id);
+        window.location.href=url;
+        return false;
+        var url = $.operate.addUrl(id)
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("创建结算任务", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 2023-08-17 重新生成PDF
+    function remake(id)
+    {
+        layer.msg('生成中请耐心等待。请勿刷新页面...',{icon: 16,time: 100000,shade : [0.5 , '#000' , true]});
+        $.ajax({
+            type: "post",
+            url: "/api/system/remake_ticket",
+            data: {
+                id:id,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    layer.alert(data.msg, {
+                        icon: 2
+                    }, function (index) {
+                        layer.close(index);
+                    });
+                }
+                if(data.code == 0) {
+
+                    setTimeout(function(){
+                       window.location.reload(); 
+                    }, 3000);
+                    layer.alert(data.msg, {
+                        icon: 1
+                    });
+                }
+            },
+            error: function (xhr) {
+
+            }
+        });
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

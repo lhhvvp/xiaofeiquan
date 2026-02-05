@@ -1,0 +1,89 @@
+{__NOLAYOUT__}
+{include file="forgetpwd/head" /}
+<div class="layui-form login-form layui-panel">
+    <h1 class="login-title">找回密码</h1>
+    <!-- 用户名 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-vercode"></i>
+        <input type="password" name="password" placeholder="请输入新密码" class="layui-input" lay-verify="required" value=""
+            lay-reqtext="请输入新密码">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-vercode"></i>
+        <input type="password" name="newpassword" placeholder="确认密码" class="layui-input" lay-verify="required"
+            lay-reqtext="确认密码">
+    </div>
+
+    <div class="layui-form-item">
+        <button class="layui-btn layui-btn-normal layui-btn-fluid regs" type="submit" lay-submit="" lay-filter="LAY-user-login-submit">
+            确 定</button>
+    </div>
+</div>
+<script>
+    layui.config({
+            base: '/static/plugins/layui/lay/'
+        }).use(['form'], function () {
+            var $ = layui.$, form = layui.form;
+            // ..
+        });
+    $(function () {
+        // 找回密码
+        $(".regs").click(function () {
+            var password = $("input[name='password']").val();
+            var newpassword = $("input[name='newpassword']").val();
+            if (!password) {
+                layer.alert('请输入密码', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='password']").focus();
+                });
+                return false;
+            }
+            if (password != newpassword) {
+                layer.alert('两次密码输入不一致', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='newpassword']").focus();
+                });
+                return false;
+            }
+            
+            $.ajax({
+                type: "post",
+                url: "{:url('checkPwd')}",
+                data: {
+                    password,newpassword
+                },
+                dataType: "json",
+                beforeSend: function () {
+                    loadIndex = layer.load();
+                },
+                success: function (data) {
+                    if (data.error == 1) {
+                        layer.close(loadIndex);
+                        layer.alert(data.msg, {
+                            icon: 2
+                        }, function (index) {
+                            layer.close(index);
+                            $("#captcha").attr("src", $("#captcha").attr("src") + '?' + Math.random());
+                            $("input[name='captcha']").val('').focus();
+                        });
+                    } else{
+                        layer.close(loadIndex);
+                        layer.alert(data.msg, {
+                            icon: 1
+                        }, function (index) {
+                            layer.close(index);
+                            window.location.href="/seller";
+                        });
+                    }
+                },
+                error: function (xhr) {
+
+                }
+            });
+
+        })
+    })
+</script>

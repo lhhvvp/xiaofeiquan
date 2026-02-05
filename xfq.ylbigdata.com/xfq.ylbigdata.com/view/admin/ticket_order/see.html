@@ -1,0 +1,298 @@
+<style>
+    .order-step {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .order-step li {
+        position: relative;
+        padding: 0px 15px 0 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-step li::before {
+        content: "";
+        position: absolute;
+
+        top: 25px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #c0c4cc;
+    }
+
+    .order-step li:first-child::before {
+        left: 50%;
+        width: 50%;
+    }
+
+    .order-step li:last-child::before {
+
+        width: 50%;
+    }
+
+    .order-step li .icon {
+        position: relative;
+        z-index: 2;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        border: 4px solid #fff;
+        border-radius: 34px;
+        font-weight: 700;
+    }
+
+    .order-step li.success .icon {
+        background-color: #4DC7AF;
+        color: #fff;
+    }
+
+    .order-step li .step-tit {
+        font-weight: 600;
+        margin-top: 20px;
+    }
+
+    .order-step li .step-desc {
+        color: #999;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .order-price p {
+        margin: 0;
+        line-height: 2;
+    }
+
+    p.desc {
+        margin:0;
+        line-height: 2;
+        color: #999;
+        font-size: 14px;
+    }
+    p.desc a{
+        color:#0c84ff;
+    }
+</style>
+<div class="container-fluid">
+    <div style="padding:20px;">
+        <div class="card card-success card-outline">
+            <div class="card-header clearfix"><span class="mr-3">订单编号：{$vo.trade_no}</span> <span class="mr-3">下单时间：{$vo.create_time}</span>
+                <span class="mr-3">订单来源：<span class="badge badge-info">{$vo.channel_text}</span></span>
+                <a class="float-right btn btn-success btn-xs" href="javascript:window.history.back()">返回</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-3 border-right">
+                        <div class="h-100 d-flex flex-column align-items-center justify-content-center px-3">
+                            <h2>{$vo.order_status_text}</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 border-right d-flex justify-content-center">
+                        <ul class="order-step">
+                            <li class="success">
+                                <div class="icon">1</div>
+                                <div class="step-tit">买家下单</div>
+                                <div class="step-desc">{$vo.create_time}</div>
+                            </li>
+                            <li class="{if $vo['payment_status'] == 1}success{/if}">
+                                <div class="icon">2</div>
+                                <div class="step-tit">买家付款</div>
+                                {if $vo['payment_status'] == 1}<div class="step-desc">{:date("Y-m-d H:i:s", strtotime($vo['payment_datetime']))}</div>{/if}
+                            </li>
+                            <li class="{if $vo['order_status'] == 'used'}success{/if}">
+                                <div class="icon">3</div>
+                                <div class="step-tit">商家核销</div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <div class="order-price px-3">
+                            <p>订单总价：￥{$vo.origin_price}</p>
+                            <p>退款金额：￥{$vo.refund_fee}</p>
+                            <h4 class="mt-3">实际支付：<b class="text-red">￥{$vo.amount_price}</b></h4>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <span class="mr-3">付款状态：{$vo.payment_status_text}</span>
+                <span class="mr-3">退款状态：{$vo.refund_status_text}</span>
+                {if $vo['cancel_datetime']}<span class="mr-3">取消时间：{$vo.cancel_datetime}</span>{/if}
+            </div>
+        </div>
+        <div class="card card-success card-outline">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 col-sm-3">
+                        <h6>商户信息</h6>
+                        <div class="user-block mt-2">
+                            <img class="img-circle img-bordered-sm" src="{$vo.seller.image|default=""}">
+                            <span class="username">{$vo.seller.nickname|default="-"}</span>
+                            <span class="description">商户ID:{$vo.seller.id|default="-"}</span>
+                        </div>
+                    </div>
+                    {notempty name="vo.users"}
+                    <div class="col-6 col-sm-3">
+                        <h6>下单用户</h6>
+                        <div class="user-block mt-2">
+                            <img class="img-circle img-bordered-sm" src="{$vo.users.headimgurl|default=""}">
+                            <span class="username">{$vo.users.nickname|default="-"}</span>
+                            <span class="description">用户UUID:{$vo.users.uuid|default="-"}</span>
+                        </div>
+                    </div>
+                    {/notempty}
+                    {notempty name="vo.travel"}
+                    <div class="col-6 col-sm-3">
+                        <h6>下单旅行社</h6>
+                        <div class="user-block mt-2">
+                            <img class="img-circle img-bordered-sm" src="{$vo.travel.image|default=""}">
+                            <span class="username">{$vo.travel.nickname|default="-"}</span>
+                            <span class="description">旅行社ID:{$vo.travel.id|default="-"}</span>
+                        </div>
+                    </div>
+                    {/notempty}
+                    <div class="col-6 col-sm-3">
+                        <h6>订单联系人</h6>
+                        <p class="desc">姓名：{$vo.contact_man}</p>
+                        <p class="desc">电话：{$vo.contact_phone}</p>
+                        <p class="desc">证件：{$vo.contact_certno}</p>
+                        <p class="desc">备注：{$vo.order_remark}</p>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <h6>创建信息</h6>
+                        <p class="desc">省市区：{$vo.province}-{$vo.city}-{$vo.district}</p>
+                        <p class="desc">地图坐标：{$vo.create_lat},{$vo.create_lng}<a class="ml-3" href="javascript:void(0);" onclick="$.modal.open('查看地图','{$Request.domain}/qqmap.html?lat={$vo.create_lat}&lng={$vo.create_lng}',800,550)">地图查看</a></p>
+                        <p class="desc">详细地址：{$vo.create_address}</p>
+                        <p class="desc">IP地址：{$vo.create_ip}</p>
+                        <p class="desc">时间：{$vo.create_time}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {notempty name="vo.refund_list"}
+        <div class="card card-success card-outline">
+            <div class="card-header">整退列表</div>
+            <div class="card-body">
+                <table class="table table-bordered table-sm table-warning text-sm">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>退款时间</th>
+                        <th>退款金额</th>
+                        <th>退款状态</th>
+                        <th>拒绝理由</th>
+                    </tr>
+                    </thead>
+                    {foreach $vo['refund_list'] as $key=>$vo}
+                    <tr>
+                        <td>{$vo.create_time}</td>
+                        <td>￥{$vo.refund_fee}</td>
+                        <td>{$vo.status_text}</td>
+                        <td>{if $vo.status == '2'}{$vo.refuse_desc} {/if}</td>
+                    </tr>
+                    {/foreach}
+                </table>
+            </div>
+        </div>
+        {/notempty}
+        <div class="card card-success card-outline">
+            <div class="card-header">门票列表</div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr class="table-active">
+                        <th>门票信息</th>
+                        <th>游客信息</th>
+                        <th>退款信息</th>
+                        <th>核销信息</th>
+                    </tr>
+                    {foreach $detail_list as $item}
+                    <tr>
+                        <td>
+                            <p class="desc">预约日期：{$item.ticket_date}
+                                {if $item.enter_time}
+                                <span class="badge badge-success">入园时间：{$item.enter_time|date="Y-m-d H:i:s"|default="-"}</span>
+                                {else /}
+                                {if strtotime(date("Y-m-d")) > strtotime($item['ticket_date'])}
+                                <span class="badge badge-warning">已过期</span>
+                                {else /}
+                                <span class="badge badge-info">未入园</span>
+                                {/if}
+                                {/if}
+                                {if $item['refund_status'] == 'fully_refunded'}
+                                <span class="badge badge-danger">已退票</span>
+                                {/if}
+                            </p>
+                            <p class="desc">门票编号：{$item.ticket_code}</p>
+                            <p class="desc">门票名称：{$item.ticket_title}</p>
+                            <p class="desc">门票原价：<b class="text-red">￥{$item.ticket_price}</b></p>
+                            <p class="desc">使用说明：<a href="javascript:;" data-toggle="popover" title="使用说明" data-trigger="focus" data-html="true" data-content="{$item.explain_use|raw}">查看</a></p>
+                            <p class="desc">购买说明：<a href="javascript:;" data-toggle="popover" title="购买说明" data-trigger="focus" data-html="true" data-content="{$item.explain_buy|raw}">查看</a></p>
+                        </td>
+                        <td>
+                            <p class="desc">姓名：{$item.tourist_fullname}</p>
+                            <p class="desc">证件：{$item.tourist_cert_type_text} {$item.tourist_cert_id} </p>
+                            <p class="desc">电话：{$item.tourist_mobile}</p>
+                        </td>
+                        <td>
+                            <p class="desc">退款状态：{$item.refund_status_text}</p>
+                            {if $item['refund_progress'] != 'init'}
+                            <p class="desc">退款进度：{$item.refund_progress_text}</p>
+                            {/if}
+                            {if $item['refund_status'] == 'fully_refunded'}
+                            <p class="desc">退款时间：{$item.refund_time|date="Y-m-d H:i:s"}</p>
+                            <p class="desc">退款金额：{$item.refund_amount}</p>
+                            {/if}
+                            {notempty name="item.refund_list"}
+                            <table class="table table-bordered table-sm table-warning text-sm">
+                                <thead class="thead-light">
+                                <tr class="table">
+                                    <th colspan="4">退款记录 <span class="ml-2 badge badge-primary">{if $item.is_full_refund == 1}整退{else /}单退{/if}</span></th>
+                                </tr>
+                                </thead>
+                                <tr>
+                                    <th>退款时间</th>
+                                    <th>退款金额</th>
+                                    <th>退款状态</th>
+                                    <th>拒绝理由</th>
+                                </tr>
+                                {foreach $item['refund_list'] as $key=>$vo}
+                                <tr>
+                                    <td>{$vo.create_time}</td>
+                                    <td>￥{$vo.refund_fee}</td>
+                                    <td>{$vo.status_text}</td>
+                                    <td>{if $vo.status == '2'}{$vo.refuse_desc} {/if}</td>
+                                </tr>
+                                {/foreach}
+                            </table>
+                            {/notempty}
+                        </td>
+                        <td>
+                            {notempty name="item.writeoff_list"}
+                            <table class="table table-bordered table-sm table-warning text-sm">
+                                {foreach $item['writeoff_list'] as $wok=>$wov}
+                                <tr>
+                                    <td class="desc">{notempty name="wov.order_detail_rights_id"}<span class="mr-2">核销权益:{$wov.rights.rights_title}</span> {/notempty}<span class="mr-2">核销人:{$wov.writeoff_name}</span><span class="mr-2">核销时间:{$wov.create_time}</span></td>
+                                </tr>
+                                {/foreach}
+                            </table>
+                            {/notempty}
+                        </td>
+                    </tr>
+                    {/foreach}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>

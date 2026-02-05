@@ -1,0 +1,85 @@
+<style>
+    .clock-slot-list{
+        margin-left:-15px;
+        margin-right:-15px;
+    }
+    .clock-slot-list .clock-slot-item {
+        border-radius: 10px;
+        border: 1px solid #eee;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        margin: 15px;
+    }
+
+    .clock-slot-list .clock-slot-item .content {
+
+        flex-grow: 1;
+    }
+
+    .clock-slot-list .clock-slot-item .content > div {
+        margin: 5px 0;
+    }
+
+    .clock-slot-list .clock-slot-item .content > div span {
+        display: inline-block;
+        width: 80px;
+        color: #999;
+    }
+
+    .clock-slot-list .clock-slot-item .oper {
+
+        flex-shrink: 0;
+    }
+</style>
+<div class="container-fluid">
+    <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+        <div class="row dd_input_group no-gutters">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                   for="title">日期</label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" readonly name="row[date]" value="{$date|default=''}">
+            </div>
+        </div>
+        <div class="row dd_input_group no-gutters">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="stock">时间段选择</label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                {php} $date_week = date("l",strtotime($date));{/php}
+                <div class="row clock-slot-list">
+                    {foreach $rule_list as $item}
+                    {php} $weeks = weeksToEn($item['weeks']);{/php}
+                    <label class="col-12 col-md-6 clock-slot-item" >
+                        <input type="checkbox" id="rule_id" {if !in_array($date_week,$weeks)}disabled="disabled"{/if} name="row[rule_ids][]" value="{$item.id}">
+                        <div class="content">
+                            <div><span>时段名：</span> {$item.title}</div>
+                            <div><span>时间段：</span> {$item.time_start_end_text}</div>
+                            <div><span>时段库存：</span> {$item.stock}</div>
+                            <div><span>有效星期：</span> {$item.weeks_text}</div>
+                        </div>
+                    </label>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+
+        <div class="row dd_input_group form-builder-submit no-gutters">
+            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                <button type="submit" class="btn btn-flat btn-primary hide">确定添加</button>
+                <button type="button" class="btn btn-flat btn-close btn-default hide" onclick="javascript :history.back(-1)">返回
+                </button>
+            </div>
+        </div>
+    </form><!--底部提示-->
+    <script>
+        $.operate.successCallback = function (result){
+            if (result.code == 1) {
+                var parent = window.parent;
+                $.modal.close();
+                parent.toastr.success(result.msg); // toastr提示
+                window.parent.reloads();
+            } else {
+                $.modal.alertError(result.msg);
+            }
+        }
+    </script>
+</div>

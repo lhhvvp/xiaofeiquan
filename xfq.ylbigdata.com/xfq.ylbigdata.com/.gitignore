@@ -1,0 +1,9 @@
+/.idea
+/.vscode
+*.log
+/*.env
+.env
+runtime/*
+public/uploads
+public/.htaccess
+/*.htaccess

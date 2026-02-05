@@ -1,0 +1,288 @@
+<!--内容开始-->
+<style>
+    #imports{
+        padding: 0;
+        margin-left: 5px;
+    }
+    .webuploader-pick{
+        width: 100% !important;
+        padding: .25rem .5rem;
+        background-color: #28a745;
+    }
+    .btn-group-sm{
+        display: flex;
+    }
+    .del{
+        margin-right: 5px;
+    }
+</style>
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <input type="hidden" name="tid" id="tid" value="{$id}">
+            <input type="hidden" name="tags" id="tags" value="{$tags}">
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-warning" onclick="javascript :history.back(-1);">
+                        <i class="fa fa-undo m-r-10"></i>返回上一页</a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/travel/data/tourinfo.html?getList=1&tags="+$('#tags').val()+"&tid="+$('#tid').val(),// 请求后台的URL
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",       // 排序方式  asc 或者 desc
+                pagination: true,           // 是否进行分页
+                parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'name',  
+                        title: '名称', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'users',  
+                        title: '用户ID', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            if(row.users){
+                                return row.users.id;
+                            }else{
+                                return '暂未绑定用户信息';
+                            }
+                        }
+                    },
+                    {
+                        field: 'mobile',
+                        title: '电话', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'idcard',
+                        title: '身份证号', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'contract',
+                        title: '旅游合同', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            if(row.contract){
+                                return '<span class="badge badge-success"> 已上传 </span>';
+                            }else{
+                                return '<span class="badge badge-danger"> 未上传 </span>';
+                            }
+                        }
+                    },
+                    {
+                        field: 'insurance',
+                        title: '旅游保单', 
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            if(row.insurance){
+                                return '<span class="badge badge-success"> 已上传 </span>';
+                            }else{
+                                return '<span class="badge badge-danger"> 未上传 </span>';
+                            }
+                        }
+                    },
+                    {
+                        field: 'create_time',
+                        title: '创建时间',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        field: 'update_time',
+                        title: '更新时间',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    /*{
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class: 'text-nowrap',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="edit(\'' + row.id + '\',1)"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="del(\'' + row.id + '\',1)"><i class="fa fa-edit"></i>删除</a> ');
+                            return actions.join('');
+                        }
+                    },*/
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+
+        // 上传信息
+    function add() {
+        var tid = $('#tid').val();
+        var url = $.operate.addUrl()+'&tid='+tid;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("添加", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+    webuploadimport();
+    /**
+     * 封装上传组件
+     * @param list
+     * @param filePicker_image
+     * @param image_preview
+     * @param image
+     * @param more            是否图集
+     * @param upload_allowext 格式限制
+     * @param size            大小限制
+     * @param type            上传类型[file/img]
+     */
+    function webuploadimport() {
+        var size = 10 * 1024 * 1024;
+        var upload_allowext = 'xls,xlsx';
+        type = 'file';
+        var GUID = 22323321;                            // 一个GUID
+        var uploader = WebUploader.create({
+            auto: true,                                                // 选完文件后，是否自动上传。
+            swf: '/static/plugins/webuploader-0.1.5/uploader.swf',     // 加载swf文件，路径一定要对
+            server: '/travel/tour/imports.html' + '?upload_type=' + type, // 文件接收服务端
+            pick: '#imports',                              // 选择文件的按钮。可选。
+            resize: false,                                             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            chunked: true,                                             // 是否分片
+            chunkSize: 5 * 1024 * 1024,                                // 分片大小
+            threads: 1,                                                // 上传并发数
+            formData: {
+                // 由于Http的无状态特征，在往服务器发送数据过程传递一个进入当前页面是生成的GUID作为标示
+                GUID: GUID,                                            // 自定义参数
+                tid:$('#tid').val(),
+            },
+            compress: false,
+            fileSingleSizeLimit: size,                                 // 限制大小200M，单文件
+            //fileSizeLimit: allMaxSize*1024*1024,                     // 限制大小10M，所有被选文件，超出选择不上
+            accept: {
+                title: '上传图片/文件',
+                extensions: upload_allowext,                           // 允许上传的类型 'gif,jpg,jpeg,bmp,png'
+                mimeTypes: '*',                                        // 默认全部文件，为兼容上传文件功能，如只上传图片可写成img/*
+            }
+        });
+
+        uploader.on('uploadSuccess', function (file, response) {
+            if (response.code != 0) {
+                $.modal.alertError(response.msg+response.data);return;
+            }
+            $.modal.alertSuccess(response.msg,(index)=>{
+                layer.close(index);
+                $.table.refresh();
+            });
+            
+            //$.modal.msgReload(response.msg,'success');return;
+
+        });
+        uploader.on("error", function (type) {
+            if (type == "Q_TYPE_DENIED") {
+                $.modal.alertError('请上传' + upload_allowext + '格式的文件！');
+            } else if (type == "F_EXCEED_SIZE") {
+                $.modal.alertError('单个文件大小不能超过' + size / 1024 + 'kb！');
+            } else if (type == "F_DUPLICATE") {
+                $.modal.alertError('请不要重复选择文件');
+            } else {
+                $.modal.alertError('上传出错！请检查后重新上传！错误代码' + type);
+            }
+        });
+    }
+
+    // 编辑导游信息
+    function edit(id) {
+        var tid = $('#tid').val();
+        var url = $.operate.editUrl(id)+'&tid='+tid;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("编辑", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

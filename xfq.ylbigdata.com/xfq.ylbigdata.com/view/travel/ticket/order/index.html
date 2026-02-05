@@ -1,0 +1,324 @@
+<!--内容开始-->
+<style>
+    #qrcode canvas{
+        display: block;
+        margin:  0 auto;
+    }
+    .rights-qrcode-box{
+        padding:10px;
+    }
+    .rights-qrcode-box ul li{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+</style>
+<section class="content">
+    <div class="rights-qrcode-box" style="display: none;">
+        <ul class="list-group">
+        </ul>
+    </div>
+    <div id="qrcodeDiv" style="display: none;">
+        <h6 class="text-center mt-4 mb-3">出示此码进行核销</h6>
+        <div id="qrcode"></div>
+        <p class="text-black-50 text-center mt-3">二维码有效期10分钟</p>
+    </div>
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>景区：</label>
+                                <input type="text" name="seller_nickname" value="" />
+                            </li>
+                            <li>
+                                <label>订单编号：</label>
+                                <input type="text" name="trade_no" value="" />
+                            </li>
+                            <li>
+                                <label>订单状态：</label>
+                                <select class="order_status" name="order_status">
+                                    <option value="">请选择</option>
+                                    {foreach $orderStatus_list as $key=>$item}
+                                    <option value="{$key}">{$item}</option>
+                                    {/foreach}
+                                </select>
+                            </li>
+                            <li>
+                                <label>支付状态：</label>
+                                <select class="payment_status" name="payment_status">
+                                    <option value="">请选择</option>
+                                    {foreach $paymentStatus_list as $key=>$item}
+                                    <option value="{$key}">{$item}</option>
+                                    {/foreach}
+                                </select>
+                            </li>
+                            <li>
+                                <label>创建时间：</label>
+                                <input type="text" data-daterangepicker autocomplete="off" name="create_time_range"  placeholder="请选择创建日期范围" value="">
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script src="/static/plugins/jquery-qrcode/jquery.qrcode.min.js"></script>
+    <script>
+        $(function() {
+            var options = {
+                uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url           : "/travel/ticket.order/index.html",      // 请求后台的URL
+                sortName      : "id",         // 排序列名称
+                sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+                pagination    : true,			// 是否进行分页
+                parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize      : "10",         // 每页显示的行数
+                layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns  : true,                   // 是否启用固定列功能
+                fixedLeft     : 0,          // 左侧固定列数
+                fixedRight    : 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function(value, row, index) {
+                            if(row.checkbox_disabled =='1'){
+                                return {
+                                    disabled : true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'trade_no',
+                        title: '订单编号'
+                    },
+                    {
+                        field: 'channel_text',
+                        title: '渠道',
+                        sortable: false
+                    },
+                    {
+                        field: 'origin_price',
+                        title: '订单金额',
+                        align:'center',
+                        sortable: true,
+                    },
+                    {
+                        field: 'amount_price',
+                        title: '实际支付',
+                        align:'center',
+                        sortable: true,
+                    },
+                    {
+                        field: 'contact_man',
+                        title: '联系人'
+                    },
+                    {
+                        field: 'contact_phone',
+                        title: '联系电话'
+                    },
+                    {
+                        field: 'order_remark',
+                        title: '订单备注'
+                    },
+                    {
+                        field: 'payment_status_text',
+                        title: '支付状态',
+                        align:'center',
+                    },
+                    {
+                        field: 'order_status_text',
+                        title: '订单状态',
+                        align:'center',
+                    },
+                    {
+                        field: 'create_time',
+                        title: '创建时间',
+                        align:'center',
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class : 'text-nowrap',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            if(row.order_status == 'created'){
+                                actions.push(`<a class="btn btn-warning btn-xs" href="javascript:;" onclick="payPrder(${row.id},'${row.travel_wxapp_qrcode}')" >支付</a> `);
+                                actions.push(`<a class="btn btn-danger btn-xs" href="javascript:;" onclick="cancel(${row.id})" >取消订单</a> `);
+                            }
+                            if(row.order_status == 'paid'){
+                                let rowJson = escape(JSON.stringify(row));
+                                actions.push(`<a class="btn btn-info btn-xs"  href="javascript:;" onclick="writeoffQrcode('${rowJson}')" >核销</a> `);
+                                actions.push(`<a class="btn btn-dark btn-xs" href="javascript:;" onclick="refund(${row.id})" >退款</a> `);
+                            }
+                            actions.push('<a class="btn btn-primary btn-xs" href="/travel/ticket.Order/see?id='+row.id+'" ><i class="fa fa-eye"></i> 查看</a> ');
+                            return actions.join('');
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        // 添加商户
+        function add(id) {
+            var url = $.operate.addUrl(id)
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                $.modal.open("添加", url);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+        function openQrcode(id='',be_id='',qrcode_str='',type='order'){
+            let str = {
+                qrcode_str:qrcode_str,
+                id:id,
+                be_id:be_id,
+                use_lat:1,
+                use_lng:1,
+                type:type
+            };
+            str = JSON.stringify(str);
+            $('#qrcode').html("");
+            $('#qrcode').qrcode({width: 220,height: 220,text: str});
+                layer.open({
+                    title:"核销门票",
+                    type: 1,
+                    area: ["280px","380px"], // 宽高
+                    content: $('#qrcodeDiv')
+                });
+        }
+        function writeoffQrcode(rowJson){
+            let row = JSON.parse(unescape(rowJson));
+            if(row.rights_qrcode_list.length > 0){
+                let HTML = ``;
+                for (var item of row.rights_qrcode_list) {
+                    HTML += `<li class="list-group-item">${item.rights_title}<button class="btn btn-xs btn-default ml-2" onclick="openQrcode('${item.id}','${item.id}','${item.qrcode_str}','order_user')"><i class="fa fa-qrcode"></i></button></li>`;
+                }
+                $('.rights-qrcode-box ul').html(HTML);
+                layer.open({
+                    title:"请选择核销二维码",
+                    type: 1,
+                    area: ["280px","300px"], // 宽高
+                    content: $('.rights-qrcode-box')
+                });
+            }else{
+                openQrcode(row.id,row.id,row.qrcode_str,'order');
+            }
+        }
+        //取消订单
+        //$.operate.submit('/travel/ticket.Order/cancel', 'post','json', {id:${row.id}});
+        function cancel(id){
+            layer.confirm('确定要取消订单吗？', {
+                btn: ['确定', '关闭'] //按钮
+            }, function(index){
+                layer.close(index);
+                $.operate.submit('/travel/ticket.Order/cancel', 'post','json', {id:id});
+            }, function(){
+                console.log("关闭")
+            });
+        }
+        function refund(id){
+                layer.prompt({title: '请输入退款理由', formType: 2}, function(text, index){
+                    if(text.length < 10){
+                        layer.msg("退款理由太短");
+                        return;
+                    }
+                    layer.close(index);
+                    $.operate.submit('/travel/ticket.Order/refund', 'post','json', {id:id,refund_desc:text});
+                });
+        }
+        // 编辑商户
+        function payPrder(id,travel_wxapp_qrcode = '') {
+            if(travel_wxapp_qrcode){
+                layer.open({
+                    title:"支付订单",
+                    type: 1,
+                    area: ["300px","370px"], // 宽高
+                    content: `<div class="text-center p-3"><img src="${travel_wxapp_qrcode}" width="240" /><p class="mt-3">请使用微信扫一扫进行支付</p></div>`
+                });
+            }else{
+                loading =  layer.load(0, {shade: true})
+                $.ajax({
+                    url:"/travel/ticket.buy_ticket/updateQrcode",
+                    method: 'POST',
+                    dataType: 'json',
+                    data:{order_id:id},
+                    success(res){
+                        if(res.code == 1){
+                            layer.open({
+                                title:"支付订单",
+                                type: 1,
+                                area: ["310px","370px"], // 宽高
+                                content: `<div class="text-center p-3"><img src="${res.data}" width="240" /><p class="mt-3">请使用微信扫一扫进行支付</p></div>`
+                            });
+                        }else{
+                            layer.msg(res.msg||"生成二维码失败！")
+                        }
+                    },
+                    error(){
+                        layer.msg("生成二维码失败！")
+                    },
+                    complete:function(e){
+                        layer.close(loading);
+                    }
+
+                })
+
+
+            }
+
+        }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

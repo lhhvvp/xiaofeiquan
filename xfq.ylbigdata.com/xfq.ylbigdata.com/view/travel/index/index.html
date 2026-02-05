@@ -1,0 +1,541 @@
+<style>
+    .layui-panel {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+    }
+    body{
+        min-width: 1500px;
+    }
+    #map {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    #line {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .num-box {
+        font-weight: bold;
+        font-size: 45px;
+        text-align: center;
+    }
+
+    .blue {
+        color: #1e88e5;
+    }
+
+    .blueBg {
+        background-color: #349adf;
+    }
+
+    .redBg {
+        background-color: #e75159;
+    }
+
+    .greenBg {
+        background-color: #2fc7d3;
+    }
+
+    .redBg_ {
+        background-color: #51e783;
+    }
+
+    .colorfff {
+        color: #fff;
+    }
+
+    .green {
+        color: #24c187;
+    }
+
+    .red {
+        color: #cb0000;
+    }
+
+    .title {
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .title-1 {
+        font-size: 12px;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: center;
+    }
+
+    .bottom-box {
+        width: 100%;
+        height: calc(100% - 40px);
+        position: relative;
+    }
+
+    .bottom-box .tr {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f7f7f7;
+        position: absolute;
+        top: 0;
+    }
+
+    .bottom-box .tr div {
+        width: 28.333333%;
+        height: 40px;
+        padding-right: 15px;
+        line-height: 40px;
+        text-align: center;
+
+    }
+
+    .bottom-box ul {
+        padding: 0;
+        padding-top: 40px;
+        margin: 0;
+        width: 100%;
+        height: 98%;
+        overflow: auto;
+    }
+
+    .bottom-box li {
+        width: 100%;
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        justify-content: space-between;
+        border-bottom: 1px solid #f7f7f7;
+    }
+
+    .bottom-box li div {
+        width: 33.3333%;
+        text-align: center;
+    }
+
+    .tit {
+        font-size: 12px;
+    }
+
+    .num {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    #fb3,
+    #echart1 {
+        width: 100%;
+        height: 236px;
+    }
+
+    #container4 {
+        width: 100%;
+        height: 100%;
+        padding: 10px 0;
+    }
+    @media screen and (max-width: 1600px){
+        .layui-col-md6 {
+            width: 100%;
+        }
+    }
+</style>
+<div class="layui-bg-gray" style="padding: 30px;">
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md12">
+            <div class="layui-panel" style="padding: 20px;">
+                <div class="layui-form layui-form-item" style="margin-bottom:0px">
+                    <img src="{:session('travel.image') ?: '/static/plugins/AdminLTE/dist/img/user2-160x160.jpg'}"
+                        style="height:30px;width: 30px;border-radius:50%;"> 欢迎您，{:session('travel.nickname') ?:
+                    session('travel.username')}
+                    这是您第 {:session('travel.loginnum')} 次登录，上次登录日期：{$seller.last_login_time|date="Y-m-d
+                    H:i:s"}，登录IP：{$seller.last_login_ip}
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md3">
+                    <div class="layui-panel greenBg" style="height: 120px;">
+
+                        <div class="title colorfff">累计核销金额</div>
+                        <div class="num-box  colorfff" id="check-t3">{$writeoff_price}</div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-panel blueBg" style="height: 120px;">
+
+                        <div class="title colorfff">累计核销数量</div>
+                        <div class="num-box  colorfff" id="check-t1">{$writeoff_number}</div>
+
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel redBg" style="height: 120px;">
+
+                        <div class="title colorfff">当日核销金额</div>
+                        <div class="num-box colorfff" id="check-t2">{$writeoff_day_price}</div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-panel redBg_" style="height: 120px;">
+
+                        <div class="title colorfff">当日核销数量</div>
+                        <div class="num-box colorfff" id="check-t2">{$writeoff_day_number}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="layui-col-md9">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md12">
+                    <div class="layui-panel" style="height: 350px;">
+                        <div id="container4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md3">
+            <div class="layui-panel" style="height: 350px;">
+                <div class="title-1">最新核销记录</div>
+                <div class="bottom-box">
+                    <div class="tr">
+                        <div>用户</div>
+                        <div>消费券名称</div>
+                        <div>核销时间</div>
+                    </div>
+                    <ul>
+                        {volist name="top_write_off_20" id="item"}
+                        <li>
+                            <div class="date">{$item.users.nickname}</div>
+                            <div class="user">{$item.coupon_title}</div>
+                            <div class="status">{$item.create_time}</div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md12">
+                    <div class="layui-panel" style="height: 300px;">
+                        <div id="echart1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/static/plugins/echarts.min.js"></script>
+    <script src="/static/plugins/echarts.js"></script>
+    <script>
+        // 图表数据
+        var msgCnt = [];
+        $.ajax({
+            type: "POST",
+            url: '{:url('screen')}',
+            data: '',
+            success: function (msg) {
+                echarts11(msg.listTrend);
+                echarts12(msg.xAxisData);
+            }
+        });
+
+
+        function echarts12(msgCnt) {
+            var dom = document.getElementById("container4");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var category = [];
+            var dottedBase = +new Date();
+            dottedBase -= 3600 * 24 * 1000 * 20;
+            var lineData = [];
+            var barData = [];
+
+
+
+
+
+            for (var i = 0; i < msgCnt.length; i++) {
+                category.push(msgCnt[i].date)
+                var b = msgCnt[i].msg;
+                var d = msgCnt[i].alm;
+                barData.push(b);
+                lineData.push(d);
+            }
+            // option
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    x: 60,
+                    y: 60,
+                    x2: 60,
+                    y2: 60,
+                },
+                legend: {
+                    data: ['已核销优惠券'],
+                    textStyle: {
+                        color: '#ccc'
+                    }
+                },
+                xAxis: {
+                    data: category,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#ccc',
+                        },
+                    }, axisLabel: {
+                        rotate: 38,
+                        fontSize: 10,
+                    }
+                },
+                yAxis: {
+                    splitLine: { show: true },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#ccc'
+                        }
+                    }
+                },
+                series: [{
+                    name: '已核销优惠券',
+                    type: 'bar',
+                    barWidth: 15,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 15,
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    { offset: 0, color: '#14c8d4' },
+                                    { offset: 1, color: '#43eec6' }
+                                ]
+                            )
+                        }
+                    },
+                    data: barData
+                }]
+            };
+            myChart.setOption(option);
+
+        }
+        function echarts11(data) {
+            console.log(data);
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('echart1'));
+            let date = [], array1 = [], array2 = [];
+
+            for (let key in data) {
+                date.push(data[key][0].ref_date);
+                array1.push(data[key][0].visit_total);
+                array2.push(data[key][0].share_uv)
+            }
+
+            let option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        lineStyle: {
+                            color: '#333'
+                        }
+                    }
+                },
+                legend: {
+                    top: '0%',
+                    data: ['累计用户数', '转发人数'],
+                    textStyle: {
+                        color: 'rgba(0,0,0,.5)',
+                        fontSize: '10',
+                    }
+                },
+                grid: {
+                    left: '10',
+                    top: '30',
+                    right: '10',
+                    bottom: '10',
+                    containLabel: true
+                },
+
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLabel: {
+                        textStyle: {
+                            color: 'rgba(0,0,0,.5)',
+                            fontSize: 10,
+                        },
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(0,0,0,.1)',
+                        }
+
+                    },
+
+                    data: date
+
+                }, {
+
+                    axisPointer: { show: false },
+                    axisLine: { show: false },
+                    position: 'bottom',
+                    offset: 20,
+
+
+
+                }],
+
+                yAxis: [{
+                    type: 'value',
+                    axisTick: { show: false },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(0,0,0,.1)',
+                        }
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: 'rgba(0,0,0,.5)',
+                            fontSize: 10,
+                        },
+                    },
+
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(0,0,0,.1)',
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        name: '累计用户数',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+
+                            normal: {
+                                color: '#0184d5',
+                                width: 2
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(1, 132, 213, 0.4)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(1, 132, 213, 0.1)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#0184d5',
+                                borderColor: 'rgba(221, 220, 107, .1)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: array1
+
+                    },
+                    {
+                        name: '转发人数',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+
+                            normal: {
+                                color: '#00d887',
+                                width: 2
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(0, 216, 135, 0.4)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(0, 216, 135, 0.1)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#00d887',
+                                borderColor: 'rgba(221, 220, 107, .1)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: array2
+
+                    },
+
+                ]
+
+            };
+
+            // 动态显示tootip
+            var faultByHourIndex = 0; //播放所在下标
+
+
+
+            setInterval(function () { //使得tootip每隔三秒自动显示
+
+                myChart.dispatchAction({
+                    type: 'showTip', // 根据 tooltip 的配置项显示提示框。
+                    seriesIndex: 0,
+                    dataIndex: faultByHourIndex
+                });
+                faultByHourIndex++;
+                // faultRateOption.series[0].data.length 是已报名纵坐标数据的长度
+                if (faultByHourIndex > option.series[0].data.length) {
+                    faultByHourIndex = 0;
+                }
+            }, 4000);
+
+            console.log(myChart);
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+        }
+
+    </script>
+</div>

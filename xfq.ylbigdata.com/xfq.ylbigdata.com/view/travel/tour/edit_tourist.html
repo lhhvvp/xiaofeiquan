@@ -1,0 +1,248 @@
+<style>
+    .btn-block+.btn-block {
+        margin-top: 0 !important;
+    }
+
+    .table-spot_ids {
+        min-height: 40px;
+        line-height: 40px;
+    }
+</style>
+{if $tour.is_locking == 0}
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/edittouristPost.html"
+            id="form-builder">
+            <input type="hidden" name="tid" value="{$tour.id}">
+            <input type="hidden" name="id" value="{$tourist.id}">
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客姓名</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" name="name" id="name" value="{$tourist.name}" placeholder="请输入游客姓名">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_mobile">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="mobile">游客电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="mobile" name="mobile" value="{$tourist.mobile}" placeholder="请输入游客电话">
+                </div>
+            </div>
+
+            
+            <div class="row dd_input_group no-gutters ">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="card_type">证件类型</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <select class="form-control" id="card_type" name="card_type" >
+                        <option value="1" {if condition="$tourist.card_type == 1"} selected {/if}>居民身份证</option>
+                        <option value="2" {if condition="$tourist.card_type == 2"} selected {/if}>普通护照</option>
+                        <option value="3" {if condition="$tourist.card_type == 3"} selected {/if}>台湾通行证</option>
+                        <option value="4" {if condition="$tourist.card_type == 4"} selected {/if}>港澳通行证</option>
+                        <option value="5" {if condition="$tourist.card_type == 5"} selected {/if}>
+                        回乡证</option>
+                        <option value="6" {if condition="$tourist.card_type == 6"} selected {/if}>
+                        其他证件(国外护照)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_idcard">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="idcard">游客证件号</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="idcard" name="idcard" value="{$tourist.idcard}" placeholder="请输入游客身份证号">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_card_file">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="certificates">上传证件图片</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="card_file" name="card_file" readonly value="{$tourist.card_file|default=''}"
+                           placeholder="请点击按钮上传">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_card_file" class="uploader-list"></div>
+                    <div id="filePicker_card_file"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                    <a href="/static/admin/images/nopic.png" target="_blank">
+                        <img class="image_preview_info" src="{notempty name="tourist.card_file|default=''"}{$tourist.card_file|default=''}{else /}/static/admin/images/nopic.png{/notempty}" id="card_file_preview">
+                    </a>
+                    <!--上传图片-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                webupload('fileList_card_file', 'filePicker_card_file', 'card_file_preview', 'card_file', false, 'jpg,png,gif,jpeg', '0');
+            </script>
+
+            <div class="row dd_input_group no-gutters " id="form_group_contract">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label "
+                    for="contract">旅游合同或确认件</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="contract" name="contract" value="{$tourist.contract}"
+                        placeholder="请点击按钮上传或手动输入地址">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_contract" class="uploader-list"></div>
+                    <div id="filePicker_contract"><i class="fa fa-upload m-r-10"></i>选择PDF</div>
+                    <!-- <a href="{if $tourist.contract}{$tourist.contract}{else /}/static/admin/images/nopic.png{/if}" target="_blank">
+                        <img class="image_preview_info" src="{if $tourist.contract}{$tourist.contract}{else /}/static/admin/images/nopic.png{/if}" id="contract_preview">
+                    </a> -->
+                    <!--上传图片-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                webupload('fileList_contract', 'filePicker_contract', 'contract_preview', 'contract', false, 'pdf', '0','file');
+            </script>
+
+
+            <div class="row dd_input_group no-gutters " id="form_group_insurance">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label"
+                    for="insurance">旅游保单</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="insurance" name="insurance" value="{$tourist.insurance}"
+                        placeholder="请点击按钮上传或手动输入地址">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_insurance" class="uploader-list"></div>
+                    <div id="filePicker_insurance"><i class="fa fa-upload m-r-10"></i>选择PDF</div>
+                    <!-- <a href="{if $tourist.insurance}{$tourist.insurance}{else /}/static/admin/images/nopic.png{/if}" target="_blank">
+                        <img class="image_preview_info" src="{if $tourist.insurance}{$tourist.insurance}{else /}/static/admin/images/nopic.png{/if}" id="insurance_preview">
+                    </a> -->
+                    <!--上传图片-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                webupload('fileList_insurance', 'filePicker_insurance', 'insurance_preview', 'insurance', false, 'pdf', '0','file');
+            </script>
+            <!---->
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+{else /}
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/edittouristPost.html"
+            id="form-builder">
+            <input type="hidden" name="tid" value="{$tour.id}">
+            <input type="hidden" name="id" value="{$tourist.id}">
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客姓名</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" disabled name="name" id="name" value="{$tourist.name}" placeholder="请输入游客姓名">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_mobile">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="mobile">游客电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" disabled id="mobile" name="mobile" value="{$tourist.mobile}" placeholder="请输入游客电话">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters ">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="card_type">证件类型</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <select class="form-control" id="card_type" disabled name="card_type">
+                        <option value="1" {if condition="$tourist.card_type == 1"} selected {/if}>居民身份证</option>
+                        <option value="2" {if condition="$tourist.card_type == 2"} selected {/if}>普通护照</option>
+                        <option value="3" {if condition="$tourist.card_type == 3"} selected {/if}>台湾通行证</option>
+                        <option value="4" {if condition="$tourist.card_type == 4"} selected {/if}>港澳通行证</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_idcard">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="idcard">游客证件号</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" disabled id="idcard" name="idcard" value="{$tourist.idcard}" placeholder="请输入游客身份证号">
+                </div>
+            </div>
+
+
+            <div class="row dd_input_group no-gutters " id="form_group_contract">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label "
+                    for="contract">旅游合同或确认件</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" disabled id="contract" name="contract" value="{$tourist.contract}"
+                        placeholder="请点击按钮上传或手动输入地址">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_contract" class="uploader-list"></div>
+                    <!-- <a href="{if $tourist.contract}{$tourist.contract}{else /}/static/admin/images/nopic.png{/if}" target="_blank">
+                        <img class="image_preview_info" src="{if $tourist.contract}{$tourist.contract}{else /}/static/admin/images/nopic.png{/if}" id="contract_preview">
+                    </a> -->
+                    <!--上传图片-->
+                </div>
+            </div>
+
+            
+
+            <div class="row dd_input_group no-gutters " id="form_group_insurance">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label"
+                    for="insurance">旅游保单</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" disabled id="insurance" name="insurance" value="{$tourist.insurance}"
+                        placeholder="请点击按钮上传或手动输入地址">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_insurance" class="uploader-list"></div>
+                    <!-- <a href="{if $tourist.insurance}{$tourist.insurance}{else /}/static/admin/images/nopic.png{/if}" target="_blank">
+                        <img class="image_preview_info" src="{if $tourist.insurance}{$tourist.insurance}{else /}/static/admin/images/nopic.png{/if}" id="insurance_preview">
+                    </a> -->
+                    <!--上传图片-->
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters " id="form_group_insurance">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label"
+                    for="insurance"></label>
+            <p class="text-danger">
+                锁定游客以后不可编辑用户
+                <i class=" far fa-fw fa-question-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="锁定游客以后不可编辑用户"></i>
+            </p>
+            <!---->
+            </div>
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+{/if}

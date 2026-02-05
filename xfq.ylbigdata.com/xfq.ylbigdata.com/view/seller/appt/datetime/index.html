@@ -1,0 +1,106 @@
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div>
+            <button class="btn btn-primary btn-sm" onclick="openCreatePrice()">预约时间段设置</button>
+        </div>
+        <div id='calendar'></div>
+    </div>
+</section>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<script>
+    function openCreatePrice(){
+        var url = "{:url('seller/appt.datetime/build')}?_layer=1";
+        $.modal.open('批量生成预约时间段',url,800,500,function (index,res){
+            var formSubmit = layer.getChildFrame('form', index);
+            var submited = formSubmit.find('.form-builder-submit').find('button')[0];
+            submited.click();
+        });
+    };
+
+    var events = {:json_encode($list,true)};
+
+    var calendar = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'zh-cn',
+            dayMaxEventRows: true, // for all non-TimeGrid views
+            views: {
+                timeGrid: {
+                    dayMaxEventRows: 1 // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+            },
+            buttonText: {
+                today: '今天',
+                month: '月',
+                week: '周',
+                dayGrid: '日'
+            },
+            firstDay: 1,
+            initialView: 'dayGridMonth',
+            eventBackgroundColor: '#378006',
+            events: function(fetchInfo, successCallback, failureCallback) {
+                let start = formattedDate( fetchInfo.start),end = formattedDate( fetchInfo.end);
+                $.ajax({
+                    url:"{:url('seller/appt.datetime/index')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{start:start,end:end},
+                    success(res){
+                        successCallback(res);
+                    }
+                })
+            },
+            eventContent: function(arg) {
+                let info = arg.event._def.extendedProps;
+                return { html: `<div>${info.time_start_text} ~ ${info.time_end_text} 总:<b>${info.total_stock}</b>;余:<b>${info.stock}</b></div>` }
+            },
+            eventClick: function(e) {
+                let today = new Date();
+                let eventDate = e.event.start;
+                if(eventDate > today){
+                    let info = e.event._def.extendedProps;
+                    $.modal.open('修改库存',"{:url('seller/appt.datetime/post')}?id="+info.pkid+"&_layer=1",600,500,function (index,res){
+                        var formSubmit = layer.getChildFrame('form', index);
+                        var submited = formSubmit.find('.form-builder-submit').find('button')[0];
+                        submited.click();
+                    });
+                }
+            },
+            dateClick: function(info) {
+                var today = new Date();
+                if(info.date > today){
+                    let date = formattedDate(info.date);
+                    $.modal.open('添加时间段',"{:url('seller/appt.datetime/add')}?_layer=1" + "&date="+date,600,500 ,function (index,res){
+                        var formSubmit = layer.getChildFrame('form', index);
+                        var submited = formSubmit.find('.form-builder-submit').find('button')[0];
+                        submited.click();
+                    });
+                }
+            },
+            dayRender: function(info) {
+                var today = new Date().setHours(0, 0, 0, 0); // 获取今天的日期，忽略时间部分
+                var date = info.date.setHours(0, 0, 0, 0); // 获取当前渲染格子的日期，忽略时间部分
+
+                if (date < today) {
+                    info.el.style.backgroundColor = 'lightgray'; // 设置背景颜色
+                }
+            }
+        });
+
+
+        calendar.render();
+    });
+    function formattedDate(dateObj){
+        let year = dateObj.getFullYear();
+        let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
+        let day = ("0" + dateObj.getDate()).slice(-2);
+
+        return year + "-" + month + "-" + day;
+    }
+    function reloads(){
+        calendar.refetchEvents();
+    }
+</script>

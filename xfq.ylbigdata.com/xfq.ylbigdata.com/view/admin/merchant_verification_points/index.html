@@ -1,0 +1,279 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>商户名称：</label>
+                                <input type="text" name="seller_nickname" value="" placeholder="请输入商户名称">
+                            </li>
+                            <li>
+                                <label>核销点名称：</label>
+                                <input type="text" name="title" value="" placeholder="请输入位置名称">
+                            </li>
+                            <li>
+                                <label>负责人姓名：</label>
+                                <input type="text" name="name" value="" placeholder="请输入负责人姓名">
+                            </li>
+                            <li>
+                                <label>负责人电话：</label>
+                                <input type="text" iname="mobile" value="" placeholder="请输入负责人电话">
+                            </li>
+                            <li>
+                                <label>状态：</label> <select id="search_status" name="status">
+                                <option value="">
+                                    所有
+                                </option>
+                                <option value="1">
+                                    启用
+                                </option>
+                                <option value="0">
+                                    禁用
+                                </option>
+                            </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-success" onclick="add();">
+                        <i class="fa fa-plus"></i> 新增</a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            var options = {
+                uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url           : "/admin/MerchantVerificationPoints/index.html",      // 请求后台的URL
+                addUrl        : "/admin/MerchantVerificationPoints/add.html",       // 新增的地址
+                editUrl       : "/admin/MerchantVerificationPoints/edit.html?id=__id__",      // 修改的地址
+                delUrl       : "/admin/MerchantVerificationPoints/del.html?id=__id__",      // 删除的地址
+                sortUrl       : "/admin/MerchantVerificationPoints/sort.html",      // 排序的地址
+                sortName      : "id",         // 排序列名称
+                sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+                pagination    : true,			// 是否进行分页
+                parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize      : "10",         // 每页显示的行数
+                layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns  : true,                   // 是否启用固定列功能
+                fixedLeft     : 0,          // 左侧固定列数
+                fixedRight    : 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function(value, row, index) {
+                            if(row.checkbox_disabled =='1'){
+                                return {
+                                    disabled : true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'seller_nickname',
+                        title: '商户名称'
+                    },
+                    {
+                        field: 'title',
+                        title: '位置名称',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'name',
+                        title: '负责人',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'mobile',
+                        title: '负责人电话',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'address',
+                        title: '具体位置',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'latLng',
+                        title: '核销时经纬度',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return `${row.latitude},${row.longitude}`
+                        }
+                    },
+
+                    {
+                        field: 'create_time',
+                        title: '创建时间',
+                        sortable: false,
+                        formatter: function(value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        field: 'update_time',
+                        title: '更新时间',
+                        sortable: false,
+                        formatter: function(value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        field: 'status',
+                        title: '状态',
+                        sortable: false,
+                        align:'center',
+                        formatter: function(value, row, index) {
+                            if (value == 0) {
+                                return '禁用';
+                            } else {
+                                return '正常';
+                            }
+
+                            // if (value == 0) {
+                            //     return '<i class="fa fa-toggle-off text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/seller/Writeoff/pointState.html\')"></i>';
+                            // } else {
+                            //     return '<i class="fa fa-toggle-on text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/seller/Writeoff/pointState.html\')"></i>';
+                            // }
+                        }
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class : 'text-nowrap',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" target="" href="javascript:void(0)" onclick="see(\'/admin/MerchantVerificationPoints/see.html?_layer=1&id='+row.id+'\')">查看</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs" target="" href="javascript:void(0)" onclick="edit(\'' + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-trash-alt"></i> 删除</a> ');
+                            return actions.join('');
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+
+        // 添加
+        function add(id) {
+            var url = $.operate.addUrl(id)
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                $.modal.open("添加", url);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+
+        // 编辑
+        function edit(id) {
+            var url = $.operate.editUrl(id)
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                $.modal.open("编辑", url);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+        //查看
+        function see(url) {
+
+            let area  =  [];
+            if (isMobile()) {
+                area  =  [100 + '%', 100 + '%']
+            } else {
+                area  =  [900 + 'px', 700 + 'px']
+            }
+            var index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area: area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        }
+        function isMobile() {
+            let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return flag;
+        };
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

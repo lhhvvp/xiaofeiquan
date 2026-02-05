@@ -1,0 +1,281 @@
+{include file="tour_accounting/css"/}
+<style>
+    .container-fluid {
+        min-width: 1250px;
+    }
+
+    table {
+        border-color: #cccccc;
+        min-width: 1200px;
+    }
+
+    table tr:nth-child(2n - 1) {
+        background-color: rgb(248, 248, 248);
+    }
+
+    table tr th {
+        padding: 1rem 2rem;
+        text-align: center;
+    }
+
+    table tr td {
+        padding: .5rem 2rem;
+        text-align: center;
+    }
+
+    .items {
+        width: 100%;
+    }
+
+    .items .item {
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        background-size: cover;
+        margin-right: 10px;
+    }
+
+    .items .item a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .mag-top {
+        margin-top: 10px;
+    }
+
+    .tour {
+        width: 100%;
+    }
+
+    .tour th {
+        background-color: rgb(248, 248, 248);
+    }
+
+    .tour tr {
+        background-color: #fff !important;
+    }
+
+    .layui-layer-btn0 {
+        display: none !important;
+    }
+</style>
+<div class="container-fluid mag-top">
+    <div class="callout callout-info">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-warning" onclick="javascript :history.back(-1);">
+                <i class="fa fa-undo m-r-10"></i>返回上一页</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>旅行团信息</h5>
+            <div class="infobox">
+                <table border="1" class="tour">
+                    <tr>
+                        <th>所属旅行社</th>
+                        <td>{$detail.tour.seller.nickname}</td>
+
+                        <th>团号</th>
+                        <td>{$detail.tour.no}</td>
+                    </tr>
+                    <tr>
+                        <th>团名称</th>
+                        <td>{$detail.tour.name}</td>
+
+                        <th>团期</th>
+                        <td>{$detail.tour.term}</td>
+                    </tr>
+                    <tr>
+                        <th>计调人</th>
+                        <td>{$detail.tour.planner}</td>
+
+                        <th>联系方式</th>
+                        <td>{$detail.tour.mobile}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>合影</h5>
+            <div class="items">
+                {notempty name="detail.tour.photos"}
+                {volist name="detail.tour.photos" id="vo"}
+                <div class="item">
+                    <a href="{$vo}" style="background-image: url({$vo});"></a>
+                </div>
+                {/volist}
+                {/notempty}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>发票</h5>
+            <div class="items">
+                {notempty name="detail.tour.invoice"}
+                    {volist name="detail.tour.invoice" id="vo"}
+                        <div class="item">
+                            <a href="{$vo}" style="background-image: url({$vo});"></a>
+                        </div>
+                    {/volist}
+                {/notempty}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>导游信息</h5>
+            <div class="infobox">
+                <table border="1">
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>电话</th>
+                        <th>身份证号</th>
+                        <th>导游证</th>
+                        <th>创建时间</th>
+                    </tr>
+                    {notempty name="detail.guide"}
+                    {volist name="detail.guide" id="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.mobile}</td>
+                        <td>{$vo.idcard}</td>
+                        <td>
+                            {if $vo.certificates}
+                            <a href="{$vo.certificates}" class="btn badge-success" target="_blank">
+                                点击查看
+                            </a>
+                            {else /}
+                            <span class="btn btn-danger">未上传</span>
+                            {/if}
+                        </td>
+                        <td>{$vo.create_time}</td>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>消费券信息</h5>
+            <div class="infobox">
+                <table border="1">
+                    <tr>
+                        <th>编号</th>
+                        <th>消费券编号</th>
+                        <th>所属分类</th>
+                        <th>消费券名称</th>
+                        <th>创建时间</th>
+                        <th>领取状态</th>
+                        <th>游客打卡记录</th>
+                    </tr>
+
+
+                    {notempty name="detail.coupon"}
+                    {volist name="detail.coupon" id="vo"}
+                    <tr>
+
+                        <td>{$vo.id}</td>
+                        <td>{$vo.couponIssue.uuno}</td>
+                        <td>{$vo.couponClass.title}</td>
+                        <td>{$vo.couponIssue.coupon_title}</td>
+                        <td>{$vo.couponIssue.create_time}</td>
+                        <td>
+                            <div class="badge-success" style="padding: 0 5px;">全部领取</div>
+                        </td>
+                        <td>
+                            {if condition="$vo.cid == 3"} - {else/}
+                            <a class="btn badge-success"
+                                onclick="navto('coupon',['{$vo.tid}','{$vo.tid}','{$vo.coupon_issue_id}'])">查看游客打卡记录</a>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>游客信息</h5>
+            <div class="infobox">
+                <table border="1">
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>用户Id</th>
+                        <th>电话</th>
+                        <th>身份证号</th>
+                        <th>旅游合同</th>
+                        <th>旅游保单</th>
+                        <th>创建时间</th>
+                        <th>打卡次数</th>
+                        <th>打卡记录</th>
+                    </tr>
+
+                    {notempty name="detail.tourist"}
+                    {volist name="detail.tourist" id="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.users.name}</td>
+                        <td>{$vo.users.id}</td>
+                        <td>{$vo.users.mobile}</td>
+                        <td>{$vo.users.idcard}</td>
+                        <td>
+                            <div class="badge-success">已上传</div>
+                        </td>
+                        <td>
+                            <div class="badge-success">已上传</div>
+                        </td>
+                        <td>{$vo.users.create_time}</td>
+                        <td>{$vo.numbers}</td>
+                        <td>
+                            <a onclick="navto('user',['{$vo.tid}','{$vo.tid}','{$vo.users.id}'])"
+                                class="btn badge-success">打卡记录</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function navto(type, option) {
+        // type = 'coupon | user',
+        let url = `/admin/tour_accounting/detail?tid=${option[0]}&_layer=1&overlist=${option[1]}&coupon_issue_id=${option[2]}&type=${type}`;
+        $.modal.open("查看打卡记录", url, 1200);
+    }
+</script>

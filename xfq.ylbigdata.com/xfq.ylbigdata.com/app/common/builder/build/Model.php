@@ -1,0 +1,18 @@
+<?php
+/**
+ * {$comment}模型
+ * @author {$author} <{$email}> {$dateTime}
+ */
+namespace app\common\model;
+
+class {$modelName} extends Base
+{
+    // 定义时间戳字段名
+    protected $createTime = 'create_time';
+    protected $updateTime = 'update_time';
+
+    {$modulePk}
+    {$moduleTable}
+    {$relations}
+
+}

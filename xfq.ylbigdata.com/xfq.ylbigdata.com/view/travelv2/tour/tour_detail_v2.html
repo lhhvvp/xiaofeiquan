@@ -1,0 +1,308 @@
+{// css}
+{include file="tour/css"/}
+<section class="content">
+    <div class="container-fluid">
+        <div class="steps"></div>
+        <div class="callout callout-info">
+            <h5>旅行团计划信息</h5>
+            <div class="infobox">
+                <div class="w-80">
+                    <div class="item">
+                        <text> 旅行团名称：</text>
+                        <text>{$tour.name}</text>
+                    </div>
+
+                    <div class="item">
+                        <text> 团号：</text>
+                        <text>{$tour.no}</text>
+                    </div>
+                    <div class="item">
+                        <text> 团期：</text>
+                        <text>{$tour.term}</text>
+                    </div>
+                    <div class="item">
+                        <text> 人数：</text>
+                        <text>{$tour.numbers}</text>
+                    </div>
+                    <div class="item">
+                        <text> 计调人：</text>
+                        <text>{$tour.planner}</text>
+                    </div>
+                    <div class="item">
+                        <text> 计调人电话：</text>
+                        <text>{$tour.mobile}</text>
+                    </div>
+
+                    <div class="item">
+                        <text> 商户名称：</text>
+                        <text>{$tour.mInfo.nickname}</text>
+                    </div>
+                    <div class="item">
+                        <text> 商户所属区域：</text>
+                        <text>{$tour.area}</text>
+                    </div>
+                    <div class="item">
+                        <text> 商户所属分类：</text>
+                        <text>{$tour.mInfo['sellerClass']['class_name']}</text>
+                    </div>
+                    <div class="item">
+                        <text> 首次申请/创建时间：</text>
+                        <text>{$tour.create_time}</text>
+                    </div>
+
+                    <div class="item-w100">
+                        <text> 线路信息：</text>
+                        <text id="innerhtml">{$tour.line_info}</text>
+                    </div>
+                    <script>
+                        let a = document.querySelector("#innerhtml").innerText;
+                        document.querySelector("#innerhtml").innerHTML = a;
+                    </script>
+
+                    <!-- <div class="item-w100">
+                        <text>导游证</text>
+                        <div class="w-100 flex">
+                            <div class="bgImg" style="background-image:url(/static/admin/images/fail.png);"></div>
+                            <div class="bgImg" style="background-image:url(/static/admin/images/nopic.png);"></div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-box">
+            <div class="callout callout-info" style="display:flex">
+                <div class="left" style="width: 100%;">
+                    <h5>消费券信息</h5>
+                    <div class="infobox">
+                        <div class="p-30 travel">
+                            <div class="tr">
+                                <div class="item">
+                                    <span>编号</span>
+
+                                </div>
+                                <div class="item">
+                                    <span>标题</span>
+
+                                </div>
+                                <div class="item">
+                                    <span>类型</span>
+                                </div>
+                                <div class="item">
+                                    <span>面额（元）</span>
+                                </div>
+                                <div class="item">
+                                    <span>真实库存</span>
+                                </div>
+                                <div class="item">
+                                    <span>预估库存</span>
+                                </div>
+                            </div>
+                            {volist name="couponissue" key="k" id="item"} 
+                            <div class="td">
+                                <div class="item">
+                                    <span>{$item.uuno}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.coupon_title}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{if $item.cid == 3}<span class="badge badge-success">旅行券<span>{else /}商户消费券{/if}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.coupon_price}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.remain_count}</span>
+                                </div>
+                                <div class="item">
+                                    <span style="{if $item.aaanumbers < $tour.numbers} color: red;{/if}">{$item.aaanumbers}</span>
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-box">
+            <div class="callout callout-info" style="display:flex">
+                <div class="left" style="width: 100%;">
+                    <h5>导游信息</h5>
+                    <div class="infobox">
+                        <div class="p-30 travel">
+                            <div class="tr">
+                                <div class="item">
+                                    <span>编号</span>
+                                </div>
+                                <div class="item">
+                                    <span>名称</span>
+                                </div>
+                                <div class="item">
+                                    <span>电话</span>
+                                </div>
+                                <div class="item">
+                                    <span>身份证号</span>
+                                </div>
+                                <div class="item">
+                                    <span>导游证</span>
+                                </div>
+                                <div class="item">
+                                    <span>创建时间</span>
+                                </div>
+                            </div>
+                            {volist name="detail_guide_v2" key="k" id="item"} 
+                            <div class="td">
+                                <div class="item">
+                                    <span>{$item.id}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.name}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.mobile}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.idcard}</span>
+                                </div>
+                                <div class="item">
+                                    {if $item.certificates}
+                                        <span class="badge badge-success"> 已上传 </span>
+                                    {else/}
+                                        <span class="badge badge-danger"> 未上传 </span>
+                                    {/if}
+                                </div>
+                                <div class="item">
+                                    <span style="">{$item.create_time}</span>
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-box">
+            <div class="callout callout-info" style="display:flex">
+                <div class="left" style="width: 100%;">
+                    <h5>游客信息</h5>
+                    <div class="infobox">
+                        <div class="p-30 travel">
+                            <div class="tr">
+                                <div class="item">
+                                    <span>编号</span>
+                                </div>
+                                <div class="item">
+                                    <span>名称</span>
+                                </div>
+                                <div class="item">
+                                    <span>电话</span>
+                                </div>
+                                <div class="item">
+                                    <span>身份证号</span>
+                                </div>
+                                <div class="item">
+                                    <span>旅游合同或确认件</span>
+                                </div>
+                                <div class="item">
+                                    <span>旅游保单</span>
+                                </div>
+                                <div class="item">
+                                    <span>创建时间</span>
+                                </div>
+                            </div>
+                            {volist name="detail_tourist_v2" key="k" id="item"} 
+                            <div class="td">
+                                <div class="item">
+                                    <span>{$item.id}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.name}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.mobile}</span>
+                                </div>
+                                <div class="item">
+                                    <span>{$item.idcard}</span>
+                                </div>
+                                <div class="item">
+                                    {if $item.contract}
+                                        <span class="badge badge-success"> 已上传 </span>
+                                    {else/}
+                                        <span class="badge badge-danger"> 未上传 </span>
+                                    {/if}
+                                </div>
+                                <div class="item">
+                                    {if $item.insurance}
+                                        <span class="badge badge-success"> 已上传 </span>
+                                    {else/}
+                                        <span class="badge badge-danger"> 未上传 </span>
+                                    {/if}
+                                </div>
+                                <div class="item">
+                                    <span style="">{$item.create_time}</span>
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-box">
+            {volist name="ExamineRecord" key="k" id="item"}
+            <div class="callout callout-info" {if $k==1}style="display:flex" {/if}>
+                <div class="left">
+                    {if $k==1}<h5>审核记录</h5>{/if}
+                    <div class="infobox">
+                        <div class="p-30">
+                           角色为 {$item.authGroup['title']} 的管理员 {$item.admin['nickname']} 在 {$item.create_time} 将记录的状态变更为{if $item.step==1}
+                                <span class="badge badge-primary">初步审核</span>
+                            {elseif $item.step==2}
+                                <span class="badge badge-secondary">不通过</span>
+                            {elseif $item.step==3}
+                                <span class="badge badge-primary">上传导游、游客信息</span>
+                            {elseif $item.step==4}
+                                <span class="badge badge-success">确定成团</span>
+                            {else /}
+                                <span class="badge badge-primary">初步审核</span>
+                            {/if}，备注信息：{$item.remarks}
+                        </div>
+
+                    </div>
+                </div>
+                {if $k==1}<div class="right" onclick="move($(this))">展开</div>{/if}
+            </div>
+            {/volist}
+        </div>
+</section>
+<!--内容结束-->
+<script>
+    /*function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }*/
+    let stepIndex = $("#stepIndex").val();
+    webupload('fileList_image', 'filePicker_image', 'image_preview', 'image', false, 'jpg,png,gif,jpeg,ico', '0');
+
+    function move(e) {
+        let txt = e.text();
+        let info = e.parent();
+        if (txt === '展开') {
+            e.text('收起');
+            info.siblings().show();
+        } else {
+            e.text('展开');
+            info.siblings().hide();
+        }
+    }
+    function submitHandler() {
+        $.operate.save("editPost", $('#form-builder').serialize());
+    }
+</script>

@@ -1,0 +1,159 @@
+<div class="layui-form login-form layui-panel">
+    <h1 class="login-title">找回密码</h1>
+    <!-- 用户名 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-username"></i>
+        <input type="text" name="username" placeholder="请输入用户名" class="layui-input" lay-verify="required" value=""
+            lay-reqtext="请输入用户名">
+    </div>
+
+    <div class="layui-form-item"> 
+       
+        <div class="layui-col-xs9"> <i class="layui-icon layui-icon-vercode"></i>
+            <input type="text" name="email" id="email" placeholder="请输入邮箱账号" class="layui-input" lay-verify="required"
+                lay-reqtext="请输入邮箱账号"></div>
+
+        <div class="layui-col-xs3" style="margin-left: 5px; width: calc(25% - 10px);cursor:pointer">
+            <div class="button_" id="code">发送验证码</div>
+        </div>
+    </div>
+
+    <!-- 验证码 -->
+    
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-vercode"></i>
+        <input type="text" name="e-verification" id="mailcode" placeholder="请输入邮箱验证码" class="layui-input" lay-verify="required" value=""
+            lay-reqtext="请输入邮箱验证码">
+    </div>
+
+    <!-- 验证码 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-vercode"></i>
+        <input type="text" name="captcha" placeholder="请输入验证码" class="layui-input" lay-verify="required"
+            lay-reqtext="请输入验证码">
+        <img id="captcha" src="{:url('forgetpwd/captcha')}" alt="验证码生成失败！">
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn layui-btn-normal layui-btn-fluid regs" type="submit" lay-submit="" lay-filter="LAY-user-login-submit">
+            下 一 步 </button>
+    </div>
+</div>
+<script>
+    $(function () {
+        // 刷新验证码操作
+        $("#captcha").click(function () {
+            $(this).attr("src", $(this).attr("src") + '?' + Math.random());
+        })
+        // 找回密码
+        $(".regs").click(function () {
+            var username = $("input[name='username']").val();
+            var captcha = $("input[name='captcha']").val();
+            var email   = $("input[name='email']").val();
+            var mailcode   = $("#mailcode").val();
+            
+            if (!username) {
+                layer.alert('请输入用户名', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='username']").focus();
+                });
+                return false;
+            }
+            if (!email) {
+                layer.alert('请输入邮箱', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='email']").focus();
+                });
+                return false;
+            }
+            if (!mailcode) {
+                layer.alert('请输入邮箱验证码', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='e-verification']").focus();
+                });
+                return false;
+            }
+            if (!captcha) {
+                layer.alert('请输入验证码', {
+                    icon: 2
+                }, function (index) {
+                    layer.close(index);
+                    $("input[name='captcha']").focus();
+                });
+                return false;
+            }
+            
+            $.ajax({
+                type: "post",
+                url: "{:url('check')}",
+                data: {
+                    username,email,mailcode,captcha
+                },
+                dataType: "json",
+                beforeSend: function () {
+                    loadIndex = layer.load();
+                },
+                success: function (data) {
+                    if (data.error == 1) {
+                        layer.close(loadIndex);
+                        layer.alert(data.msg, {
+                            icon: 2
+                        }, function (index) {
+                            layer.close(index);
+                            $("#captcha").attr("src", $("#captcha").attr("src") + '?' + Math.random());
+                            $("input[name='captcha']").val('').focus();
+                        });
+                    } else{
+                        window.location.href="/seller/forgetpwd/checkPwd";
+                    }
+                },
+                error: function (xhr) {
+
+                }
+            });
+
+        })
+    })
+</script>
+
+<script>
+    function countDownTimer(that) {
+        let second = 60;
+        let timer = setInterval(() => {
+            if (second == 0) {
+                that.innerText = `重新验证码`
+                clearInterval(timer);
+            } else {
+                second--;
+                that.innerText = `${second}秒后重新发送`
+            }
+        }, 1000);
+    }
+
+    document.getElementById("code").onclick = function () {
+
+        let email = $("#email").val();
+        console.log(mailcode);
+        let that = this;
+        if (this.innerText === '重新验证码' || this.innerText === '发送验证码') {
+            $.ajax({
+                type: "POST",
+                url: "/seller/forgetpwd/sendEmail",
+                data: {
+                    email
+                },
+                success: function (data) {
+                    if (data.error == 0) {
+                        layer.msg(data.msg);
+                        countDownTimer(that);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        }
+
+    };
+</script>

@@ -1,0 +1,257 @@
+<!--内容开始-->
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--顶部提示开始-->
+            <!--顶部提示结束-->
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/Ticket/editPost.html">
+                <!---->
+                <!---->
+
+                <div class="row dd_input_group hide " id="form_group_id">
+                    <div class="form-group">
+                        <input type="hidden" name="id" value="{$info.id}" id="id" readonly="readonly">
+                    </div>
+                </div>
+
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_seller_id">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="seller_id">所属商户</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <select class="select2 form-control" id="seller_id" name="seller_id" data-value="{$info.seller_id}">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        var option = {};
+                        if('/admin/Index/selectSeller.html?id=1279' !== ''){
+                            // 启用ajax分页查询
+                            option = {
+                                language: "zh-CN",
+                                //allowClear: true,
+                                ajax: {
+                                    delay: 250, // 限速请求
+                                    url: "/admin/Index/selectSeller.html?id=1279",   //  请求地址
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        return {
+                                            keyWord: params.term || '',    //搜索参数
+                                            page: params.page || 1,        //分页参数
+                                            rows: params.pagesize || 10,   //每次查询10条记录
+                                        };
+                                    },
+                                    processResults: function (data, params) {
+                                        params.page = params.page || 1;
+                                        if (params.page == 1) {
+                                            data.data.unshift({id: '', name: "", text: "请选择"});
+                                        }
+                                        return {
+                                            results: data.data,
+                                            pagination: {
+                                                //more: (params.page) < data.paginator.totalPages
+                                                more: (params.page) < data.last_page
+                                            }
+                                        };
+                                    },
+                                    cache: true
+                                }
+                            };
+                            // 默认值设置
+                            var defaultValue = $('#seller_id').data("value");
+                            if (defaultValue) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/admin/Index/selectSeller.html?id=1279",
+                                    data: {value:defaultValue},
+                                    dataType: "json",
+                                    success: function(data){
+                                        $('#seller_id').append("<option selected value='" + data.key + "'>" + data.value + "</option>");
+                                    }
+                                });
+                            }
+                        }
+                        $('#seller_id').select2(option);
+                    })
+                </script>
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_category_id">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="category_id">所属票种分类</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <select class="select2 form-control" id="category_id" name="category_id" data-value="{$info.category_id}">
+                            <option value="">请选择以下分类</option>
+                        </select>
+                    </div>
+                </div>
+                <script>
+                    $("#seller_id").change(function(){
+                        var option = {};
+                        $('#category_id').val('');
+                        var seller_id = $("#seller_id option:selected").val();
+                            if('/admin/Index/selectTicketCategory.html?id='+seller_id !== ''){
+                                // 启用ajax分页查询
+                                option = {
+                                    language: "zh-CN",
+                                    //allowClear: true,
+                                    ajax: {
+                                        delay: 250, // 限速请求
+                                        url: "/admin/Index/selectTicketCategory.html?id="+seller_id,   //  请求地址
+                                        dataType: 'json',
+                                        data: function (params) {
+                                            return {
+                                                keyWord: params.term || '',    //搜索参数
+                                                page: params.page || 1,        //分页参数
+                                                rows: params.pagesize || 10,   //每次查询10条记录
+                                            };
+                                        },
+                                        processResults: function (data, params) {
+                                            params.page = params.page || 1;
+                                            if (params.page == 1) {
+                                                data.data.unshift({id: '', name: "", text: "请选择以下分类"});
+                                            }
+                                            return {
+                                                results: data.data,
+                                                pagination: {
+                                                    //more: (params.page) < data.paginator.totalPages
+                                                    more: (params.page) < data.last_page
+                                                }
+                                            };
+                                        },
+                                        cache: true
+                                    }
+                                };
+                                
+                            }
+                            $('#category_id').select2(option);
+                     });
+                     $(function () {
+                         // 默认值设置
+                        var defaultValue = $('#category_id').data("value");
+                        if (defaultValue) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/Index/selectTicketCategory.html",
+                                data: {id:defaultValue,tags:'index'},
+                                dataType: "json",
+                                success: function(data){
+                                    $('#category_id').append("<option selected value='" + data.id + "'>" + data.title + "</option>");
+                                }
+                            });
+                        }
+                    })
+                        
+                </script>
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_title">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="title">票种名称</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="title" name="title" value="{$info.title}" placeholder="请输入票种名称">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_cover">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="cover">票种封面图</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="cover" name="cover" value="{$info.cover}" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_cover" class="uploader-list"></div>
+                        <div id="filePicker_cover">
+                            <i class="fa fa-upload m-r-10"></i>选择图片
+                        </div>
+                        <a href="{$info.cover}" target="_blank">
+                            <img class="image_preview_info" src="{$info.cover}" id="cover_preview">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_cover', 'filePicker_cover', 'cover_preview', 'cover', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_quota">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="quota">每人每天限购0表示不限</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="quota" name="quota" value="{$info.quota}" step="1">
+                    </div>
+                </div>
+
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_explain_use">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="explain_use">使用说明</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                        <textarea id="explain_use" name="explain_use" style="width:100%;height: 400px">{$info.explain_use}</textarea>
+                    </div>
+                </div>
+                <script>
+                    CKEDITOR.replace('explain_use', {height: '400px'});
+    </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_explain_buy">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="explain_buy">购买说明</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                        <textarea id="explain_buy" name="explain_buy" style="width:100%;height: 400px">{$info.explain_buy}</textarea>
+                    </div>
+                </div>
+                <script>
+                    CKEDITOR.replace('explain_buy', {height: '400px'});
+    </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_crossed_price">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="crossed_price">划线价</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="crossed_price" name="crossed_price" value="{$info.crossed_price}" step="0.01">
+                    </div>
+                </div>
+
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_status">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="status">状态</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="status" class="dd_radio" id="status1" value="1" {eq name="$info.status" value="1" }checked{/eq}> <label for="status1">显示</label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="status" class="dd_radio" id="status2" value="0" {eq name="$info.status" value="0" }checked{/eq}> <label for="status2">隐藏</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_sort">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="sort">排序</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="sort" name="sort" value="{$info.sort}" step="1">
+                    </div>
+                </div>
+
+
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </form>
+            <!--底部提示-->
+
+
+        </div>
+    </div>
+    </div>
+
+    <!--内容结束-->

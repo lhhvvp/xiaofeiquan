@@ -1,0 +1,103 @@
+<style>
+    .btn-block+.btn-block {
+        margin-top: 0 !important;
+    }
+
+    .table-spot_ids {
+        min-height: 40px;
+        line-height: 40px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/addtouristPost.html"
+            id="form-builder">
+            <input type="hidden" name="tid" value="{$tid}">
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客姓名</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="name" value="" placeholder="请输入游客姓名">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="mobile" value="" placeholder="请输入游客电话">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters ">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="card_type">证件类型</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <select class="form-control" id="card_type" name="card_type">
+                        <option value="1">居民身份证</option>
+                        <option value="2">普通护照</option>
+                        <option value="3">台湾通行证</option>
+                        <option value="4">港澳通行证</option>
+                        <option value="5">回乡证</option>
+                        <option value="6">其他证件(国外护照)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客证件号</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="idcard" value="" placeholder="请输入游客身份证号">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_card_file">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="certificates">上传证件图片</label>
+                <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="card_file" name="card_file" readonly value=""
+                           placeholder="请点击按钮上传">
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_card_file" class="uploader-list"></div>
+                    <div id="filePicker_card_file"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                    <a href="/static/admin/images/nopic.png" target="_blank">
+                        <img class="image_preview_info" src="/static/admin/images/nopic.png" id="card_file_preview">
+                    </a>
+                    <!--上传图片-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                webupload('fileList_card_file', 'filePicker_card_file', 'card_file_preview', 'card_file', false, 'jpg,png,gif,jpeg', '0');
+            </script>
+            <!---->
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        refreshCardTypeDiv();
+        $("#card_type").change(function (){
+            refreshCardTypeDiv();
+        })
+    })
+    function refreshCardTypeDiv(){
+        let card_type = $("#card_type").val();
+        if(card_type != 1){
+            $("#form_group_card_file").show();
+        }else{
+            $("#form_group_card_file").hide();
+        }
+    }
+</script>

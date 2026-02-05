@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>地图展示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            /*地图(容器)显示大小*/
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
+    </style>
+    <!--引入Javascript API GL，参数说明参见下文-->
+    <script charset="utf-8"
+            src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+</head>
+<!-- 页面载入后，调用init函数 -->
+
+<body>
+<!-- 定义地图显示容器 -->
+<input type="hidden" value="{$info}" id="info">
+<div id="container"></div>
+<script>
+    let info = $("#info").val();
+    info = JSON.parse(info);
+    let data = [];
+    info.forEach(item => {
+        let style = 'style1';
+        if(item.status === 1){
+            style = 'style2';
+        }
+        data.push({ lat: Number(item.latitude), lng: Number(item.longitude), styleId:style,item});
+    });
+    initMap();
+
+    //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+    function initMap() {
+        //定义地图中心点坐标
+        var center = new TMap.LatLng('38.285734', '109.734209');
+        //定义map变量，调用TMap.Map构造函数创建地图
+        var map = new TMap.Map(document.getElementById('container'), {
+            center: center,//设置地图中心点坐标
+            zoom: 5,   //设置地图缩放级别
+        });
+        // ------------------散点-------------------------
+        //初始化散点图层并添加至map泛光
+        var dot = new TMap.visualization.Dot({
+            faceTo: "map", //散点固定的朝向
+            styles: {
+                style1: {
+                    type: "circle", //圆形样式
+                    fillColor: "rgba(204,42,24,0.3)",
+                    radius: 12,
+                },
+                style2: {
+                    type: "circle", //圆形样式
+                    fillColor: "rgba(54,206,4,0.3)",
+                    radius: 12,
+                },
+            },
+            processAnimation: {
+                animationType: "radiated", //动画类型
+            },
+            enableBloom: true, // 泛光
+        }).addTo(map);//将图层添加到map中
+        //为dot图层添加数据
+        dot.setData(data);
+        //
+        var dot1 = new TMap.visualization.Dot({
+            faceTo: "map", //散点固定的朝向
+            styles: {
+                style1: {
+                    fillColor: "#C72A18",
+                    radius: 4,
+                },
+                style2: {
+                    fillColor: "rgba(54,206,4,1)",
+                    radius: 4,
+                },
+            },
+        }).addTo(map);//将图层添加到map中
+
+
+        var infoWindow = new TMap.InfoWindow({
+            map: map,
+            position: new TMap.LatLng('38.285734', '109.734209'),
+            offset: { x: 0, y: -32 } //设置信息窗相对position偏移像素
+        });
+        infoWindow.close();//初始关闭信息窗关闭
+
+        //为dot图层添加数据
+        dot1.setData(data);
+        dot1.on('click', function(evt) {
+            if (evt.detail.dot) {
+                let data = evt.detail.dot;
+                infoWindow.open();
+                infoWindow.setPosition(new TMap.LatLng(data.lat,data.lng));//设置信息窗位置
+                infoWindow.setContent(`
+                     <div>姓名：${data.item.name}</div>
+                     <div>电话：${data.item.mobile}</div>
+                     <div>身份证号：${data.item.idcard}</div>
+                     <div>经度：${data.item.longitude}</div>
+                     <div>纬度：${data.item.latitude}</div>`
+                );
+            }
+        });
+        // ------------------散点-------------------------
+
+    };
+
+</script>
+</body>
+
+</html>

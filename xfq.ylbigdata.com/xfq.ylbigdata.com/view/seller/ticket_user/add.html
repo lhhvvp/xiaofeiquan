@@ -1,0 +1,112 @@
+<!--内容开始-->
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--顶部提示开始-->
+            <!--顶部提示结束-->
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/seller/TicketUser/addPost.html">
+                <!---->
+                <!---->
+
+                <div class="row dd_input_group no-gutters " id="form_group_username">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="username">用户名</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="username" name="username" value="" placeholder="请输入用户名">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_password">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="password">密码</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="password" id="password" name="password" value="" placeholder="请输入密码">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_mobile">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label  is-required" for="name">真实姓名</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="name" name="name" value="" placeholder="请输入真实姓名">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_mobile">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label  is-required" for="mobile">手机</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="mobile" name="mobile" value="" placeholder="请输入手机">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters" id="form_group_idcard_front_back" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                           for='business_license_set'>身份证正反面</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="idcard_front_back" name="idcard_front_back" value="" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_idcard_front_back" class="uploader-list"></div>
+                        <div id="filePicker_idcard_front_back">
+                            <i class="fa fa-upload m-r-10"></i>选择文件
+                        </div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_idcard_front_back', 'filePicker_idcard_front_back', 'fileList_idcard_front_back', 'idcard_front_back', false, 'pdf', '0', 'file');
+                </script>
+
+                <div class="row dd_input_group no-gutters" id="form_group_trust_agreement" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                           for='business_license_set'>核验人诚信协议</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="trust_agreement" name="trust_agreement" value="" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_trust_agreement" class="uploader-list"></div>
+                        <div id="filePicker_trust_agreement">
+                            <i class="fa fa-upload m-r-10"></i>选择文件
+                        </div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_trust_agreement', 'filePicker_trust_agreement', 'trust_agreement_preview', 'trust_agreement', false, 'pdf', '0', 'file');
+                </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_status">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="status">状态</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="status" class="dd_radio" id="status1" value="1" checked>
+                            <label for="status1">启用</label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="status" class="dd_radio" id="status2" value="0">
+                            <label for="status2">停用</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </form>
+            <!--底部提示-->
+
+
+        </div>
+    </div>
+    </div>
+
+    <!--内容结束-->

@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <div style="padding:20px;">
+        <div class="card card-primary card-outline">
+            <div class="card-header">预约人信息</div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <img class="img-circle img-bordered-sm" height="80" src="{$vo.users.headimgurl|default='/static/admin/images/nopic.png'}" alt="user image">
+                    <div class="username mt-2">
+                        {$vo.users.nickname|default='未知'}
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <div class="description-block px-3 w-25">
+                        <h5 class="description-header mb-2">所属商户</h5>
+                        <span class="description-text">{$vo.seller.nickname|default="未知"}</span>
+                    </div>
+                    <div class="description-block px-3 w-25">
+                        <h5 class="description-header mb-2">预约人</h5>
+                        <span class="description-text">{$vo.fullname}</span>
+                    </div>
+                    <div class="description-block px-3 w-25">
+                        <h5 class="description-header mb-2">电话</h5>
+                        <span class="description-text">{$vo.phone}</span>
+                    </div>
+                    <div class="description-block px-3 w-25">
+                        <h5 class="description-header mb-2">证件号</h5>
+                        <span class="description-text">{$vo.idcard}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <div class="px-3 py-1 w-50">
+                        <b>预约编号：</b>{$vo.code}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>预约日期：</b>{$vo.date}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>预约人数：</b>{$vo.number}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>创建时间：</b>{$vo.create_time}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>状态：</b>{$vo.status_text}
+                    </div>
+                    {if $vo['status'] == 2}
+                    <div class="px-3 py-1 w-50">
+                        <b>取消时间：</b>{$vo.cancel_time|date="Y-m-d H:i:s"}
+                    </div>
+                    {/if}
+
+                </div>
+
+            </div>
+
+        </div>
+        {notempty name="vo.writeoff_time"}
+        <div class="card card-primary card-outline">
+            <div class="card-header">核销信息</div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <div class="px-3 py-1 w-50">
+                        <b>核销人：</b>{$vo.writeoff_man}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>核销时间：</b>{$vo.writeoff_time|date="Y-m-d H:i:s"}
+                    </div>
+                    <div class="px-3 py-1 w-50">
+                        <b>核销位置：</b>{$vo.lat},{$vo.lng}
+                    </div>
+                </div>
+                <div id="maps" class="mt-3"></div>
+            </div>
+        </div>
+        {/notempty}
+        {notempty name="vo.tourist_list"}
+        <div class="card card-primary card-outline">
+            <div class="card-header">游客信息</div>
+            <div class="card-body">
+                {foreach $vo.tourist_list as $item}
+                <div class="d-flex flex-wrap">
+                    <div class="px-3 py-1" style="width:25%">
+                        <b>游客姓名：</b>{$item.tourist_fullname}
+                    </div>
+                    <div class="px-3 py-1" style="width:40%">
+                        <b>游客证件：</b>（{$item.tourist_cert_type_text}）{$item.tourist_cert_id}
+                    </div>
+                    <div class="px-3 py-1" style="width:35%">
+                        <b>游客电话：</b>{$item.tourist_mobile}
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+        {/notempty}
+    </div>
+</div>
+
+<script charset="utf-8"
+        src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+<script>
+    //商户地点
+    const locations = {
+        lat:Number('{$vo.lat}'),
+        lng:Number('{$vo.lng}')
+    };
+    let status = "{$vo.status}";
+    if(status == 1){
+        initMap();
+    }
+    //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+    function initMap() {
+        //定义地图中心点坐标
+        var center = new TMap.LatLng(locations.lat, locations.lng);
+        //定义map变量，调用TMap.Map构造函数创建地图
+        var map = new TMap.Map(document.getElementById('maps'), {
+            center: center,//设置地图中心点坐标
+            zoom: 13,   //设置地图缩放级别
+        });
+        //创建并初始化MultiMarker
+        var markerLayer = new TMap.MultiMarker({
+            map: map,  //指定地图容器
+            //样式定义
+            styles: {
+                //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                "myStyle": new TMap.MarkerStyle({
+                    "width": 25,  // 点标记样式宽度（像素）
+                    "height": 35, // 点标记样式高度（像素）
+                    "anchor": { x: 16, y: 32 }
+                })
+            },
+            geometries: [{
+                "id": "1",   //点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+                "styleId": 'myStyle',  //指定样式id
+                "position": new TMap.LatLng(locations.lat, locations.lng),  //点标记坐标位置
+            }]
+        });
+
+        var dot = new TMap.visualization.Dot({
+            faceTo: "map", //散点固定的朝向
+            styles: {
+                style1: {
+                    type: "circle", //圆形样式
+                    fillColor: "rgba(204,42,24,0.3)",
+                    radius: 12,
+                },
+            },
+            processAnimation: {
+                animationType: "radiated", //动画类型
+            },
+            enableBloom: true, // 泛光
+        }).addTo(map);//将图层添加到map中
+    };
+
+</script>

@@ -1,0 +1,251 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        <label>所属分类：</label> 
+                        <select id="search_class_id" name="class_id">
+                            <option value="">
+                                所有
+                            </option>
+                            {volist name="class_list" id="item"}
+                                <option value="{$item.id}">
+                                {$item.class_name}
+                                </option>
+                            {/volist}
+                        </select>
+                    </li>
+                    <li>
+                        <label>商户名称：</label> 
+                        <input type="text" id="search_nickname" name="nickname" value="">
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a>
+                        <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a>
+                        <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--搜索区域结束-->
+
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="addSellerMarkQc();">
+                <i class="fa fa-plus"></i> 新增
+            </a>
+            <a class="btn btn-primary single disabled" onclick="editSellerMarkQc();">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                <i class="fa fa-times"></i> 删除
+            </a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",   // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/admin/SellerMarkQc/index.html?getList=1",             // 请求后台的URL
+            addUrl        : "/admin/SellerMarkQc/addSellerMarkQc.html",             // 新增的地址
+            editUrl       : "/admin/SellerMarkQc/editSellerMarkQc.html?id=__id__",  // 修改的地址
+            delUrl        : "/admin/SellerMarkQc/del.html",                         // 删除的地址
+            sortUrl       : "/admin/SellerMarkQc/sort.html",                        // 排序的地址
+            sortName      : "id",                   // 排序列名称
+            sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+			pagination    : true,			        // 是否进行分页
+            parentIdField : "pid",                  // 列表树模式需传递父id字段名（parent_id/pid）
+			clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",                   // 每页显示的行数
+            layerOpen     : "1",                    // 添加/审核等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",      // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,                      // 左侧固定列数
+            fixedRight    : 1,                      // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+					// 当某行包含checkbox_disabled时禁止选择
+					formatter: function(value, row, index) {
+						if(row.checkbox_disabled =='1'){
+							 return {
+								 disabled : true
+							}
+						 }
+					}
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'class_name',
+                    title: '所属分类', 
+                    sortable: false,
+                },
+                {
+                    field: 'nickname',  
+                    title: '商户名称', 
+                    sortable: false,
+                },
+                {
+                    field: 'day_threshold_value',
+                    title: '每日打卡阈值',
+                    sortable: true,
+                },
+                {
+                    field: 'range',
+                    title: '打卡范围',
+                    sortable: true,
+                },
+                /*{
+                    field: 'day_threshold_value',
+                    title: '商户总打卡次数',
+                    sortable: true,
+                },*/
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+					formatter: function(value, row, index) {
+						var actions = [];
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="seeRecord(\'' + row.id + '\')"><i class="fa fa-edit"></i> 查看打卡记录</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="see(\'' + row.id + '\')"><i class="fa fa-search"></i> 查看</a> ');
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="editSellerMarkQc(\'' + row.id + '\')"><i class="fa fa-edit"></i> 修改</a> ');
+						actions.push('<a class="btn btn-danger btn-xs confirm" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="far fa-trash-alt"></i> 删除</a> ');
+                        return actions.join('');
+					}
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+	//HTML反转义
+	function HTMLDecode(text) {
+		var temp = document.createElement("div");
+		temp.innerHTML = text;
+		var output = temp.innerText || temp.textContent;
+		temp = null;
+		return output;
+	}
+
+    // 添加商户打卡二维码
+    function addSellerMarkQc(id) {
+        var url = $.operate.addUrl(id)
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("添加打卡二维码", url, 500, 400);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 修改商户打卡二维码
+    function editSellerMarkQc(id) {
+        var url = $.operate.editUrl(id)
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("修改打卡二维码", url, 500, 400);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 查看打卡记录
+    function seeRecord(id) {
+        var url = '/admin/SellerMarkQc/getRecordList?qc_id='+id;
+        let area  =  [1200 + 'px', 700 + 'px']
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            };
+            let index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '商户打卡记录',
+                fix: false,
+                area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 查看商户打卡二维码详情
+    function see(id) {
+        var url = "/admin/SellerMarkQc/see.html?id="+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+
+            var index = layer.open({
+                type: 2,
+                area: ['45%', '75%'],
+                fix: false,
+                maxmin: true,
+                shade: 0.3,
+                content: url,
+            });
+
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+</script>
+<!--bootstrap table end-->
+<!--底部提示-->
+</section>

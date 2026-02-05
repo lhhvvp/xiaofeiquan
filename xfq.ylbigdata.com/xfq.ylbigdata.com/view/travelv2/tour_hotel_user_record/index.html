@@ -1,0 +1,246 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        <label>名称：</label> 
+                        <input type="text" id="search_name" name="name" value="" placeholder="请输入酒店名称">
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--搜索区域结束-->
+
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+                    <!-- <a class="btn btn-warning"  onclick="$.table.export()">
+            <i class="fa fa-download"></i> 导出        </a> -->
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/travel/tour_hotel_user_record/index.html?getList=1",      // 请求后台的URL
+            exportUrl     : "/travel/tour_hotel_user_record/export.html",    // 导出的地址
+            sortUrl       : "/travel/tour_hotel_user_record/sort.html",      // 排序的地址
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",       // 排序方式  asc 或者 desc
+			pagination    : true,			// 是否进行分页
+            parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+			clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+					// 当某行包含checkbox_disabled时禁止选择
+					formatter: function(value, row, index) {
+						if(row.checkbox_disabled =='1'){
+							 return {
+								 disabled : true
+							}
+						 }
+					}
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'spot_name',
+                    title: '酒店名称',
+                    sortable: true
+                },
+                {
+                    field: 'no',
+                    title: '团号',
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return row.tour.no
+                    }
+                },
+                {
+                    field: 'name',  
+                    title: '名称', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return row.tour.name
+                    }
+                },
+                {
+                    field: 'term',
+                    title: '团期', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return row.tour.term
+                    }
+                },
+                {
+                    field: 'numbers',  
+                    title: '人数', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return row.tour.numbers
+                    }             
+                },
+                {
+                    field: 'planner',  
+                    title: '计调人', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(row.tour.planner);
+                    }
+                },
+                {
+                    field: 'mobile',  
+                    title: '电话', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(row.tour.mobile);
+                    }
+                }
+                /*,{
+                    field: 'coupon_title',  
+                    title: '消费券', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(row.coupon_title);
+                    }
+                }*/,
+                {
+                    field: 'is_clock',  
+                    title: '是否完成打卡', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        if(row.is_clock==1){
+                            return '<span class="badge badge-success"> 已打卡 </span>';
+                        }else{
+                            return '<span class="badge badge-danger"> 未打卡 </span>';
+                        }
+                    }
+                },
+                {
+                    field: 'nickname',  
+                    title: '打卡用户', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        var name = row.users.name ? row.users.name : '';
+                        return HTMLDecode(name);
+                    }
+                },
+                {
+                    field: 'clock_time',  
+                    title: '打卡时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'create_time',  
+                    title: '创建时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'update_time',  
+                    title: '更新时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+					formatter: function(value, row, index) {
+						var actions = [];
+                        if(row.is_clock==1){
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="see(\'' + row.id + '\')"><i class="fa fa-edit"></i> 查看</a> ');
+                        }
+                        return actions.join('');
+					}
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+	//HTML反转义
+	function HTMLDecode(text) {
+		var temp = document.createElement("div");
+		temp.innerHTML = text;
+		var output = temp.innerText || temp.textContent;
+		temp = null;
+		return output;
+	}
+
+    // 查看打卡详情
+    function see(id) {
+        var url = '/travel/tour_hotel_user_record/detail.html?id='+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            // $.modal.open("审核", url,1500,700);
+            // window.location.href = url;
+
+            var index = layer.open({
+                type: 2,
+                area: ['100%', '100%'],
+                fix: false,
+                maxmin: true,
+                shade: 0.3,
+                content: url,
+            });
+
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

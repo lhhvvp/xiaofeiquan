@@ -1,0 +1,51 @@
+<style>
+    .checkbox-inline{
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    .checkbox-inline input{
+        margin-right: 5px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required">开启预约</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <div class="checkbox">
+                        <input type="hidden" name="row[appt_open]" value="0" />
+                        <label class="checkbox-inline" for="appt_open">
+                            <input type="checkbox" name="row[appt_open]" id="appt_open" value="1" {eq name="row.appt_open" value="1"}checked{/eq}>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters {eq name="row.appt_open" value="0"}hide{/eq}" id="limit-box">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required">预约限制</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" min="0" id="stock" name="row[appt_limit]"
+                           value="{$row.appt_limit|default=1}" placeholder="预约限制人数">
+                    <p class="help-block">每人每天最大预约人数</p>
+                </div>
+            </div>
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary">提 交</button>
+                </div>
+            </div><!-- /.box -->
+        </form><!--底部提示-->
+    </div>
+</div>
+<script>
+    $(function() {
+        $("#appt_open").change(function() {
+            if ($(this).is(":checked")) {
+                $("#limit-box").removeClass("hide");
+            } else {
+                $("#limit-box").addClass("hide");
+            }
+        });
+    })
+</script>

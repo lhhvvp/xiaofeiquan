@@ -1,0 +1,14 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="img" style="display: flex;justify-content: center;align-items: center;">
+            <img style="margin-top: 5%;" src="{$qrcode_base}" />
+        </div>
+    </div>
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>

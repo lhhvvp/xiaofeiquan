@@ -1,0 +1,61 @@
+{// css}
+{include file="accounting/css"/}
+<style>
+    .p-30 {
+        padding: 0 30px;
+        height: 30px;
+        line-height: 30px;
+        min-width: 300px;
+        display: inline-block;
+        min-width: auto;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid" style="padding-top: 20px;">
+        <div class="callout callout-info">
+            <h5>投诉信息</h5>
+            <div>
+                <div class="p-30">
+                    ip地址： {$row.create_ip}
+                </div>
+                <div class="p-30">
+                    投诉人：{$row.name}
+                </div>
+                <div class="p-30">
+                    用户ID：{$row.number}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <h5>投诉内容</h5>
+            <div class="p-30">
+                {$row.content}
+            </div>
+        </div>
+        {if condition ="$row.images != ''"}
+        <div class="callout callout-info">
+            <h5>投诉图片</h5>
+            <div class="p-30" style="height: 150px;" id="data_url" data-url="{$row.images}">
+
+            </div>
+        </div>
+        <script>
+            let data_url = $("#data_url").attr("data-url").split(",");
+            data_url.forEach(item=>{
+                 $("#data_url").append(`<a href='${item}' target="_blank" ><img src='${item}' style="width: 150px;height:150px;margin-right:20px"></a>`);
+            });
+        </script>
+        {/if}
+
+        <div class="callout callout-info">
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="javascript :history.back(-1)">返
+                    回</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--内容结束-->

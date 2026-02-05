@@ -1,0 +1,132 @@
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+
+    .infobox {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .p-30 {
+        padding: 0 30px;
+        height: 30px;
+        line-height: 30px;
+        min-width: 300px;
+    }
+
+    .steps {
+        width: 100%;
+        background-color: #fff;
+        padding: 5px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .callout-box {
+        border-radius: 0.25rem;
+        box-shadow: 0 1px 3pxrgba(0, 0, 0, .12), 0 1px 2pxrgba(0, 0, 0, .24);
+        background-color: #fff;
+        border-left: 5px solid #117a8b;
+        margin-bottom: 1rem;
+        padding: 0 1rem;
+    }
+
+    .callout-box .callout.callout-info {
+        border: none;
+        box-shadow: none;
+        display: none;
+        margin: 0;
+        padding: 15px 0;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #d8d8d8;
+    }
+
+    .callout.callout-info .right {
+        font-size: 12px;
+        color: #204d74;
+        cursor: pointer;
+    }
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+
+    #maps {
+        width: 100%;
+        height: 240px;
+    }
+    .userInfo{
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+    .avatar{
+        display: inline-block;
+        width:80px;
+        height:80px;
+        border-radius: 80px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border:4px solid #ddd;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid" style="padding: 20px 0">
+        <div class="callout callout-info">
+            <h5>核销人信息</h5>
+                <div class="userInfo">
+                    <a class="avatar" target="_blank" href="{$detail.image|default='/static/admin/images/nopic.png'}" style="background-image: url({$detail.image|default='/static/admin/images/nopic.png'})"></a>
+                    <p>姓名：<b class="text-success">{$detail.name}</b></p>
+                </div>
+            <div>
+                <div class="p-30">
+                    所属商户： {$detail.seller.nickname|default=''}
+                </div>
+                <div class="p-30">
+                    手机号：{$detail.mobile}
+                </div>
+                <div class="p-30">
+                    登陆账号：{$detail.account|default="未设置"}
+                </div>
+                {notempty name="detail.openid"}
+                <div class="p-30">
+                    openid：{$detail.openid}
+                </div>
+                {/notempty}
+                <div class="p-30">
+                    状态：{$detail.status_text}
+                </div>
+            </div>
+        </div>
+        <div class="callout callout-info">
+            <h5>其他信息</h5>
+            <div>
+                <div class="p-30">
+                    身份证正反面：{notempty name="detail.idcard_front_back"}<a href="{$detail.idcard_front_back}" target="_blank">查看文件</a>{else /}未上传{/notempty}
+                </div>
+                <div class="p-30">
+                    核验人诚信协议：{notempty name="detail.trust_agreement"}<a href="{$detail.trust_agreement}" target="_blank">查看文件</a>{else /}未上传{/notempty}
+                </div>
+            </div>
+        </div>
+        <div class="callout callout-info" >
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                    回</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function back() {
+            var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+            parent.layer.close(index);//关闭窗口
+        }
+
+    </script>
+</section>
+<!--内容结束-->

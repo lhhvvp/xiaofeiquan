@@ -1,0 +1,28 @@
+{// css}
+{include file="accounting/css"/}
+<section class="content">
+    <div class="container-fluid">
+            
+            <div class="callout callout-info">
+                <h5>旅游合同</h5>
+                <div>
+                    <a href="{$detail.contract}" target="_blank"><img src="/static/admin/images/file.png" width="150px" height="150px"></a>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>旅游保单</h5>
+                <div>
+                    <a href="{$detail.insurance}" target="_blank"><img src="/static/admin/images/file.png" width="150px" height="150px"></a>
+                </div>
+            </div>
+
+        </div>
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>

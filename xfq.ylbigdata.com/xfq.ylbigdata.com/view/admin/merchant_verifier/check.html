@@ -1,0 +1,235 @@
+<style>
+    body {
+        background-color: #eeeeee;
+        padding: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .content {
+        margin: auto;
+        background-color: #fff;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        box-shadow:
+                5.1px 0.9px 10px rgba(0, 0, 0, 0.015),
+                41px 7px 80px rgba(0, 0, 0, 0.03);
+    }
+
+    .container-fluid {
+        padding: 20px;
+    }
+
+    .titles {
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 20px;
+    }
+
+    .content-box {
+        width: 100%;
+    }
+
+    .content-box>ul>li {
+        width: calc(25% - 20px);
+        padding: 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .content-box>ul>li .tit {
+        color: #999;
+        display: inline-block;
+    }
+
+    .content-box>ul>li .img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .content-box>ul>li .img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-box>ul>li .cont {
+        display: inline-block;
+    }
+</style>
+
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                基本信息
+            </div>
+            <div class="content-box">
+                <ul>
+                    <li>
+                        <div class="tit">所属商户:</div>
+                        <div class="cont">
+                            {$detail.seller.nickname|default=''}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tit">头像:</div>
+                        <div class="cont">
+                            <img src="{$row.image}" data-original="{$row.image}" height="40">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tit">姓名:</div>
+                        <div class="cont">
+                               {$row.name}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tit">电话:</div>
+                        <div class="cont">{$row.mobile}</div>
+                    </li>
+                    <li>
+                        <div class="tit">openid:</div>
+                        <div class="cont">{$row.openid}</div>
+                    </li>
+                    <li>
+                        <div class="tit">状态:</div>
+                        <div class="cont">{$row.status_text}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                附件
+            </div>
+            <div class="content-box">
+                <ul>
+                    <li>
+                        <div class="tit">身份证正反面:</div>
+                        <div class="cont"><a href="{$row.idcard_front_back}" target="_blank">查看文件</a></div>
+                    </li>
+                    <li>
+                        <div class="tit">核验人诚信协议:</div>
+                        <div class="cont"><a href="{$row.trust_agreement}" target="_blank">查看文件</a></div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                审核信息及记录
+            </div>
+            <div class="content-box">
+                <form name="form-builder" class="col-12 form_builder" method="post"
+                      action="/admin/MerchantVerifier/check.html">
+                    <input type="hidden" name="id" value="{$row.id}" id="id" readonly="readonly">
+                    <div class="row dd_input_group no-gutters ">
+                        <label class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label"
+                               for="status">审核记录</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            {notempty name="ExamineRecord"}
+                            <div class="row dd_input_group no-gutters">
+                                <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0"
+                                       bordercolor="#ced4da">
+                                    <tr style="background-color: #eff3f8;">
+                                        <td width="40" height="30" align="center">序号</td>
+                                        <td width="80" align="center">审核人</td>
+                                        <td width="120" align="center">审核时间</td>
+                                        <td width="120" align="center">审核状态</td>
+                                        <td align="center">审核备注</td>
+                                    </tr>
+                                    {volist name="ExamineRecord" k="key" id="vo"}
+                                    <tr>
+                                        <td height="30" align="center">{$key + 1}</td>
+                                        <td align="center">{$vo.admin.nickname}</td>
+                                        <td align="center">{$vo.create_time}</td>
+                                        <td align="center">
+                                            {if $vo.approve==1}
+                                            审核通过
+                                            {else /}
+                                            拒绝通过
+                                            {/if}
+                                        </td>
+                                        <td align="center">{$vo.remark}</td>
+                                    </tr>
+                                    {/volist}
+                                </table>
+
+                            </div>
+                            {/notempty}
+                        </div>
+                    </div>
+                    {if $row['status'] == 2}
+                    <div class="row dd_input_group no-gutters " id="form_group_status">
+                        <label class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label is-required"
+                               for="status">审核</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 dd_radio_lable_left border-white">
+                            <div class="icheck-peterriver icheck-inline">
+                                <input type="radio" name="approve" class="dd_radio" id="status1" value="1">
+                                <label for="status1">通过审核</label>
+                            </div>
+                            <div class="icheck-peterriver icheck-inline">
+                                <input type="radio" name="approve" class="dd_radio" id="status3" value="0">
+                                <label for="status3">拒绝通过</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row dd_input_group no-gutters">
+                        <label
+                                class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label is-required">审核备注</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            <textarea class="form-control" name="remark" rows="3" placeholder="请输入审核备注"></textarea>
+                        </div>
+                    </div>
+                    <div class="row dd_input_group form-builder-submit no-gutters">
+                        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                            <button type="submit" class="btn btn-flat btn-primary">提 交</button>
+                            <button type="button" class="btn btn-flat btn-default"
+                                    onclick="javascript :history.back(-1)">返
+                                回</button>
+                        </div>
+                    </div>
+                    {/if}
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script src="/static/plugins/viewer/viewer.js"></script>
+<link rel="stylesheet" href="/static/plugins/viewer/viewer.css">
+<script>
+    setTimeout(() => {
+        const dom = document.getElementById('viewer');
+        const dom1 = document.getElementById('viewer1');
+        new Viewer(dom, {
+            url: 'data-original'
+        });
+        new Viewer(dom1, {
+            url: 'data-original'
+        });
+        const doms = document.querySelector('#constent-box');
+        const domVal = doms.innerHTML;
+        doms.innerHTML ='';
+        doms.innerHTML = domVal;
+    }, 500);
+    const dataConstent = $("#constent-box").attr("data-constent");
+    $("#constent-box").html(dataConstent)
+</script>

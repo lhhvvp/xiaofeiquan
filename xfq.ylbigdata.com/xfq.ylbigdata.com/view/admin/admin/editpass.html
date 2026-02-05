@@ -1,0 +1,151 @@
+<!--内容开始-->
+<div class="callout callout-info">
+        <input type="hidden" name="id" id="id" value="{$row.id}">
+
+        <div class="row dd_input_group no-gutters" id="form_group_username">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label"
+            for="username">
+                用户名
+            </label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" type="text" id="username"
+                value="{$row.username}" disabled>
+            </div>
+        </div>
+        <div class="row dd_input_group no-gutters " id="form_group_password">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="password">
+                密码
+            </label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" type="password" id="password" name="password"
+                value="" placeholder="请输入原始密码">
+            </div>
+        </div>
+        <div class="row dd_input_group no-gutters " id="form_group_password">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="newpassword">
+                新密码
+            </label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" type="password" id="newpassword" name="newpassword"
+                value="" placeholder="请输入新密码">
+            </div>
+            <div class="col-12 offset-sm-2 offset-md-2 offset-lg-0 offset-xl-0 col-sm-10 col-md-10 col-lg-4 col-xl-7 dd_ts">
+                <small class="text-muted">
+                    <i class="fa fa-info-circle">
+                    </i>
+                    密码由数字、字母大小写、特殊字符组成的8-16位字符串
+                </small>
+            </div>
+        </div>
+
+        <div class="row dd_input_group no-gutters " id="form_group_password">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="aginpassword">
+                再次输入密码
+            </label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" type="password" id="aginpassword" name="aginpassword"
+                value="" placeholder="请再次输入新密码">
+            </div>
+        </div>
+        <input type="hidden" name="__token__" value="{:token()}" />
+        <div class="row dd_input_group" style="margin-left:20rem;">
+            <button class="btn btn-flat btn-primary login"  lay-submit lay-filter="LAY-user-login-submit">提 交</button>
+        </div>
+        </div>
+</div>
+<!--内容结束-->
+<script>
+// ceshi..
+$(function () {
+    // 后台登录
+    $(".login").click(function () {
+        var id = $("#id").val();
+        var password     = $("#password").val();
+        var newpassword  = $("#newpassword").val();
+        var aginpassword = $("#aginpassword").val();
+        var __token__ = $("input[name='__token__']").val();
+        if (!password) {
+            layer.alert('请输入原始密码', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='password']").focus();
+            });
+            return false;
+        };
+        if (!newpassword) {
+            layer.alert('请输入新密码', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='newpassword']").focus();
+            });
+            return false;
+        };
+        if (!aginpassword) {
+            layer.alert('请输入原始密码', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='aginpassword']").focus();
+            });
+            return false;
+        };
+        if (password == newpassword) {
+            layer.alert('新密码与旧密码一样', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='newpassword']").focus();
+            });
+            return false;
+        }
+        if (newpassword != aginpassword) {
+            layer.alert('两次密码不一致', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='aginpassword']").focus();
+            });
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            url: "/admin/admin/editpassPost",
+            data: {
+                id:id,
+                password: password,
+                newpassword: newpassword,
+                aginpassword: aginpassword,
+                __token__: __token__,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.error == 1) {
+                    layer.alert(data.msg, {
+                        icon: 2
+                    }, function (index) {
+                        layer.close(index);
+                    });
+                }
+                if(data.error == 0) {
+
+                    setTimeout(function(){
+                       window.parent.location.reload(); 
+                    }, 3000);
+                    layer.alert(data.msg, {
+                        icon: 1
+                    });
+                }
+            },
+            error: function (xhr) {
+
+            }
+        });
+
+    })
+})
+</script>

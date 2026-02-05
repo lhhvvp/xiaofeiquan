@@ -1,0 +1,46 @@
+<!--内容开始-->
+<section class="content">
+<div class="container-fluid">
+    <div class="row">
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/System/setPolicy.html" >
+            <input type="hidden" name="id" value="{$system.id}">
+            <div class="row dd_input_group no-gutters " id="form_group_service">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="service">服务协议</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                    <textarea id="service" name="service"  style="width:100%;height: 400px">{$system.service}</textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('service', {height: '400px'});
+            </script>
+
+            <div class="row dd_input_group no-gutters " id="form_group_policy">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="policy">隐私政策</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                    <textarea id="policy" name="policy"  style="width:100%;height: 400px">{$system.policy}</textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('policy', {height: '400px'});
+            </script>
+
+            <div class="row dd_input_group no-gutters " id="form_group_act_rule">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="act_rule">活动规则</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                    <textarea id="act_rule" name="act_rule"  style="width:100%;height: 400px">{$system.act_rule}</textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('act_rule', {height: '400px'});
+            </script>
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary ">提 交</button>
+                    <button type="button" class="btn btn-flat btn-default " onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div>
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+</section>

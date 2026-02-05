@@ -1,0 +1,153 @@
+<style>
+    .imgClass{
+        width: 100%;
+        height: 100%;
+        height: 38px;
+
+    }
+    .imgClass img{
+        height: 100%;
+    }
+</style>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/SellerMarkQc/editPost.html">
+                <input class="form-control" type="hidden" id="id" name="id" value="{$sellerMarkQc.id}">
+                <input class="form-control" type="hidden"         name="seller_id" value="{$sellerMarkQc.seller_id}">
+                <div class="row dd_input_group no-gutters " id="form_group_seller_id">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                           for="seller_id">商户名称</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <select class="form-control" id="seller_id" name="seller_id" onchange="selectChange(this)" disabled>
+                            <option value="{$sellerMarkQc.seller_id}">请选择</option>
+                            {volist name="seller_list" id="item"}
+                            <option value="{$item.id}" {if $sellerMarkQc.seller_id==$item.id}selected{/if}>
+                                【{$sellerClassArr[$item.class_id]}】： {$item.nickname}
+                            </option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_day_threshold_value">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                           for="day_threshold_value">每日打卡阈值</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="day_threshold_value" name="day_threshold_value" value="{$sellerMarkQc.day_threshold_value}" placeholder="请输入每日打卡阈值（次）">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters" id="form_group_range">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                           for="day_threshold_value">打卡范围 [米]</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="range" name="range" value="{$sellerMarkQc.range}" placeholder="请输入打卡范围（米）">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label" for="day_threshold_value">预览二维码</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <a class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 btn btn-success btn-xs" style="width:300px;display: flex;align-items: center;justify-content: center;" href="javascript:;" onclick="preview();">
+                            点击预览
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                            class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+</section>
+<!--内容结束-->
+<script>
+    function preview() {
+        var seller_id = $("#seller_id").val();
+        var day_threshold_value = $("#day_threshold_value").val();
+        var range = $("#range").val();
+
+        if (day_threshold_value == '' || day_threshold_value == 0) {
+            layer.alert('请输入每日打卡阈值', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='day_threshold_value']").focus();
+            });
+            return false;
+        }
+
+        if (day_threshold_value < 1 || day_threshold_value > 10000) {
+            layer.alert('每日打卡阈值范围为【1~10000】次', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='day_threshold_value']").focus();
+            });
+            return false;
+        }
+
+        if (day_threshold_value != (day_threshold_value | 0)) {
+            layer.alert('请确认每日打卡阈值是否为整数', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='day_threshold_value']").focus();
+            });
+            return false;
+        }
+
+        if (range == '' || range == 0) {
+            layer.alert('请输入打卡范围', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='range']").focus();
+            });
+            return false;
+        }
+
+        if (range < 1 || range > 10000) {
+            layer.alert('打卡范围为【1~10000】米', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='range']").focus();
+            });
+            return false;
+        }
+
+        if (range != (range | 0)) {
+            layer.alert('请确认打卡范围是否为整数', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='range']").focus();
+            });
+            return false;
+        }
+
+        var url = '/admin/SellerMarkQc/preview?_layer=1&seller_id=' + seller_id + '&day_threshold_value=' + day_threshold_value;
+        let index = layer.open({
+            type: 2,
+            maxmin: false,
+            shade: 0.3,
+            title: '预览二维码',
+            fix: false,
+            area: ['290px', '290px'],
+            content: url,
+            cancel: function () {
+                return true;
+            }
+        });
+    }
+</script>

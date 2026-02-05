@@ -1,0 +1,358 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <div style="background-color:#fff;width: 100%;border-radius: .25rem;margin-top: 10px;">
+        <div class="head-box">
+            <div class="item">
+                <span class="item-icon">
+                    <i class="nav-icon fa fa-check"></i>
+                </span>
+                选择收据
+            </div>
+            <div class="item"></div>
+            <div class="item">
+                <span class="item-icon-not">2</span>
+
+                确认信息
+            </div>
+        </div>
+    </div>
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>消费券名称：</label>
+                                <input type="text" id="search_coupon_title" name="coupon_title" placeholder="请输入消费券名称"
+                                    value="">
+                            </li>
+                            <li>
+                                <label>核销时间： </label>
+                                <input type="text" id="search_create_time" name="create_time" placeholder="请选择核销时间"
+                                    value="" daterange="true" autocomplete="off" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a
+                                    class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input
+                                    class="hide" type="submit" name="btnSave" value="提交"
+                                    onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-warning" onclick="$.table.export()">
+                        <i class="fa fa-download"></i> 导出 </a>
+
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+            <div class="col-lg-5">
+                <a class="btn btn-warning" onclick="allSels()">全选</a>
+                <a class="btn btn-warning" onclick="unAllSels()">反选</a>
+                <a class="btn btn-warning" onclick="getSels()">核算→</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        let selectionIds = null;
+        $(function () {
+            window.sessionStorage.setItem('downSessionData', JSON.stringify([]));
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/travel/data/guest.html?getList=1",      // 请求后台的URL
+                exportUrl: "/travel/data/export.html",    // 导出的地址
+                sortUrl: "/travel/data/sort.html",      // 排序的地址
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: true,			// 是否进行分页
+                parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: false,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "15",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                showRefresh: true,                  //是否显示刷新按钮
+                //showFooter:true, //开启底部
+                responseHandler: function (res) {
+                    return res
+                },
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            let getSessionData = JSON.parse(window.sessionStorage.getItem('downSessionData'));
+                            if (getSessionData.some(item => item.id === row.id)) {
+                                return {
+                                    checked: true
+                                }
+                            }
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: false,
+                    },
+                    {
+                        field: 'uuno',
+                        title: '消费券编码',
+                        sortable: false
+                    },
+                    {
+                        field: 'coupon_title',
+                        title: '消费券名称',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'coupon_price',
+                        title: '面额',
+                        sortable: false,
+                    },
+                    // {
+                    //     field: 'use_min_price',
+                    //     title: '低消',
+                    //     sortable: false,
+                    // },
+                    {
+                        field: 'userid',
+                        title: '消费者',
+                        sortable: false,
+                    },
+                    {
+                        field: 'create_time',
+                        title: '核销时间',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    // {
+                    //     field: 'right_button',
+                    //     title: '操作',
+                    //     sortable: false,
+                    //     class: 'text-nowrap',
+                    //     formatter: function (value, row, index) {
+                    //     }
+                    // },
+                ]
+            };
+            $.table.init(options);
+            $("input[name=btSelectAll]").hide();
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        $("#bootstrap-table").on("check.bs.table", function (e, row, $element) {
+            //点击CheckBox触发事件        
+            addSessionData(row, 'downSessionData');
+        });
+
+        $("#bootstrap-table").on("uncheck.bs.table", function (e, row, $element) {
+            //点击取消复选框
+            deletSessionData(row, 'downSessionData');
+        });
+
+        // $("#bootstrap-table").on("check-all.bs.table", function (e, row, $element) {
+        //     //点击CheckBox触发全选事件
+        //     allCheckAddSession(row, 'downSessionData');
+        // });
+
+        // $("#bootstrap-table").on("uncheck-all.bs.table", function (e, row, $element) {
+        //     //点击取消全选复选框
+        //     deletAllCheckSession(row, 'downSessionData');
+        // });
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        function allSels() {
+            $("#bootstrap-table").bootstrapTable('checkAll');
+            var rows = $('#bootstrap-table').bootstrapTable('getSelections');
+            let data = rows.map((item) => {
+                return { id: item.id, coupon_price: item.coupon_price }
+            });
+
+            allCheckAddSession(data, 'downSessionData');
+
+        }
+        function unAllSels() {
+            let getSessionData = JSON.parse(window.sessionStorage.getItem('downSessionData'));
+            deletAllCheckSession(getSessionData, 'downSessionData');
+            $.table.refresh('refresh');
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        function getSels() {
+            // var rows = $('#bootstrap-table').bootstrapTable('getSelections');
+            let rows = JSON.parse(window.sessionStorage.getItem('downSessionData'));
+            var len = rows.length;
+            if (len == 0) {
+                $.modal.msg('您没选择数据', "error");
+                return false;
+            };
+
+            var sum = 0;
+            let ids = [];
+            for (var i = 0; i < len; i++) {
+                sum += parseFloat(rows[i].coupon_price);
+                ids.push(rows[i].id);
+            }
+            $.modal.confirm(`已选择${len}条数据,共计待核算金额：${sum.toFixed(2)} 元`, function (e) {
+                let data = {
+                    sum_coupon_price: sum.toFixed(2),
+                    ids: ids.join(","),
+                };
+                data = JSON.stringify(data);
+                window.location.href = `/travel/data/accounting_form.html?data=${data}`;
+            })
+
+
+        }
+        //公共方法
+
+        //分页选中添加存储
+        function addSessionData(data, fageName) {
+            let downSelectData = JSON.parse(window.sessionStorage.getItem(fageName));
+            if (downSelectData && downSelectData.length > 0) {
+                if (downSelectData.every(key => key.id !== data.id)) {
+                    downSelectData.push(data);
+                }
+            } else {
+                downSelectData = [];
+                downSelectData.push(data);
+            }
+            window.sessionStorage.setItem(fageName, JSON.stringify(downSelectData));
+        };
+
+        //分页选中删除存储
+        function deletSessionData(data, fageName) {
+            let downSelectData = JSON.parse(window.sessionStorage.getItem(fageName));
+            downSelectData.forEach((item, i) => {
+                if (item.id === data.id) {
+                    downSelectData.splice(i, 1);
+                }
+            })
+            window.sessionStorage.setItem(fageName, JSON.stringify(downSelectData));
+        }
+
+        //全部选中添加存储
+        function allCheckAddSession(datas, fageName) {
+            let downSelectData = JSON.parse(window.sessionStorage.getItem(fageName));
+            if (downSelectData && downSelectData.length > 0) {
+                datas.forEach(item => {
+                    if (downSelectData.every(keys => keys.id !== item.id)) {
+                        downSelectData.push(item);
+                    }
+                })
+            } else {
+                downSelectData = datas;
+            }
+            window.sessionStorage.setItem(fageName, JSON.stringify(downSelectData));
+        }
+        //全部取消选中删除存储
+        function deletAllCheckSession(datas, fageName) {
+            let downSelectData = JSON.parse(window.sessionStorage.getItem(fageName));
+            datas.forEach(item => {
+                downSelectData.forEach((keys, key) => {
+                    if (item.id === keys.id) {
+                        downSelectData.splice(key, 1);
+                    }
+                })
+            })
+            window.sessionStorage.setItem(fageName, JSON.stringify(downSelectData));
+        }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+    <style>
+        .head-box {
+            margin: auto;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            width: 500px;
+        }
+
+        .head-box .item {
+            position: relative;
+            display: flex;
+            font-weight: bold;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .head-box .item:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .head-box .item .item-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+            background-color: #204d74;
+        }
+
+        .head-box .item .item-icon-not {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #204d7490;
+            font-size: 16px;
+            border: 2px solid #204d7490;
+        }
+
+        .head-box .item:nth-of-type(2)::after {
+            content: "";
+            width: 90%;
+            height: 4px;
+            border-radius: 20px;
+            position: absolute;
+            background-color: #204d74;
+        }
+    </style>
+</section>

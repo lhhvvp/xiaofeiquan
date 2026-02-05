@@ -1,0 +1,217 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!--渲染器-->
+    <meta name="renderer" content="webkit">
+    <!--优先使用最新版本的IE 和 Chrome 内核-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>
+        {$system.name} | 登录
+    </title>
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/admin/css/style.css?v=20210521">
+    <script src="/static/plugins/layui/layui.js">
+    </script>
+    <script src="/static/plugins/layui/js/jquery.min.js">
+    </script>
+    <script>
+        layui.use('layer',
+            function () {
+                var $ = layui.jquery, layer = layui.layer;
+            })
+    </script>
+</head>
+
+<body>
+    {if $mobile==false }
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: url("/static/admin/images/login-bg.jpg") no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        .cavs {
+            z-index: 1;
+            position: fixed;
+            width: 95%;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .bg-box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .v-code img {
+            width: 100%;
+        }
+    </style>
+    <script src="/static/admin/js/bg.js"></script>
+    <canvas class="cavs" width="1920" height="937"></canvas>
+    {/if}
+    <div class="bg-box">
+        <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login">
+
+            <div class="login-logo" style="background: url('/static/admin/images/logo-bg3.png');">
+
+            </div>
+            <div class="login-title">{$system.name}</div>
+            <div class="layadmin-user-login-main">
+                <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                            for="LAY-user-login-username">
+                        </label>
+                        <input type="text" name="username" id="LAY-user-login-username" lay-verify="required"
+                            placeholder="用户名" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                            for="LAY-user-login-password">
+                        </label>
+                        <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"
+                            placeholder="密码" class="layui-input">
+                    </div>
+                    {if $system.code}
+                    <div class="layui-form-item">
+                        <div class="layui-row">
+                            <div class="layui-col-xs5">
+                                <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                                    for="LAY-user-login-vercode">
+                                </label>
+                                <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required"
+                                    maxlength="5" placeholder="验证码" class="layui-input">
+                            </div>
+                            <div class="layui-col-xs7">
+                                <div class="v-code" style="margin-left: 10px;">
+                                    {:captcha_img()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+                    <div class="layui-form-item" style="margin-top: 25px;">
+                        {:token_field('__travel__token__', 'md5')}
+                        <div class="layui-row">
+                            <div class="layui-col-xs9">
+                                <button class="layui-btn layui-btn-lg layui-btn-fluid login" lay-submit
+                                    lay-filter="LAY-user-login-submit">
+                                    登 录
+                                </button>
+                            </div>
+                            <div class="layui-col-xs3">
+                                <button class="layui-btn  layui-btn-primary layui-border-blue forget" id="forget"
+                                    style="width: 95%;margin-left: 5%;">
+                                    注 册
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%;color: #b3b3b3;text-align: center;font-size: 12px;"><a
+                            href="/seller/forgetpwd" style="color: #b3b3b3;">忘记密码? </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%;color: #fff;text-align: center;font-size: 12px;position:fixed; bottom: 20px;">
+            技术支持：榆林大数据有限公司
+        </div>
+    </div>
+
+    <script src="/static/admin/js/T9RZOg959U/crypto-js.js"></script>
+    <script src="/static/admin/js/T9RZOg959U/T9RZOg959U.js"></script>
+    <script src="/static/admin/js/T9RZOg959U/md5.js"></script>
+    <script>
+        // 回车触发登录
+        $(document).keyup(function (event) {
+            if (event.keyCode == 13) {
+                $(".login").trigger("click");
+            }
+        });
+        $("#forget").click(() => {
+            window.location.href = '/seller/register';
+        });
+        $(function () {
+            // 后台登录
+            $(".login").click(function () {
+                var username = $("input[name='username']").val();
+                var password = $("input[name='password']").val();
+                var __travel__token__ = $("input[name='__travel__token__']").val();
+                var vercode = $("input[name='vercode']").val();
+                var pubkey = { username, password, __travel__token__, vercode };
+                if (!username) {
+                    layer.alert('请输入用户名', {
+                        icon: 2
+                    }, function (index) {
+                        layer.close(index);
+                        $("input[name='username']").focus();
+                    });
+                    return false;
+                }
+                if (!password) {
+                    layer.msg('请输入密码', {
+                        icon: 2
+                    });
+                    $("input[name='password']").focus();
+                    return false;
+                };
+                pubkey = sm2Encrypt(JSON.stringify(pubkey), 0, 1);
+                password = hex_md5(password);
+                $.ajax({
+                    type: "post",
+                    url: "{:url('travel/login/checkLogin')}",
+                    data: {
+                        username: username,
+                        password: password,
+                        vercode: vercode,
+                        __travel__token__: __travel__token__,
+                        pubkey: pubkey,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error == 1) {
+                            layer.alert(data.msg, {
+                                icon: 2
+                            }, function (index) {
+                                layer.close(index);
+                                // $(".layadmin-user-login-codeimg").attr("src", $(".layadmin-user-login-codeimg").attr("src") + '?' + Math.random());
+                                $(".v-code img").trigger("click")
+                                $("input[name='vercode']").val('').focus();
+                            });
+                        } else if (data.error == 2) {
+                            layer.msg(data.msg, {
+                                icon: 2
+                            });
+                            setTimeout(() => {
+                                window.location.href = data.href;
+                            }, 1500)
+                        } else if (data.error == 3) {
+                            layer.msg(data.msg, {
+                                icon: 2
+                            });
+                            setTimeout(() => {
+                                window.location.href = data.href;
+                            }, 1500)
+                        } else {
+                            window.location.href = data.href;
+                        }
+                    },
+                    error: function (xhr) {
+
+                    }
+                });
+
+            })
+        })
+    </script>
+</body>
+
+</html>

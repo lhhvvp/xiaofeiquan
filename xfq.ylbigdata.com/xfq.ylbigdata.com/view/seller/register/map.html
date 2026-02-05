@@ -1,0 +1,69 @@
+{__NOLAYOUT__}
+<link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
+<script src="/static/plugins/layui/layui.js"></script>
+<script src="/static/plugins/layui/js/jquery.min.js"></script>
+<div class="layui-form layuimini-form">
+
+    <div class="col-12 search-collapse">
+        <div id="container" style="height: 340px;"></div>
+    </div>
+    <div class="layui-form-item" style="margin-top:20px;">
+        <label class="layui-form-label required" style="width:200px;">地址名称</label>
+        <div class="layui-input-inline" style="width: 300px;">
+            <input name="title" placeholder="请输入榆林市内的某个地址" id="address"  required lay-verify="required" class="layui-input" type="text" autocomplete="off" />
+        </div>
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" id='geo' lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+        </div>
+        <label class="layui-form-label required" style="text-align: left;margin-left: -105px">经度</label>
+        <div class="layui-input-inline" style="margin-left: -103px">
+            <input type="text" name="longitude" id="longitude" class="layui-input" required lay-verify="required">
+        </div>
+         <label class="layui-form-label required" style="text-align: left;margin-left: -15px">纬度</label>
+        <div class="layui-input-inline" style="margin-left: -100px">
+            <input type="text" name="latitude" id="latitude" class="layui-input" required lay-verify="required">
+        </div>
+        <div class="layui-form-mid layui-word-aux"><span style="color: red">地图自适应展示所有已存在的位置</span></div>
+        <div class="layui-input-inline">
+            <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+    <!--点击标记显示窗体信息-->
+    <div class="info">
+        <div id="centerCoord"></div>
+        <div id="tips"></div>
+    </div>
+    <!--点击标记显示窗体信息-->
+</div>
+<!--map start-->
+<script src="/static/admin/js/loader.js"></script>
+<script src="/static/admin/js/map.js"></script>
+<!--map end-->
+<script type="text/javascript">
+    //***************************地图多点标记**********************************//
+    
+    //***************************地图多点标记**********************************//
+    layui.use(['form'], function () {
+        let       $ = layui.jquery;
+        const form  = layui.form;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            // console.log(data);return;
+            // 将字段存入本地local，关闭页面后调取
+            layui.data('_coordinate_info_', {
+                key: 'data',value: data.field
+            });
+            // 存储后自动关闭页面
+            closeWindow();
+        });
+        
+        // 关闭当前弹出层
+        function closeWindow(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    });
+</script>
+</body>
+</html>

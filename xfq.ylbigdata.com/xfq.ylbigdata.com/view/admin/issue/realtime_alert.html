@@ -1,0 +1,54 @@
+<style>
+    .main{
+        width: 80%;
+        margin: auto;
+        padding: 20px 0;
+    }
+    .main .items{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+    }
+    .main .item{
+        width: 30%;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        padding: 30px 20px;
+        flex-direction: column;
+        color: #ffffff;
+    }
+    .main .item .number{
+        font-weight: bold;
+        font-size: 40px;
+    }
+    .main .item .title{
+        font-size: 16px;
+    }
+    .greenBg {
+        background-color: #2fc7d3;
+    }
+    .blueBg {
+        background-color: #349adf;
+    }
+    .redBg {
+        background-color: #dc3545;
+    }
+</style>
+<div class="main">
+    <div class="items">
+        <div class="item redBg">
+            <div class="number">{$total.total}</div>
+            <div class="title">核销预警</div>
+        </div>
+        <div class="item blueBg">
+            <div class="number">{$total.sing}</div>
+            <div class="title">散客核销预警</div>
+        </div>
+        <div class="item greenBg">
+            <div class="number">{$total.tour}</div>
+            <div class="title">团体核销预警</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+{// css}
+{include file="accounting/css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+</style>
+<section class="content">
+    <div class="container-fluid" style="padding: 20px 0">
+            <div class="callout callout-info">
+                <h5>领取信息</h5> 
+                <div>
+                    <div class="p-30">
+                        领取人：{$detail.users.name}
+                    </div>
+                    <div class="p-30">
+                        领取时间：{$detail.create_time}
+                    </div>
+                    <div class="p-30">
+                        身份证号：{$detail.users.idcard}
+                    </div>
+                    <div class="p-30">
+                        手机号：{$detail.users.mobile}
+                    </div>
+                    <div class="p-30">
+                        是否实名认证：{$detail.users.auth_status ==1 ? '是':'否'}
+                    </div>
+                    <div class="p-30">
+                        领取人注册地址：{$detail.users.province}-{$detail.users.city}-{$detail.users.district}
+                    </div>
+                    <div class="p-30">
+                        领取IP地址：{$detail.ips}
+                    </div>
+                    <div class="p-30">
+                        使用状态：{switch $detail.status}
+                                    {case 1}已使用{/case}
+                                    {case 2}已过期{/case}
+                                    {default /}未使用
+                                {/switch}
+                    </div>
+                    <div class="p-30">
+                        过期时间：{$detail.expire_time|date='Y-m-d H:i'}
+                    </div>
+                    <div class="p-30">
+                        使用时间：{if $detail.time_use > 0} {$detail.time_use|date='Y-m-d H:i'} {else /} - {/if}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>消费券信息</h5>
+                <div>
+                    <div class="p-30">
+                        名称：{$detail.coupon_title}
+                    </div>
+                    <div class="p-30">
+                        分类：{$detail.couponClass.title}
+                    </div>
+                    <div class="p-30">
+                        金额：{$detail.couponIssue.coupon_price}
+                    </div>
+                </div>
+            </div>
+
+        <div class="callout callout-info">
+            <h5>地图展示</h5>
+            <div id="maps" style="width: 100%;height: 300px;"></div>
+        </div>
+
+            <div class="callout callout-info">
+                <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                    <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                        回</button>
+                </div>
+            </div>
+        </div>
+</section>
+<script charset="utf-8"
+        src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+<script>
+    function back() {
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    };
+    //中心点,标记点
+    const locations = {
+        lat: '{$detail.latitude}',
+        lng: '{$detail.longitude}',
+    };
+    initMap();
+    //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+    function initMap() {
+        //定义地图中心点坐标
+        var center = new TMap.LatLng(locations.lat, locations.lng);
+        //定义map变量，调用TMap.Map构造函数创建地图
+        var map = new TMap.Map(document.getElementById('maps'), {
+            center: center,//设置地图中心点坐标
+            zoom: 14,   //设置地图缩放级别
+        });
+        //创建并初始化MultiMarker
+        var markerLayer = new TMap.MultiMarker({
+            map: map,  //指定地图容器
+            //样式定义
+            styles: {
+                //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                "myStyle": new TMap.MarkerStyle({
+                    "width": 25,  // 点标记样式宽度（像素）
+                    "height": 35, // 点标记样式高度（像素）
+                    "anchor": { x: 16, y: 32 }
+                })
+            },
+            geometries: [{
+                "id": "1",   //点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+                "styleId": 'myStyle',  //指定样式id
+                "position": new TMap.LatLng(locations.lat, locations.lng),  //点标记坐标位置
+            }]
+        });
+    };
+</script>
+<!--内容结束-->

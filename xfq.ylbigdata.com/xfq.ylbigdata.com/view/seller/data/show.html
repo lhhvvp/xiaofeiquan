@@ -1,0 +1,415 @@
+<style type="text/css">
+    .infobox {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .p-30 {
+        padding: 0 30px;
+        height: 30px;
+        line-height: 30px;
+        min-width: 300px;
+    }
+</style>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--顶部提示开始-->
+            <div style="background-color:#fff;width: 100%;border-radius: .25rem;margin-top: 10px;">
+                <div class="head-box">
+                    <div class="item">
+                        <span class="item-icon-not">1</span>
+                        选择收据
+                    </div>
+                    <div class="item"></div>
+                    <div class="item">
+                        <span class="item-icon">
+                            <i class="nav-icon fa fa-check"></i>
+                        </span>
+                        确认信息
+                    </div>
+                </div>
+            </div>
+            <!--顶部提示结束-->
+            <div class="callout callout-info">
+                <h5>基本信息</h5>
+                <div class="infobox">
+                    <div class="p-30">
+                        结算单号：{$accInfo.no}
+                    </div>
+                    <div class="p-30">
+                        结算金额：{$accInfo.sum_coupon_price} 元
+                    </div>
+                    <div class="p-30">
+                        结算数量：{$accInfo.writeoff_total} 条
+                    </div>
+                    <div class="p-30">
+                        商户名称：{$accInfo.nickname}
+                    </div>
+                    <div class="p-30">
+                        所属分类：{$accInfo.sellerClass.class_name}
+                    </div>
+                    <div class="p-30">
+                        所属区域：{$accInfo.area}
+                    </div>
+                    <div class="p-30">
+                        商户名称：{$accInfo.nickname}
+                    </div>
+                    <div class="p-30">
+                        收款账号：{$accInfo.card_name}
+                    </div>
+                    <div class="p-30">
+                        开户行：{$accInfo.card_deposit}
+                    </div>
+                    <div class="p-30">
+                        卡号：{$accInfo.cart_number}
+                    </div>
+                    <div class="p-30">
+                        申请时间：{$accInfo.create_time}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="callout callout-info">
+                <h5>附件信息</h5>
+                <!--申请核算的详细数据-->
+                {volist name="accInfo.data_url" k="key" id="form"}
+                    <a href="{$form}" class="btn btn-flat btn-primary" target="_blank">
+                        附件 {$key+1}
+                    </a>
+                {/volist}
+                <!--申请核算的详细数据-->
+            </div>
+            <div class="callout callout-info">
+            <h5></i>
+                申请核销记录
+            </h5>
+            <!--申请核算的详细数据-->
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+            <script>
+                $(function() {
+                    var options = {
+                        uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                        url           : "/seller/data/tour_write_off_ids.html?id={$accInfo.write_off_ids}&tags={$accInfo.tags}",      // 请求后台的URL
+                        sortUrl       : "/seller/data/sort.html",      // 排序的地址
+                        sortName      : "id",         // 排序列名称
+                        sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+                        pagination    : true,           // 是否进行分页
+                        parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                        clickToSelect : true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                        pageSize      : "10",         // 每页显示的行数
+                        layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+                        emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+                        fixedColumns  : true,                   // 是否启用固定列功能
+                        fixedLeft     : 0,          // 左侧固定列数
+                        fixedRight    : 1,         // 右侧固定列数
+                        columns: [
+                            {
+                                //field: 'state',
+                                checkbox: false,
+                                // 当某行包含checkbox_disabled时禁止选择
+                                formatter: function(value, row, index) {
+                                    if(row.checkbox_disabled =='1'){
+                                         return {
+                                             disabled : true
+                                        }
+                                     }
+                                }
+                            },
+                            {
+                                field: 'id',
+                                title: '编号',
+                                sortable: true,
+                            },
+                            {
+                                field: 'coupon_title',  
+                                title: '消费券名称', 
+                                sortable: false,                                                           
+                            },
+                            {
+                                field: 'coupon_price',  
+                                title: '消费券面额', 
+                                sortable: true,
+                                formatter: function(value, row, index) {
+                                    return HTMLDecode(value);
+                                }
+                            },
+                            // {
+                            //     field: 'name',
+                            //     title: '姓名', 
+                            //     sortable: true,
+                            //     formatter: function(value, row, index) {
+                            //         return value.users.name;
+                            //     }
+                            // },
+                            // {
+                            //     field: 'mobile',
+                            //     title: '手机号', 
+                            //     sortable: true,
+                            //     formatter: function(value, row, index) {
+                            //         return value.users.mobile;
+                            //     }
+                            // },
+                            // {
+                            //     field: 'idcard',
+                            //     title: '身份证号', 
+                            //     sortable: true,
+                            //     formatter: function(value, row, index) {
+                            //         return value.users.idcard;
+                            //     }
+                            // },
+                            {
+                                field: 'userid',  
+                                title: '核销人', 
+                                sortable: false,
+                                formatter: function(value,row,index) {
+                                    return row.users.name;
+                                }         
+                            },
+                            {
+                                field: 'create_time',  
+                                title: '核销时间', 
+                                sortable: false
+                            },
+                        ]
+                    };
+                    $.table.init(options);
+                });
+
+                // 搜索
+                function searchPre() {
+                    var data = {};
+                    $.table.search('', data);
+                }
+
+                // 重置搜索
+                function resetPre() {
+                    $.form.reset();
+                }
+                //HTML反转义
+                function HTMLDecode(text) {
+                    var temp = document.createElement("div");
+                    temp.innerHTML = text;
+                    var output = temp.innerText || temp.textContent;
+                    temp = null;
+                    return output;
+                }
+            </script>
+        </div>
+            <!--申请核算的详细数据-->
+            <div class="callout callout-info">
+                {volist name="AuditRecord" key="k" id="item"}
+                    <div class="left">
+                        {if $k==1}<h5>审核记录</h5>{/if}
+                        <div class="infobox">
+                            <div class="p-30">
+                                角色为 {$item.authGroup['title']} 的管理员 {$item.admin['nickname']} 在 {$item.create_time} 将记录的状态变更为
+                                {if $item.status==1}
+                                    <span class="badge badge-success">通过</span>
+                                {elseif $item.status==2}
+                                    <span class="badge badge-secondary">不通过</span>
+                                {elseif $item.status==3}
+                                    <span class="badge badge-primary">待审核</span>
+                                {else /}
+                                    <span class="badge badge-primary">{if $item.step==4}待付款{else /}待审核{/if}</span>
+                                {/if}，备注信息：{$item.remarks}
+                            </div>
+                        </div>
+                    </div>
+                {/volist}
+            </div>
+
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post"
+                action="/seller/data/accounting_data_url.html">
+                <input type="hidden" name="tour_accounting_id" value="{$accInfo.id}">
+                <input type="hidden" name="status" value="{$accInfo.status}">
+                <div class="form">
+                    <div class="dd_input_group">
+                        <div class="row no-gutters " id="form_group_coupon_price" style="margin-bottom: 10px;">
+                            <label
+                                class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                                for="coupon_price">备注</label>
+                            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4" style="max-width: 90%;flex: 80%;">
+                                <textarea class="form-control" name="remarks" placeholder="请输入内容"
+                                    style="min-height: 200px;">{$accInfo.remarks}</textarea>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" id="form_group_images_" {if $accInfo.back_status==1}style="width: 100%;display: none;"{/if}>
+                            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                                for='images_'>上传明细</label>
+                            <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                                <div class="more_images ">
+                                    <div id="more_images_images_">
+                                        <!-- <div class="row no-gutters">
+                                            <div class="col-4 col-sm-6">
+                                                <input type="text" name="data_url[]" class="form-control">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <input type="text" class="form-control input-sm">
+                                            </div>
+                                            <div class="col-4 col-sm-3">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-sm move_up_images">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-default btn-sm move_down_images">
+                                                        <i class="fa fa-chevron-down"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-sm remove_images">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                                <!--上传图片-->
+                                <!--用来存放item-->
+                                <div id="fileList_images_" class="uploader-list"></div>
+                                <div id="filePicker_images_"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                                <!--上传图片-->
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            webupload('fileList_images_', 'filePicker_images_', 'images__preview', 'images_', true, 'jpg,png,gif,jpeg,pdf', '0','file');
+                        </script>
+                    </div>
+                </div>
+
+            
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <!-- 如果状态等于待审核时，隐藏提交按钮 -->
+                        {if $accInfo.status==0 || $accInfo.status==2}
+                        <button type="submit" class="btn btn-flat btn-primary">提 交</button>
+                        {/if}
+
+                        {if $accInfo.status==3}
+                            <button type="submit" class="btn btn-flat btn-primary">撤 销</button>
+                        {/if}
+                        <button type="button" class="btn btn-flat btn-default" onclick="javascript :history.back(-1)">返
+                            回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+        <style>
+            body {
+                background-color: #f4f6f9;
+            }
+
+            .callout {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .form {
+                display: flex;
+            }
+
+            .info {
+                width: 30%;
+                padding-top: 10px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info .info-item {
+                width: 90%;
+                display: flex;
+            }
+
+            .info .info-item .title {
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            .dd_input_group {
+                width: 60%;
+            }
+            .dd_input_l{
+                overflow: inherit;
+            }
+
+            .f7f7f7 {
+                background-color: #f7f7f7;
+            }
+
+            .head-box {
+                margin: auto;
+                height: 50px;
+                display: flex;
+                justify-content: space-between;
+                width: 500px;
+            }
+
+            .head-box .item {
+                position: relative;
+                display: flex;
+                font-weight: bold;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .head-box .item:nth-of-type(2) {
+                width: 200px;
+            }
+
+            .head-box .item .item-icon {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 16px;
+                background-color: #204d74;
+            }
+
+            .head-box .item .item-icon-not {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #204d7490;
+                font-size: 16px;
+                border: 2px solid #204d7490;
+            }
+
+            .head-box .item:nth-of-type(2)::after {
+                content: "";
+                width: 90%;
+                height: 4px;
+                border-radius: 20px;
+                position: absolute;
+                background-color: #204d74;
+            }
+
+            .e75159 {
+                color: #e75159;
+                font-weight: bold;
+            }
+        </style>
+    </div>
+</section>

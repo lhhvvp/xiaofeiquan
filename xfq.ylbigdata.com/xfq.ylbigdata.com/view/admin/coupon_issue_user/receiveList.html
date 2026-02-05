@@ -1,0 +1,356 @@
+<!--内容开始-->
+<style>
+    #imports{
+        padding: 0;
+    }
+    .webuploader-pick{
+        width: 58% !important;
+        height: 28px;
+        padding: .25rem .5rem;
+        background-color: #28a745;
+    }
+</style>
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>消费券种类：</label> <select id="search_issue_coupon_class_id"
+                                                                   name="issue_coupon_class_id">
+                                <option value="">
+                                    所有
+                                </option>
+                                {volist name="class_list" id="item"}
+                                <option value="{$item.id}">
+                                    {$item.title}
+                                </option>
+                                {/volist}
+                            </select>
+                            </li>
+                            <li>
+                                <label>消费券标题： </label>
+                                <input type="text" id="search_coupon_title" name="coupon_title"
+                                       placeholder="请输入消费券标题"/>
+                            </li>
+                            <li>
+                                <label>领取编号： </label>
+                                <input type="text" id="search_receive_id" name="receive_id" placeholder="请输入领取ID"/>
+                            </li>
+                            <li>
+                                <label>领取人： </label>
+                                <input type="text" id="search_uid" name="uid" value=""/>
+                            </li>
+                            <li>
+                                <label>领取时间：</label> <input type="text" id="search_start_time" name="start_time" value="" daterange="true" autocomplete="off">
+                            </li>
+                            <li>
+                                <input class="hide" type="text" id="search_sign" name="sign" value="0"/>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="searchPre()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i class="fas fa-sync-alt"></i>&nbsp;重置</a>
+                                <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;"/>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <!--列表区域开始-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-warning" onclick="getNoSign()"><i class="fa fa-search"> 查询全部未签收快递信息 </i></a>&nbsp;
+                    <a class="btn btn-warning" onclick="$.table.export()"><i class="fa fa-download"></i> 导出 </a>
+                    <a class="btn"><div id="imports"><i class="fa fa-upload"></i> 导入  </div></a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id", // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/admin/CouponIssueUser/receiveList.html?getList=1",   // 请求后台的URL
+                exportUrl: "/admin/CouponIssueUser/export_receive.html",    // 导出的地址
+                sortUrl: "/admin/CouponIssueUser/sort.html",                // 排序的地址
+                sortName: "id",                 // 排序列名称
+                sortOrder: "desc",              // 排序方式  asc 或者 desc
+                pagination: true,			    // 是否进行分页
+                parentIdField: "",              // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,	        // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",                 // 每页显示的行数
+                layerOpen: "1",                 // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",   // 空数据提示信息
+                fixedColumns: true,             // 是否启用固定列功能
+                fixedLeft: 0,                   // 左侧固定列数
+                fixedRight: 1,                  // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'issue_coupon_class_id',
+                        title: '消费券种类',
+                        sortable: false, formatter: function (value, row, index) {
+                            return (row.couponClass.title);
+                        }
+                    },
+                    {
+                        field: 'coupon_title',
+                        title: '消费券名称',
+                        sortable: true
+                    },
+                    {
+                        field: 'uid',
+                        title: '用户id',
+                        sortable: true
+                    },
+                    {
+                        field: 'uid',
+                        title: '领取人',
+                        sortable: true, formatter: function (value, row, index) {
+                            return (row.users.name);
+                        }
+                    },
+                    {
+                        field: 'delivery_user',
+                        title: '收货人',
+                        sortable: false,
+                    },
+                    {
+                        field: 'delivery_phone',
+                        title: '收货手机号',
+                        sortable: false,
+                    },
+                    {
+                        field: 'delivery_address',
+                        title: '收货地址',
+                        sortable: false
+                    },
+                    {
+                        field: 'tracking_number',
+                        title: '快递单号',
+                        sortable: false
+                    },
+                    {
+                        field: 'delivery_input_time',
+                        title: '快递填写时间',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class: 'text-nowrap',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+
+                            //存在物流单号
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="seeTracking(\'' + row.id + '\')"><i class="fa fa-edit"></i> 查看</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="editTracking(\'' + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                            if((row.tracking_number == '') && (row.delivery_input_time != 0)){
+                                //不存在物流单号
+                                actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="addTrackingNumber(\'' + row.id + '\')"><i class="fa fa-edit"></i> 录入快递单号</a> ');
+                            }
+
+                            return actions.join('');
+                        }
+
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            $("#search_sign").val(0);
+            $.table.search('', {});
+        }
+
+        //获得所有未签收快递信息
+        function getNoSign(url){
+            $("#search_form")[0].reset();
+            $('select.select2').val(null).trigger("change");
+
+            $("#search_sign").val(1);
+            $.table.search('', {});
+        }
+
+        function isMobile() {
+            let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return flag;
+        }
+
+        function seeTracking(id) {
+            var url = '/admin/CouponIssueUser/seeTracking.html?id=' + id;
+            let area = [];
+            if (isMobile()) {
+                area = [100 + '%', 100 + '%']
+            } else {
+                area = [900 + 'px', 800 + 'px']
+            }
+
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                var index = layer.open({
+                    type: 2,
+                    maxmin: true,
+                    shade: 0.3,
+                    title: '查看',
+                    fix: false,
+                    area: area,
+                    content: url,
+                    cancel: function () {
+                        return true;
+                    }
+                });
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+
+        function editTracking(id) {
+            var  url = '/admin/CouponIssueUser/editTracking.html?id='+id;
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                $.modal.open("编辑", url,600,620);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+
+        function addTrackingNumber(id) {
+            var  url = '/admin/CouponIssueUser/addTrackingNumber.html?id='+id;
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                $.modal.open("填写快递单号", url,600,620);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+
+        webuploadimport();
+        /**
+         * 封装上传组件
+         * @param list
+         * @param filePicker_image
+         * @param image_preview
+         * @param image
+         * @param more            是否图集
+         * @param upload_allowext 格式限制
+         * @param size            大小限制
+         * @param type            上传类型[file/img]
+         */
+        function webuploadimport() {
+            var size = 10 * 1024 * 1024;
+            var upload_allowext = 'xls,xlsx';
+            type = 'file';
+            var GUID = 22323321;                            // 一个GUID
+            var uploader = WebUploader.create({
+                auto: true,                                                // 选完文件后，是否自动上传。
+                swf: '/static/plugins/webuploader-0.1.5/uploader.swf',     // 加载swf文件，路径一定要对
+                server: '/admin/CouponIssueUser/import_Tracking.html',     // 文件接收服务端
+                pick: '#imports',                                          // 选择文件的按钮。可选。
+                resize: false,                                             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                chunked: true,                                             // 是否分片
+                chunkSize: 5 * 1024 * 1024,                                // 分片大小
+                threads: 1,                                                // 上传并发数
+                formData: {
+                    // 由于Http的无状态特征，在往服务器发送数据过程传递一个进入当前页面是生成的GUID作为标示
+                    GUID: GUID,                                            // 自定义参数
+                    tid:$('#tid').val(),
+                },
+                compress: false,
+                fileSingleSizeLimit: size,                                 // 限制大小200M，单文件
+                //fileSizeLimit: allMaxSize*1024*1024,                     // 限制大小10M，所有被选文件，超出选择不上
+                accept: {
+                    title: '上传图片/文件',
+                    extensions: upload_allowext,                           // 允许上传的类型 'gif,jpg,jpeg,bmp,png'
+                    mimeTypes: '*',                                        // 默认全部文件，为兼容上传文件功能，如只上传图片可写成img/*
+                }
+            });
+
+            uploader.on('uploadSuccess', function (file, response) {
+                if (response.code != 0) {
+                    $.modal.alertError(response.msg+response.data);return;
+                }
+                $.modal.alertSuccess(response.msg,(index)=>{
+                    layer.close(index);
+                    $.table.refresh();
+                });
+            });
+            uploader.on("error", function (type) {
+                if (type == "Q_TYPE_DENIED") {
+                    $.modal.alertError('请上传' + upload_allowext + '格式的文件！');
+                } else if (type == "F_EXCEED_SIZE") {
+                    $.modal.alertError('单个文件大小不能超过' + size / 1024 + 'kb！');
+                } else if (type == "F_DUPLICATE") {
+                    $.modal.alertError('请不要重复选择文件');
+                } else {
+                    $.modal.alertError('上传出错！请检查后重新上传！错误代码' + type);
+                }
+            });
+        }
+
+    </script>
+    <!--bootstrap table end-->
+    <!--底部提示-->
+</section>
+<!--内容结束-->

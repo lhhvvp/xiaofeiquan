@@ -1,0 +1,10 @@
+<div class="callout callout-info">
+    <h5>附件信息</h5>
+    <!--申请核算的详细数据-->
+    {volist name="accounting.data_url" k="key" id="form"}
+        <a href="{$form}" class="btn btn-flat btn-primary" target="_blank">
+            附件 {$key+1}
+        </a>
+    {/volist}
+    <!--申请核算的详细数据-->
+</div>

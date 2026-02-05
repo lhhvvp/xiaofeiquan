@@ -1,0 +1,54 @@
+<style>
+    .btn-block+.btn-block {
+        margin-top: 0 !important;
+    }
+
+    .table-spot_ids {
+        min-height: 40px;
+        line-height: 40px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/addtouristPost.html"
+            id="form-builder">
+            <input type="hidden" name="tid" value="{$tid}">
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客姓名</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="name" value="" placeholder="请输入游客姓名">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="mobile" value="" placeholder="请输入游客电话">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">游客身份证号</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="idcard" value="" placeholder="请输入游客身份证号">
+                </div>
+            </div>
+            <!---->
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>

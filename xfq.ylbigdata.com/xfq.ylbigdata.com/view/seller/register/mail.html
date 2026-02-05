@@ -1,0 +1,118 @@
+<div class="layui-form login-form layui-panel" autocomplete="off">
+    <h1 class="login-title">邮箱验证</h1>
+    <!-- 验证码 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-form"></i>
+        <input type="text" name="captcha" disabled="disabled" class="layui-input"
+            value="{$seller.email}"  id="email" >
+        <input type="hidden" name="seller_hid" id="seller_hid" value="{$seller.id}">
+        <div class="button_" id="code">发送验证码</div>
+    </div>
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-auz"></i>
+        <input type="text" name="e-verification" id="mailcode" placeholder="请输入验证码" class="layui-input" lay-verify="required" value=""
+            lay-reqtext="请输入验证码">
+    </div>
+    <!-- 隐藏域 -->
+    <div class="layui-form-item">
+        <button class="layui-btn layui-btn-normal layui-btn-fluid mail" type="submit" lay-submit="" lay-filter="LAY-user-login-submit">
+            下 一 步 </button>
+    </div>
+</div>
+
+
+<script>
+    function countDownTimer(that) {
+        let second = 60;
+        let timer = setInterval(() => {
+            if (second == 0) {
+                that.innerText = `重新验证码`
+                clearInterval(timer);
+            } else {
+                second--;
+                that.innerText = `${second}秒后重新发送`
+            }
+        }, 1000);
+    }
+
+    document.getElementById("code").onclick = function () {
+        let email = $("#email").val();
+        let that = this;
+        if (this.innerText === '重新验证码' || this.innerText === '发送验证码') {
+            $.ajax({
+                type: "POST",
+                url: "/seller/register/sendEmail",
+                data: {
+                    email: email,
+                },
+                success: function (data) {
+                    if (data.error == 0) {
+                        layer.msg(data.msg);
+                        countDownTimer(that);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        }
+
+    };
+
+    // 校验邮箱
+    $(".mail").click(function () {
+        var mailcode   = $("#mailcode").val();
+        var email      = $("#email").val();
+        var seller_hid = $("#seller_hid").val();
+        if (!mailcode) {
+            layer.alert('请输入邮箱验证码', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='e-verification']").focus();
+            });
+            return false;
+        }
+        if (!email) {
+            layer.alert('请输入邮箱', {
+                icon: 2
+            }, function (index) {
+                layer.close(index);
+                $("input[name='email']").focus();
+            });
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            url: "{:url('checkMail')}",
+            data: {
+                email,mailcode,seller_hid
+            },
+            dataType: "json",
+            beforeSend: function () {
+                loadIndex = layer.load();
+            },
+            success: function (data) {
+                if (data.error == 1) {
+                    layer.close(loadIndex);
+                    layer.alert(data.msg, {
+                        icon: 2
+                    }, function (index) {
+                        layer.close(index);
+                        // $("#captcha").attr("src", $("#captcha").attr("src") + '?' + Math.random());
+                        // $("input[name='captcha']").val('').focus();
+                    });
+                } else{
+                    layer.close(loadIndex);
+                    layer.alert(data.msg, {
+                        icon: 1
+                    }, function (index) {
+                        layer.close(index);
+                        window.location.reload();
+                    });
+                }
+            },
+            error: function (xhr) {
+
+            }
+        });
+
+    })
+</script>

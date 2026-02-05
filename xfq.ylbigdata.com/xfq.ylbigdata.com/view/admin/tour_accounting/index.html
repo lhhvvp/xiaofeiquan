@@ -1,0 +1,359 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>所属分类：</label>
+                                <select id="search_cid" name="class_id">
+                                    <option value="">
+                                        所有
+                                    </option>
+                                    {volist name="class_list" id="item"}
+                                    <option value="{$item.id}">
+                                        {$item.class_name}
+                                    </option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <li>
+                                <label>所属区域：</label>
+                                <select id="search_area" name="area">
+                                    <option value="">
+                                        所有
+                                    </option>
+                                    <option value="1">榆阳区</option>
+                                    <option value="2">横山区</option>
+                                    <option value="3">神木市</option>
+                                    <option value="4">府谷县</option>
+                                    <option value="5">靖边县</option>
+                                    <option value="6">定边县</option>
+                                    <option value="7">绥德县</option>
+                                    <option value="8">米脂县</option>
+                                    <option value="9">佳县</option>
+                                    <option value="10">吴堡县</option>
+                                    <option value="11">清涧县</option>
+                                    <option value="12">子洲县</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>商户名称：</label>
+                                <input type="text" id="search_nickname" name="nickname" value="">
+                            </li>
+                            <li>
+                                <label>状态：</label> <select id="search_status" name="status">
+                                    <option value="">
+                                        所有
+                                    </option>
+                                    <option value="1">
+                                        启用
+                                    </option>
+                                    <option value="0">
+                                        禁用
+                                    </option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a
+                                    class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input
+                                    class="hide" type="submit" name="btnSave" value="提交"
+                                    onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-primary single disabled" onclick="editAccounting();">
+                        <i class="fa fa-edit"></i> 审核 </a>
+                    <a class="btn btn-warning" onclick="$.table.export()">
+                        <i class="fa fa-download"></i> 导出 </a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/admin/tour_accounting/index.html?getList=1",      // 请求后台的URL
+                editUrl: "/admin/tour_accounting/edit.html?id=__id__",      // 修改的地址
+                exportUrl: "/admin/tour_accounting/export.html",    // 导出的地址
+                sortUrl: "/admin/tour_accounting/sort.html",      // 排序的地址
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: true,			// 是否进行分页
+                parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",         // 每页显示的行数
+                layerOpen: "1",        // 添加/审核等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'class_id',
+                        title: '所属分类',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return row.class_id;
+                        }
+                    },
+                    {
+                        field: 'area',
+                        title: '所属区域',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return row.area;
+                        }
+                    },
+                    {
+                        field: 'mid',
+                        title: '商户名称',
+                        sortable: false
+                    },
+                    {
+                        field: 'sum_coupon_price',
+                        title: '核算金额(元)',
+                        sortable: false
+                    },
+                    {
+                        field: 'writeoff_total',
+                        title: '核算记录数',
+                        sortable: false
+                    },
+                    {
+                        field: 'card_name',
+                        title: '收款账号',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'card_deposit',
+                        title: '开户行',
+                        sortable: true
+                    },
+                    {
+                        field: 'cart_number',
+                        title: '卡号',
+                        sortable: false
+                    },
+                    {
+                        field: 'status',
+                        title: '平台审核',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            switch (Number(value)) {
+                                case 0:
+                                    return '<span class="badge badge-primary">待上传资料</span>';
+                                    break;
+                                case 1:
+                                    return '<span class="badge badge-success">通过</span>';
+                                    break;
+                                case 2:
+                                    return '<span class="badge badge-danger">未通过</span>';
+                                    break;
+                                case 3:
+                                    return '<span class="badge badge-primary">待审核</span>';
+                                    break;
+                                default:
+                                    // code...
+                                    break;
+                            }
+                        }
+                    },
+                    {
+                        field: 'tour_status',
+                        title: '文旅审核',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            switch (Number(value)) {
+                                case 0:
+                                    return '<span class="badge badge-primary">待审核</span>';
+                                    break;
+                                case 1:
+                                    return '<span class="badge badge-success">通过</span>';
+                                    break;
+                                case 2:
+                                    return '<span class="badge badge-danger">未通过</span>';
+                                    break;
+                                default:
+                                    // code...
+                                    break;
+                            }
+                        }
+                    },
+                    /*{
+                        field: 'sup_status',
+                        title: '财政审核',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            switch (Number(value)) {
+                                case 0:
+                                    return '<span class="badge badge-primary">待审核</span>';
+                                    break;
+                                case 1:
+                                    return '<span class="badge badge-success">通过</span>';
+                                    break;
+                                case 2:
+                                    return '<span class="badge badge-danger">未通过</span>';
+                                    break;
+                                default:
+                                    // code...
+                                    break;
+                            }
+                        }
+                    },
+                    {
+                        field: 'back_status',
+                        title: '银行打款',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            switch (Number(value)) {
+                                case 0:
+                                    return '<span class="badge badge-primary">待付款</span>';
+                                    break;
+                                case 1:
+                                    return '<span class="badge badge-success">已付款</span>';
+                                    break;
+                                case 2:
+                                    return '<span class="badge badge-danger">拒绝付款</span>';
+                                    break;
+                                default:
+                                    // code...
+                                    break;
+                            }
+                        }
+                    },*/
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class: 'text-nowrap',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+
+                            if ('edit' == 'edit' || 'edit' == 'preview') {
+                                if ('') {
+                                    var url = '';
+                                    var reg = /__(.*?)__/g;
+                                    // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                    while (result = reg.exec(url)) {
+                                        url = url.replace(result[0], row[result[1]]);
+                                    }
+                                    actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 审核</a> ');
+                                } else {
+                                    actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="editAccounting(\'' + row.id + '\')"><i class="fa fa-edit"></i> 审核</a> ');
+                                }
+                            } else if ('edit' == 'delete') {
+                                if ('') {
+                                    var url = '';
+                                    var reg = /__(.*?)__/g;
+                                    // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                    while (result = reg.exec(url)) {
+                                        url = url.replace(result[0], row[result[1]]);
+                                    }
+                                    actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 审核</a> ');
+                                } else {
+                                    actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-edit"></i> 审核</a> ');
+                                }
+                            } else {
+                                var url = '';
+                                var reg = /__(.*?)__/g;
+                                // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                while (result = reg.exec(url)) {
+                                    url = url.replace(result[0], row[result[1]]);
+                                }
+                                actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 审核</a> ');
+                            }
+                            return actions.join('');
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+
+        // 审核商户
+        function editAccounting(id) {
+            var url = $.operate.editUrl(id)
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                // 弹窗打开要添加的地址
+                // $.modal.open("审核", url,1500,700);
+                // window.location.href = url;
+
+                var index = layer.open({
+                    type: 2,
+                    area: ['100%', '100%'],
+                    fix: false,
+                    maxmin: true,
+                    shade: 0.3,
+                    content: url,
+                });
+
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

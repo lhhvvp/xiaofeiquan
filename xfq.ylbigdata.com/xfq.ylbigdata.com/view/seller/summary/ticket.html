@@ -1,0 +1,211 @@
+<div class="col-12 search-collapse" style="height: 50px">
+    <form id="search_form" name="search_form">
+        <div class="select-list">
+            <ul>
+                <li>
+                    <label>券类型：</label>
+                    <select id="search_status" name="status">
+                        <option value="">
+                            全部
+                        </option>
+                        {volist name="$list" id="vo"}
+                        {$vo.id}
+                        <option value="{$vo.id}">{$vo.title}</option>
+                        {/volist}
+                    </select>
+                </li>
+                <li>
+                    <input class="form-control" type="text" id="date"
+                           value="" autocomplete="off">
+
+                </li>
+                <li>
+                    <a class="btn btn-primary btn-rounded btn-sm" onclick="searchs()">&nbsp;搜索</a>
+                    <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<div id="echarts" style="width: 95%;height: 350px;margin: auto"></div>
+<table class="layui-table"  style="text-align: center; width: 80%;margin: 50px auto 50px">
+    <thead>
+    <tr>
+        <td>日期</td>
+        <td>门票</td>
+        <td>总数</td>
+        <td>销售额</td>
+    </tr>
+    </thead>
+    <tbody id="table">
+    <tr>
+    </tr>
+    </tbody>
+
+</table>
+<script src="/static/plugins/echarts.min.js"></script>
+<script>
+    function searchs() {
+        let search_status = $("#search_status").val();
+        let date = $("#date").val();
+        if (date) {
+            date = date.split(" - ");
+            ajaxVal(search_status, date[0], date[1])
+        }
+
+    };
+
+    let options = {
+        date: [],
+        data: [
+            {
+                name: '总数',
+                type: 'line',
+                data: []
+            },
+            {
+                name: '总销售额',
+                type: 'line',
+                data: []
+            }
+        ],
+        name: ['总数', '总销售额'],
+
+    };
+
+    function ajaxVal(ticket_id, start_date, end_date) {
+        $.ajax({
+            url: '/seller/Summary/ticket.html',
+            data: {
+                getList: 1,
+                ticket_id,
+                start_date,
+                end_date
+            },
+            success: function (res) {
+                if (res) {
+                    $("#table").html("");
+                    let html = ``;
+                    let table = ``;
+                    let total_quantity = 0;
+                    let total_sales = 0;
+                    for (let key in res) {
+                        let ref_date = res[key].ref_date.split(" ");
+                        options.date.push(ref_date[0]);
+                        table = ``;
+
+                        options.data[0].data.push(res[key].total_quantity);
+                        options.data[1].data.push(res[key].total_sales);
+
+
+                        for (let i in res[key].list) {
+                            let data = res[key].list[i];
+                            total_quantity += Number(data.total_quantity);
+                            total_sales += Number(data.total_sales);
+                            table += `<tr>`
+                            table += `<td>${data.title}</td>`
+                            table += `<td>${data.total_quantity}张</td>`
+                            table += `<td>${data.total_sales}元</td>`
+                            table += `</tr>`
+                        }
+                        ;
+                        let tables = `
+                        <table style="width: 100%" lay-even lay-skin="line" lay-size="sm">
+                            <thead>
+                                <tr>
+                                    <td>门票名称</td>
+                                    <td>售出总数</td>
+                                    <td>销售额</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                ${table}
+                                </tr>
+                            </tbody>
+                        </table>`;
+                        html += `<tr>
+                                <td>${ref_date[0]}</td>
+                                <td>${tables}</td>
+                                <td>${res[key].total_quantity}张</td>
+                                <td>${res[key].total_sales}元</td>
+                            </tr>`;
+                    }
+
+                    html += `<tr>
+                                <td  colspan="2" style="font-weight: bold">总计：</td>
+                                <td style="font-weight: bold">${total_quantity}张</td>
+                                <td style="font-weight: bold">${total_sales}元</td>
+                            </tr>`;
+
+                    myChart(options)
+                    $("#table").append(html);
+
+                }
+            }
+        })
+    };
+    ajaxVal();
+
+    function myChart(options) {
+        var myChart = echarts.init(document.getElementById('echarts'));
+        option = {
+            title: {
+                text: '门票金额&数量统计'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: options.name
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '10%',
+                containLabel: false
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: options.date
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: options.data
+        };
+        myChart.setOption(option, true);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+    };
+
+    $(function () {
+        $('#date').daterangepicker({
+            showDropdowns: true,     // 年月份下拉框
+            timePicker: true,        // 显示时间
+            timePicker24Hour: true,  // 时间制
+            timePickerSeconds: true, // 时间显示到秒
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '前30天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                format: 'YYYY-MM-DD H:m:s',
+                applyLabel: '确定',       // 确定按钮文本
+                cancelLabel: '取消',      // 取消按钮文本
+                customRangeLabel: '自定义',
+            }
+        });
+    })
+</script>

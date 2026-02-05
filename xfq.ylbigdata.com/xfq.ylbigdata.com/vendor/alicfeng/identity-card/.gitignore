@@ -1,0 +1,8 @@
+/vendor/
+/.idea/
+/composer.lock
+back.png
+front.png
+.php_cs.cache
+/source/bbb.jpg
+/source/tmp.jpg

@@ -1,0 +1,98 @@
+
+<div class="container-fluid">
+    <div class="row">
+
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/seller/Writeoff/pointPost.html" id="form-builder">
+            <input type="hidden" value="{$Request.session.seller.id}" name="mid"/>
+            {notempty name="vo.id"}
+            <input type="hidden" name="id" value="{$vo.id|default=''}">
+            {/notempty}
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="name">核销点名称</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="title" name="title" value="{$vo.title|default=''}" placeholder="请输入核销点名称">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="name">负责人</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="name" value="{$vo.name|default=''}" placeholder="请输入负责人">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="mobile">负责人电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="mobile" name="mobile" value="{$vo.mobile|default=''}" placeholder="请输入负责人电话">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="address">具体位置</label>
+                <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
+                    <input class="form-control" type="text" id="latitude" name="latitude" value="{$vo.latitude|default=''}" placeholder="纬度">
+                </div>
+                <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
+                    <input class="form-control" type="text" id="longitude" name="longitude" value="{$vo.longitude|default=''}" placeholder="经度">
+                </div>
+                <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                    <input class="form-control" type="text" id="address" name="address" value="{$vo.address|default=''}" placeholder="请输入具体位置">
+                </div>
+                <a class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 btn btn-success btn-xs"
+                   style="width:200px;display: flex;align-items: center;justify-content: center;"
+                   href="javascript:;" onclick="getAmap();">点击选择区域</a>
+            </div>
+            <input type="hidden" name="status" value="1">
+            <!--<div class="row dd_input_group no-gutters" id="form_group_status">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="status">状态</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                    <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="status" class="dd_radio" id="status1" value="1" {eq name="vo.status|default='1'" value="1"}checked{/eq}> <label for="status1">启用</label>
+                    </div>
+                    <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="status" class="dd_radio" id="status2" value="0" {eq name="vo.status|default='1'" value="0"}checked{/eq}> <label for="status2">停用</label>
+                    </div>
+                </div>
+            </div>-->
+            <div class="row dd_input_group no-gutters" id="form_group_sort">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label" for="sort">排序</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" id="sort" name="sort" value="{$vo.sort|default='50'}" step="1">
+                </div>
+            </div><!---->
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form><!--底部提示-->
+    </div>
+</div>
+<script>
+    function getAmap(argument) {
+        // 每次打开窗口前 删除本地存储的数据 避免造成资源占用
+        layui.data('_coordinate_info_', { key: 'data', remove: true });
+        var index = layer.open({
+            title: '坐标拾取',
+            type: 2,
+            shade: 0.2,
+            maxmin: false,
+            shadeClose: false,  //禁用最大化，最小化按钮
+            closeBtn: 1,        //不显示右上角关闭按钮
+            area: ['80%', '80%'],
+            content: "{:url('seller/Map/amap')}",
+            end: function () {
+                // 窗口关闭 获取所选的坐标 并赋值给对应的文本框
+                var _coordinate_info_ = layui.data('_coordinate_info_');
+                if (_coordinate_info_) {
+                    console.log(_coordinate_info_.data);
+                    $('#longitude').val(_coordinate_info_.data.longitude);
+                    $('#latitude').val(_coordinate_info_.data.latitude);
+                    $('#address').val(_coordinate_info_.data.title);
+                }
+                return;
+            }
+        });
+        $(window).on("resize", function () {
+            layer.full(index);
+        });
+    }
+</script>

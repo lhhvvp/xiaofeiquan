@@ -1,0 +1,68 @@
+{// css}
+{include file="css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+</style>
+<section class="content" style="padding-top: 20px;">
+    <div class="container-fluid">
+            <div class="callout callout-info">
+                <h5>领取信息</h5>
+                <div>
+                    <div class="p-30">
+                        领取人：{$detail.userinfo.name}
+                    </div>
+                    <div class="p-30">
+                        手机号：{$detail.userinfo.mobile}
+                    </div>
+                    <div class="p-30">
+                        身份证号：{$detail.userinfo.idcard}
+                    </div>
+                    <div class="p-30">
+                        领取时间：{$detail.couponIssueUser.create_time}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>核销信息</h5>
+                <div>
+                    <div class="p-30">
+                        核销人：{$detail.users.name}
+                    </div>
+                    <div class="p-30">
+                        核销时间：{$detail.create_time}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>消费券信息</h5>
+                <div>
+                    <div class="p-30">
+                        名称：{$detail.couponIssue.coupon_title}
+                    </div>
+                    <div class="p-30">
+                        金额：{$detail.couponIssue.coupon_price}元
+                    </div>
+                    <div class="p-30">
+                        编号：{$detail.couponIssue.uuno}
+                    </div>
+                    <div class="p-30">
+                        创建时间：{$detail.couponIssue.create_time}
+                    </div>
+                </div>
+              
+            </div>
+
+            <div class="callout callout-info">
+                <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                    <button type="button" class="btn btn-flat btn-default" onclick="javascript :history.back(-1)">返
+                        回</button>
+                </div>
+            </div>
+        </div>
+</section>
+<!--内容结束-->

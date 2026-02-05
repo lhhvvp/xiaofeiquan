@@ -1,0 +1,131 @@
+ <!--内容开始-->
+<section class="content">
+    
+        <div class="container-fluid">
+        <div class="row">
+            
+                        <!--顶部提示开始-->
+                        <!--顶部提示结束-->
+                        <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/TicketCategory/addPost.html" >
+                <!---->
+                                    <!---->
+                                                
+                            <div class="row dd_input_group no-gutters " id="form_group_seller_id">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="seller_id">所属商户</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <select class="select2 form-control" id="seller_id" name="seller_id" data-value="0" >
+            <option value="">请选择</option>
+                    </select>
+    </div>
+    </div>
+<script>
+    $(function () {
+        var option = {};
+                if('/admin/Index/selectSeller.html?id=1271' !== ''){
+            // 启用ajax分页查询
+            option = {
+                language: "zh-CN",
+                //allowClear: true,
+                ajax: {
+                    delay: 250, // 限速请求
+                    url: "/admin/Index/selectSeller.html?id=1271",   //  请求地址
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            keyWord: params.term || '',    //搜索参数
+                            page: params.page || 1,        //分页参数
+                            rows: params.pagesize || 10,   //每次查询10条记录
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        if (params.page == 1) {
+                            data.data.unshift({id: '', name: "", text: "请选择"});
+                        }
+                        return {
+                            results: data.data,
+                            pagination: {
+                                //more: (params.page) < data.paginator.totalPages
+                                more: (params.page) < data.last_page
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            };
+            // 默认值设置
+            var defaultValue = $('#seller_id').data("value");
+            if (defaultValue) {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/Index/selectSeller.html?id=1271",
+                    data: {value:defaultValue},
+                    dataType: "json",
+                    success: function(data){
+                        $('#seller_id').append("<option selected value='" + data.key + "'>" + data.value + "</option>");
+                    }
+                });
+            }
+        }
+                $('#seller_id').select2(option);
+    })
+</script>
+
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_title">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="title">分类名称</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="title" name="title" value="" placeholder="请输入分类名称" >
+                </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_content">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="content">分类介绍</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+        <textarea id="content" name="content"  style="width:100%;height: 400px"></textarea>
+    </div>
+    </div>
+<script>
+        CKEDITOR.replace('content', {height: '400px'});
+    </script>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_status">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="status">状态</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                <div class="icheck-peterriver icheck-inline">
+            <input type="radio" name="status" class="dd_radio" id="status1" value="1" checked >
+            <label for="status1">开启</label>
+        </div>
+                <div class="icheck-peterriver icheck-inline">
+            <input type="radio" name="status" class="dd_radio" id="status2" value="0"  >
+            <label for="status2">关闭</label>
+        </div>
+            </div>
+    </div>
+                                                                        
+                            <div class="row dd_input_group no-gutters " id="form_group_sort">
+    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label " for="sort">排序</label>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+        <input class="form-control" type="number" id="sort" name="sort" value="50" step="1" >
+    </div>
+    </div>
+
+
+                                                                <!---->
+                    <div class="row dd_input_group form-builder-submit no-gutters">
+                        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                                                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                                                        <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                                                    </div>
+                    </div>
+                    <!-- /.box -->
+                            </form>
+            <!--底部提示-->
+                        
+                        
+                    </div>
+    </div>
+</div>
+
+<!--内容结束-->

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>地图展示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            /*地图(容器)显示大小*/
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
+        .date-box{
+            position: absolute;
+            width: 30%;
+            left: 20px;
+            top: 120px;
+            z-index: 9999999;
+        }
+    </style>
+    <!--引入Javascript API GL，参数说明参见下文-->
+    <script charset="utf-8"
+            src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+</head>
+<!-- 页面载入后，调用init函数 -->
+
+<body>
+<div class="date-box" style="display: flex">
+
+        <div class="input-group">
+            <input class="form-control" type="text" id="coupon_time_limit" name="date"
+                   value="" autocomplete="off">
+            <div class="input-group-append">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+        <input type="submit" class="layui-btn" style="margin-left: 10px" onclick="submit()">
+
+
+</div>
+    <script>
+        $(function () {
+            $('#coupon_time_limit').daterangepicker({
+                showDropdowns: true,     // 年月份下拉框
+                timePicker: true,        // 显示时间
+                timePicker24Hour: true,  // 时间制
+                timePickerSeconds: true, // 时间显示到秒
+                ranges: {
+                    '今天': [moment(), moment()],
+                    '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '上周': [moment().subtract(6, 'days'), moment()],
+                    '前30天': [moment().subtract(29, 'days'), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                //timePicker: true,
+                //timePickerIncrement: 30,
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    applyLabel: '确定',       // 确定按钮文本
+                    cancelLabel: '取消',      // 取消按钮文本
+                    customRangeLabel: '自定义',
+                }
+            });
+        });
+    </script>
+</div>
+<!-- 定义地图显示容器 -->
+<input type="hidden" value='<?php echo json_encode($list);?>' id="val">
+<div id="container"></div>
+<script>
+
+    let data = [];
+    let val = $("#val").val();
+    if(val){
+        val = JSON.parse(val);
+        data = val.map((item,index)=>{
+            return {id:index,styleId:'myStyle',position:new TMap.LatLng(item.latitude, item.longitude),item}
+        });
+    };
+    let locations = {
+        lat: 38.285734,
+        lng:109.734209,
+    }
+    initMap();
+    function  submit(){
+        let url = window.location.pathname;
+        let date = $("#coupon_time_limit").val();
+        window.location.href= url + '?date='+date
+    }
+    //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+    function initMap() {
+        //定义地图中心点坐标
+        var center = new TMap.LatLng(locations.lat, locations.lng);
+        //定义map变量，调用TMap.Map构造函数创建地图
+        var map = new TMap.Map(document.getElementById('container'), {
+            center: center,//设置地图中心点坐标
+            zoom: 15,   //设置地图缩放级别
+        });
+        var infoWindow = new TMap.InfoWindow({
+            map: map,
+            position: new TMap.LatLng('38.285734', '109.734209'),
+            offset: { x: 0, y: -32 } //设置信息窗相对position偏移像素
+        });
+        infoWindow.close();//初始关闭信息窗关闭
+        //创建并初始化MultiMarker
+        let marker = new TMap.MultiMarker({
+            map: map,  //指定地图容器
+            //样式定义
+            styles: {
+                //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                "myStyle": new TMap.MarkerStyle({
+                    "width": 25,  // 点标记样式宽度（像素）
+                    "height": 35, // 点标记样式高度（像素）
+                    "anchor": { x: 16, y: 32 }
+                })
+            },
+            geometries: data
+        });
+        marker.on("click", function (data){
+            infoWindow.open();
+            infoWindow.setPosition(new TMap.LatLng(data.geometry.position.lat,data.geometry.position.lng));//设置信息窗位置
+            infoWindow.setContent(`
+            <div>酒店名称：${data.geometry.item.hotel_name}</div>
+            <div>团名称：${data.geometry.item.name}</div>
+            <div>团期：${data.geometry.item.term}</div>
+            <div>人数：${data.geometry.item.numbers}</div>
+            <div>创建时间：${timestampToTime(data.geometry.item.create_time)}</div>
+            `);
+        })
+    };
+
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1):date.getMonth()+1) + '-';
+        var D = (date.getDate()< 10 ? '0'+date.getDate():date.getDate())+ ' ';
+        var h = (date.getHours() < 10 ? '0'+date.getHours():date.getHours())+ ':';
+        var m = (date.getMinutes() < 10 ? '0'+date.getMinutes():date.getMinutes()) + ':';
+        var s = date.getSeconds() < 10 ? '0'+date.getSeconds():date.getSeconds();
+        return Y+M+D+h+m+s;
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,400 @@
+<style>
+    .layui-panel {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+    }
+
+    #map {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    #line {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .num-box {
+        font-weight: bold;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .blue {
+        color: #1e88e5;
+    }
+
+    .blueBg {
+        background-color: #349adf;
+    }
+
+    .redBg {
+        background-color: #dc3545;
+    }
+
+    .greenBg {
+        background-color: #2fc7d3;
+    }
+
+    .colorfff {
+        color: #fff;
+    }
+
+    .green {
+        color: #24c187;
+    }
+
+    .red {
+        color: #dc3545;
+    }
+
+    .title {
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .title-1 {
+        font-size: 12px;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: center;
+    }
+
+    .bottom-box {
+        width: 100%;
+        height: calc(200px - 40px);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bottom-box .charts {
+        position: absolute;
+        left: -2px;
+        bottom: -10px;
+        opacity: .1;
+    }
+
+    .bottom-box .charts-number {
+        width: calc(100%);
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .charts-number {
+        z-index: 9;
+        padding: 10px 0;
+    };
+
+    .blue {
+        color: #0043ff;
+    }
+
+    .red {
+        color: #dc3545;
+    }
+
+    .green {
+        color: #00ab6c;
+    }
+
+    .tit {
+        font-size: 12px;
+    }
+
+    .num {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    #fb3,
+    #echart1 {
+        width: 100%;
+        height: 226px;
+        padding-top: 10px;
+    }
+    .table_div{
+        width: 90%;
+        font-size: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #f7f7f7;
+        overflow : hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+
+    }
+    .layui-col-md6-50{
+        width: 50%;
+    }
+    @media screen and (max-width: 1600px){
+        .layui-col-md6 {
+            width: 100%;
+        }
+        .layui-col-md6-50{
+            width: 100%;
+        }
+    }
+</style>
+<div class="layui-bg-gray" style="padding: 30px;">
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md6">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md12">
+                    <div class="layui-panel" style="padding: 20px;">
+                        <div class="layui-form layui-form-item" style="margin-bottom:0px">
+                            <img src="{:session('admin.image') ?: '/static/plugins/AdminLTE/dist/img/user2-160x160.jpg'}"
+                                style="height:30px;width: 30px;border-radius:50%;"> 欢迎您，{:session('admin.nickname') ?:
+                            session('admin.username')}
+                            这是您第 {:session('admin.loginnum')} 次登录，上次登录日期：{$admin.last_login_time|date="Y-m-d H:i:s"}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md4">
+                        <div class="layui-panel greenBg" style="height: 120px;">
+
+                            <div class="title colorfff">累计发放金额</div>
+                            <div class="num-box  colorfff" id="check-t3">{$coupon_issue_price|number_format=2}</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <div class="layui-panel blueBg" style="height: 120px;">
+
+                            <div class="title colorfff">累计核销金额</div>
+                            <div class="num-box  colorfff" id="check-t1">{$writeoff_price|number_format=2}</div>
+
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <div class="layui-panel redBg" style="height: 120px;">
+
+                            <div class="title colorfff">今日核销金额</div>
+                            <div class="num-box colorfff" id="check-t2">{$writeoff_day_price|number_format=2}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="layui-col-md4">
+                    <div class="layui-panel" style="height: 236px;">
+                        <div id="fb3"></div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md8">
+                    <div class="layui-panel" style="height: 236px;padding-top: 12px;">
+                        <div id="echart1"></div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">畅游消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline charts"></div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.1.write_off_price|number_format}/{$coupon_class.1.price|number_format}
+                            </div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 领取 / 累计数量: </div>{$coupon_issue_user.1.write_total}/{$coupon_issue_user.1.total}/{$coupon_class.1.total}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">剧院消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline-1 charts"></div>
+                            <div class="charts-number blue" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.2.write_off_price|number_format}/{$coupon_class.2.price|number_format}
+                            </div>
+                            <div class="charts-number blue" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 领取 / 累计数量</div>{$coupon_issue_user.2.write_total}/{$coupon_issue_user.2.total}/{$coupon_class.2.total}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">旅行消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline-0 charts"></div>
+                            <div class="charts-number green" style="font-size:1.5rem;"><div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.3.write_off_price|number_format}/{$coupon_class.3.price|number_format}</div>
+                            <div class="charts-number green" style="font-size:1.5rem;"><div style="font-size:14px;">核销 / 领取 / 累计数量</div>{$coupon_issue_user.3.write_total}/{$coupon_issue_user.3.total}/{$coupon_class.3.total}</div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">观影消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline charts"></div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.4.write_off_price|number_format}/{$coupon_class.4.price|number_format}
+                            </div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 领取 / 累计数量</div>{$coupon_issue_user.4.write_total}/{$coupon_issue_user.4.total}/{$coupon_class.4.total}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">冰雪消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline charts"></div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.7.write_off_price|number_format}/{$coupon_class.7.price|number_format}
+                            </div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 领取 / 累计数量</div>{$coupon_issue_user.7.write_total}/{$coupon_issue_user.7.total}/{$coupon_class.7.total}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">过大年消费券</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline charts"></div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 累计</div>{$coupon_issue_user.8.write_off_price|number_format}/{$coupon_class.8.price|number_format}
+                            </div>
+                            <div class="charts-number red" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销 / 领取 / 累计数量</div>{$coupon_issue_user.8.write_total}/{$coupon_issue_user.8.total}/{$coupon_class.8.total}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">今日核销信息</div>
+                        <div class="bottom-box" style="flex-direction: column;justify-content: center;">
+                            <div class="sparkline charts"></div>
+                            <div class="charts-number blue" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销量 散客 / 团体</div>{$writeoff_today_sanke_total|number_format}/{$writeoff_today_tuanti_total|number_format}
+                            </div>
+                            <div class="charts-number blue" style="font-size:1.5rem;">
+                                <div style="font-size:14px;">核销金额 散客 / 团体 </div>{$writeoff_today_sanke_price|number_format}/{$writeoff_today_tuanti_price|number_format}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="layui-col-md4">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">入驻商户</div>
+                        <div class="bottom-box">
+                            <div class="sparkline-1 charts"></div>
+                            <div class="charts-number blue" style="font-size: 3rem;">{$seller_total}</div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="layui-col-md3">
+                    <div class="layui-panel" style="height: 200px;">
+                        <div class="title-1">核销人员/入驻商户</div>
+                        <div class="bottom-box">
+                            <div class="sparkline-0 charts"></div>
+                            <div class="charts-number green" style="font-size: 3rem;">{$mvuser_total}/{$seller_total}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-panel" style="height: 658px;">
+                <div id="map"> </div>
+            </div>
+            <div class="layui-col-md12" style="display: flex;height: 200px;margin-top: 10px;">
+                <div class="layui-col-md6-50">
+                    <div class="layui-panel">
+                        <div class="title-1">商家核销前三名</div>
+                        <div class="bottom-box" style="flex-direction: column;align-items: center;justify-content: space-evenly;">
+                            {volist name="list_seller_top3" id="vo"}
+                                <div class="table_div">{$key+1}、{$vo.nickname}</div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6-50">
+                    <div class="layui-panel">
+                        <div class="title-1">旅行社核销前三名</div>
+                        <div class="bottom-box" style="flex-direction: column;align-items: center;justify-content: space-evenly;">
+                            {volist name="list_tour_top3" id="vo"}
+                                <div class="table_div">{$key+1}、{$vo.nickname}</div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-panel">
+                <div class="title-1">团体客源地</div>
+                <div id="echarts_5" style="height: 200px;width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/plugins/sparkline.js"></script>
+<script src="/static/plugins/echarts.min.js"></script>
+<script src="/static/plugins/echarts.js"></script>
+
+<script>
+
+    $(function () {
+        // 图表数据
+        $.ajax({
+            type : "POST",
+            url  : '{:url('screen')}',
+            data : '',
+            success: function (msg) {
+                // 饼状图
+                echarts_33(msg.dataAge);
+                // 折线图
+                echarts10(msg.listTrend);
+                // 地图
+                echarts_map(msg.mapData);
+                echarts_5(msg.tour_write_distribute);
+
+            }
+        });
+
+        // var sparkline2 = new Sparkline($('.sparkline-1')[0], { width: 300, height: 90, lineColor: '#f56954', endColor: '#f56954' });
+        // var sparkline1 = new Sparkline($('.sparkline')[0], { width: 300, height: 70, lineColor: '#92c1dc', endColor: '#92c1dc' });
+        // var sparkline3 = new Sparkline($('.sparkline-0')[0], { width: 300, height: 70, lineColor: '#3af221', endColor: '#3af221' });
+        // sparkline3.draw([15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21]);
+        // sparkline2.draw([515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921]);
+        // sparkline1.draw([1000, 1200, 920, 927, 931, 1027, 819, 930, 1021])
+
+        // var sparkline4 = new Sparkline($('.sparkline-1')[1], { width: 300, height: 90, lineColor: '#f56954', endColor: '#f56954' });
+        // var sparkline5 = new Sparkline($('.sparkline')[1], { width: 300, height: 70, lineColor: '#92c1dc', endColor: '#92c1dc' });
+        // var sparkline6 = new Sparkline($('.sparkline-0')[1], { width: 300, height: 70, lineColor: '#3af221', endColor: '#3af221' });
+        // sparkline4.draw([15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21]);
+        // sparkline5.draw([515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921]);
+        // sparkline6.draw([1000, 1200, 920, 927, 931, 1027, 819, 930, 1021])
+
+
+    });
+
+</script>

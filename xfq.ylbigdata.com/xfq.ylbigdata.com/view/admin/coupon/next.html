@@ -1,0 +1,326 @@
+<style>
+    .th-inner {
+        padding: 0 !important;
+    }
+
+    .th-inner input {
+        height: auto !important;
+    }
+
+    .bootstrap-table .fixed-table-container .table thead th {
+        padding: 5px !important;
+        background-color: #eff3f8 !important;
+    }
+    .table td, .table th {
+        padding: 0 10px;
+        text-align: center;
+    }
+    .is_permanent{
+        display: none;
+    }
+    
+</style>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--顶部提示开始-->
+            <!--顶部提示结束-->
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post"
+                action="/admin/CouponIssue/next.html">
+                <input class="form-control" type="hidden" id="id" name="id" value="{$couponissue.id}">
+                <!--消费券名称 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_coupon_title">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="coupon_title">
+                        消费券名称
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="coupon_title" name="coupon_title"
+                            value="{$couponissue.coupon_title}" placeholder="请输入消费券名称">
+                    </div>
+                </div>
+                <!--消费券名称 end -->
+
+                <!--优惠券面额 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_coupon_price">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="coupon_price">
+                        优惠券面额
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="coupon_price" name="coupon_price"
+                            value="{$couponissue.coupon_price}" step="1">
+                    </div>
+                </div>
+                <!--优惠券面额 end -->
+
+                <!--消费券领取数量 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_total_count">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="total_count">
+                        预计投放总数
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="total_count" name="total_count"
+                            value="{$couponissue.total_count}" step="1">
+                    </div>
+                </div>
+                <!--消费券领取数量 end -->
+
+                <!--领取时间 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_limit_time">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="limit_time">
+                        发放时间
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="limit_time" class="dd_radio" id="limit_time2" value="0" {eq
+                                name="$couponissue.limit_time" value="0" }checked{/eq}>
+                            <label for="limit_time2">
+                                不限时
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="limit_time" class="show dd_radio" id="limit_time1" value="1" {eq
+                                name="$couponissue.limit_time" value="1" }checked{/eq}>
+                            <label for="limit_time1">
+                                限时
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters limit_time" id="form_group_coupon_time_limit" {eq
+                    name="$couponissue.limit_time" value="0" }style="display:none" {/eq}>
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label "
+                        for="coupon_time_limit">该时段内可以领取</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="coupon_time_limit" name="coupon_time_limit"
+                                value="{$couponissue.start_time|date='Y-m-d H:i:s'} - {$couponissue.end_time|date='Y-m-d H:i:s'}"
+                                placeholder="请选择或输入是否在首页展示  1=是  0=否" autocomplete="off">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#coupon_time_limit').daterangepicker({
+                            showDropdowns: true,     // 年月份下拉框
+                            timePicker: true,        // 显示时间
+                            timePicker24Hour: true,  // 时间制
+                            timePickerSeconds: true, // 时间显示到秒
+                            ranges: {
+                                '今天': [moment(), moment()],
+                                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                '上周': [moment().subtract(6, 'days'), moment()],
+                                '前30天': [moment().subtract(29, 'days'), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
+                                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            },
+                            //timePicker: true,
+                            //timePickerIncrement: 30,
+                            locale: {
+                                format: 'YYYY-MM-DD H:m:s',
+                                applyLabel: '确定',       // 确定按钮文本
+                                cancelLabel: '取消',      // 取消按钮文本
+                                customRangeLabel: '自定义',
+                            }
+                        });
+                    })
+                </script>
+                <!--领取时间 end -->
+
+                <!--该优惠券是否永久有效 start -->
+                <div class="row dd_input_group no-gutters">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="is_permanent">
+                        有效期设置
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="show dd_radio" id="is_permanent1" {eq
+                                name="$couponissue.is_permanent" value="1" }checked{/eq} value="1">
+                            <label for="is_permanent1">
+                                永久有效
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="dd_radio" id="is_permanent2" {eq
+                                name="$couponissue.is_permanent" value="2" }checked{/eq} value="2">
+                            <label for="is_permanent2">
+                                期限内有效
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="dd_radio" id="is_permanent3" {eq
+                                name="$couponissue.is_permanent" value="3" }checked{/eq} value="3">
+                            <label for="is_permanent3">
+                                指定N天内有效
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters is_permanent is_permanent-time" id="form_group_coupon_time" {eq
+                    name="$couponissue.is_permanent" value="2" } style="display:flex" {/eq}>
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label "
+                        for="coupon_time">该时段内有效</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="coupon_time" name="coupon_time"
+                                value="{$couponissue.coupon_time_start|date='Y-m-d H:i:s'} - {$couponissue.coupon_time_end|date='Y-m-d H:i:s'}"
+                                placeholder="请选择日期范围" autocomplete="off">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters is_permanent is_permanent-day" id="is_permanent3_input" {eq
+                        name="$couponissue.is_permanent" value="3" } style="display:flex" {/eq}>
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label "
+                        for="is_permanent3_input_">
+                        指定N天内有效
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                        <input class="form-control" type="number" id="is_permanent3_input_" value="{$couponissue.day}" name="day" value="0"
+                            step="1">
+                    </div>
+                </div>
+
+
+                <script>
+                    $(function () {
+                        $('#coupon_time').daterangepicker({
+                            showDropdowns: true,     // 年月份下拉框
+                            timePicker: true,        // 显示时间
+                            timePicker24Hour: true,  // 时间制
+                            timePickerSeconds: true, // 时间显示到秒
+                            ranges: {
+                                '今天': [moment(), moment()],
+                                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                '上周': [moment().subtract(6, 'days'), moment()],
+                                '前30天': [moment().subtract(29, 'days'), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
+                                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            },
+                            //timePicker: true,
+                            //timePickerIncrement: 30,
+                            locale: {
+                                format: 'YYYY-MM-DD H:m:s',
+                                applyLabel: '确定',       // 确定按钮文本
+                                cancelLabel: '取消',      // 取消按钮文本
+                                customRangeLabel: '自定义',
+                            }
+                        });
+                    })
+                </script>
+                <!--该优惠券是否永久有效 end -->
+
+                <div class="row dd_input_group no-gutters type3" id="goods-box" {eq name="$couponissue.type" value="3"
+                    }style="display: flex;" {/eq} style="display:none">
+                </div>
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_is_rollback">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for="is_rollback">
+                        数据回滚
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_rollback" class="dd_radio" id="is_rollback2" value="1">
+                            <label for="is_rollback2">
+                                回滚
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_rollback" class="show dd_radio" id="is_rollback1" value="0" checked>
+                            <label for="is_rollback1">
+                                不回滚
+                            </label>
+                        </div>
+                        <small class="text-muted">
+                            &nbsp;&nbsp;<i class="fa fa-info-circle"></i> 数据回滚会将上期领取结束后的剩余投放量累加到本次投放总量之上。
+                        </small>
+                    </div>
+                </div>
+                
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">
+                            提 交
+                        </button>
+                        <button type="button" class="btn btn-flat btn-default hide"
+                            onclick="javascript :history.back(-1)">
+                            返 回
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+    </div>
+    <script>
+        // 领取时间是否限时,使用门槛,是否限制领取数量,是否永久有效
+        let radio = $(".show");
+        radio.each((index, item) => {
+            let name = $(item).attr("name");
+            $(`input:radio[name='${name}']`).change(function () {
+                let val = $(this).val();
+                radioShowOrHide(val, name);
+            });
+        })
+        function radioShowOrHide(val, name) {
+            /**
+             * {val}    radio的值，
+             * {name}   class控制显示隐藏的div
+             **/
+            val = Number(val);
+            if (name == 'is_permanent') {
+                //是否永久有效 0是显示，1隐藏
+                if (val === 2) {
+                    $(`.${name}-time`).css({"display":"flex"});
+                    $(`.${name}-day`).css({"display":"none"});
+                }else if(val === 3){
+                    $(`.${name}-day`).css({"display":"flex"});
+                    $(`.${name}-time`).css({"display":"none"});
+                }else{
+                    $(`.${name}`).hide();
+                }
+                return false;
+                
+            } else {
+                // 0是隐藏，1显示
+                if (val === 0) {
+                    if (name == 'is_threshold') {
+                        $("#use_min_price").val('0.00');//最低消费等于空
+                    };
+                    if (name == 'is_limit_total') {
+                        $("#limit_total").val('0');// 单人限制领取数量
+                    }
+                    $(`.${name}`).hide();
+                } else {
+                    $(`.${name}`).show();
+                }
+            }
+        }
+    </script>
+</section>
+<!--内容结束-->

@@ -1,0 +1,75 @@
+{// css}
+{include file="accounting/css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+</style>
+<section class="content" style="padding-top: 20px;">
+    <div class="container-fluid">
+        <div class="callout callout-info">
+            <h5>消费券信息</h5>
+            <div>
+                <div class="p-30">
+                    名称：{$detail.coupon_title}
+                </div>
+                <div class="p-30">
+                    金额：{$detail.coupon_price}元
+                </div>
+                <div class="p-30">
+                    编号：{$detail.uuno}
+                </div>
+                <div class="p-30">
+                    领取时间：{$detail.create_time}
+                </div>
+            </div>
+        </div>
+        
+        <div class="callout callout-info">
+            <h5>领取信息</h5>
+            <div>
+                <div class="p-30">
+                    领取人：{$detail.user.name}
+                </div>
+                <div class="p-30">
+                    手机号：{$detail.user.mobile}
+                </div>
+                <div class="p-30">
+                    身份证号：{$detail.user.idcard}
+                </div>
+                <div class="p-30">
+                    领取时间{$detail.tourIssueUser.create_time}
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <h5>核销信息</h5>
+            <div>
+                <div class="p-30">
+                    核销商户：{$detail.seller.nickname}
+                </div>
+                <div class="p-30">
+                    核销时间：{$detail.create_time}
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="callout callout-info">
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                    回</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function back() {
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>
+<!--内容结束-->

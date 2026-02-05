@@ -1,0 +1,140 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <input type="hidden" name="tid" id="tid" value="{$id}">
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-warning" onclick="javascript :history.back(-1);">
+                <i class="fa fa-undo m-r-10"></i>返回上一页</a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/travel/data/couponinfo.html?getList=1&id="+$('#tid').val(),      // 请求后台的URL
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",       // 排序方式  asc 或者 desc
+            pagination    : true,           // 是否进行分页
+            parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+            clickToSelect : true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+                    // 当某行包含checkbox_disabled时禁止选择
+                    formatter: function(value, row, index) {
+                        if(row.checkbox_disabled =='1'){
+                             return {
+                                 disabled : true
+                            }
+                         }
+                    }
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'uuno',
+                    title: 'UUNO',
+                    formatter: function(value, row, index) {
+                        return row.couponIssue.uuno;
+                    }
+                },
+                {
+                    field: 'cid',  
+                    title: '所属分类', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return row.cid;
+                    }
+                                                                                            
+                },
+                {
+                    field: 'coupon_issue_id',  
+                    title: '消费券名称', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'create_time',  
+                    title: '创建时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'update_time',  
+                    title: '更新时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)"><i class="fa fa-check"></i> 已全部领取 </a> ');
+                        return actions.join('');
+                    }
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+    //HTML反转义
+    function HTMLDecode(text) {
+        var temp = document.createElement("div");
+        temp.innerHTML = text;
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    }
+
+    // 编辑导游信息
+    function edit(id,gid) {
+        var tid = $('#tid').val();
+        var url = '/travel/tour/operate.html';
+        $.modal.confirm("确定领取该消费券吗？操作不可逆！！", function () {
+            var data = {"id": id,"tid":tid,"gid":gid};
+            $.operate.submit(url, "post", "json", data);
+        });
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

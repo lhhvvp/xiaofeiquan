@@ -1,0 +1,144 @@
+<style>
+    .btn-block+.btn-block {
+        margin-top: 0 !important;
+    }
+
+    .table-spot_ids {
+        min-height: 40px;
+        line-height: 40px;
+    }
+
+    .th-inner {
+        padding: 0 !important;
+    }
+
+    .th-inner input {
+        height: auto !important;
+    }
+
+    .bootstrap-table .fixed-table-container .table thead th {
+        padding: 5px !important;
+        background-color: #eff3f8 !important;
+    }
+
+    .table td,
+    .table th {
+        padding: 0 10px;
+        text-align: center;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/over.html"
+            id="form-builder">
+            <input type="hidden" name="id" value="{$id}">
+            <div class="dd_input_group">
+                <div class="row no-gutters" id="form_group_photos" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for='photos'>旅行团合影</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <div class="more_images">
+                            <div id="more_images_photos">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_photos" class="uploader-list"></div>
+                        <div id="filePicker_photos"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_photos', 'filePicker_photos', 'photos_preview', 'photos', true, 'jpg,png,gif,jpeg', '0','file');
+                </script>
+            </div>
+
+            <div class="dd_input_group">
+                <div class="row no-gutters" id="form_group_invoice" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for='invoice'>住宿发票</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <div class="more_images">
+                            <div id="more_images_invoice">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_invoice" class="uploader-list"></div>
+                        <div id="filePicker_invoice"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_invoice', 'filePicker_invoice', 'invoice_preview', 'invoice', true, 'pdf', '0','file');
+                </script>
+            </div>
+
+            <div class="dd_input_group">
+                <div class="row no-gutters" id="form_group_dining" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for='dining'>就餐发票</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <div class="more_images">
+                            <div id="more_images_dining">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_dining" class="uploader-list"></div>
+                        <div id="filePicker_dining"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_dining', 'filePicker_dining', 'dining_preview', 'dining', true, 'pdf', '0','file');
+                </script>
+            </div>
+
+            <div class="dd_input_group">
+                <div class="row no-gutters" id="form_group_travelling_expenses" style="width: 100%;">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                        for='travelling_expenses'>交通发票</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <div class="more_images">
+                            <div id="more_images_travelling_expenses">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-7 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_travelling_expenses" class="uploader-list"></div>
+                        <div id="filePicker_travelling_expenses"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_travelling_expenses', 'filePicker_travelling_expenses', 'travelling_expenses_preview', 'travelling_expenses', true, 'pdf', '0','file');
+                </script>
+            </div>
+
+           
+          
+
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>

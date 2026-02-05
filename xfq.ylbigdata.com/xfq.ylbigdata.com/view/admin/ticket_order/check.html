@@ -1,0 +1,332 @@
+<style>
+    body {
+        background-color: #eeeeee;
+        padding: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .content {
+        margin: auto;
+        background-color: #fff;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        box-shadow:
+            5.1px 0.9px 10px rgba(0, 0, 0, 0.015),
+            41px 7px 80px rgba(0, 0, 0, 0.03);
+    }
+
+    .container-fluid {
+        padding: 20px;
+    }
+
+    .titles {
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 20px;
+    }
+
+    .content-box {
+        width: 100%;
+    }
+
+    .content-box>ul>li {
+        width: calc(25% - 20px);
+        padding: 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .content-box>ul>li .tit {
+        color: #999;
+        display: inline-block;
+    }
+
+    .content-box>ul>li .img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .content-box>ul>li .img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-box>ul>li .cont {
+        display: inline-block;
+    }
+</style>
+
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                商户信息
+            </div>
+            <div class="content-box">
+                <ul>
+                    <li>
+                        <div class="tit">商户名称:</div>
+                        <div class="cont">{$seller_list.nickname}</div>
+                    </li>
+                    <li>
+                        <div class="tit">邮箱:</div>
+                        <div class="cont">{$seller_list.email}<small class="text-muted">
+                                <i class="fa fa-info-circle"></i> {if $seller_list.email_validated==1} 已验证{else /}
+                                未验证{/if}
+                            </small></div>
+                    </li>
+                    <li>
+                        <div class="tit">联系人:</div>
+                        <div class="cont">{$seller_list.name}</div>
+                    </li>
+                    <li>
+                        <div class="tit">电话:</div>
+                        <div class="cont">{$seller_list.mobile}</div>
+                    </li>
+                    <li>
+                        <div class="tit">所属分类:</div>
+                        <div class="cont">{$seller_list.class_id}</div>
+                    </li>
+                    <li>
+                        <div class="tit">所属区域:</div>
+                        <div class="cont">{$seller_list.area}</div>
+                    </li>
+
+                    <li>
+                        <div class="tit">营业时间:</div>
+                        <div class="cont">{$seller_list.do_business_time}</div>
+                    </li>
+                    <li>
+                        <div class="tit">商户位置:</div>
+                        <div class="cont">{$seller_list.address}({$seller_list.longitude},{$seller_list.latitude})</div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                商户银行信息
+            </div>
+            <div class="content-box">
+                <ul>
+                    <li>
+                        <div class="tit">社会信用代码:</div>
+                        <div class="cont">{$seller_list.credit_code}</div>
+                    </li>
+                    <li>
+                        <div class="tit">收款账户号码:</div>
+                        <div class="cont">{$seller_list.cart_number}</div>
+                    </li>
+                    <li>
+                        <div class="tit">收款账户名称:</div>
+                        <div class="cont">{$seller_list.card_name}</div>
+                    </li>
+
+                    <li>
+                        <div class="tit">收款开户银行:</div>
+                        <div class="cont">{$seller_list.card_deposit}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                图标与资质
+            </div>
+            <div class="content-box">
+                <ul id="viewer1">
+                    <li style="width: calc(20% - 20px);">
+                        <div class="img"><img src="{$seller_list.image}" data-original="{$seller_list.image}" /></div>
+                        <div class="tit">LOGO图标:</div>
+                    </li>
+                    <li style="width: calc(20% - 20px);">
+                        <div class="img"><img src="{$seller_list.idcard_front}"
+                                data-original="{$seller_list.idcard_front}" /></div>
+                        <div class="tit">上传身份证正面</div>
+                    </li>
+                    <li style="width: calc(20% - 20px);">
+                        <div class="img"><img src="{$seller_list.idcard_back}"
+                                data-original="{$seller_list.idcard_back}" /></div>
+                        <div class="tit">上传身份证反面</div>
+                    </li>
+                    {if $seller_list.class_id ==='旅行社'}
+                        <li style="width: calc(20% - 20px);" id="form_group_permit_foroperation">
+                            <div class="img"><img src="{$seller_list.permit_foroperation}"
+                                    data-original="{$seller_list.permit_foroperation}" /></div>
+                            <div class="tit">经营许可证</div>
+                        </li>
+                        <li style="width: calc(20% - 20px);" id="form_group_social_liability_insurance">
+                            <div class="img"><img src="{$seller_list.social_liability_insurance}"
+                                    data-original="{$seller_list.social_liability_insurance}" /></div>
+                            <div class="tit">企业责任险</div>
+                        </li>
+                    {/if}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                资质
+            </div>
+            <div class="content-box">
+                <ul id="viewer">
+                    {volist name ="$seller_list.business_license_set" id="vo"}
+                    <li style="width: calc(20% - 20px);">
+                        <div class="img"><img src="{$vo}" data-original="{$vo}" /></div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                商户描述
+            </div>
+            <div class="content-box" id="constent-box" data-constent="{$seller_list.content}">
+               
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="titles">
+                审核信息及记录
+            </div>
+            <div class="content-box">
+                <form name="form-builder" class="col-12 form_builder" method="post"
+                    action="/admin/Seller/checkPost.html">
+                    <input type="hidden" name="id" value="{$seller_list.id}" id="id" readonly="readonly">
+                    <div class="row dd_input_group no-gutters ">
+                        <label class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label"
+                            for="status">审核记录</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            {notempty name="ExamineRecord"}
+                            <div class="row dd_input_group no-gutters">
+                                <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0"
+                                    bordercolor="#ced4da">
+                                    <tr style="background-color: #eff3f8;">
+                                        <td width="40" height="30" align="center">序号</td>
+                                        <td width="80" align="center">审核人</td>
+                                        <td width="120" align="center">审核时间</td>
+                                        <td width="120" align="center">审核状态</td>
+                                        <td align="center">审核备注</td>
+                                    </tr>
+                                    {volist name="ExamineRecord" k="key" id="vo"}
+                                    <tr>
+                                        <td height="30" align="center">{$key + 1}</td>
+                                        <td align="center">{$vo.admin.nickname}</td>
+                                        <td align="center">{$vo.create_time}</td>
+                                        <td align="center">
+                                            {if $vo.step==1}
+                                            审核通过
+                                            {else /}
+                                            拒绝通过
+                                            {/if}
+                                        </td>
+                                        <td align="center">{$vo.remarks}</td>
+                                    </tr>
+                                    {/volist}
+                                </table>
+
+                            </div>
+                            {/notempty}
+                        </div>
+                    </div>
+                    <div class="row dd_input_group no-gutters " id="form_group_status">
+                        <label class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label is-required"
+                            for="status">审核</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 dd_radio_lable_left border-white">
+                            <div class="icheck-peterriver icheck-inline">
+                                <input type="radio" name="status" class="dd_radio" id="status1" value="1">
+                                <label for="status1">通过审核</label>
+                            </div>
+                            <div class="icheck-peterriver icheck-inline">
+                                <input type="radio" name="status" class="dd_radio" id="status3" value="3">
+                                <label for="status3">拒绝通过</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row dd_input_group no-gutters">
+                        <label
+                            class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 dd_input_l col-form-label is-required">审核备注</label>
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                            <textarea class="form-control" name="remark" rows="3" placeholder="请输入审核备注"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row dd_input_group form-builder-submit no-gutters">
+                        <div
+                            class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                            <button type="submit" class="btn btn-flat btn-primary">提 交</button>
+                            <button type="button" class="btn btn-flat btn-default"
+                                onclick="javascript :history.back(-1)">返
+                                回</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<script src="/static/plugins/viewer/viewer.js"></script>
+<link rel="stylesheet" href="/static/plugins/viewer/viewer.css">
+<script>
+    setTimeout(() => {
+        const dom = document.getElementById('viewer');
+        const dom1 = document.getElementById('viewer1');
+        new Viewer(dom, {
+            url: 'data-original'
+        });
+        new Viewer(dom1, {
+            url: 'data-original'
+        });
+        const doms = document.querySelector('#constent-box');
+        const domVal = doms.innerHTML;
+        doms.innerHTML ='';
+        doms.innerHTML = domVal;
+    }, 500);
+    const dataConstent = $("#constent-box").attr("data-constent");
+    $("#constent-box").html(dataConstent)
+</script>

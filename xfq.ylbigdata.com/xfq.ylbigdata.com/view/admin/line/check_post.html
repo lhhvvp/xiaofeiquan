@@ -1,0 +1,235 @@
+<!--内容开始-->
+<section class="content">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+
+        .items-boxs {
+            width: 100%;
+            background-color: #f7f7f7;
+            padding-top: 20px;
+        }
+
+        .items-boxs .items {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .items-boxs .items:last-child .items-box {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .title {
+            font-size: 16px;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #f7f7f7;
+
+        }
+
+        .items-boxs .items-box {
+            width: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding-top: 0;
+        }
+
+        .items .item {
+            width: 50%;
+            padding: 1.2rem;
+        }
+
+        .items span {
+            color: #3c8dbc;
+            font-size: 12px;
+            display: block;
+            width: 100%;
+        }
+
+        .items .tit {
+            font-size: 16px;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/Line/checkPost.html">
+                <input type="hidden" name="id" value="{$line.id}">
+                <input type="hidden" name="step" value="{$step}">
+                <!--内容展示 start-->
+
+                <!-- $line -->
+                <div class="items-boxs">
+                    <diV class="items">
+                        <div class="title">基础信息</div>
+                        <div class="items-box">
+                            <div class="item">
+                                <span>名称</span>
+                                <div class="tit">{$line.title}</div>
+                            </div>
+                            <div class="item">
+                                <span>线路景点</span>
+                                <div class="tit">{$line.tags}</div>
+                            </div>
+                            <div class="item">
+                                <span>报价</span>
+                                <div class="tit">{$line.price}</div>
+                            </div>
+
+                            <div class="item">
+                                <span>渠道信息</span>
+                                <div class="tit">
+                                    {if $line.flag == 1}运营{/if}
+                                    {if $line.flag == 2}旅行社：{$line.seller.nickname}{/if}
+                                </div>
+                            </div>
+                        </div>
+                    </diV>
+
+                    <diV class="items">
+                        <div class="title">封面图/相册</div>
+                        <div class="items-box">
+                            <div class="item" style="width: 200px;">
+                                <span>封面图片</span>
+                                <div class="tit">
+                                    <img src="{$line.images}" width="100" height="100" />
+                                </div>
+                            </div>
+                            <div class="item" style="overflow-x: auto;width: calc(100% - 200px);">
+                                <span>相册</span>
+                                <div class="tit">
+                                    {volist name="$line.photo" id="vo"}
+                                    <img src="{$vo.image}" width="100" height="100" style="margin-right: 10px;" />
+                                    {/volist}
+                                </div>
+                            </div>
+                        </div>
+                    </diV>
+
+                    <diV class="items">
+                        <div class="title">行程安排</div>
+                        <div class="items-box">
+                            <div class="item" style="width: 100%;">
+                                <div class="tit" id="content">
+                                    {$line.content}
+                                </div>
+                            </div>
+                        </div>
+                    </diV>
+
+                    <diV class="items">
+                        <div class="title">费用包含</div>
+                        <div class="items-box">
+                            <div class="item" style="width: 100%;">
+                                <div class="tit">
+                                    {$line.feeinclude}
+                                </div>
+                            </div>
+                        </div>
+                    </diV>
+
+
+                    <diV class="items">
+                        <div class="title">注意事项</div>
+                        <div class="items-box">
+                            <div class="item" style="width: 100%;">
+                                <div class="tit" id="notice">
+                                    {$line.notice}
+                                </div>
+                            </div>
+                        </div>
+                    </diV>
+
+
+                    <diV class="items">
+                        <div class="title">审核状态</div>
+                        <div class="items-box">
+                            <div class="item" style="width: 100%;">
+                                <div class="row dd_input_group no-gutters " id="form_group_time" style="margin: 0;">
+
+                                    <div class="icheck-peterriver icheck-inline" style="margin-right:15px">
+                                        <input type="radio" class="dd_radio" name="status" id="through" value="1"
+                                            checked>
+                                        <label for="through">
+                                            通过
+                                        </label>
+                                    </div>
+
+                                    <div class="icheck-peterriver icheck-inline">
+                                        <input type="radio" class="show dd_radio" name="status" id="not-through"
+                                            value="3">
+                                        <label for="not-through">
+                                            不通过
+                                        </label>
+                                    </div>
+                                </div>
+                                <textarea class="form-control" rows="3" placeholder="请输入备注信息"
+                                    style="height: 102px;" name="remark"></textarea>
+                            </div>
+                        </div>
+                    </diV>
+
+                    {notempty name="reList"}
+                    <diV class="items">
+                        <div class="title">审核记录</div>
+                        <div class="item" style="width: 100%;">
+                            <div class="tit" id="notice">
+                                <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#ced4da">
+                                    <tr style="background-color: #eff3f8;">
+                                      <td width="150" align="center">审核时间</td>
+                                      <td width="100" height="30" align="center">角色</td>
+                                      <td width="100" align="center">审核人</td>
+                                      <td width="120" align="center">审核状态</td>
+                                      <td align="center">审核备注</td>
+                                    </tr>
+                                    {volist name="reList" id="vo"}
+                                    <tr>
+                                      <td height="30" align="center">{$vo.create_time}</td>
+                                      <td align="center">{$vo.authGroup.title}</td>
+                                      <td align="center">{$vo.admin.nickname}</td>
+                                      <td align="center">
+                                            {if $vo.status==1}
+                                                通过
+                                            {else /}
+                                                拒绝通过
+                                            {/if}
+                                      </td>
+                                      <td align="center">{$vo.remarks}</td>
+                                    </tr>
+                                    {/volist}
+                                </table>
+                            </div>
+                        </div>
+                    </diV>
+                    {/notempty}
+                </div>
+
+                <!--内容展示 end-->
+                <div class="row dd_input_group form-builder-submit no-gutters hide">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide"
+                            onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+</section>
+
+<script>
+    const stripHtml = html => (new DOMParser().parseFromString(html, 'text/html')).body.textContent || '';
+    const content = $("#content");
+    const notice = $("#notice");
+    content.text(stripHtml(content.text()));
+    notice.text(stripHtml(notice.text()));
+</script>
+<!--内容结束-->

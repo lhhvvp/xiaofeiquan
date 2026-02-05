@@ -1,0 +1,210 @@
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--顶部提示开始-->
+            <div style="background-color:#fff;width: 100%;border-radius: .25rem;margin-top: 10px;">
+                <div class="head-box">
+                    <div class="item">
+                        <span class="item-icon-not">1</span>
+                        选择收据
+                    </div>
+                    <div class="item"></div>
+                    <div class="item">
+                        <span class="item-icon">
+                            <i class="nav-icon fa fa-check"></i>
+                        </span>
+                        确认信息
+                    </div>
+                </div>
+            </div>
+            <!--顶部提示结束-->
+            <div class="callout callout-info">
+                <h5><i class="fas fa-info"></i>
+                    注意
+                </h5>
+                您选取了<span class="e75159" id="e75159">  </span> 条核销记录，金额合计：<span
+                class="e75159" id="e75160"></span>元
+            </div>
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post"
+                action="/seller/data/tour_accounting_form.html" id="form_submit">
+                <input type="hidden" value="" name="sum_coupon_price" id="sum_coupon_price">
+                <input type="hidden" value="" name="writeoff_total" id="writeoff_total">
+                <input type="hidden" value="" name="write_off_ids" id="write_off_ids">
+                <div class="form">
+                    <div class="row dd_input_group no-gutters " id="form_group_coupon_price">
+                        <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                            for="coupon_price">备注</label>
+                        <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4" style="max-width: 90%;flex: 80%;">
+                            <textarea class="form-control" name="remarks" placeholder="请输入内容" style="min-height: 200px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-item">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">收款名称</label>
+                                <input type="text" name="card_name" class="form-control" value="{$sInfo.card_name}" placeholder="输入商户名称">
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">开户银行名称</label>
+                                <input type="text" name="card_deposit" class="form-control" value="{$sInfo.card_deposit}" placeholder="输入开户银行名称">
+                            </div>
+                            
+                        </div>
+                        <div class="info-item">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">基本开户账号</label>
+                                <input type="text" name="cart_number" class="form-control" value="{$sInfo.cart_number}" placeholder="输入开户银行名称">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="button" class="btn btn-flat btn-primary" id="submit">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default" onclick="javascript :history.back(-1)">返
+                            回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+        <script>
+            let is_submit = true;
+            $("#submit").click(() => {
+                if (is_submit) {
+                    is_submit = false;
+                    layer.msg('生成中请耐心等待。请勿刷新页面...',{icon: 16,time: 100000,shade : [0.5 , '#000' , true]});
+                    $("#form_submit").submit();
+                } else {
+                    $.modal.msg("您已经申请过了！")
+                }
+            });
+            let data = sessionStorage.getItem("price_data");
+            if(!!data){
+                data = JSON.parse(data);
+                $("#sum_coupon_price").val(data.sum_coupon_price);
+                $("#writeoff_total").val(data.ids.split(",").length);
+                $("#write_off_ids").val(data.ids);
+                $("#e75159").text(data.ids.split(",").length);
+                $("#e75160").text(data.sum_coupon_price);
+                if(!!data.sum_coupon_price == 0){
+                    window.history.back();
+                }
+            }else{
+                window.history.back();
+            }
+        </script>
+        <style>
+            body {
+                background-color: #f4f6f9;
+            }
+
+            .callout {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .form {
+                display: flex;
+            }
+
+            .info {
+                width: 30%;
+                padding-top: 10px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info .info-item {
+                width: 90%;
+                display: flex;
+            }
+
+            .info .info-item .title {
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            .dd_input_group {
+                width: 60%;
+            }
+            .dd_input_l{
+                overflow: inherit;
+            }
+
+            .f7f7f7 {
+                background-color: #f7f7f7;
+            }
+
+            .head-box {
+                margin: auto;
+                height: 50px;
+                display: flex;
+                justify-content: space-between;
+                width: 500px;
+            }
+
+            .head-box .item {
+                position: relative;
+                display: flex;
+                font-weight: bold;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .head-box .item:nth-of-type(2) {
+                width: 200px;
+            }
+
+            .head-box .item .item-icon {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 16px;
+                background-color: #204d74;
+            }
+
+            .head-box .item .item-icon-not {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #204d7490;
+                font-size: 16px;
+                border: 2px solid #204d7490;
+            }
+
+            .head-box .item:nth-of-type(2)::after {
+                content: "";
+                width: 90%;
+                height: 4px;
+                border-radius: 20px;
+                position: absolute;
+                background-color: #204d74;
+            }
+
+            .e75159 {
+                color: #e75159;
+                font-weight: bold;
+            }
+        </style>
+    </div>
+</section>

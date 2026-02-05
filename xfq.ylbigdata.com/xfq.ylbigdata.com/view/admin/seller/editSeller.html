@@ -1,0 +1,530 @@
+<style>
+    .imgClass{
+        width: 100%;
+        height: 100%;
+        height: 38px;
+        
+    }
+    .imgClass img{
+        height: 100%;
+    }
+</style>
+<script type="text/javascript">
+    /**
+     * 封装上传组件
+     * @param list
+     * @param filePicker_image
+     * @param image_preview
+     * @param image
+     * @param more            是否图集
+     * @param upload_allowext 格式限制
+     * @param size            大小限制
+     * @param type            上传类型[file/img]
+     */
+    function webupload(list, filePicker_image, image_preview, image, more, upload_allowext, size, type) {
+        if (upload_allowext) {
+            upload_allowext = upload_allowext.replace(/\|/g, ",");
+        }
+        if (size) {
+            size = size * 1024;
+        } else {
+            size = 10240 * 1024 * 1024;
+        }
+        type = type || 'img';
+        var $list = $("#" + list + "");                                // 这几个初始化全局的百度文档上没说明，好蛋疼
+        var GUID = WebUploader.Base.guid();                            // 一个GUID
+        var uploader = WebUploader.create({
+            auto: true,                                                // 选完文件后，是否自动上传。
+            swf: '/static/plugins/webuploader-0.1.5/uploader.swf',     // 加载swf文件，路径一定要对
+            server: '/admin/upload/index.html' + '?upload_type=' + type, // 文件接收服务端
+            pick: '#' + filePicker_image,                              // 选择文件的按钮。可选。
+            resize: false,                                             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            chunked: true,                                             // 是否分片
+            chunkSize: 5 * 1024 * 1024,                                // 分片大小
+            threads: 1,                                                // 上传并发数
+            formData: {
+                // 由于Http的无状态特征，在往服务器发送数据过程传递一个进入当前页面是生成的GUID作为标示
+                GUID: GUID,                                            // 自定义参数
+            },
+            compress: false,
+            fileSingleSizeLimit: size,                                 // 限制大小200M，单文件
+            //fileSizeLimit: allMaxSize*1024*1024,                     // 限制大小10M，所有被选文件，超出选择不上
+            accept: {
+                title: '上传图片/文件',
+                extensions: upload_allowext,                           // 允许上传的类型 'gif,jpg,jpeg,bmp,png'
+                mimeTypes: '*',                                        // 默认全部文件，为兼容上传文件功能，如只上传图片可写成img/*
+            }
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $list,
+                    $percent = $li.find('.progress .progress-bar');
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<div class="progress progress-striped active">' +
+                        '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                        '</div>' +
+                        '</div>').appendTo($li).find('.progress-bar');
+            }
+            //$li.find('p.state').text('上传中');
+            $percent.css('width', percentage * 100 + '%');
+        });
+        uploader.on('uploadSuccess', function (file, response) {
+            if (response.code == 0) {
+                $.modal.alertError(response.msg);
+            }
+            var url = response.url;
+            if (more == true) {
+                var images = '' +
+                    '<div class="row no-gutters">' +
+                    '   <div class="col-4 col-sm-6"><input type="text" name="' + image + '[]" value="' + url + '" class="form-control"/></div>' +
+                    '   <div class="col-3 col-sm-3 imgClass"><img src="'+url+'"/></div>' +
+                    '   <div class="col-4 col-sm-3">' +
+                    '       <div class="btn-group">' +
+                    '           <button type="button" class="btn btn-default btn-sm move_up_images"><i class="fa fa-chevron-up"></i></button>' +
+                    '           <button type="button" class="btn btn-default btn-sm move_down_images"><i class="fa fa-chevron-down"></i></button>' +
+                    '           <button type="button" class="btn btn-default btn-sm remove_images"><i class="fa fa-times"></i></button>' +
+                    '       </div>' +
+                    '   </div>' +
+                    '</div>';
+                var images_list = $('#more_images_' + image).html();
+
+                $('#more_images_' + image).html(images + images_list);
+
+            } else {
+                $("input[name='" + image + "']").val(url);
+                $("#" + image_preview).attr('src', url);
+                $("#" + image_preview).parent("a").attr('href', url);
+            }
+        });
+        uploader.on('uploadComplete', function (file) {
+            $list.find('.progress').fadeOut();
+        });
+        // 错误提示
+        uploader.on("error", function (type) {
+            if (type == "Q_TYPE_DENIED") {
+                $.modal.alertError('请上传' + upload_allowext + '格式的文件！');
+            } else if (type == "F_EXCEED_SIZE") {
+                $.modal.alertError('单个文件大小不能超过' + size / 1024 + 'kb！');
+            } else if (type == "F_DUPLICATE") {
+                $.modal.alertError('请不要重复选择文件');
+            } else {
+                $.modal.alertError('上传出错！请检查后重新上传！错误代码' + type);
+            }
+        });
+    }
+</script>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--顶部提示开始-->
+            <!--顶部提示结束-->
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/Seller/editPost.html">
+                <div class="row dd_input_group hide " id="form_group_id">
+                    <div class="form-group">
+                        <input type="hidden" name="id" value="{$seller_list.id}" id="id" readonly="readonly">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters " id="form_group_nickname">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="nickname">商户名称</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="nickname" name="nickname"
+                            value="{$seller_list.nickname}" placeholder="请输入商户名称">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_email">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="email">邮箱：</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="email" name="email" value="{$seller_list.email}"
+                            placeholder="请输入邮箱">
+                    </div>
+                    <small class="text-muted">
+                        <i class="fa fa-info-circle"></i> {if $seller_list.email_validated==1} 已验证{else /} 未验证{/if}
+                    </small>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_class_id">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="class_id">所属分类</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <select class="form-control" id="class_id" name="class_id" onchange="selectChange(this)">
+                            <option value="">请选择</option>
+                            {volist name="class_list" id="item"}
+                            <option value="{$item.id}" {if $seller_list.class_id==$item.id}selected{/if}>
+                                {$item.class_name}
+                            </option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_area">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="area">所属区域</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <select class="form-control" id="area" name="area">
+                            <option value="">请选择</option>
+                            {volist name="areaClass" key="k" id="item"}
+                            <option value="{$k}" {if $seller_list.area==$k}selected{/if}>
+                                {$item}
+                            </option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_image">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="image">LOGO图标</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="image" name="image" value="{$seller_list.image}"
+                            placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_image" class="uploader-list"></div>
+                        <div id="filePicker_image"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                        <a href="{$seller_list.image}" target="_blank">
+                            <img class="image_preview_info" src="{$seller_list.image}" id="image_preview">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_image', 'filePicker_image', 'image_preview', 'image', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_name">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="name">联系人</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="name" name="name" value="{$seller_list.name}"
+                            placeholder="请输入联系人">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_mobile">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="mobile">电话</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="mobile" name="mobile" value="{$seller_list.mobile}"
+                            placeholder="请输入电话">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_do_business_time">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="do_business_time">营业时间</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="input-group date">
+                            <input class="form-control" type="text" id="do_business_time" name="do_business_time"
+                                value="{$seller_list.do_business_time}" placeholder="请选择或输入营业时间" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_max_num">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label "
+                           for="latitude">最大人数</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="max_num" name="max_num"
+                               value="{$seller_list.max_num}" placeholder="请输入最大人数">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_address">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="address">商户位置</label>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="address" name="address"
+                            value="{$seller_list.address}" placeholder="请输入商户位置">
+                    </div>
+                    <a class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 btn btn-success btn-xs"
+                        style="width:200px;display: flex;align-items: center;justify-content: center;"
+                        href="javascript:;" onclick="getAmap();">点击选择区域</a>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_longitude">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label "
+                        for="longitude">经度</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="longitude" name="longitude"
+                            value="{$seller_list.longitude}">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters " id="form_group_latitude">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label "
+                        for="latitude">纬度</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="latitude" name="latitude"
+                            value="{$seller_list.latitude}">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_credit_code">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="credit_code">社会信用代码</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="credit_code" name="credit_code"
+                            value="{$seller_list.credit_code}" placeholder="请输入统一社会信用代码">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters " id="form_group_cart_number">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="cart_number">收款账户号码</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="cart_number" name="cart_number"
+                            value="{$seller_list.cart_number}" placeholder="请输入收款账户号码">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters " id="form_group_card_name">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="card_name">收款账户名称</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="card_name" name="card_name"
+                            value="{$seller_list.card_name}" placeholder="请输入收款账户名称">
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters " id="form_group_card_deposit">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="card_deposit">收款开户银行</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="card_deposit" name="card_deposit"
+                            value="{$seller_list.card_deposit}" placeholder="请输入收款账户开户银行">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="idcard_front">上传身份证正面</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="idcard_front" name="idcard_front"
+                            value="{$seller_list.idcard_front}" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="frontOfIDCard" class="uploader-list"></div>
+                        <div id="frontOfIDCard_list">
+                            <div class="img-button"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                        </div>
+                        <a href="{if $seller_list.idcard_front}{$seller_list.idcard_front}{else /}/static/admin/images/nopic.png{/if}"
+                            target="_blank">
+                            <img class="image_preview_info"
+                                src="{if $seller_list.idcard_front}{$seller_list.idcard_front}{else /}/static/admin/images/nopic.png{/if}"
+                                id="frontOfIDCard_list_license">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <!-- frontOfIDCard -->
+                <script type="text/javascript">
+                    webupload('frontOfIDCard', 'frontOfIDCard_list', 'frontOfIDCard_list_license', 'idcard_front', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+
+
+
+                <div class="row dd_input_group no-gutters">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="idcard_back">上传身份证反面</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="idcard_back" name="idcard_back"
+                            value="{$seller_list.idcard_back}" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="backOfIDCard" class="uploader-list"></div>
+                        <div id="backOfIDCard_list">
+                            <i class="fa fa-upload m-r-10"></i>
+                            选择图片
+                        </div>
+                        <a href="{if $seller_list.idcard_back}{$seller_list.idcard_back}{else /}/static/admin/images/nopic.png{/if}"
+                            target="_blank">
+                            <img class="image_preview_info"
+                                src="{if $seller_list.idcard_back}{$seller_list.idcard_back}{else /}/static/admin/images/nopic.png{/if}"
+                                id="backOfIDCard_list_license">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <!-- backOfIDCard -->
+                <script type="text/javascript">
+                    webupload('backOfIDCard', 'backOfIDCard_list', 'backOfIDCard_list_license', 'idcard_back', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+
+                <div class="dd_input_group">
+                    <div class="row no-gutters" id="form_group_business_license_set" style="width: 100%;">
+                        <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                            for='business_license_set'>资质上传</label>
+                        <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5" >
+                            <div class="more_images">
+                                <div id="more_images_business_license_set">
+                                    {volist name ="$seller_list.business_license_set" id="vo"}
+                                    <div class="row no-gutters">
+                                        <div class="col-4 col-sm-6">
+                                            <input type="text" name="business_license_set[]" value="{$vo}" class="form-control">
+                                        </div>
+                                        <div class="col-3 col-sm-3 imgClass"><img src="{$vo}"/></div>
+                                        <div class="col-4 col-sm-3">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default btn-sm move_up_images">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-sm move_down_images">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-sm remove_images">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/volist}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                            <!--上传图片-->
+                            <!--用来存放item-->
+                            <div id="fileList_business_license_set" class="uploader-list"></div>
+                            <div id="filePicker_business_license_set"><i class="fa fa-upload m-r-10"></i>选择文件</div>
+                            <!--上传图片-->
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        webupload('fileList_business_license_set', 'filePicker_business_license_set', 'business_license_set_preview', 'business_license_set', true, 'jpg,png,gif,jpeg', '0', 'file');
+                    </script>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_permit_foroperation" style="display: none;">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label "
+                        for="permit_foroperation">经营许可证</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="permit_foroperation" name="permit_foroperation"
+                            value="{$seller_list.permit_foroperation}" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_permit_foroperation" class="uploader-list"></div>
+                        <div id="filePicker_permit_foroperation"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                        <a href="{$seller_list.permit_foroperation}" target="_blank">
+                            <img class="image_preview_info" src="{$seller_list.permit_foroperation}"
+                                id="permit_foroperation_preview">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_permit_foroperation', 'filePicker_permit_foroperation', 'permit_foroperation_preview', 'permit_foroperation', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_social_liability_insurance"
+                    style="display: none;">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label"
+                        for=" social_liability_insurance">企业责任险</label>
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                        <input class="form-control" type="text" id="social_liability_insurance"
+                            name="social_liability_insurance" value="{$seller_list.social_liability_insurance}"
+                            placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_social_liability_insurance" class="uploader-list"></div>
+                        <div id="filePicker_social_liability_insurance"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                        <a href="{$seller_list.social_liability_insurance}" target="_blank">
+                            <img class="image_preview_info" src="{$seller_list.social_liability_insurance}"
+                                id="social_liability_insurance_preview">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_social_liability_insurance', 'filePicker_social_liability_insurance', 'social_liability_insurance_preview', 'social_liability_insurance', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_content">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="content">商户描述</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <textarea id="content" name="content"
+                            style="width:100%;height: 400px">{$seller_list.content}</textarea>
+                    </div>
+                </div>
+                <script>
+                    CKEDITOR.replace('content', { height: '400px' });
+                </script>
+
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide"
+                            onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+</section>
+<!--内容结束-->
+<script>
+    let class_id = {};
+    class_id.value = $("#class_id").val();
+    function selectChange(res) {
+
+        const value = Number(res.value);
+        if (value == 3) {
+            $("#form_group_permit_foroperation,#form_group_social_liability_insurance").show();
+        } else {
+            $("#form_group_permit_foroperation,#form_group_social_liability_insurance").hide();
+            $("#permit_foroperation").val('');
+            $("#social_liability_insurance").val('');
+        }
+    };
+    selectChange(class_id);
+    /***********************************地图窗口*****************************************/
+    function getAmap(argument) {
+        // 每次打开窗口前 删除本地存储的数据 避免造成资源占用
+        layui.data('_coordinate_info_', { key: 'data', remove: true });
+        var index = layer.open({
+            title: '坐标拾取',
+            type: 2,
+            shade: 0.2,
+            maxmin: false,
+            shadeClose: false,  //禁用最大化，最小化按钮
+            closeBtn: 1,        //不显示右上角关闭按钮
+            area: ['100%', '80%'],
+            content: './map.html',
+            end: function () {
+                // 窗口关闭 获取所选的坐标 并赋值给对应的文本框
+                var _coordinate_info_ = layui.data('_coordinate_info_');
+                if (_coordinate_info_) {
+                    console.log(_coordinate_info_.data);
+                    $('#longitude').val(_coordinate_info_.data.longitude);
+                    $('#latitude').val(_coordinate_info_.data.latitude);
+                    $('#address').val(_coordinate_info_.data.title);
+                }
+                return;
+            }
+        });
+        $(window).on("resize", function () {
+            layer.full(index);
+        });
+    }
+    /***********************************地图窗口*****************************************/
+</script>

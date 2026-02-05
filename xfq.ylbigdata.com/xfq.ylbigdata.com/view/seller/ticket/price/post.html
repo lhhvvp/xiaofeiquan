@@ -1,0 +1,68 @@
+<div class="container-fluid">
+        <h4 class="text-center mt-20">{$ticket.title}</h4>
+        <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+            <input type="hidden" value="{$param['ticket_id']}" name="row[ticket_id]"/>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="title">日期</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" date="true" readonly name="row[date]" value="{$param.date}">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="stock">总库存</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" min="0" id="stock" name="row[total_stock]"
+                           value="{$vo.total_stock|default=0}" placeholder="请输入库存">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="online_price">线上价</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" required min="0" step="0.01" id="online_price"
+                           name="row[online_price]" value="{$vo.online_price|default=0}" placeholder="请输入划线价">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="casual_price">散客票价</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" required min="0" step="0.01" id="casual_price"
+                           name="row[casual_price]" value="{$vo.casual_price|default=0}" placeholder="请输入划线价">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="team_price">团体票价</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" required min="0" step="0.01" id="team_price"
+                           name="row[team_price]" value="{$vo.team_price|default=0}" placeholder="请输入划线价">
+                </div>
+            </div>
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">确定修改</button>
+                    <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返
+                        回
+                    </button>
+                </div>
+            </div>
+        </form><!--底部提示-->
+</div>
+<script>
+    $.table.refresh = function () {
+        parent.reloads();
+    }
+    $.operate.successCallback = function (result){
+        if (result.code == 1) {
+            var parent = window.parent;
+            $.modal.close();
+            parent.toastr.success(result.msg); // toastr提示
+            window.parent.reloads();
+        } else {
+            $.modal.alertError(result.msg);
+        }
+    }
+</script>

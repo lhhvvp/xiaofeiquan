@@ -1,0 +1,190 @@
+<link rel="stylesheet" href="/static/plugins/selectpage/selectpage.css">
+<script src="/static/plugins/selectpage/selectpage.min.js"></script>
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>所属商户：</label>
+                                <input type="text" id="seller-selectpage" name="seller_id" value="" />
+                            </li>
+                            <li>
+                                <label>预约人：</label>
+                                <input type="text" name="fullname" value="" placeholder="请输入预约人">
+                            </li>
+                            <li>
+                                <label>预约人证件号：</label>
+                                <input type="text" name="idcard" value="" placeholder="请输入预约人证件号">
+                            </li>
+                            <li>
+                                <label>预约人手机号：</label>
+                                <input type="text" name="phone" value="" placeholder="请输入预约人手机号">
+                            </li>
+                            <li>
+                                <label>状态：</label>
+                                <select class="" name="status">
+                                    <option value="">请选择</option>
+                                    <option value="0">待核销</option>
+                                    <option value="1">已核销</option>
+                                    <option value="2">已取消</option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                </div>
+                <table id="bootstrap-table" class="projects" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            var options = {
+                uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url           : "/admin/appt/logList.html?id={$Request.get.id}",      // 请求后台的URL
+                sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+                pagination    : true,			// 是否进行分页
+                parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize      : "10",         // 每页显示的行数
+                layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns  : true,                   // 是否启用固定列功能
+                fixedLeft     : 0,          // 左侧固定列数
+                fixedRight    : 1,         // 右侧固定列数
+                columns: [
+                    {
+                        field: 'id',
+                        title: 'ID',
+                        sortable: true,
+                        align:'center',
+                    },
+                    {
+                        field: 'seller.nickname',
+                        title: '所属商户',
+                    },
+                    {
+                        field: 'datetime',
+                        title: '预约时段',
+                        align:'center',
+                        formatter: function(value, row, index) {
+                            return row.start +'~' + row.end;
+                        }
+                    },
+                    {
+                        field: 'users',
+                        title: '预约用户',
+                        formatter:function (value, row, index){
+                            if(row.users){
+                                return `<img alt="${row.users.nickname}" class="table-avatar mr-1" src="${row.users.headimgurl}">  ${row.users.nickname}`;
+                            }else{
+                                return "未知用户";
+                            }
+                        }
+                    },
+                    {
+                        field: 'fullname',
+                        title: '预约人',
+                    },
+                    {
+                        field: 'phone',
+                        title: '预约人电话',
+                    },
+                    {
+                        field: 'idcard',
+                        title: '预约人身份证号'
+                    },
+                    {
+                        field: 'number',
+                        title: '预约人数',
+                        align: 'center'
+                    },
+                    {
+                        field: 'ip',
+                        title: 'IP地址',
+                        align: 'center'
+                    },
+                    {
+                        field: 'status_text',
+                        title: '状态'
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class : 'text-nowrap',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" target="" href="javascript:void(0)"  onclick="see(\'/admin/appt/logDetail.html?_layer=1&id='+row.id+'\')"><i class="fa fa-eye"></i> 查看</a> ');
+                            return actions.join('');
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+
+
+            $('#seller-selectpage').selectPage({
+                showField : 'nickname',
+                keyField : 'id',
+                multiple:false,
+                data : '/admin/Seller/index.html?getList=1',
+                pageSize:50,
+                params : function(){return {'class_id':2};},
+                eAjaxSuccess : function(res) {
+                    return {
+                        list : res.data,
+                        totalRow : res.total
+                    }
+                },
+            });
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        function see(url){
+            let area  =   [800 + 'px', 600 + 'px'];
+            layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area: area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        }
+    </script>
+</section>

@@ -1,0 +1,196 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <!-- <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        <label>名称：</label> 
+                        <input type="text" id="search_name" name="name" value="" placeholder="请输入旅行团名称">
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div> -->
+    <!--搜索区域结束-->
+    <input type="hidden" name="tid" id="tid" value="{$tid}">
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="add();">
+                <i class="fa fa-plus"></i>添加导游</a>
+            <a class="btn btn-warning" onclick="javascript :history.back(-1);">
+                <i class="fa fa-undo m-r-10"></i>返回上一页</a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/travel/tour/guide.html?getList=1&tid="+$('#tid').val(),      // 请求后台的URL
+            addUrl        : "/travel/tour/addGuide.html",      // 新增的地址
+            editUrl       : "/travel/tour/editGuide.html?id=__id__",// 新增的地址
+            exportUrl     : "/travel/tour/export.html",    // 导出的地址
+            sortUrl       : "/travel/tour/sort.html",      // 排序的地址
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",       // 排序方式  asc 或者 desc
+            pagination    : true,           // 是否进行分页
+            parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+            clickToSelect : true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+                    // 当某行包含checkbox_disabled时禁止选择
+                    formatter: function(value, row, index) {
+                        if(row.checkbox_disabled =='1'){
+                             return {
+                                 disabled : true
+                            }
+                         }
+                    }
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'name',  
+                    title: '名称', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'mobile',
+                    title: '电话', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'status',  
+                    title: '状态', 
+                    sortable: false,
+                    formatter: function(value, row, index) {
+                        if (value == 0) {
+                            return '<i class="fa fa-toggle-off text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/travel/tour/stateGuide.html\')"></i>';
+                        } else {
+                            return '<i class="fa fa-toggle-on text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/travel/tour/stateGuide.html\')"></i>';
+                        }
+                    }
+                },
+                {
+                    field: 'create_time',  
+                    title: '创建时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'update_time',  
+                    title: '更新时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="edit(\'' + row.id + '\',2)"><i class="fa fa-edit"></i>编辑</a> ');
+                        /*actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="add(\'' + row.id + '\',1)"><i class="fa fa-edit"></i>删除</a> ');*/
+                        return actions.join('');
+                    }
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+    //HTML反转义
+    function HTMLDecode(text) {
+        var temp = document.createElement("div");
+        temp.innerHTML = text;
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    }
+
+    // 上传信息
+    function add() {
+        var tid = $('#tid').val();
+        var url = $.operate.addUrl()+'&tid='+tid;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("添加", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 编辑导游信息
+    function edit(id) {
+        var tid = $('#tid').val();
+        var url = $.operate.editUrl(id)+'&tid='+tid;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.modal.open("编辑", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

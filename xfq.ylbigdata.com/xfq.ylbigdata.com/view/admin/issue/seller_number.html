@@ -1,0 +1,179 @@
+<style>
+    #echarts {
+        width: 80%;
+        height: 600px;
+        margin: auto;
+    }
+
+    .select-list {
+        width: 80%;
+        margin: auto;
+        height: 100px;
+    }
+</style>
+<div class="main">
+    <div class="select-list">
+        <ul>
+            <li>
+                <label>所属分类：</label>
+                <select name="class_id" id="class_id">
+                    <option value="2">景区</option>
+                    <option value="3">旅行社</option>
+                    <option value="4">剧院</option>
+                    <option value="5">影院</option>
+                </select>
+            </li>
+            <li style="display: flex;align-items: center;">
+                <label style="width: 80px">查询时间</label>
+                <div class="input-group">
+                    <input class="form-control" type="text" id="coupon_time_limit" name="coupon_time_limit"
+                           value="" autocomplete="off">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#coupon_time_limit').daterangepicker({
+                            showDropdowns: true,     // 年月份下拉框
+                            timePicker: true,        // 显示时间
+                            timePicker24Hour: true,  // 时间制
+                            timePickerSeconds: true, // 时间显示到秒
+                            ranges: {
+                                '今天': [moment(), moment()],
+                                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                '上周': [moment().subtract(6, 'days'), moment()],
+                                '前30天': [moment().subtract(29, 'days'), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
+                                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            },
+                            //timePicker: true,
+                            //timePickerIncrement: 30,
+                            locale: {
+                                format: 'YYYY-MM-DD',
+                                applyLabel: '确定',       // 确定按钮文本
+                                cancelLabel: '取消',      // 取消按钮文本
+                                customRangeLabel: '自定义',
+                            }
+                        });
+                    });
+                </script>
+            </li>
+            <li>
+                <a class="btn btn-primary btn-rounded btn-sm" onclick="submit()">搜索</a>
+                <input class="hide" type="submit" name="btnSave" value="提交" onclick="">
+            </li>
+        </ul>
+    </div>
+    <div id="echarts"></div>
+</div>
+<script src="/static/plugins/echarts.min.js"></script>
+<script src="/static/plugins/echarts.js"></script>
+
+<script>
+
+    function sortBy(attr,rev){
+        if( rev==undefined ){ rev=1 }else{ (rev)?1:-1; }
+        return function (a,b){
+            a=a[attr];
+            b=b[attr];
+            if(a<b){ return rev*-1}
+            if(a>b){ return rev* 1 }
+            return 0;
+        }
+    };
+
+    function myChart(options) {
+        var myChart = echarts.init(document.getElementById('echarts'));
+        let option = {
+            title: {
+                show: false,
+                text: options.title
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (res) {
+                    res = res.sort(sortBy('value',-1));
+                    let html = `<div style="font-weight: bold;">日期or时间：${res[0].axisValue}</div>`
+                    res.forEach(ret => {
+                        html +=
+                                `
+                                <div style="padding: 4px 4px 0 4px ">
+                                <span style="color: red;margin-right: 20px;display:inline-block;font-weight: bold;width: 240px">${ret.seriesName}</span>
+                                核销数量：
+                                <span style="color: red;font-weight: bold;display: inline-block;padding-right:10px;width: 100px">${ret.data.value}张</span>
+                                核销金额
+                                <span style="color: red;font-weight: bold;display: inline-block;padding-left: 10px;width: 100px">${ret.data.price}元</span>
+                                </div>`
+                    })
+                    return html;
+                }
+            },
+            legend: {
+                data: options.name
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: options.date
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: options.series
+        };
+        myChart.setOption(option, true);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+    };
+
+    function submit() {
+        let cid = $('#class_id').find('option:selected').val()
+        let daterange = $("#coupon_time_limit").val();
+        ajax(cid, daterange)
+    };
+    setTimeout(() => {
+        ajax(2, $("#coupon_time_limit").val())
+    }, 200)
+
+    function ajax(cid, daterange) {
+        $.ajax({
+            url: "/admin/Issue/seller_number",
+            method: "post",
+            data: {
+                cid,
+                daterange,
+            },
+            success: function (res) {
+                let xdata = [];
+                res.data.xdata.forEach(item => {
+                    xdata.push(item.label);
+                });
+                let series = [];
+                let seriesName = [];
+                series = res.data.line_data.map(item => {
+                    seriesName.push(item.name);
+                    item.type = 'line'
+                    item.data = item.data.map(d => {
+                        return {value: d.count, price: d.price}
+                    });
+                    return item
+                });
+                let option = {
+                    title: "核销时段统计",
+                    date: xdata,
+                    series,
+                    name: seriesName,
+                };
+                myChart(option);
+            }
+        })
+    }
+</script>

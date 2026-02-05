@@ -1,0 +1,76 @@
+{include file="tour_accounting/css"/}
+<style>
+    .container-fluid {
+        min-width: 1200px;
+        overflow-x: auto;
+    }
+
+    table {
+        border-color: #cccccc;
+        width: 1200px;
+    }
+
+    table tr:nth-child(2n - 1) {
+        background-color: rgb(248, 248, 248);
+    }
+
+    table tr th {
+        padding: .5rem;
+        text-align: center;
+    }
+
+    table tr td {
+        padding: .5rem;
+        text-align: center;
+    }
+
+    .mag-top {
+        margin-top: 10px;
+    }
+</style>
+<div class="container-fluid mag-top">
+    <div class="callout callout-info">
+        <div class="left">
+            <h5>打卡记录</h5>
+            <div class="infobox">
+                <table border="1">
+                    <tr>
+                        <th>编号</th>
+                        <th>团号</th>
+                        <th>名称</th>
+                        <th>团期</th>
+                        <th>人数</th>
+                        <th>计调人</th>
+                        <th>电话</th>
+                        <th>消费券</th>
+                        <th>是否完成打卡</th>
+                        <th>打卡用户</th>
+                        <th>打卡时间</th>
+                        <th>创建时间</th>
+
+                    </tr>
+                    {notempty name="tourwriteoff"}
+                    {volist name="tourwriteoff" id="vo"}
+                    <tr>
+                        <td>21</td>
+                        <td>{$vo.tour.no}</td>
+                        <td>{$vo.tour.name}</td>
+                        <td>{$vo.tour.term}</td>
+                        <td>{$vo.tour.numbers}</td>
+                        <td>{$vo.tour.planner}</td>
+                        <td>{$vo.tour.mobile}</td>
+                        <td>{$vo.coupon_title}</td>
+                        <td>
+                            <div class="badge-success">已打卡</div>
+                        </td>
+                        <td>{$vo.user.name}</td>
+                        <td>{$vo.user.create_time}</td>
+                        <td>{$vo.tour.create_time}</td>
+                    </tr>
+                    {/volist}
+                {/notempty}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

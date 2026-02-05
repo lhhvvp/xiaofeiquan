@@ -1,0 +1,496 @@
+<style>
+    .btn-block+.btn-block {
+        margin-top: 0 !important;
+    }
+
+    .table-spot_ids {
+        min-height: 40px;
+        line-height: 40px;
+    }
+
+    .th-inner {
+        padding: 0 !important;
+    }
+
+    .th-inner input {
+        height: auto !important;
+    }
+
+    .bootstrap-table .fixed-table-container .table thead th {
+        padding: 5px !important;
+        background-color: #eff3f8 !important;
+    }
+
+    .table td,
+    .table th {
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .use_store-box div {
+        width: 100%;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!--顶部提示开始-->
+        <!--顶部提示结束-->
+        <!--数据表开始-->
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/tour/addPostV2.html"
+            id="form-builder">
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="name">旅行团名称</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="name" value="" placeholder="请输入旅行团名称">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_no">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="no">团号</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" value="{:strtoupper(gen_uuid())}" disabled>
+                    <input class="form-control" type="hidden" id="no" name="no" value="{:strtoupper(gen_uuid())}">
+                </div>
+                <div
+                    class="col-12 offset-sm-2 offset-md-2 offset-lg-0 offset-xl-0 col-sm-10 col-md-10 col-lg-4 col-xl-7 dd_ts">
+                    <small class="text-muted">
+                        <i class="fa fa-info-circle"></i> 系统自动生成，无需修改 </small>
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters " id="form_group_ht_type">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="ht_type">
+                    类型
+                </label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                    <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="ht_type" class="dd_radio" id="ht_type1" value="1" checked>
+                        <label for="ht_type1">
+                            团队
+                        </label>
+                    </div>
+                    <!-- <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="ht_type" class="show dd_radio" id="ht_type2" value="2">
+                        <label for="ht_type2">
+                            散客
+                        </label>
+                    </div>
+                    <small class="text-muted">
+                        <i class="fa fa-info-circle"></i> 该选择会影响旅行团上传游客合同保单 </small> -->
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_term">
+                <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                    for="term">团期</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="term" name="term" value="" placeholder="请选择团期"
+                            autocomplete="off">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    $('#term').daterangepicker({
+                        showDropdowns: true,     // 年月份下拉框
+                        timePicker: true,        // 显示时间
+                        timePicker24Hour: true,  // 时间制
+                        timePickerSeconds: true, // 时间显示到秒
+                        // ranges: {
+                        //     '今天': [moment(), moment()],
+                        //     '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        //     '上周': [moment().subtract(6, 'days'), moment()],
+                        //     '前30天': [moment().subtract(29, 'days'), moment()],
+                        //     '本月': [moment().startOf('month'), moment().endOf('month')],
+                        //     '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        // },
+                        //timePicker: true,
+                        //timePickerIncrement: 30,
+                        locale: {
+                            format: 'YYYY-MM-DD',
+                            applyLabel: '确定',       // 确定按钮文本
+                            cancelLabel: '取消',      // 取消按钮文本
+                            customRangeLabel: '自定义',
+                        }
+                    });
+                })
+            </script>
+
+
+            <div class="row dd_input_group no-gutters" id="form_group_numbers">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="numbers">人数</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" id="numbers" name="numbers" value="" placeholder="10人起成团，单团上限50人申请">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_planner">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="planner">计调</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="planner" name="planner" value="" placeholder="请输入计调人">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters" id="form_group_mobile">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="mobile">计调电话</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="mobile" name="mobile" value="" placeholder="请输入计调人电话">
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="hotel">酒店名称</label>
+                <div class="col-8 col-sm-8 col-md-8 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" name="hotel_arr[]" value="" placeholder="请输入酒店名称">
+                </div>
+                <div class="col-1 col-sm-1 col-md-1 col-lg-2 col-xl-2">
+                    <div class="btn btn-sm btn-primary" id="add_hotel"
+                        style="height: 100%;width: 50px; display: flex;align-items: center;margin-left:5px;border-radius: 5px;">添加</div>
+                </div>
+            </div>
+            <div id="hotel">
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_travel_id">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="travel_id">旅行社消费券</label>
+                <!-- <div class="col-6 col-sm-6 col-md-6 col-lg-2 col-xl-3"> -->
+                <!-- 选择旅行消费券ID 单选 字段名 travel_id -->
+                <!-- <input class="form-control" type="text" name="numbers" disabled="" value="" placeholder="请输入人数" -->
+                <!-- style="width: 98%;"> -->
+                <!-- </div> -->
+
+                <!-- <button type="button" -->
+                <!-- class="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-3 btn btn-primary btn-block">添加</button> -->
+                <input type="hidden" id="travel_id" name="travel_id">
+                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                    <div style="display: flex;width:100%;" id="use_store-box_1" class="use_store-box">
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row dd_input_group no-gutters" id="form_group_spot_ids">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label"
+                    for="spot_ids">商户消费券</label>
+                <input type="hidden" id="spot_ids" name="spot_ids">
+                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                    <div style="display: flex;width:100%;" id="use_store-box" class="use_store-box">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row dd_input_group no-gutters " id="form_group_line_info">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="line_info">线路信息</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                    <textarea id="line_info" name="line_info" style="width:100%;height: 400px"></textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('line_info', { height: '400px' });
+            </script>
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div
+                    class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button> <button type="button"
+                        class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+<script>
+    $("#add_hotel").click(() => {
+        html = `<div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                    for="hotel">酒店名称</label>
+                <div class="col-8 col-sm-8 col-md-8 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" name="hotel_arr[]" value="" placeholder="请输入酒店名称">
+                </div>
+                <div class="col-1 col-sm-1 col-md-1 col-lg-2 col-xl-2">
+                    <div class="btn btn-block btn-sm btn-danger" onclick="del_hotel($(this))" style="height: 100%;width: 50px;margin-left:5px;border-radius: 5px;display: flex;align-items: center;">删除</div>
+                </div>
+            </div>`;
+        $("#hotel").append(html);
+    });
+    function del_hotel(that) {
+        that.parents('.dd_input_group').remove();
+    };
+   
+    class dataTables {
+        constructor(option) {
+            this.dom = option.dom;
+            this.urls = option.urls;
+            this.columns = option.columns;
+            this.checkboxName = option.checkboxName;
+            this.checkboxId_ = 0;
+            this.hideInput = option.hideInput;
+            this.init(option.dom, option.buttonDom, option.buttonLabel, option.href, option.hideInput);
+            this.type = option.type;
+        };
+        init(dom, buttonDom, name, href, hideInput) {
+            $(`#${buttonDom}`).children().remove();
+            let html = `
+                    <div>
+                        <table id="${this.dom}" class="${this.dom}"></table>
+                        <button type="button" onclick="this.buttonClick()" style="margin-top:10px" class="btn btn-flat btn-primary">选择${name}</button>
+                        <button type="button" onclick='this.remove()' style="margin-top:10px" class="btn btn-flat btn-primary">删除选中</button>
+                    </div>`;
+            $(`#${buttonDom}`).append(html);
+            let buttonBox = document.querySelectorAll(`#${buttonDom} button`);
+            let that = this;
+            for (let i = 0; i < buttonBox.length; i++) {
+                buttonBox[0].onclick = function () {
+                    const couponVal = $("#spot_ids").val();
+                    let hrefs = href;
+                    if (couponVal != 0) {
+                        hrefs = `${href}?ids=${couponVal}`;
+                    };
+
+                    var options = {
+                        title: `请选择${name}`,
+                        url: `${hrefs}`,
+                        btn: ['<i class="fa"></i>确定', '<i class="fa fa-close"></i> 取消'],
+                        that: that,
+                        callBack: that.success,
+                    };
+                    $.modal.openOptions(options);
+                };
+                buttonBox[1].onclick = function () {
+                    var rows = $(`#${dom}`).bootstrapTable('getSelections');//获取选中行
+                    if (rows.length == 0) {
+                        layer.msg("请选择要删除的数据");
+                        return;
+                    };
+                    var indexs = [];
+                    for (var i = 0; i < rows.length; i++) {
+                        indexs[i] = rows[i].id;
+                    };
+
+                    $(`#${dom}`).bootstrapTable('remove', {
+                        field: 'id',
+                        values: indexs
+                    });
+                    let product_id = $(`#${hideInput}`).val().split(",");
+                    product_id = product_id.map((item) => {
+                        item = Number(item);
+                        return item
+                    });
+                    product_id = product_id.filter(items => {
+                        if (!indexs.includes(items)) return items;
+                    });
+                    if (product_id.length == 0) {
+                        product_id.push(0);
+                        $(`.${dom}`).hide();
+                    };
+                    $(`#${hideInput}`).val(product_id)//给隐藏域赋值
+                }
+            };
+        };
+        dataTable(id) {
+            if (id == 0 || id == '' || id == null || id == undefined) return false;
+            $(`#${this.dom}`).bootstrapTable('destroy');
+            $(`#${this.dom}`).bootstrapTable({
+                url: `${this.urls}${id}`,
+                columns: this.columns
+            });
+            $(`#${this.dom}`).on('load-success.bs.table', function (e, data) {
+                $("input[name='btSelectAll']").removeAttr("name");
+                $("input[name='btSelectItem']").removeAttr("name");
+            });
+        };
+        success(index, layero, that) {
+            $(`.${that.dom}`).show();
+            let checkboxId = [];
+            var body = layer.getChildFrame('body', index);
+                body.find(`${that.checkboxName}`).each((index, item) => {
+                let val = $(item).val();
+                checkboxId.push(val);
+            });
+            
+            
+            // body.find("#bootstrap-table tr").each((index, item) => {
+            //     // let selected = $(item).hasClass("selected");
+            //     console.log($(item));
+            //     if (selected) {
+            //         let val = null;
+            //         if (that.type == 'checkbox') {
+
+            //             val = $(item).find(`input:checkbox[name='${that.checkboxName}']`).val();
+            //         } else {
+            //             val = $(item).find(`input:radio[name='${that.checkboxName}']`).val();
+            //         }
+            //         val = Number(val);
+            //         console.log(val);
+            //         checkboxId.push(val);
+            //     }
+            // });
+            if (checkboxId.length != 0) {
+                this.checkboxId_ = checkboxId.join(",");
+                $(`#${that.hideInput}`).val(this.checkboxId_);//给隐藏域赋值;
+                that.dataTable(this.checkboxId_);
+            } else {
+                $(`.${that.dom}`).hide();
+            };
+            layer.close(index);
+
+        }
+
+    }
+    //景区
+    new dataTables({
+        dom: 'bootstrap-table_2',//初始化表格的容器id
+        buttonDom: 'use_store-box',//放按钮的容器id
+        buttonLabel: `商户消费券`,//按钮名称
+        href: '/travel/tour/list',//子页面请求的接口
+        hideInput: 'spot_ids',//隐藏域的id名称
+        urls: `/travel/tour/add.html?getList=`,//子页面选择数据以后通过id查询并渲染
+        checkboxName: '#selectedVal',//子页面的复选框name值
+        columns: [
+            { checkbox: true, },
+            { field: 'id', title: '编号' },
+            { field: 'coupon_title', title: '名称' },
+            {
+                field: "coupon_price",
+                title: '金额',
+                formatter: function (value, row, index) {
+                    return value + '元';
+                }
+            },
+            {
+                field: 'coupon_time_start',
+                title: '有效期',
+                sortable: false,
+                formatter: function (value, row, index) {
+                    let name = '';
+                    if (row.is_permanent == 1) {
+                        //永久有效
+                        name = '永久有效'
+                    } else if (row.is_permanent == 2) {
+                        //时间段
+                        name = `${changeDateFormat(value)} - ${changeDateFormat(row.coupon_time_end)}`;
+                    } else {
+                        //天数
+                        name = `领取后${row.day}天有效`
+                    }
+
+                    return name;
+                }
+            },
+            {
+                field: 'limit_time',
+                title: '发放时间',
+                sortable: false,
+                formatter: function (value, row, index) {
+                    let time = ''
+                    if (value == 1) {
+                        // 限时间
+                        time = `${changeDateFormat(row.start_time)} - ${changeDateFormat(row.end_time)}`;
+                    } else {
+                        time = '不限时';
+                    }
+                    return time
+                }
+            },
+        ],//表格的字段
+        type: "checkbox",
+    });
+
+    //旅行
+    new dataTables({
+        dom: 'bootstrap-table_1',//初始化表格的容器id
+        buttonDom: 'use_store-box_1',//放按钮的容器id
+        buttonLabel: `旅行社消费券`,//按钮名称
+        href: '/travel/tour/list_tour.html',//子页面请求的接口
+        hideInput: 'travel_id',//隐藏域的id名称
+        urls: `/travel/tour/add.html?getList=`,//子页面选择数据以后通过id查询并渲染
+        checkboxName: '#selectedVal',//子页面的复选框name值
+        columns: [
+            { checkbox: true, },
+            { field: 'id', title: '编号' },
+            { field: 'coupon_title', title: '名称' },
+            { field: "coupon_price", title: '金额' },
+            {
+                field: 'coupon_time_start',
+                title: '有效期',
+                sortable: false,
+                formatter: function (value, row, index) {
+                    let name = '';
+                    if (row.is_permanent == 1) {
+                        //永久有效
+                        name = '永久有效'
+                    } else if (row.is_permanent == 2) {
+                        //时间段
+                        name = `${changeDateFormat(value)} - ${changeDateFormat(row.coupon_time_end)}`;
+                    } else {
+                        //天数
+                        name = `领取后${row.day}天有效`
+                    }
+
+                    return name;
+                }
+            },
+            {
+                field: 'limit_time',
+                title: '发放时间',
+                sortable: false,
+                formatter: function (value, row, index) {
+                    let time = ''
+                    if (value == 1) {
+                        // 限时间
+                        time = `${changeDateFormat(row.start_time)} - ${changeDateFormat(row.end_time)}`;
+                    } else {
+                        time = '不限时';
+                    }
+                    return time
+                }
+            }],//表格的字段
+        type: "radio",
+    });
+
+    function getFormtTime(dateTime, flag = true) {
+        dateTime = dateTime * 1000;
+        if (dateTime != null) {
+            //若传入的dateTime为字符串类型，需要进行转换成数值，若不是无需下面注释代码
+            var time = parseInt(dateTime);
+            var date = new Date(time);
+            //获取年份
+            var YY = date.getFullYear();
+            //获取月份
+            var MM = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+            //获取日期
+            var DD = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+            if (flag) { //flag为true，显示时分秒格式
+                //获取小时
+                var hh = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours());
+                //获取分
+                var mm = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+                ///获取秒
+                var ss = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+                //返回时间格式： 2020-11-09 13:14:52
+                return YY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm + ':' + ss;
+            } else {
+                //返回时间格式： 2020-11-09
+                return YY + '-' + MM + '-' + DD;
+            }
+        } else {
+            return "";
+        }
+    }
+</script>

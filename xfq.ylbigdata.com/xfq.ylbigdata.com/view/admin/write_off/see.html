@@ -1,0 +1,299 @@
+{// css}
+{include file="accounting/css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+
+    #maps {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid" style="padding: 20px 0">
+        <div class="callout callout-info">
+            <h5>领取信息</h5>
+            <div>
+                <div class="p-30">
+                    领取编号：{$detail.coupon_issue_user_id}
+                </div>
+                <div class="p-30">
+                    领取人：{$detail.userinfo.name}
+                </div>
+                <div class="p-30">
+                    联系方式：{$detail.userinfo.mobile}
+                </div>
+                <div class="p-30">
+                    身份证号：{$detail.userinfo.idcard}
+                </div>
+                <div class="p-30">
+                    领取时间：{$detail.couponIssueUser.create_time}
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <h5>核销信息</h5>
+            <div>
+                <div class="p-30">
+                    核销商户：{$detail.seller.nickname}
+                </div>
+                <div class="p-30">
+                    核销人：{$detail.users.name}
+                </div>
+                <div class="p-30">
+                    核销时间：{$detail.create_time}
+                </div>
+
+                <div class="p-30" id="km">
+                    核销距离：
+                </div>
+
+                <div class="p-30">
+                    游客位置：{$detail.uw_latitude}, {$detail.uw_longitude}
+                </div>
+
+                <div class="p-30">
+                    游客领取位置：{$detail.couponIssueUser.latitude}, {$detail.couponIssueUser.longitude}
+                </div>
+
+                <div class="p-30" id="points_"></div>
+
+                <div class="p-30">
+                    核销点位置：{$detail.poi_latitude}, {$detail.poi_longitude}
+                </div>
+                <div class="p-30">
+                    核验人位置：{$detail.he_latitude}, {$detail.he_longitude}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <h5>消费券信息</h5>
+            <div>
+                <div class="p-30">
+                    名称：{$detail.couponIssue.coupon_title}
+                </div>
+                <div class="p-30">
+                    金额：{$detail.couponIssue.coupon_price}元
+                </div>
+                <div class="p-30">
+                    编号：{$detail.couponIssue.uuno}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <div>
+                <h5>地图展示</h5>
+                <span style="color:rgba(204,42,24,0.8) ;margin-left: 10px">核验人位置</span>
+                <span style="color:rgba(69,204,24,0.8) ;margin-left: 10px">核销点位置</span>
+                <span style="color:rgba(24,66,204,0.8);margin-left: 10px">游客位置</span>
+                <span style="color:rgba(204,24,120,0.8);margin-left: 10px">商户核销点位置</span>
+                <span style="color:rgba(24,204,156,0.8);margin-left: 10px">游客领取位置</span>
+            </div>
+            <div id="maps"></div>
+        </div>
+
+        <div class="callout callout-info" >
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                    回</button>
+            </div>
+        </div>
+        <input type="hidden" value='<?php echo json_encode($detail["points"]); ?>' id="points">
+    </div>
+    <script charset="utf-8"
+        src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+    <script>
+
+        function back() {
+            var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+            parent.layer.close(index);//关闭窗口
+        }
+        //中心点,标记点
+        const locations = {
+            lat: '{$detail.seller.latitude}',
+            lng: '{$detail.seller.longitude}',
+        };
+        initMap();
+        //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+        function initMap() {
+            //定义地图中心点坐标
+            var center = new TMap.LatLng(locations.lat, locations.lng);
+            //定义map变量，调用TMap.Map构造函数创建地图
+            var map = new TMap.Map(document.getElementById('maps'), {
+                center: center,//设置地图中心点坐标
+                zoom: 19,   //设置地图缩放级别
+            });
+            //创建并初始化MultiMarker
+            var markerLayer = new TMap.MultiMarker({
+                map: map,  //指定地图容器
+                //样式定义
+                styles: {
+                    //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                    "myStyle": new TMap.MarkerStyle({
+                        "width": 25,  // 点标记样式宽度（像素）
+                        "height": 35, // 点标记样式高度（像素）
+                        "anchor": { x: 16, y: 32 }
+                    })
+                },
+                geometries: [{
+                    "id": "1",   //点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+                    "styleId": 'myStyle',  //指定样式id
+                    "position": new TMap.LatLng(locations.lat, locations.lng),  //点标记坐标位置
+                }]
+            });
+            markerLayer.on("click",function (evt){
+                let data = evt.geometry.position;
+                infoWindow.open();
+                infoWindow.setPosition(new TMap.LatLng(data.lat,data.lng));//设置信息窗位置
+                infoWindow.setContent(`<div>商户位置</div>`);
+            })
+
+            let points = $("#points").val();
+            points = JSON.parse(points);
+            let data = [];
+            let html = ''
+            points.forEach(item=>{
+                html += `商户核销点位置：${item.latitude}, ${item.longitude}`;
+                let obj = {
+                    lat:Number(item.latitude),
+                    lng:Number(item.longitude),
+                    styleId: 'style4',
+                    title:'商户核销点'
+                };
+                data.push([obj]);
+            });
+            $("#points_").append(html)
+            // 商家位置,核销点俩个
+            data.push([{ lat: Number('{$detail.he_latitude}'), lng: Number('{$detail.he_longitude}'), styleId: 'style1' ,title:"核验人位置" }]);  //核验人位置
+            data.push([{ lat: Number('{$detail.poi_latitude}'), lng: Number('{$detail.poi_longitude}'), styleId: 'style2' ,title:"核销点位置" }]);  //核销点位置
+            data.push([{ lat: Number('{$detail.uw_latitude}'), lng: Number('{$detail.uw_longitude}'), styleId: 'style3' ,title:"游客位置" }]);  //游客位置
+            data.push([{ lat: Number('{$detail.couponIssueUser.latitude}'), lng: Number('{$detail.couponIssueUser.longitude}'), styleId: 'style5' ,title:"游客领取位置" }]);  //游客位置
+
+            var infoWindow = new TMap.InfoWindow({
+                map: map,
+                position: new TMap.LatLng('38.285734', '109.734209'),
+                offset: { x: 0, y: -32 } //设置信息窗相对position偏移像素
+            });
+            infoWindow.close();//初始关闭信息窗关闭
+
+            data.forEach((data,index)=>{
+                let Dot =`Dot_${index}`;
+                Dot = new TMap.visualization.Dot({
+                    faceTo: "map", //散点固定的朝向
+                    styles: {
+                        style1: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(204,42,24,0.3)",
+                            radius: 12,
+                        },
+                        style2: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(69,204,24,0.3)",
+                            radius: 12,
+                        },
+                        style3: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(24,66,204,0.3)",
+                            radius: 12,
+                        },
+                        style4: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(255,0,137,0.3)",
+                            radius: 20,
+                        },
+                        style5: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(24,204,156,0.3)",
+                            radius: 12,
+                        },
+                    },
+                    processAnimation: {
+                        animationType: "radiated", //动画类型
+                    },
+                    enableBloom: true, // 泛光
+                }).addTo(map).setData(data);//将图层添加到map中
+                Dot.on("click",function (evt){
+                    if (evt.detail.dot) {
+                        let data = evt.detail.dot;
+                        infoWindow.open();
+                        infoWindow.setPosition(new TMap.LatLng(data.lat,data.lng));//设置信息窗位置
+                        infoWindow.setContent(`<div>${data.title}</div>`
+                        );
+                    }
+                });
+                new TMap.visualization.Dot({
+                    faceTo: "map", //散点固定的朝向
+                    styles: {
+                        style1: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(204,42,24,0.8)",
+                            radius: 4,
+                        },
+                        style2: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(69,204,24,0.8)",
+                            radius: 4,
+                        },
+                        style3: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(24,66,204,0.8)",
+                            radius: 4,
+                        },
+                        style4: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(204,24,120,0.8)",
+                            radius: 6,
+                        },
+                        style5: {
+                            type: "circle", //圆形样式
+                            fillColor: "rgba(24,204,156,0.8)",
+                            radius: 4,
+                        },
+                    },
+                }).addTo(map).setData(data);//将图层添加到map中
+            })
+
+        };
+
+
+
+        function getDistance(lat1, lng1, lat2, lng2) {
+            var radLat1 = rad(lat1);
+            var radLat2 = rad(lat2);
+            var a = radLat1 - radLat2;
+            var b = rad(lng1) - rad(lng2);
+            var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+            s = s * 6378.137; // EARTH_RADIUS;
+            // 输出为公里
+            s = Math.round(s * 10000) / 10000;
+
+            var distance = s;
+            var distance_str = "";
+
+            if (parseInt(distance) >= 1) {
+                // distance_str = distance.toFixed(1) + "km";
+                distance_str = distance.toFixed(2) + "km";
+            } else {
+                // distance_str = distance * 1000 + "m";
+                distance_str = (distance * 1000).toFixed(2) + "m";
+            }
+            // console.info('距离是', s);
+            // console.info('距离是', distance_str);
+            return { distance, distance_str }
+        };
+        function rad(d) {
+            return d * Math.PI / 180.0;
+        }
+        let km = getDistance('{$detail.uw_latitude}', '{$detail.uw_longitude}', '{$detail.poi_latitude}', '{$detail.poi_longitude}');
+        $("#km").text('核销距离: ' + km.distance_str);
+    </script>
+</section>
+<!--内容结束-->

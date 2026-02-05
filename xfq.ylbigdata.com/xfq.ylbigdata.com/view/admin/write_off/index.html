@@ -1,0 +1,372 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>所属分类：</label> <select id="search_cid" name="cid">
+                                    <option value="">
+                                        所有
+                                    </option>
+                                    {volist name="class_list" id="item"}
+                                    <option value="{$item.id}">
+                                        {$item.title}
+                                    </option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <ul>
+                                <li>
+                                    <label>消费券编号： </label>
+
+                                    <input type="text" id="search_uuno" name="uuno" value="" />
+                                </li>
+                                <li>
+                                    <label>消费券名称： </label>
+
+                                    <input type="text" id="search_coupon_title" name="coupon_title" value="" />
+                                </li>
+
+                                <li>
+                                    <label>商户名称： </label>
+                                    <select id="search_mid" name="mid">
+                                    <option value="">所有</option>
+                                        {volist name="seller_list" id="item"}
+                                        <option value="{$item.nickname}">
+                                            {$item.nickname}
+                                        </option>
+                                        {/volist}
+                                    </select>
+                                </li>
+                                <li>
+                                    <label>领取编码： </label>
+
+                                    <input type="text" id="search_coupon_issue_user_id" name="coupon_issue_user_id" value="" />
+                                </li>
+                                <li>
+                                    <label>核销人： </label>
+
+                                    <input type="text" id="search_userid" name="userid" value="" />
+                                </li>
+                                <li>
+                                    <label>核销时间： </label>        
+                                    <input type="text" id="search_create_time" name="create_time" value="" daterange="true" autocomplete="off"/>
+                                </li>
+                                <li>
+                                    <a class="btn btn-primary btn-rounded btn-sm"
+                                        onclick="$.table.search()">&nbsp;搜索</a> <a
+                                        class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a>
+                                    <input class="hide" type="submit" name="btnSave" value="提交"
+                                        onclick="$.table.search();return false;">
+                                </li>
+                            </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-warning" onclick="$.table.export()">
+                        <i class="fa fa-download"></i> 导出 </a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/admin/WriteOff/index.html?getList=1",      // 请求后台的URL
+                addUrl: "/admin/WriteOff/add.html",       // 新增的地址
+                editUrl: "/admin/WriteOff/edit.html?id=__id__",      // 修改的地址
+                delUrl: "/admin/WriteOff/del.html",       // 删除的地址
+                exportUrl: "/admin/WriteOff/export.html",    // 导出的地址
+                sortUrl: "/admin/WriteOff/sort.html",      // 排序的地址
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: true,           // 是否进行分页
+                parentIdField: "",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+
+                    },
+                    {
+                        field: 'uuno',
+                        title: '消费券编号',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+
+                    },
+                    {
+                        field: 'coupon_title',
+                        title: '消费券名称',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+
+                    },
+                    {
+                        field: 'coupon_price',
+                        title: '消费券面额',
+
+                        sortable: false,
+
+                    },
+                    {
+                        field: 'coupon_issue_user_id',
+                        title: '领取编号',
+                        sortable: false,
+                    },
+                    {
+                        field: 'uw_longitude',
+                        title: '领取人',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            var name = row.user_name ? row.user_name.name : '';
+                            return HTMLDecode(name);
+                        }
+
+                    },
+                    {
+                        field: 'uw_longitude',
+                        title: '领取人手机号',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            var name = row.user_name ? row.user_name.mobile : '';
+                            return HTMLDecode(name);
+                        }
+
+                    },
+                    {
+                        field: 'uw_longitude',
+                        title: '领取人身份证号',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            var idcard = row.user_name ? row.user_name.idcard : '';
+                            return HTMLDecode(idcard);
+                        }
+                    },
+                    {
+                        field: 'uw_latitude',
+                        title: '领取时间',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(row.couponIssueUser.create_time);
+                        }
+
+                    },
+                    {
+                        field: 'mid',
+                        title: '商户名称',
+
+                        sortable: false,
+
+                    },
+                    {
+                        field: 'userid',
+                        title: '核销人',
+                        sortable: false,
+
+                    },
+                    {
+                        field: 'km',
+                        title: '核销距离',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            let km =  getDistance(row.uw_latitude,row.uw_longitude,row.poi_latitude,row.poi_longitude);
+                            console.log(km)
+                            return km.distance_str;
+                        }
+
+                    },
+                    {
+                        field: 'create_time',
+                        title: '核销时间',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+
+                        sortable: false,
+                        class: 'text-nowrap',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            if ('' == 'edit' || '' == 'preview') {
+                                if ('/admin/WriteOff/see.html?parentId=__id__') {
+                                    var url = '/admin/WriteOff/see.html?parentId=__id__';
+                                    var reg = /__(.*?)__/g;
+                                    // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                    while (result = reg.exec(url)) {
+                                        url = url.replace(result[0], row[result[1]]);
+                                    }
+                                    actions.push('<a class="btn btn-primary btn-xs" onclick="see(\'' + url + '\')"><i class="fa fa-edit"></i> 查看</a> ');
+                                } else {
+                                    actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-search"></i> 查看</a> ');
+                                }
+                            } else if ('' == 'delete') {
+                                if ('/admin/WriteOff/see.html?parentId=__id__') {
+                                    var url = '/admin/WriteOff/see.html?parentId=__id__';
+                                    var reg = /__(.*?)__/g;
+                                    // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                    while (result = reg.exec(url)) {
+                                        url = url.replace(result[0], row[result[1]]);
+                                    }
+                                    actions.push('<a class="btn btn-primary btn-xs" onclick="see(\'' + url + '\')"><i class="fa fa-edit"></i> 查看</a> ');
+                                } else {
+                                    actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-search"></i> 查看</a> ');
+                                }
+                            } else {
+                                var url = '/admin/WriteOff/see.html?parentId=__id__';
+                                var reg = /__(.*?)__/g;
+                                // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                while (result = reg.exec(url)) {
+                                    url = url.replace(result[0], row[result[1]]);
+                                }
+                                actions.push('<a class="btn btn-primary btn-xs" onclick="see(\'' + url + '\')"><i class="fa fa-edit"></i> 查看</a> ');
+                            }
+
+                            return actions.join('');
+                        }
+
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 查看
+        function isMobile() {
+            let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return flag;
+        };
+        function see(url) {
+            if ($.table._option.layerOpen == "1") {
+                // 通过参数隐藏左侧和顶部等数据
+                let area  =  [];
+                if (isMobile()) {
+                    area  =  [100 + '%', 100 + '%']
+                } else {
+                    area  =  [900 + 'px', 700 + 'px']
+                }
+                if (url.indexOf('?') != -1) {
+                    url = url + '&_layer=1'
+                } else {
+                    url = url + '?_layer=1'
+                }
+                var index = layer.open({
+                    type: 2,
+                    maxmin: true,
+                    shade: 0.3,
+                    title: '查看',
+                    fix: false,
+                    area: area,
+                    content: url,
+                    cancel: function () {
+                        return true;
+                    }
+                });
+
+                // 弹窗打开要添加的地址
+                // $.modal.open("查看", url);
+            } else {
+                // 当前窗口打开要添加的地址
+                $.common.jump(url);
+            }
+        }
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        };
+        function getDistance(lat1, lng1, lat2, lng2) {
+            var radLat1 = rad(lat1);
+            var radLat2 = rad(lat2);
+            var a = radLat1 - radLat2;
+            var b = rad(lng1) - rad(lng2);
+            var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+            s = s * 6378.137; // EARTH_RADIUS;
+            // 输出为公里
+            s = Math.round(s * 10000) / 10000;
+
+            var distance = s;
+            var distance_str = "";
+
+            if (parseInt(distance) >= 1) {
+                // distance_str = distance.toFixed(1) + "km";
+                distance_str = distance.toFixed(2) + "km";
+            } else {
+                // distance_str = distance * 1000 + "m";
+                distance_str = (distance * 1000).toFixed(2) + "m";
+            }
+            // console.info('距离是', s);
+            // console.info('距离是', distance_str);
+            return { distance, distance_str }
+        };
+        function rad(d) {
+            return d * Math.PI / 180.0;
+        }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

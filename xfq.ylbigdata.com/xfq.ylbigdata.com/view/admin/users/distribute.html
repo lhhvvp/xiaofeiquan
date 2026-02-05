@@ -1,0 +1,53 @@
+<div style="display: flex;justify-content: center;width: 80%;margin: auto">
+    <div id="map" style="width: 100%;margin: auto;height: 600px"></div>
+    <div id="map1" style="width: 100%;margin: auto;height: 600px"></div>
+</div>
+<div style="display: flex;justify-content: center;">
+    <table class="layui-table" align="center" style="text-align: center; width: 80%;">
+        <thead>
+            <tr>
+                <td>排名</td>
+                <td>省份</td>
+                <td>城市</td>
+                <td>注册用户</td>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name='list' id='vo'}
+                <tr>
+                    <td>{$key+1}</td>
+                    <td>{$vo.province}</td>
+                    <td>{$vo.city}</td>
+                    <td>{$vo.total}</td>
+                </tr>
+            {/volist}
+        </tbody>
+    </table>
+</div>
+
+<input id="list" value='<?php echo json_encode($list) ?>' type="hidden">
+<script charset="utf-8"
+        src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+<script src="/static/plugins/echarts.min.js"></script>
+<script src="/static/plugins/echarts.js"></script>
+<script>
+    let list = document.querySelector("#list").value;
+    list = JSON.parse(list);
+    let  areaArray = [];
+    let  YulinArray = [];
+    list.forEach(item=>{
+        areaArray.push({
+            name:item.province,
+            value:item.total,
+        });
+        if(item.province === '陕西省'){
+            YulinArray.push({
+                name:item.city,
+                value:item.total,
+            })
+        }
+
+    });
+    echarts_map_tour(areaArray);
+    echarts_map_yulin(YulinArray);
+</script>

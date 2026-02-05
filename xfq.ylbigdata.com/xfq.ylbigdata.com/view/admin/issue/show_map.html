@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>地图展示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            /*地图(容器)显示大小*/
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
+    </style>
+    <!--引入Javascript API GL，参数说明参见下文-->
+    <script charset="utf-8"
+        src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+</head>
+<!-- 页面载入后，调用init函数 -->
+
+<body>
+    <!-- 定义地图显示容器 -->
+    <input type="hidden" value="{$seller}" id="seller">
+    <input type="hidden" value="{$Request.get.mid}" id="mid">
+    <div id="container"></div>
+    <script>
+        let seller = $("#seller").val();
+        seller = JSON.parse(seller);
+        let locations = {
+            lat: seller.latitude,
+            lng: seller.longitude,
+        }
+        let data = [];
+        let mid = $("#mid").val();
+        $.ajax({
+            url: "/admin/Issue/showMap",
+            method: "POST",
+            data: {
+                mid,
+            },
+            success(res) {
+                let locations = [];
+                res.data.forEach(item => {
+                    locations.push([item.uw_longitude,item.uw_latitude]);
+
+                });
+                locations.forEach(item => {
+                    data.push({ lat: item[1], lng: item[0], styleId: 'style1' });
+                });
+                initMap();
+            }
+        });
+
+
+        //地图初始化函数，本例取名为init，开发者可根据实际情况定义
+        function initMap() {
+            //定义地图中心点坐标
+            var center = new TMap.LatLng(locations.lat, locations.lng);
+            //定义map变量，调用TMap.Map构造函数创建地图
+            var map = new TMap.Map(document.getElementById('container'), {
+                center: center,//设置地图中心点坐标
+                zoom: 15,   //设置地图缩放级别
+            });
+            // ------------------散点-------------------------
+            //初始化散点图层并添加至map泛光
+            var dot = new TMap.visualization.Dot({
+                faceTo: "map", //散点固定的朝向
+                styles: {
+                    style1: {
+                        type: "circle", //圆形样式
+                        fillColor: "rgba(204,42,24,0.3)",
+                        radius: 12,
+                    },
+                },
+                processAnimation: {
+                    animationType: "radiated", //动画类型
+                },
+                enableBloom: true, // 泛光
+            }).addTo(map);//将图层添加到map中
+            //为dot图层添加数据
+            dot.setData(data);
+            //
+            var dot1 = new TMap.visualization.Dot({
+                faceTo: "map", //散点固定的朝向
+                styles: {
+                    style1: {
+                        fillColor: "#C72A18",
+                        radius: 4,
+                    },
+                },
+            }).addTo(map);//将图层添加到map中
+            //为dot图层添加数据
+            dot1.setData(data);
+            // ------------------散点-------------------------
+            //创建并初始化MultiMarker
+            var markerLayer = new TMap.MultiMarker({
+                map: map,  //指定地图容器
+                //样式定义
+                styles: {
+                    //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                    "myStyle": new TMap.MarkerStyle({
+                        "width": 25,  // 点标记样式宽度（像素）
+                        "height": 35, // 点标记样式高度（像素）
+                        "anchor": { x: 16, y: 32 }
+                    })
+                },
+                geometries: [{
+                    "id": "1",   //点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+                    "styleId": 'myStyle',  //指定样式id
+                    "position": new TMap.LatLng(locations.lat, locations.lng),  //点标记坐标位置
+                }]
+            });
+        };
+
+    </script>
+</body>
+
+</html>

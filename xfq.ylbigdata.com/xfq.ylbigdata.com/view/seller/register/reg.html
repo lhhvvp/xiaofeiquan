@@ -1,0 +1,219 @@
+<div class="layui-form login-form layui-panel">
+    <h1 class="login-title">账号信息</h1>
+    <!-- 用户名 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-username"></i>
+        <input type="text" name="username" placeholder="请输入登录用户名" class="layui-input" value="" lay-reqtext="请输入用户名">
+    </div>
+
+    <!-- 密码 -->
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-password"></i>
+        <input type="password" name="password" placeholder="请输入密码" class="layui-input" lay-reqtext="请输入密码">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-password"></i>
+        <input type="password" name="newpassword" placeholder="确定密码" class="layui-input" lay-reqtext="请输入密码">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-form"></i>
+        <input type="text" name="email" id="email" placeholder="请输入邮箱账号" class="layui-input" lay-reqtext="请输入邮箱账号">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-auz"></i>
+        <input type="text" name="captcha" class="layui-input" id="mailcode" placeholder="请输入邮箱验证码">
+        <div class="button_" id="code">发送验证码</div>
+    </div>
+
+    <div class="layui-form-item">
+        <button class="layui-btn layui-btn-normal layui-btn-fluid regs" type="submit" lay-submit=""
+            lay-filter="LAY-user-login-submit">
+            下 一 步 </button>
+    </div>
+</div>
+<script>
+    function countDownTimer(that) {
+        let second = 60;
+        let timer = setInterval(() => {
+            if (second == 0) {
+                that.innerText = `重新验证码`
+                clearInterval(timer);
+            } else {
+                second--;
+                that.innerText = `${second}秒后重新发送`
+            }
+        }, 1000);
+    }
+
+    document.getElementById("code").onclick = function () {
+
+        var rs = verfiy();
+        if (!rs) {
+            return false;
+        }
+        let email = $("#email").val();
+        let that = this;
+        if (this.innerText === '重新验证码' || this.innerText === '发送验证码') {
+            $.ajax({
+                type: "POST",
+                url: "/seller/register/sendEmail",
+                data: {
+                    email: email,
+                },
+                success: function (data) {
+                    if (data.error == 0) {
+                        layer.msg(data.msg, {
+                            icon: 1
+                        });
+                        countDownTimer(that);
+                    } else {
+                        layer.msg(data.msg, {
+                            icon: 2
+                        });
+                    }
+                }
+            });
+        }
+
+    };
+
+    // 校验邮箱
+    $(".mail").click(function () {
+        var mailcode = $("#mailcode").val();
+        var email = $("#email").val();
+        var seller_hid = $("#seller_hid").val();
+        if (!mailcode) {
+            layer.msg('请输入邮箱验证码', {
+                icon: 2
+            });
+            $("input[name='captcha']").focus();
+            return false;
+        }
+        if (!email) {
+            layer.msg('请输入邮箱', {
+                icon: 2
+            });
+            $("input[name='email']").focus();
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            url: "{:url('checkMail')}",
+            data: {
+                email, mailcode, seller_hid
+            },
+            dataType: "json",
+            beforeSend: function () {
+                loadIndex = layer.load();
+            },
+            success: function (data) {
+                if (data.error == 1) {
+                    layer.close(loadIndex);
+                    layer.msg(data.msg, {
+                        icon: 2
+                    });
+                } else {
+                    layer.close(loadIndex);
+                    layer.msg(data.msg, {
+                        icon: 2
+                    });
+                    setTimeout(()=>{
+                        window.location.reload();
+                    },2500)
+                }
+            },
+            error: function (xhr) {
+
+            }
+        });
+
+    })
+    function verfiy() {
+        var username = $("input[name='username']").val();
+        var password = $("input[name='password']").val();
+        var newpassword = $("input[name='newpassword']").val();
+        var captcha = $("input[name='captcha']").val();
+        var email = $("input[name='email']").val();
+        if (!username) {
+            layer.msg('请输入用户名', { icon: 2 });
+            $("input[name='username']").focus();
+            return false;
+        }
+        if (!password) {
+            layer.msg('请输入密码', {
+                icon: 2
+            });
+            $("input[name='password']").focus();
+            return false;
+        }
+        if (password != newpassword) {
+            layer.msg('两次密码输入不一致', {
+                icon: 2
+            });
+            $("input[name='newpassword']").focus();
+            return false;
+        }
+        if (!email) {
+            layer.msg('请输入邮箱', {
+                icon: 2
+            });
+            $("input[name='email']").focus();
+
+            return false;
+        };
+
+        return { username, password, newpassword, captcha, email };
+    }
+</script>
+
+<!-- 下一步 -->
+<script>
+    $(function () {
+        // 刷新验证码操作
+        $("#captcha").click(function () {
+            $(this).attr("src", $(this).attr("src") + '?' + Math.random());
+        })
+        // 注册
+        $(".regs").click(function () {
+            var rs = verfiy();
+            if (!rs) {
+                return false;
+            }
+            var mailcode = $("#mailcode").val();
+            if (!mailcode) {
+                layer.msg('请输入邮箱验证码', {
+                    icon: 2
+                });
+                $("input[name='captcha']").focus();
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                url: "{:url('check')}",
+                data: rs,
+                dataType: "json",
+                beforeSend: function () {
+                    loadIndex = layer.load();
+                },
+                success: function (data) {
+                    if (data.error == 1) {
+                        layer.close(loadIndex);
+                        layer.msg(data.msg, {
+                            icon: 2
+                        })
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.msg, {
+                            icon: 1
+                        });
+                        setTimeout(()=>{
+                            location.reload();
+                        },1500)
+                    }
+                },
+                error: function (xhr) {
+
+                }
+            });
+
+        })
+    })
+</script>

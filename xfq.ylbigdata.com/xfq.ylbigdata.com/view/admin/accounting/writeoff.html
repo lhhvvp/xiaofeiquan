@@ -1,0 +1,111 @@
+<div class="callout callout-info">
+    <h5></i>
+        申请核销记录
+    </h5>
+    <!--申请核算的详细数据-->
+    <div class="col-sm-12 select-table table-striped">
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/admin/accounting/write_off_ids.html?id={$accounting.id}&tags={$accounting.tags}",      // 请求后台的URL
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: true,           // 是否进行分页
+                parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'coupon_title',
+                        title: '消费券名称',
+                        sortable: true,
+                    },
+                    {
+                        field: 'coupon_price',
+                        title: '消费券面额',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'mid',
+                        title: '旅行社',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                    {
+                        field: 'name',
+                        title: '旅行团',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            if(row.tour){
+                                return HTMLDecode(row.tour.name);
+                            }
+                            return '无';
+                        }
+                    },
+                    {
+                        field: 'uinfo',
+                        title: '领券人',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            var name = row.uinfo.name ? row.uinfo.name : row.uinfo.nickname;
+                            return HTMLDecode(name);
+                        }
+                    },
+                    {
+                        field: 'userid',
+                        title: '核销人',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            var name = row.users.name ? row.users.name : row.users.nickname;
+                            return HTMLDecode(name);
+                        }
+                    },
+                    {
+                        field: 'create_time',
+                        title: '核销时间',
+                        sortable: false
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+    </script>
+    <!--申请核算的详细数据-->
+</div>

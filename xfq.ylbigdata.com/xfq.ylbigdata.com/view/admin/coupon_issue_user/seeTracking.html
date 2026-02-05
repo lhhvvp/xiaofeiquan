@@ -1,0 +1,97 @@
+{// css}
+{include file="accounting/css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+</style>
+<section class="content">
+    <div class="container-fluid" style="padding: 20px 0">
+            <div class="callout callout-info">
+                <h5>领取信息</h5> 
+                <div>
+                    <div class="p-30">
+                        编号：{$detail.id}
+                    </div>
+                    <div class="p-30">
+                        消费券种类：{$couponClassArr[$detail.issue_coupon_class_id]}
+                    </div>
+                    <div class="p-30">
+                        消费券名称：{$detail.coupon_title}
+                    </div>
+                    <div class="p-30">
+                        领取人：{$detail.users.name}
+                    </div>
+                    <div class="p-30">
+                        手机号：{$detail.users.mobile}
+                    </div>
+                    <div class="p-30">
+                        领取时间：{$detail.create_time}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>收货信息</h5>
+                <div>
+                    <div class="p-30">
+                        收货人：{$detail.delivery_user}
+                    </div>
+                    <div class="p-30">
+                        收货手机号：{$detail.delivery_phone}
+                    </div>
+                    <div class="p-30">
+                        收货地址：{$detail.delivery_address}
+                    </div>
+                    <div class="p-30">
+                        填写时间：{$detail.delivery_input_time == 0 ? '' : date("Y-m-d H:i:s", $detail.delivery_input_time)}
+                    </div>
+                    <div class="p-30">
+                        快递单号：{$detail.tracking_number}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>快递信息</h5>
+                {if $detail.tracking_number != ''}
+                    {if $trackingResult['code'] != 200 || empty($trackingResult['data'])}
+                        <div>
+                            <div class="p-30">
+                                {$trackingResult['msg']}
+                            </div>
+                        </div>
+                    {else}
+                        <div>
+                            {foreach $trackingResult['data'] as $key=>$info }
+                                <div class="p-30">
+                                    <span style="font-weight: bold">{$info->time}</span>  ： {$info->status}
+                                </div>
+                            {/foreach}
+                        </div>
+                    {/if}
+                {else}
+                    <div>
+                        <div class="p-30">
+                            请填写快递单号
+                        </div>
+                    </div>
+                {/if}
+            </div>
+
+            <div class="callout callout-info">
+                <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                    <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                        回</button>
+                </div>
+            </div>
+        </div>
+</section>
+<script>
+    function back() {
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    };
+</script>
+<!--内容结束-->

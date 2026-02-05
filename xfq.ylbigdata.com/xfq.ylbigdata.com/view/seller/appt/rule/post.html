@@ -1,0 +1,113 @@
+<style>
+    .checkbox-inline{
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    .checkbox-inline input{
+        margin-right: 5px;
+    }
+</style>
+<link href="https://cdn.bootcdn.net/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.css" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row">
+        <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+            <input type="hidden" value="{$Request.session.seller.id}" name="row[seller_id]"/>
+            {notempty name="vo.id"}
+            <input type="hidden" name="row[id]" value="{$vo.id|default=''}">
+            {/notempty}
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="title">时段名</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="text" id="name" name="row[title]" value="{$vo.title|default=''}"
+                           placeholder="请输入时段名">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="time_start">每日开始时间</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <div class="input-group clockpicker">
+                        <input type="text" name="row[time_start]" class="form-control" value="{$vo.time_start_text|default=''}" autocomplete="off" />
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="time_end">每日结束时间</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <div class="input-group clockpicker">
+                        <input type="text" name="row[time_end]" class="form-control" value="{$vo.time_end_text|default=''}" autocomplete="off" />
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="stock">库存</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <input class="form-control" type="number" min="0" id="stock" name="row[stock]"
+                           value="{$vo.stock|default=1}" placeholder="请输入库存">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                       for="crossed_price">有效星期</label>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                    <div class="checkbox">
+                        <label class="checkbox-inline" for="zhou1">
+                            <input type="checkbox" name="row[weeks][]" id="zhou1" value="1" {in name="1" value="$vo.weeks|default=''"}checked{/in}> 周一
+                        </label>
+                        <label class="checkbox-inline" for="zhou2">
+                            <input type="checkbox" name="row[weeks][]" id="zhou2" value="2" {in name="2" value="$vo.weeks|default=''"}checked{/in}> 周二
+                        </label>
+                        <label class="checkbox-inline" for="zhou3">
+                            <input type="checkbox" name="row[weeks][]" id="zhou3" value="3" {in name="3" value="$vo.weeks|default=''"}checked{/in}> 周三
+                        </label>
+                        <label class="checkbox-inline" for="zhou4">
+                            <input type="checkbox" name="row[weeks][]" id="zhou4" value="4" {in name="4" value="$vo.weeks|default=''"}checked{/in}> 周四
+                        </label>
+                        <label class="checkbox-inline" for="zhou5">
+                            <input type="checkbox" name="row[weeks][]" id="zhou5" value="5" {in name="5" value="$vo.weeks|default=''"}checked{/in}> 周五
+                        </label>
+                        <label class="checkbox-inline" for="zhou6">
+                            <input type="checkbox" name="row[weeks][]" id="zhou6" value="6" {in name="6" value="$vo.weeks|default=''"}checked{/in}> 周六
+                        </label>
+                        <label class="checkbox-inline" for="zhou7">
+                            <input type="checkbox" name="row[weeks][]" id="zhou7" value="7" {in name="7" value="$vo.weeks|default=''"}checked{/in}> 周天
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                    <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返
+                        回
+                    </button>
+                </div>
+            </div><!-- /.box -->
+        </form><!--底部提示-->
+    </div>
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.js"></script>
+<script>
+    $('.clockpicker').clockpicker();
+    $.operate.successCallback = function (result){
+        if (result.code == 1) {
+            var parent = window.parent;
+            $.modal.close();
+            parent.toastr.success(result.msg); // toastr提示
+            window.parent.reloads();
+        } else {
+            $.modal.alertError(result.msg);
+        }
+    }
+</script>

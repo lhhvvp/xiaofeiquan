@@ -1,0 +1,343 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>所属分类：</label> <select id="search_cid" name="cid">
+                                    <option value="">
+                                        所有
+                                    </option>
+                                    {volist name="class_list" id="item"}
+                                    <option value="{$item.id}">
+                                        {$item.title}
+                                    </option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <li>
+                                <label>消费券名称：</label>
+                                <input type="text" id="search_coupon_title" name="coupon_title" value="">
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a
+                                    class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input
+                                    class="hide" type="submit" name="btnSave" value="提交"
+                                    onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+            <div class="col-sm-12 select-table table-striped" style="padding-bottom: 300px;">
+                <div class="btn-group-sm" role="group">
+            <!--  <a class="btn btn-primary single" onclick="delVal();">
+                <i class="far fa-trash-alt"></i> 清空</a> -->
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+            <div class="mask-box" id="selected">
+            </div>
+            <input id="selectedVal" type="hidden" />
+            <style>
+                .mask-box {
+                    width: 100%;
+                    padding: 10px;
+                    position: fixed;
+                    bottom: 0px;
+                    border-radius: 10px;
+                    height: 130px;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                    background-color: #ffffff;
+                }
+
+                .item {
+                    padding: 20px 10px 10px;
+                    display: inline-block;
+                    border-radius: 10px;
+                    background-color: rgb(255, 255, 255);
+                    margin-right: 10px;
+                    position: relative;
+                    box-shadow:
+                        0px 0px 10px rgba(0, 0, 0, 0.053),
+                        0px 0px 80px rgba(0, 0, 0, 0.07)
+                }
+
+                .down {
+                    position: absolute;
+                    right: 5px;
+                    top: 3px;
+                    height: 15px;
+                    width: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            </style>
+        </div>
+        <input type="hidden" value="{$Request.get.ids}" id="ids">
+    </div>
+    <script>
+        let selectedArray = new Set();
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/travel/tour/list.html?getList=1",      // 请求后台的URL
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: false,			// 是否进行分页
+                // parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "9999",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                    },
+                    {
+                        field: 'uuno',
+                        title: 'UUNO',
+                        sortable: true,
+                    },
+                    {
+                        field: 'cid',
+                        title: '所属分类',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return row.cid;
+                        }
+
+                    },
+                    {
+                        field: 'coupon_title',
+                        title: '消费券名称',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+                    },
+                 
+                    {
+                        field: 'coupon_price',
+                        title: '消费券金额',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return value
+                        }
+                    },
+                    {
+                        field: 'coupon_time_start',
+                        title: '有效期',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            name = '';
+                            if (row.is_permanent == 1) {
+                                //永久有效
+                                name = '永久有效'
+                            } else if (row.is_permanent == 2) {
+                                //时间段
+                                name = `${changeDateFormat(value)} - ${changeDateFormat(row.coupon_time_end)}`;
+                            } else {
+                                //天数
+                                name = `领取后${row.day}天有效`
+                            }
+
+                            return name;
+                        }
+                    },
+                    {
+                        field: 'limit_time',  
+                        title: '发放时间', 
+                        sortable: false,     
+                        formatter: function(value, row, index) {
+                            time = ''
+                            if(value == 1){
+                                // 限时间
+                                time = `${row.start_time} - ${row.end_time}`;
+                            }else{
+                                time = '不限时';
+                            }
+                            return time
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        const ids = $("#ids").val();
+        let idsArray = ids.split(",");
+        idsArray.forEach((item) => {
+            item = Number(item);
+            selectedArray.add(item);
+        });
+        idsArray = [...selectedArray];
+        $('#bootstrap-table').on('load-success.bs.table', function (e, data) {
+            //初始化表格
+            $('#bootstrap-table').bootstrapTable('checkBy', { field: 'id', values: idsArray });
+        });
+        $('#bootstrap-table').on('uncheck.bs.table', function (e, row, $element) {
+            // 取消选中
+            $("#selected .item").each((index, item) => {
+                const ids = Number($(item).children().find('i').attr("data-id"));
+                if (row.id == ids) {
+                    let idsarray = []; idsarray.push(ids);
+                    $(item).remove();
+                    selectedArray.delete(ids);
+                    let arr = [...selectedArray];
+                    $("#selectedVal").val(arr);
+                }
+            })
+        });
+
+        $('#bootstrap-table').on('check.bs.table', function (e, row, $element) {
+            // 选中
+            let html = '';
+            if (!selectedArray.has(Number(row.id))) {
+                html = `
+                    <div class="item">
+                        <div class="down">
+                            <i class="del-event align-middle mr-2 fas fa-fw fa-times" onclick="del(${row.id})" data-id=${row.id}></i>
+                        </div>
+                        <div class="classification">编号：${row.id}</div>
+                        <div class="classification">分类：${row.cid}</div>
+                        <div class="name">名称：${row.coupon_title}</div>
+                    </div> `;
+                selectedArray.add(Number(row.id));
+            };
+            $("#selected").append(html);
+            let arr = [...selectedArray];
+            $("#selectedVal").val(arr);
+        });
+
+
+
+        $('#bootstrap-table').on('check-all.bs.table', function (e, row, rowsBefore) {
+            // 全部选中
+            // var row = $("#bootstrap-table").bootstrapTable('getSelections');
+            row.forEach((item, index) => {
+                let selectedHtml = null;
+                if (!selectedArray.has(item.id)) {
+                    selectedHtml = `
+                    <div class="item">
+                        <div class="down">
+                            <i class="del-event align-middle mr-2 fas fa-fw fa-times" onclick="del(${item.id})" data-id=${item.id}></i>
+                        </div>
+                        <div class="classification">编号：${item.id}</div>
+                        <div class="classification">分类：${item.cid}</div>
+                        <div class="name">名称：${item.coupon_title}</div>
+                    </div> `;
+                    selectedArray.add(item.id);
+                };
+                $("#selected").append(selectedHtml);
+                let arr = [...selectedArray];
+                $("#selectedVal").val(arr);
+            });
+        });
+
+        $('#bootstrap-table').on('uncheck-all.bs.table', function (e,rowsAfter,rowsBefore) {
+            $("#selected .item").each((index, item) => {
+                const ids = Number($(item).children().find('i').attr("data-id"));
+                selectedArray.delete(ids);
+
+                $(item).remove();
+            });
+            $("#selectedVal").val('');
+        });
+
+        function del(id) {
+            $("#selected .item").each((index, item) => {
+                const ids = Number($(item).children().find('i').attr("data-id"));
+                if (id == ids) {
+                    let idsarray = []; idsarray.push(ids);
+                    $('#bootstrap-table').bootstrapTable('uncheckBy', { field: 'id', values: idsarray });
+                    $(item).remove();
+                    selectedArray.delete(ids);
+                    let arr = [...selectedArray];
+                    $("#selectedVal").val(arr);
+                }
+            })
+        }
+        function delVal(){
+            $("#selected .item").each((index, item) => {
+                $(item).remove();
+            })
+            $("#selectedVal").val('');
+        }
+
+        if (ids != '') {
+            $.ajax({
+                url: "/travel/tour/getajaxlist.html",
+                method: "POST",
+                data: {
+                    ids: ids
+                },
+                success(res) {
+                    let html = ''
+                    res.data.forEach((item, index) => {
+                        html += `<div class="item">
+                        <div class="down">
+                            <i class="del-event align-middle mr-2 fas fa-fw fa-times" onclick="del(${item.id})" data-id=${item.id}></i>
+                        </div>
+                        <div class="classification">编号：${item.id}</div>
+                        <div class="classification">分类：${item.couponClass.title}</div>
+                        <div class="name">名称：${item.coupon_title}</div>
+                    </div> `;
+                    });
+                    $("#selected").append(html);
+
+                }
+            })
+        }
+
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

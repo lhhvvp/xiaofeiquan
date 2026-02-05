@@ -1,0 +1,249 @@
+<link rel="stylesheet" href="/static/plugins/selectpage/selectpage.css">
+<script src="/static/plugins/selectpage/selectpage.min.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+            {notempty name="vo.id"}
+            <input type="hidden" name="row[id]" value="{$vo.id|default=''}">
+            {/notempty}
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="title">商户</label>
+                <div class="col-9 col-md-8">
+                    <input type="text" class="form-control" required {notempty name="vo.id"}disabled {/notempty} id="seller-selectpage" name="row[seller_id]" value="{$vo.seller_id|default=''}" />
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters " id="form_group_class_id">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required"
+                       for="class_id">所属分类</label>
+                <div class="col-9 col-md-8">
+                    <input type="text" class="form-control" required id="category-selectpage" name="row[category_id]" value="{$vo.category_id|default=''}" />
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_name">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="title">票种名称</label>
+                <div class="col-9 col-md-8">
+                    <input class="form-control" type="text" required id="name" name="row[title]" value="{$vo.title|default=''}" placeholder="请输入票种名称">
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters " id="form_group_image">
+                <label class="col-3 col-md-2 dd_input_l col-form-label " for="cover">票种封面图</label>
+                <div class="col-6 col-md-6">
+                    <input class="form-control" type="text" id="cover" name="row[cover]" value="{$vo.cover|default=''}" placeholder="请点击按钮上传或手动输入地址" >
+                </div>
+                <div class="col-3 col-md-4 dd_ts dd_ts_img">
+                    <!--上传图片-->
+                    <!--用来存放item-->
+                    <div id="fileList_image" class="uploader-list"></div>
+                    <div id="filePicker_image"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                    <a href="/static/admin/images/nopic.png" target="_blank">
+                        <img class="image_preview_info"
+                             src="/static/admin/images/nopic.png"
+                             id="image_preview">
+                    </a>
+                    <!--上传图片-->
+                </div>
+            </div>
+            <script type="text/javascript">
+                webupload('fileList_image', 'filePicker_image', 'image_preview', 'row[cover]', false, 'jpg,png,gif,jpeg,ico', '0');
+            </script>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="quota">限购</label>
+                <div class="col-9 col-md-8">
+                    <input class="form-control" type="number" min="0" id="quota" name="row[quota]" value="{$vo.quota|default=1}" placeholder="请输入限购">
+                    <p class="help-block">0表示不限购，1表示每人每天限购1张</p>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="quota_order">每单限购</label>
+                <div class="col-9 col-md-8">
+                    <input class="form-control" type="number" min="0" id="quota_order" name="row[quota_order]" value="{$vo.quota_order|default=1}" placeholder="请输入每单限购">
+                    <p class="help-block">每笔订单限购数量</p>
+                </div>
+            </div>
+
+
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="title">核销设置</label>
+                <div class="col-9 col-md-8">
+
+
+                    <table class="table table-rights">
+                        <thead>
+                        <tr>
+                            <th>核销名称</th>
+                            <th>核销人</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if isset($rights_list) && !empty($rights_list)}
+                        {foreach $rights_list as $key=>$item}
+                        <tr>
+                            <td><input type="hidden" name="row[rights_list][{$key+1}][id]" value="{$item.id|default=''}"><input type="text" class="form-control" name="row[rights_list][{$key+1}][title]" value="{$item.title|default=''}" /></td>
+                            <td><input type="text" class="form-control selectpage" name="row[rights_list][{$key+1}][verifier_ids]" value="{$item.verifier_ids|default=''}" /></td>
+                            <td><button type="button" class="btn btn-xs btn-danger btn-delete-verifer">删</button></td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4"><button type="button" class="btn btn-success btn-addwriteoff">添加</button></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <p class="help-block">不设置核销则只允许核销1次</p>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="crossed_price">划线价</label>
+                <div class="col-9 col-md-8">
+                    <input class="form-control" type="number" min="0" step="0.01" id="crossed_price" name="row[crossed_price]" value="{$vo.crossed_price|default=''}" placeholder="请输入划线价">
+
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="explain_use">使用说明</label>
+                <div class="col-9 col-md-8">
+
+                    <textarea id="explain_use" name="row[explain_use]" required style="width:100%;height: 400px">{$vo.explain_use|default=''}</textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('explain_use', { height: '300px' });
+            </script>
+            <div class="row dd_input_group no-gutters">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="explain_buy">购买说明</label>
+                <div class="col-9 col-md-8">
+                    <textarea id="explain_buy" name="row[explain_buy]" required style="width:100%;height: 400px">{$vo.explain_buy|default=''}</textarea>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('explain_buy', { height: '300px' });
+            </script>
+            <div class="row dd_input_group no-gutters" id="form_group_status">
+                <label class="col-3 col-md-2 dd_input_l col-form-label is-required" for="status">状态</label>
+                <div class="col-9 col-md-8 dd_radio_lable_left border-white">
+                    <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="row[status]" class="dd_radio" id="status1" value="1" {eq name="vo.status|default=1" value="1"} checked{/eq}> <label for="status1">上架</label>
+                    </div>
+                    <div class="icheck-peterriver icheck-inline">
+                        <input type="radio" name="row[status]" class="dd_radio" id="status2" value="0"> <label for="status2" {eq name="vo.status|default=1" value="0"} checked{/eq}>下架</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row dd_input_group no-gutters" id="form_group_sort">
+                <label class="col-3 col-md-2 dd_input_l col-form-label" for="sort">排序</label>
+                <div class="col-9 col-md-8">
+                    <input class="form-control" type="number" id="sort" name="row[sort]" value="{$vo.explain_buy|default=0}" step="1">
+                </div>
+            </div><!---->
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-9 col-md-8 offset-3 offset-md-2">
+                    {notempty name="vo.id"}
+                    <button type="submit" class="btn btn-flat btn-primary" disabled>禁止修改</button>
+                    {else /}
+                    <button type="submit" class="btn btn-flat btn-primary hide">提交</button>
+                    {/notempty}
+                    <button type="button" class="btn btn-flat btn-default hide" onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div><!-- /.box -->
+        </form><!--底部提示-->
+    </div>
+</div>
+
+<script>
+    $(function (){
+        //initSelectPage();
+        const category_list = {:json_encode($category_list)};
+        const verifier_list = {:json_encode($verifier_list)};
+        var n_category_list = [];
+        var n_verifier_list = [];
+        var seller_id = $("input[name='row[seller_id]']").val();
+        console.log(seller_id);
+        if(seller_id.length > 0){
+            if(typeof category_list['0'] !== 'undefined'){
+                n_category_list = [...n_category_list,...category_list['0']];
+            }
+            if(typeof category_list[seller_id] !== 'undefined'){
+                n_category_list = [...n_category_list,...category_list[seller_id]];
+            }
+            console.log(n_category_list)
+            if(typeof verifier_list[seller_id] !== 'undefined'){
+                n_verifier_list = verifier_list[seller_id];
+            }
+        }
+        let count = $('.table-rights tbody tr').length;
+        $(document).on("click", ".btn-addwriteoff", function () {
+            count++;
+            let html = `<tr><td><input type="text" class="form-control" name="row[rights_list][${count}][title]" value="" /></td><td><input type="text" class="form-control selectpage" name="row[rights_list][${count}][verifier_ids]" value="" /></td><td><button type="button" class="btn btn-xs btn-danger btn-delete-verifer">删</button></td></tr>`;
+            $(".table-rights tbody").append(html);
+            $('.selectpage').selectPage({
+                showField : 'name',
+                keyField : 'id',
+                multiple:true,
+                data:n_verifier_list
+            });
+        });
+        $(document).on("click", ".btn-delete-verifer", function () {
+            //获取次数
+            let obj = $(this).closest("tr");
+            obj.remove();
+        });
+
+        $('.selectpage').selectPage({
+            showField : 'name',
+            keyField : 'id',
+            multiple:true,
+            data:n_verifier_list
+        });
+
+        $('#category-selectpage').selectPage({
+            showField : 'title',
+            keyField : 'id',
+            data : n_category_list
+        });
+        $('#seller-selectpage').selectPage({
+            showField : 'nickname',
+            keyField : 'id',
+            multiple:false,
+            data : '/admin/Seller/index.html?getList=1',
+            pageSize:50,
+            params : function(){return {'class_id':2,'status':1};},
+            eAjaxSuccess : function(res) {
+                return {
+                    list : res.data,
+                    totalRow : res.total
+                }
+            },
+            eSelect: function (data) {
+                console.log(data);
+                //let val = category_list.find(item=>item.seller_id == data.id);
+                n_category_list = [];
+                if(typeof category_list['0'] !== 'undefined'){
+                    n_category_list = [...n_category_list,...category_list['0']];
+                }
+                if(typeof category_list[data['id']] !== 'undefined'){
+                    n_category_list = [...n_category_list,...category_list[data['id']]];
+                }
+                 n_verifier_list = [];
+                if(typeof verifier_list[data['id']] !== 'undefined'){
+                    n_verifier_list = verifier_list[data['id']];
+                }
+                console.log(n_verifier_list);
+                $('.selectpage').selectPageClear();
+                $('.selectpage').selectPageData(n_verifier_list);
+
+                 $('#category-selectpage').selectPageClear();
+                 $('#category-selectpage').selectPageData(n_category_list);
+            },
+            eClear: function(){
+                $('.selectpage').selectPageClear();
+                $('.selectpage').selectPageData([]);
+                $('#category-selectpage').selectPageClear();
+                $('#category-selectpage').selectPageData([]);
+            }
+        });
+    })
+
+</script>

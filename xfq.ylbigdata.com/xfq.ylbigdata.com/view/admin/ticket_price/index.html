@@ -1,0 +1,67 @@
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div>
+            <h2>票种：“{$ticket['title']}”  价格</h2>
+        </div>
+        <div id='calendar'></div>
+    </div>
+</section>
+<script src="/static/plugins/fullcalendar/index.global.min.js"></script>
+<script>
+    var events = {:json_encode($list,true)};
+    var calendar = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'zh-cn',
+            dayMaxEventRows: true, // for all non-TimeGrid views
+            views: {
+                timeGrid: {
+                    dayMaxEventRows: 1 // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+            },
+            buttonText: {
+                today: '今天',
+                month: '月',
+                week: '周',
+                dayGrid: '日'
+            },
+            firstDay: 1,
+            initialView: 'dayGridMonth',
+            events: function(fetchInfo, successCallback, failureCallback) {
+                console.log(fetchInfo);
+                // 在这里编写获取事件数据的逻辑
+                // 可以使用 AJAX 请求、从数据库查询等方式获取数据
+                let start = formattedDate( fetchInfo.start),end = formattedDate( fetchInfo.end);
+                $.ajax({
+                    url:"{:url('admin/ticketPrice/index')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{ticket_id:"{$ticket['id']}",start:start,end:end},
+                    success(res){
+                        successCallback(res);
+                    }
+                })
+            },
+            eventContent: function(arg) {
+                let info = arg.event._def.extendedProps;
+                return {html: `线上价格：<b>￥${info.online_price}</b> <br>散客价格：<b>￥${info.casual_price}</b> <br>团体票价：<b>￥${info.team_price}</b> <br>总库存：<b>${info.total_stock} <br>剩余库存：<b>${info.stock}</b>`}
+            },
+            dateClick: function(info) {
+                console.log("点击日期")
+            }
+        });
+        calendar.render();
+    });
+    function formattedDate(dateObj){
+        let year = dateObj.getFullYear();
+        let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
+        let day = ("0" + dateObj.getDate()).slice(-2);
+        return year + "-" + month + "-" + day;
+    }
+    function reloads(){
+        calendar.refetchEvents();
+    }
+</script>

@@ -1,0 +1,109 @@
+<!--内容开始-->
+<section class="content">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+
+        .items-boxs {
+            width: 100%;
+            background-color: #f7f7f7;
+            padding-top: 20px;
+        }
+
+        .items-boxs .items {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .items-boxs .items:last-child .items-box {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .title {
+            font-size: 16px;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #f7f7f7;
+
+        }
+
+        .items-boxs .items-box {
+            width: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding-top: 0;
+        }
+
+        .items .item {
+            width: 50%;
+            padding: 1.2rem;
+        }
+
+        .items span {
+            color: #3c8dbc;
+            font-size: 12px;
+            display: block;
+            width: 100%;
+        }
+
+        .items .tit {
+            font-size: 16px;
+        }
+        
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/travel/guest/see.html">
+                <!--内容展示 start-->
+                <input type="hidden" name="id" value="{$guest.id}">
+                <!-- $line -->
+                <div class="items-boxs">
+                    <diV class="items">
+                        <div class="title">基础信息</div>
+                        <div class="items-box">
+                            <div class="item">
+                                <span>姓名</span>
+                                <div class="tit">{$guest.name}</div>
+                            </div>
+                            <div class="item">
+                                <span>手机号</span>
+                                <div class="tit">{$guest.mobile}</div>
+                            </div>
+                            <div class="item">
+                                <span>身份证号</span>
+                                <div class="tit">{$guest.idcard}</div>
+                            </div>
+                        </div>
+                    </diV>
+                </div>
+
+                <!--内容展示 end-->
+                <div class="row dd_input_group form-builder-submit no-gutters hide">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide"
+                            onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+</section>
+
+<script>
+    const stripHtml = html => (new DOMParser().parseFromString(html, 'text/html')).body.textContent || '';
+    const content = $("#content");
+    const notice = $("#notice");
+    content.text(stripHtml(content.text()));
+    notice.text(stripHtml(notice.text()));
+</script>
+<!--内容结束-->

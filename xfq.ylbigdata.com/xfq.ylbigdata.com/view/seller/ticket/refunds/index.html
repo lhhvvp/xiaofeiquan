@@ -1,0 +1,204 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form" name="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>状态：</label>
+                                <select class="order_status" name="status">
+
+                                    <option value="">请选择</option>
+                                    {foreach $status_list as $key=>$item}
+                                    <option value="{$key}">{$item}</option>
+                                    {/foreach}
+                                </select>
+                            </li>
+
+                            <li>
+                                <label>订单编号：</label>
+                                <input type="text" name="trade_no" value="" placeholder="请输入订单编号">
+                            </li>
+                            <li>
+                                <label>门票编号：</label>
+                                <input type="text" name="order_detail_no" value="" placeholder="请输入门票编号">
+                            </li>
+                            <li>
+                                <label>申请退款日期：</label>
+                                <input type="text" daterange="true" autocomplete="off" name="create_time_range" value="">
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--搜索区域结束-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            var options = {
+                uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url           : "/seller/ticket.Refunds/index.html",      // 请求后台的URL
+                sortName      : "id",         // 排序列名称
+                sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+                pagination    : true,			// 是否进行分页
+                parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize      : "10",         // 每页显示的行数
+                layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns  : true,                   // 是否启用固定列功能
+                fixedLeft     : 0,          // 左侧固定列数
+                fixedRight    : 1,         // 右侧固定列数
+                columns: [
+                    {
+                        field: 'id',
+                        title: '编号',
+                        sortable: true,
+                        align:"center"
+                    },
+                    {
+                        field: 'trade_no',
+                        title: '订单编号',
+                        align:"center"
+                    },
+                    {
+                        field: 'order_detail_no',
+                        title: '门票编号',
+                        align:"center"
+                    },
+                    {
+                        field: 'out_refund_no',
+                        title: '退款编号',
+                        align:"center"
+                    },
+                    {
+                        field: 'price',
+                        title: '金额',
+                        formatter:function (value, row, index){
+                            return `<p>订单金额：￥${row.total_fee}<br />退款金额：￥${row.refund_fee}<br />到账金额：￥${row.settlement_refund_fee}</p>`;
+                        }
+                    },
+                    {
+                        field: 'refund_ip',
+                        title: '退款IP',
+                        align:"center"
+                    },
+                    {
+                        field: 'create_time',
+                        title: '申请时间',
+                        sortable: true,
+                        align:"center"
+                    },
+                    {
+                        field: 'status_text',
+                        title: '订单状态',
+                        align:'center',
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class : 'text-nowrap',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            if(row.status == 0){
+                                actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="agree('+row.id+');"> 同意</a> ');
+                                actions.push(`<a class="btn btn-dark btn-xs" href="javascript:;" onclick="refuse(${row.id})" >拒绝</a> `);
+                            }
+                            actions.push('<a class="btn btn-primary btn-xs" target="" href="/seller/ticket.Order/see?trade_no='+row.trade_no+'" ><i class="fa fa-eye"></i> 查看订单</a> ');
+                            return actions.join('');
+                        }
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        //拒绝操作
+        function refuse(id){
+            layer.prompt({title: '请输入拒绝原因', formType: 2}, function(text, index){
+                if(text.length < 1){
+                    layer.msg("请输入拒绝原因！");
+                    return;
+                }
+                layer.close(index);
+                $.operate.submit('/seller/ticket.Refunds/refuse', 'post','json', {id:id,refuse_desc:text});
+            });
+        }
+        //同意退款
+        function agree(id){
+            let index = layer.confirm('确定同意退款？', {
+                btn: ['确定', '点错了'] //按钮
+            }, function(){
+                $.operate.submit("/seller/ticket.Refunds/execute?refund_id="+id,"post","json");
+                layer.close(index);
+            }, function(){
+                return;
+            });
+        }
+        function see(url) {
+
+            let area  =  [];
+            if (isMobile()) {
+                area  =  [100 + '%', 100 + '%']
+            } else {
+                area  =  [900 + 'px', 700 + 'px']
+            }
+            var index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area: area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        }
+
+        function isMobile() {
+            let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return flag;
+        };
+
+    </script>
+
+    <!--bootstrap table end-->
+
+    <!--底部提示-->
+</section>

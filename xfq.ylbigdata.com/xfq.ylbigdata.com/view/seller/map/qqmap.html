@@ -1,0 +1,57 @@
+<style>
+    .content-iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .map-box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+    .map-box iframe {
+        flex-grow: 1;
+    }
+
+    .map-box .btn-box {
+        padding: 15px;
+        flex-shrink: 0;
+    }
+
+    .map-box .btn-box .btn {
+        width: 100%;
+    }
+</style>
+<div class="map-box">
+    <iframe id="myIframe" width="100%" height="100%" frameborder=0
+            src="https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=OYABZ-TUDOW-3ENR7-RX4YQ-IGXUJ-QKFCP&referer=v2.wlxfq">
+    </iframe>
+    <div class="btn-box">
+        <button id="btn-confirm" class="btn btn-success">确定</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var loc = null;
+        // iframe加载完成事件的处理逻辑
+        window.addEventListener('message', function (event) {
+            loc = event.data;
+        }, false);
+        $("#btn-confirm").click(function () {
+            if (loc && loc.module == 'locationPicker') {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.$('[name="latitude"]').val(loc.latlng.lat).trigger('change');
+                parent.$('[name="longitude"]').val(loc.latlng.lng).trigger('change');
+                parent.$('[name="address"]').val(loc.poiaddress).trigger('change');
+                parent.layer.close(index);
+            } else {
+                return false;
+            }
+        })
+
+
+    })
+
+</script>

@@ -1,0 +1,55 @@
+<style>
+    .imgClass{
+        width: 100%;
+        height: 100%;
+        height: 38px;
+        
+    }
+    .imgClass img{
+        height: 100%;
+    }
+</style>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/CouponConditionDetails/addPost.html">
+                <div class="row dd_input_group no-gutters " id="form_group_class_id">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="class_id">商户分类</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <select class="form-control" id="class_id" name="class_id">
+                            <option value="">请选择</option>
+                            {volist name="class_list" id="item"}
+                            <option value="{$item.id}">
+                                {$item.class_name}
+                            </option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_mark_num">
+                    <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+                        for="mark_num">打卡次数</label>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <input class="form-control" type="text" id="mark_num" name="mark_num" value="" placeholder="请输入打卡次数">
+                    </div>
+                </div>
+
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="submit" class="btn btn-flat btn-primary hide">提 交</button>
+                        <button type="button" class="btn btn-flat btn-default hide"
+                            onclick="javascript :history.back(-1)">返 回</button>
+                    </div>
+                </div>
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+</section>
+<!--内容结束-->

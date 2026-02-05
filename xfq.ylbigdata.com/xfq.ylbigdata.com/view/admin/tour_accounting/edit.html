@@ -1,0 +1,158 @@
+{// css}
+{include file="tour_accounting/css"/} 
+<section class="content">
+    {if $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==1 && $accounting.back_status==1}
+        <input id="stepIndex" type="hidden" value="5" />
+    {elseif $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==1 && $accounting.back_status==0}
+        <input id="stepIndex" type="hidden" value="4" />
+    {elseif $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==0 && $accounting.back_status==0}
+        <input id="stepIndex" type="hidden" value="3" />
+    {elseif $accounting.status==1 && $accounting.tour_status==0 && $accounting.sup_status==0 && $accounting.back_status==0}
+        <input id="stepIndex" type="hidden" value="2" />
+    {else /}
+        <input id="stepIndex" type="hidden" value="1" />
+    {/if}
+
+    <div class="container-fluid">
+        <div class="steps" id="steps"></div>
+        <div class="callout callout-info">
+            <h5>核算基本信息</h5>
+            <div class="infobox">
+                <div class="p-30">
+                    结算单号：{$accounting.no}
+                </div>
+                <div class="p-30">
+                    结算金额：{$accounting.sum_coupon_price} 元
+                </div>
+                <div class="p-30">
+                    结算数量：{$accounting.writeoff_total} 条
+                </div>
+                <div class="p-30">
+                    商户名称：{$accounting.nickname}
+                </div>
+                <div class="p-30">
+                    所属分类：{$accounting.class_id}
+                </div>
+                <div class="p-30">
+                    所属区域：{$accounting.area}
+                </div>
+                <div class="p-30">
+                    商户名称：{$accounting.nickname}
+                </div>
+                <div class="p-30">
+                    收款账号：{$accounting.card_name}
+                </div>
+                <div class="p-30">
+                    开户行：{$accounting.card_deposit}
+                </div>
+                <div class="p-30">
+                    卡号：{$accounting.cart_number}
+                </div>
+                <div class="p-30">
+                    申请时间：{$accounting.create_time}
+                </div>
+
+            </div>
+        </div>
+
+        {// 附件地址}
+        {include file="tour_accounting/dataurl"/}
+
+        {// 核销记录}
+        {if $accounting.write_off_ids neq ''} 
+            {include file="tour_accounting/writeoff"/}
+        {/if}
+
+        <div class="callout-box">
+            {volist name="TourAuditRecord" key="k" id="item"}
+            <div class="callout callout-info" {if $k==1}style="display:flex"{/if}>
+                <div class="left">
+                    {if $k==1}<h5>审核记录</h5>{/if}
+                    <div class="infobox">
+                        <div class="p-30">
+                            角色为 {$item.authGroup['title']} 的管理员 {$item.admin['nickname']} 在 {$item.create_time} 将记录的状态变更为{if $item.status==1}
+                                <span class="badge badge-success">通过</span>
+                            {elseif $item.status==2}
+                                <span class="badge badge-secondary">不通过</span>
+                            {else /}
+                                <span class="badge badge-primary">待审核</span>
+                            {/if}，备注信息：{$item.remarks} 附件信息：{if $item.image!=''}<a href="{$item.image}" class="btn btn-flat btn-primary" target="_blank">
+                                点击查看 {$item.image}
+                            </a>
+                            {else /}
+                                未上传
+                            {/if}
+                        </div>
+
+                    </div>
+                </div>
+                {if $k==1}<div class="right" onclick="move($(this))">展开</div>{/if}
+            </div>
+            {/volist}
+        </div>
+
+        {if $accounting.status==1 && $accounting.tour_status==0}
+            {if $AdminInfo==3}
+                {// 文旅审核}
+                {include file="tour_accounting/tour_status"/}
+            {else /}
+                {include file="tour_accounting/none"/}
+            {/if}
+        {elseif $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==0}
+            {if $AdminInfo==4}
+                {// 财政审核}
+                {include file="tour_accounting/sup_status"/}
+            {else /}
+                {include file="tour_accounting/none"/}
+            {/if}
+        {elseif $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==1 && $accounting.back_status==0}
+            {if $AdminInfo==5}
+                {// 银行打款}
+                {include file="tour_accounting/back_status"/}
+            {else /}
+                {include file="tour_accounting/none"/}
+            {/if}
+        {elseif $accounting.status==1 && $accounting.tour_status==1 && $accounting.sup_status==1 && $accounting.back_status==1}
+            {// 完成}
+            {include file="tour_accounting/complete"/}
+        {else /}
+            {if $AdminInfo==2 || $AdminInfo==1}
+                {// 平台审核}
+                {include file="tour_accounting/status"/}
+            {else /}
+                {include file="tour_accounting/none"/}
+            {/if}
+        {/if}
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+    let stepIndex = $("#stepIndex").val();
+    webupload('fileList_image', 'filePicker_image', 'image_preview', 'image', false, 'jpg,png,gif,jpeg,ico', '0');
+    layui.config({
+        base: '/static/plugins/layui/lay/'
+    }).extend({
+        step: '/steps/step'
+    }).use(['step', 'form'], function () {
+        var $ = layui.$, form = layui.form;
+        var step = layui.step.render({
+            elem: '#steps',
+            stepNames: ['平台审核', '文旅审核', '完成',],//, '财政审核', '银行打款'
+            initStep: stepIndex
+        });
+    });
+    function move(e) {
+        let txt = e.text();
+        let info = e.parent();
+        if (txt === '展开') {
+            e.text('收起');
+            info.siblings().show();
+        } else {
+            e.text('展开');
+            info.siblings().hide();
+        }
+    }
+</script>

@@ -1,0 +1,196 @@
+<div style="width: 90%;margin:auto">
+    <style>
+        .layui-btn{
+           margin-bottom: 10px;
+        }
+        .layui-btn:nth-child(6n+1){
+           margin-left: 0 !important;
+        }
+    </style>
+    {volist name="date" id="vo"}
+        <a href="{:url('Issue/data_summary?date=')}{$vo.start_time}" class='layui-btn layui-btn-primary ' style="display: inline-block;line-height: normal;height: 75px;">
+            <div style="height: 30px;line-height: 35px;">第{$key+1}期</div>
+            <div style="line-height: 20px;">{$vo.start_time | date='Y年m月d日'}</div>
+            <div style="line-height: 20px;">{$vo.start_time | date='H点i分s秒'}</div>
+        </a>
+    {/volist}
+    
+
+    <a href="javascript:;" class='layui-btn layui-btn-primary' style="display: inline-block;line-height: normal;height: 75px;line-height: 75px;" onclick="xdata({$newDate});">数据同步</a>
+
+    <!-- <a href="javascript:;" class='layui-btn layui-btn-primary' onclick="exportexcel();">导出(综合数据)</a> -->
+    <a id="toExcel" class='layui-btn layui-btn-primary' style="display: inline-block;line-height: normal;height: 75px;line-height: 75px;">导出</a>
+</div>
+<div style="display: flex;justify-content: center;">
+    <table class="layui-table" align="center" style="text-align: center; width: 90%;" id="data" border="1">
+        <thead>
+            <tr>
+                <td colspan="11">时间： {$datetime}</td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <td>排名</td>
+                <td>消费券分类</td>
+                <td>商家名称</td>
+                <td>券面金额（元）</td>
+                <td>发行量（张）</td>
+                <td>发行金额（元）</td>
+                <td>领取量（张）</td>
+                <td>核销量（张）</td>
+                <td>核销金额（元）</td>
+                <td>核销比例</td>
+                <td>多发数量（张）</td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+                $index = 1;
+                $total_count =0;
+                $lingqu_count=0;
+                $overstep=0;
+                $hexiao_count=0; 
+                $total_coupon_price = 0; 
+                $price_count_count = 0;
+                $total_price_count=0;
+                $hx_price =0;
+            ?>
+            {volist name='$cate' id='u' key="keys"}
+                <?php 
+                    $price_count = 0; 
+                    $coupon_price = 0;
+                    $price=0; 
+                ?>
+            {volist name="$u.list" id="ut" }
+            <tr>
+                <td>{$index ++}</td>
+                {if condition="$key == 0"} <td rowspan="{$u.total}">{$u.title}</td> {/if}
+                <td>{$ut.coupon_title}</td>
+                <td>{$ut.coupon_price}</td><!--面额-->
+                <td>{$ut.issue_total}</td>
+                <td>{$ut.issue_price} </td>
+                <td>{$ut.receive_total}</td>
+                <td>{$ut.writeoff_total}</td>
+                <td>{$ut.writeoff_price} 元</td>
+                <td>{$ut.writeoff_ratio} %</td>
+                <td>{$ut.overstep}</td>
+                <?php  
+                    $coupon_price += $ut['coupon_price']; 
+                    $price_count += $ut['issue_price']; 
+                    $price += $ut['writeoff_price']; 
+                ?>
+                
+            </tr>
+            {/volist}
+            {if condition = "!empty($u.list)"}
+            <tr style="background-color: #f7f7f7;height: 40px;">
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">合计</td>
+                <td style="font-weight: bold;">{$coupon_price} 元</td> <!--面额-->
+                <td style="font-weight: bold;">{$u.total_count} 张</td>
+                <td style="font-weight: bold;">{$price_count} 元</td> <!--发行金额-->
+                <td style="font-weight: bold;">{$u.lingqu_count} 张</td>
+                <td style="font-weight: bold;">{$u.hexiao_count} 张</td>
+                <td style="font-weight: bold;">{$price}元</td>
+                <td>
+                    <?php 
+                        $temp_lingqu_count = $u['lingqu_count'] > 0 ? sprintf("%.2f",($u['hexiao_count'] / $u['lingqu_count']) * 100) : 0;
+                        echo $temp_lingqu_count." %"
+                    ?> 
+                </td>
+                <td style="font-weight: bold;">{$u.overstep} 张</td>
+            </tr>
+            <?php 
+                $total_count += $u['total_count']; 
+                $lingqu_count += $u['lingqu_count']; 
+                $overstep += $u['overstep'];
+                $hexiao_count += $u['hexiao_count']; 
+                $total_coupon_price += $coupon_price; 
+                $total_price_count += $price_count; 
+                $hx_price += $price; 
+            ?>
+            {/if}
+            {/volist}
+
+            <tr style="background-color: #f7f7f7;height: 40px;">
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">总合计</td>
+                <td style="font-weight: bold;">{$total_coupon_price} 元</td>
+                <td style="font-weight: bold;">{$total_count} 张</td>
+                <td style="font-weight: bold;">{$total_price_count} 元</td>
+                
+                <td style="font-weight: bold;">{$lingqu_count} 张</td>
+                <td style="font-weight: bold;">{$hexiao_count} 张</td>
+
+                <td style="font-weight: bold;">{$hx_price}元</td>
+
+                <td><?php if($lingqu_count > 0) echo sprintf("%.2f",($hexiao_count / $lingqu_count) * 100)." %"?> </td>
+                <td style="font-weight: bold;">{$overstep} 张</td>
+
+            </tr>
+
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    function xdata(id)
+    {
+        $.ajax({
+            type: "post",
+            url: "/api/system/XdataSummary",
+            data: {
+                id:id,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    layer.alert(data.msg, {
+                        icon: 2
+                    }, function (index) {
+                        layer.close(index);
+                    });
+                }
+                if(data.code == 0) {
+
+                    setTimeout(function(){
+                       window.location.reload(); 
+                    }, 3000);
+                    layer.alert(data.msg, {
+                        icon: 1
+                    });
+                }
+            },
+            error: function (xhr) {
+
+            }
+        });
+    }
+    function exportexcel()
+    {
+        $.modal.confirm("确定导出数据吗？", function () {
+            window.open('/admin/DataSummary/export.html');
+        });
+    };
+
+    var element = document.getElementById("toExcel");
+    var toExcel = function exportExcel(event){
+        console.log(event);
+        // 获得表格数据的html标签和文本d;
+        var html = "<html><head><meta charset='UTF-8'></head><body>"+document.getElementById("data").outerHTML+"</body></html>";
+        // 创建一个Blob对象，第一个参数是文件的数据，第二个参数是文件类型属性对象
+        var blob = new Blob([html],{type:"application/vnd.ms-excel"});
+        var a = event.target;
+        // 利用URL的createObjectURL方法为元素a生成blobURL
+        a.href = URL.createObjectURL(blob);
+        // 设置文件名
+        a.download = "综合数据统计";
+
+    };
+    element.onclick = toExcel;
+</script>

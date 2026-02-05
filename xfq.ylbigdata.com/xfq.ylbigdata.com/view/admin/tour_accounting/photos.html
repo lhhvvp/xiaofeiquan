@@ -1,0 +1,55 @@
+{// css}
+{include file="accounting/css"/}
+<section class="content">
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-warning" onclick="javascript :history.back(-1);">
+                <i class="fa fa-undo m-r-10"></i>返回上一页</a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+
+    <div class="container-fluid">
+            <div class="callout callout-info">
+                <h5>合影</h5>
+                <div>
+                    {volist name="detail.photos" id="item"}
+                        <a href="{$item}" target="_blank"><img src="{$item}" width="150px" height="150px"></a>
+                    {/volist}
+                </div>
+            </div>
+
+         
+            <div class="callout callout-info">
+                <h5>住宿发票</h5>
+                <div>
+                    {volist name="detail.invoice" id="item"}
+                        <a href="{$item}" target="_blank" download><img src="/static/admin/images/file.png" width="150px" height="150px"></a>
+                    {/volist}
+                </div>
+            </div>
+            <div class="callout callout-info">
+                <h5>就餐发票</h5>
+                <div>
+                    {volist name="detail.dining" id="item"}
+                        <a href="{$item}" target="_blank"><img src="/static/admin/images/file.png" width="150px" height="150px"></a>
+                    {/volist}
+                </div>
+            </div>
+            <div class="callout callout-info">
+                <h5>交通发票</h5>
+                <div>
+                    {volist name="detail.travelling_expenses" id="item"}
+                        <a href="{$item}" target="_blank"><img src="/static/admin/images/file.png" width="150px" height="150px"></a>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>

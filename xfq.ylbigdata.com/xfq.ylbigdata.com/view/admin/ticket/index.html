@@ -1,0 +1,432 @@
+<!--内容开始-->
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--搜索区域开始-->
+            <div class="col-12 search-collapse">
+                <form id="search_form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label for="seller_id">所属商户： </label>
+                                <select class="select2" id="search_seller_id" name="seller_id" id="seller_id"
+                                        data-value="">
+                                    <option value="">所有</option>
+                                </select>
+                                <script>
+                                    $(function () {
+                                        var option = {};
+                                        // 启用ajax分页查询
+                                        option = {
+                                            language: "zh-CN",
+                                            //allowClear: true,
+                                            ajax: {
+                                                delay: 250, // 限速请求
+                                                url: "/admin/Index/selectSeller.html?id=1279",   //  请求地址
+                                                dataType: 'json',
+                                                data: function (params) {
+                                                    return {
+                                                        keyWord: params.term || '',    //搜索参数
+                                                        page: params.page || 1,        //分页参数
+                                                        rows: params.pagesize || 10,   //每次查询10条记录
+                                                    };
+                                                },
+                                                processResults: function (data, params) {
+                                                    params.page = params.page || 1;
+                                                    if (params.page == 1) {
+                                                        data.data.unshift({id: '', name: "", text: "所有"});
+                                                    }
+                                                    return {
+                                                        results: data.data,
+                                                        pagination: {
+                                                            more: (params.page) < data.last_page
+                                                        }
+                                                    };
+                                                },
+                                                cache: true
+                                            }
+                                        };
+                                        // 默认值设置
+                                        var defaultValue = $("#search_seller_id").data("value");
+                                        if (defaultValue) {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/admin/Index/selectSeller.html?id=1279",
+                                                data: {value: defaultValue},
+                                                dataType: "json",
+                                                async: false,
+                                                success: function (data) {
+                                                    $("#search_seller_id").append("<option selected value='" + data.key + "'>" + data.value + "</option>");
+                                                }
+                                            });
+                                        }
+                                        $("#search_seller_id").select2(option);
+                                    })
+                                </script>
+                            </li>
+                            <li>
+                                <label>所属分类： </label>
+                                <select class="select2" id="category_id" name="category_id" data-value="">
+                                    <option value="">所有</option>
+                                </select>
+                                <script>
+                                    $("#seller_id").change(function () {
+                                        var option = {};
+                                        $('#category_id').val('');
+                                        var seller_id = $("#seller_id option:selected").val();
+                                        if ('/admin/Index/selectTicketCategory.html?id=' + seller_id !== '') {
+                                            // 启用ajax分页查询
+                                            option = {
+                                                language: "zh-CN",
+                                                //allowClear: true,
+                                                ajax: {
+                                                    delay: 250, // 限速请求
+                                                    url: "/admin/Index/selectTicketCategory.html?id=" + seller_id,   //  请求地址
+                                                    dataType: 'json',
+                                                    data: function (params) {
+                                                        return {
+                                                            keyWord: params.term || '',    //搜索参数
+                                                            page: params.page || 1,        //分页参数
+                                                            rows: params.pagesize || 10,   //每次查询10条记录
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        params.page = params.page || 1;
+                                                        if (params.page == 1) {
+                                                            data.data.unshift({
+                                                                id: '',
+                                                                name: "",
+                                                                text: "请选择一下分类"
+                                                            });
+                                                        }
+                                                        return {
+                                                            results: data.data,
+                                                            pagination: {
+                                                                //more: (params.page) < data.paginator.totalPages
+                                                                more: (params.page) < data.last_page
+                                                            }
+                                                        };
+                                                    },
+                                                    cache: true
+                                                }
+                                            };
+                                            // 默认值设置
+                                            var defaultValue = $('#category_id').data("value");
+                                            if (defaultValue) {
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "/admin/Index/selectTicketCategory.html?id=" + seller_id,
+                                                    data: {value: defaultValue},
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        $('#category_id').append("<option selected value='" + data.key + "'>" + data.value + "</option>");
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        $('#category_id').select2(option);
+                                    });
+
+                                </script>
+                            </li>
+                            <li>
+                                <label>票种名称： </label>
+                                <input type="text" id="search_title" name="title" value=""/>
+                            </li>
+
+                            <li>
+                                <label>状态： </label>
+                                <select id="search_status" name="status">
+                                    <option value="">所有</option>
+                                    <option value="1">显示</option>
+                                    <option value="0">隐藏</option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">
+                                    <i class="fa fa-search"></i>&nbsp;搜索
+                                </a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">
+                                    <i class="fas fa-sync-alt"></i>&nbsp;重置
+                                </a>
+                                <input class="hide" type="submit" name="btnSave" value="提交"
+                                       onclick="$.table.search();return false;"/>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--列表区域开始-->
+            <div class="col-sm-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-success" onclick="$.modal.open('添加', '/admin/Ticket/post.html?_layer=1');">
+                        <i class="fa fa-plus"></i> 添加 </a>
+                    <!--                    <a class="btn btn-success" onclick="$.operate.add()">-->
+                    <!--                        <i class="fa fa-plus"></i> 新增-->
+                    <!--                    </a>-->
+                    <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
+                        <i class="fa fa-edit"></i> 修改
+                    </a>
+                    <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                        <i class="fa fa-times"></i> 删除
+                    </a>
+                    <a class="btn btn-warning" onclick="$.table.export()">
+                        <i class="fa fa-download"></i> 导出
+                    </a>
+                </div>
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var options = {
+                uniqueId: "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+                url: "/admin/Ticket/index.html?getList=1",      // 请求后台的URL
+                addUrl: "/admin/Ticket/add.html",       // 新增的地址
+                editUrl: "/admin/Ticket/edit.html?id=__id__",      // 修改的地址
+                delUrl: "/admin/Ticket/del.html",       // 删除的地址
+                exportUrl: "/admin/Ticket/export.html",    // 导出的地址
+                sortUrl: "/admin/Ticket/sort.html",      // 排序的地址
+                sortName: "id",         // 排序列名称
+                sortOrder: "desc",                 // 排序方式  asc 或者 desc
+                pagination: false,          // 是否进行分页
+                parentIdField: "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+                clickToSelect: true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+                pageSize: "10",         // 每页显示的行数
+                layerOpen: "1",        // 添加/编辑等页启用layer弹层加载
+                emptyTips: "没有找到匹配的记录",        // 空数据提示信息
+                fixedColumns: true,                   // 是否启用固定列功能
+                fixedLeft: 0,          // 左侧固定列数
+                fixedRight: 1,         // 右侧固定列数
+                columns: [
+                    {
+                        //field: 'state',
+                        checkbox: true,
+                        // 当某行包含checkbox_disabled时禁止选择
+                        formatter: function (value, row, index) {
+                            if (row.checkbox_disabled == '1') {
+                                return {
+                                    disabled: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: 'ID',
+                        sortable: true,
+                    },
+                    {
+                        field: 'code',
+                        title: '编号'
+                    },
+                    {
+                        field: 'seller_id',
+                        title: '所属商户',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return row.seller_id;
+                        }
+                    },
+                    {
+                        field: 'category_id',
+                        title: '所属票种分类',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return row.category_id;
+                        }
+
+                    },
+                    {
+                        field: 'title',
+                        title: '票种名称',
+
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return HTMLDecode(value);
+                        }
+
+                    },
+                    {
+                        field: 'cover',
+                        title: '票种封面图',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            if ($.common.isNotEmpty(value)) {
+                                return '<a href="' + value + '" target="_blank"><img class="image_preview" src="' + value + '"></a>';
+                            }
+                        }
+
+                    },
+                    {
+                        field: 'quota',
+                        title: '每人每天限购0表示不限',
+
+                        sortable: true,
+
+                    },
+                    {
+                        field: 'crossed_price',
+                        title: '划线价',
+
+                        sortable: true,
+
+                    },
+                    {
+                        field: 'status',
+                        title: '状态',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            if (value == 0) {
+                                return '<i class="fa fa-toggle-off text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/admin/Ticket/state.html\')"></i>';
+                            } else {
+                                return '<i class="fa fa-toggle-on text-info fa-2x cursor_pointer" onclick="$.operate.state(\'' + row.id + '\',\'/admin/Ticket/state.html\')"></i>';
+                            }
+                        }
+
+                    },
+                    {
+                        field: 'sort',
+                        title: '排序',
+
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return '<input class="form-control input-sm w_40 changeSort" type="text" value="' + value + '" data-id="' + row.id + '" onblur="$.table.sort(this)">';
+                        }
+
+                    },
+                    {
+                        field: 'create_time',
+                        title: '创建时间',
+
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        field: 'update_time',
+                        title: '更新时间',
+                        sortable: false,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        field: 'right_button',
+                        title: '操作',
+                        sortable: false,
+                        class: 'text-nowrap',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" target="" href="javascript:void(0)" onclick="$.common.jump(\'/admin/TicketPrice/index.html?ticket_id=' + row.id + '\')"><i class="fa fa-yen-sign"></i> 价格管理</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs" target="" href="javascript:void(0)" onclick="$.common.jump(\'/admin/ticket/post.html?id=' + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-trash-alt"></i> 删除</a> ');
+                            /* if ('edit' == 'edit' || 'edit' == 'preview') {
+                                 if ('') {
+                                     var url = '';
+                                     var reg = /__(.*?)__/g;
+                                     // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                     while (result = reg.exec(url)) {
+                                         url = url.replace(result[0], row[result[1]]);
+                                     }
+                                     actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 编辑</a> ');
+                                 } else {
+                                     actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                                 }
+                             } else if ('edit' == 'delete') {
+                                 if ('') {
+                                     var url = '';
+                                     var reg = /__(.*?)__/g;
+                                     // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                     while (result = reg.exec(url)) {
+                                         url = url.replace(result[0], row[result[1]]);
+                                     }
+                                     actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 编辑</a> ');
+                                 } else {
+                                     actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                                 }
+                             } else {
+                                 var url = '';
+                                 var reg = /__(.*?)__/g;
+                                 // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                 while (result = reg.exec(url)) {
+                                     url = url.replace(result[0], row[result[1]]);
+                                 }
+                                 actions.push('<a class="btn btn-primary btn-xs" target="" href="' + url + '"><i class="fa fa-edit"></i> 编辑</a> ');
+                             }
+
+                             if ('delete' == 'edit' || 'delete' == 'preview') {
+                                 if ('') {
+                                     var url = '';
+                                     var reg = /__(.*?)__/g;
+                                     // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                     while (result = reg.exec(url)) {
+                                         url = url.replace(result[0], row[result[1]]);
+                                     }
+                                     actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="' + url + '"><i class="far fa-trash-alt"></i> 删除</a> ');
+                                 } else {
+                                     actions.push('<a class="btn btn-danger btn-xs confirm" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="far fa-trash-alt"></i> 删除</a> ');
+                                 }
+                             } else if ('delete' == 'delete') {
+                                 if ('') {
+                                     var url = '';
+                                     var reg = /__(.*?)__/g;
+                                     // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                     while (result = reg.exec(url)) {
+                                         url = url.replace(result[0], row[result[1]]);
+                                     }
+                                     actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="' + url + '"><i class="far fa-trash-alt"></i> 删除</a> ');
+                                 } else {
+                                     actions.push('<a class="btn btn-danger btn-xs confirm" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="far fa-trash-alt"></i> 删除</a> ');
+                                 }
+                             } else {
+                                 var url = '';
+                                 var reg = /__(.*?)__/g;
+                                 // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                                 while (result = reg.exec(url)) {
+                                     url = url.replace(result[0], row[result[1]]);
+                                 }
+                                 actions.push('<a class="btn btn-danger btn-xs confirm" target="" href="' + url + '"><i class="far fa-trash-alt"></i> 删除</a> ');
+                             }*/
+
+                            return actions.join('');
+                        }
+
+                    },
+                ]
+            };
+            $.table.init(options);
+        });
+
+        // 搜索
+        function searchPre() {
+            var data = {};
+            $.table.search('', data);
+        }
+
+        // 重置搜索
+        function resetPre() {
+            $.form.reset();
+        }
+
+        //HTML反转义
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+    </script>
+    <!--bootstrap table end-->
+    <!--底部提示-->
+</section>
+<!--内容结束-->

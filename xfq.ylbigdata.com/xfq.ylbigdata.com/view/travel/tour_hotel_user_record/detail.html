@@ -1,0 +1,52 @@
+{// css}
+{include file="tour_hotel_user_record/css"/}
+<section class="content">
+    <div class="container-fluid">
+            <div class="callout callout-info">
+                <h5>打卡信息</h5>
+                <div>
+                    <div class="p-30">
+                        打卡位置：{$detail.address}
+                    </div>
+                    <div class="p-30">
+                        打卡酒店：{$detail.tourHotelSign.hotel_name}
+                    </div>
+                    <div class="p-30">
+                        打卡时间：{$detail.clock_time|date="Y-m-d H:i:s"}
+                    </div>
+                    <div class="p-30">
+                        团名称：{$detail.tour.name}
+                    </div>
+                    <div class="p-30">
+                        团号：{$detail.tour.no}
+                    </div>
+                    <div class="p-30">
+                        消费券名称：{$detail.coupon_title}
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <h5>打卡照片</h5>
+                <div>
+                    {volist name="detail.images" id="item"}
+                        <a href="{$item}" target="_blank"><img src="{$item}" width="150px" height="150px"></a>
+                    {/volist}
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                    <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                        回</button>
+                </div>
+            </div>
+        </div>
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>

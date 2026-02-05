@@ -1,0 +1,92 @@
+{// css}
+{include file="css"/}
+<style>
+    .p-30 {
+        display: inline-block;
+        min-width: auto
+    }
+</style>
+<section class="content" style="padding-top: 20px;">
+    <div class="container-fluid">
+        <div class="callout callout-info" style="width: 100%">
+            <div class="item">
+                <h5>领取信息</h5>
+                <div>
+                    <div class="p-30">
+                        领取人：{$detail.user.name}
+                    </div>
+                    <div class="p-30">
+                        联系方式：{$detail.user.mobile}
+                    </div>
+                    <div class="p-30">
+                        身份证号：{$detail.user.idcard}
+                    </div>
+                    <div class="p-30">
+                        领取时间：{$detail.tourIssueUser.create_time}
+                    </div>
+                </div>
+                <div>
+                    <div class="p-30">
+                        旅行社信息：{$detail.travel.username}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="callout callout-info" style="width: 100%">
+            <div class="item">
+                <h5>消费券信息</h5>
+                <div>
+                    <div class="p-30">
+                        名称：{$detail.coupon_title}
+                    </div>
+                    <div class="p-30">
+                        金额：{$detail.coupon_price}元
+                    </div>
+                    <div class="p-30">
+                        创建时间{$detail.create_time}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="callout callout-info" style="width: 100%">
+            <div class="item">
+                <h5>核销信息</h5>
+                <div>
+                    <div class="p-30">
+                        核销人：{$detail.users.name}
+                    </div>
+                    <div class="p-30">
+                        核销时间：{$detail.create_time}
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="callout callout-info" style="width: 100%">
+            <!-- <div class="item">
+                <h5>打卡信息</h5>
+                <div>
+                    <div class="p-30">
+                        景区名称：{$detail.spot_name}
+                    </div>
+                    <div class="p-30">
+                        景区地址：{$detail.address}
+                    </div>
+
+                    <div class="p-30">
+                        打卡时间：{$detail.create_time}
+                    </div>
+                    <div class="img">
+                        <span style="display: block;">打卡图片：</span>
+                        <a href="{$detail.images}" target="_blank"><div style="background-image: url('{$detail.images}')"></div></a>
+                    </div>
+
+                </div>
+            </div> -->
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="javascript :history.back(-1)">返
+                    回</button>
+            </div>
+        </div>
+    </div>
+</section>
+<!--内容结束-->

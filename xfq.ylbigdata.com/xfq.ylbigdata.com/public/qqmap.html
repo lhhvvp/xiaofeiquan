@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图查看</title>
+</head>
+<body>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #maps{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <div id="maps"></div>
+    <script charset="utf-8"
+            src="https://map.qq.com/api/gljs?v=1.exp&key=UPOBZ-3VVLX-NN64Z-TDIIZ-UXVXS-YRFUP&libraries=visualization"></script>
+    <script>
+        let lat,lng;
+        function getURLParameters() {
+            var params = {};
+            var queryString = window.location.search.substring(1);
+            var parameterPairs = queryString.split('&');
+
+            for (var i = 0; i < parameterPairs.length; i++) {
+                var pair = parameterPairs[i].split('=');
+                var paramName = decodeURIComponent(pair[0]);
+                var paramValue = decodeURIComponent(pair[1]);
+
+                // 如果参数名已经存在，则将参数值转换为数组
+                if (params.hasOwnProperty(paramName)) {
+                    if (!Array.isArray(params[paramName])) {
+                        params[paramName] = [params[paramName]];
+                    }
+                    params[paramName].push(paramValue);
+                } else {
+                    params[paramName] = paramValue;
+                }
+            }
+
+            return params;
+        };
+
+        function initMap() {
+            //定义地图中心点坐标
+
+            let parameters = getURLParameters();
+            lat = parameters.lat;
+            lng = parameters.lng;
+
+            if(!lat && !lng){
+                alert('参数错误');
+            };
+
+            var center = new TMap.LatLng(lat, lng);
+            //定义map变量，调用TMap.Map构造函数创建地图
+            var map = new TMap.Map(document.getElementById('maps'), {
+                center: center,//设置地图中心点坐标
+                zoom: 19,   //设置地图缩放级别
+            });
+            //创建并初始化MultiMarker
+            var markerLayer = new TMap.MultiMarker({
+                map: map,  //指定地图容器
+                //样式定义
+                styles: {
+                    //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+                    "myStyle": new TMap.MarkerStyle({
+                        "width": 25,  // 点标记样式宽度（像素）
+                        "height": 35, // 点标记样式高度（像素）
+                        "anchor": { x: 16, y: 32 }
+                    })
+                },
+                geometries: [{
+                    "id": "1",   //点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+                    "styleId": 'myStyle',  //指定样式id
+                    "position": new TMap.LatLng(lat,lng),  //点标记坐标位置
+                }]
+            });
+        };
+        initMap();
+    </script>
+</body>
+</html>

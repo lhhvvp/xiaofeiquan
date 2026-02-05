@@ -1,0 +1,161 @@
+    <!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        <label>门票名称：</label> 
+                        <input type="text" id="search_title" name="title" value="" placeholder="请输入门票名称">
+                    </li>
+                    <li>
+                        <label>商户名称：</label> 
+                        <input type="text" id="search_nickname" name="nickname" value="" placeholder="请输入商户名称">
+                    </li>
+                    <li>
+                        <label>核销时间： </label>        
+                        <input type="text" id="search_create_time" name="create_time" placeholder="默认统计最近30天销售额" value="" daterange="true" autocomplete="off"/>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--搜索区域结束-->
+
+    <div class="col-sm-12 select-table table-striped">
+        <!-- <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-warning"  onclick="$.table.export()">
+            <i class="fa fa-download"></i> 导出        </a>
+        </div> -->
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/admin/Issue/ticket_sales.html?getList=1",      // 请求后台的URL
+            exportUrl     : "/admin/Issue/export.html",    // 导出的地址
+            sortUrl       : "/admin/Issue/sort.html",      // 排序的地址
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",                 // 排序方式  asc 或者 desc
+            pagination    : true,           // 是否进行分页
+            parentIdField : "",   // 列表树模式需传递父id字段名（parent_id/pid）
+            clickToSelect : true,                   // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+                    // 当某行包含checkbox_disabled时禁止选择
+                    formatter: function(value, row, index) {
+                        if(row.checkbox_disabled =='1'){
+                             return {
+                                 disabled : true
+                            }
+                         }
+                    }
+                },
+                {
+                    field: 'mid',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'nickname',  
+                    title: '商户名称', 
+                    sortable: false,                                                           
+                },
+                {
+                    field: 'title',  
+                    title: '门票名称', 
+                    sortable: false,                                                           
+                },
+                {
+                    field: 'ticket_price',  
+                    title: '门票单价[元]', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'total_quantity',  
+                    title: '销售数量', 
+                    sortable: false,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'total_sales',
+                    title: '销售额[元]', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'amount_price',
+                    title: '实际支付[元]', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        var url = '/admin/Issue/single_sales.html?mid='+row.mid;
+                        // 匹配ID和email，可能为任何的其他参数，但都是 __字段__ 格式
+                        actions.push('<a class="btn btn-primary btn-xs confirm" target="" href="'+url+'"><i class="fa fa-search"></i> 查看</a> ');
+                        return actions.join('');
+                    }
+                }
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+    //HTML反转义
+    function HTMLDecode(text) {
+        var temp = document.createElement("div");
+        temp.innerHTML = text;
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

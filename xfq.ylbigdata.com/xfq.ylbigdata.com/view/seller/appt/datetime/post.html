@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <form name="form-builder" class="col-12 form_builder" method="post" action="" id="form-builder">
+        <input type="hidden" name="row[id]" value="{$vo.id|default=''}" />
+        <div class="row dd_input_group no-gutters">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                   for="title">日期</label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" readonly value="{$vo.date} {$vo.time_start_text} ~ {$vo.time_end_text}">
+            </div>
+        </div>
+        <div class="row dd_input_group no-gutters">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                   for="stock">总库存</label>
+            <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4">
+                <input class="form-control" type="number" min="0" id="stock" name="row[total_stock]" value="{$vo.total_stock|default=0}" placeholder="请输入库存">
+            </div>
+        </div>
+        <div class="row dd_input_group form-builder-submit no-gutters">
+            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                <button type="submit" class="btn btn-flat btn-primary hide">确定修改</button>
+                <button type="button" class="btn btn-flat btn-close btn-default hide" onclick="javascript :history.back(-1)">返回
+                </button>
+                <button type="button" class="btn btn-danger"  href="javascript:void(0)" onclick="remove({$vo.id})">删除</button>
+            </div>
+        </div>
+    </form><!--底部提示-->
+</div>
+<script>
+    function remove(id) {
+        $.modal.confirm("确定删除该条数据吗？", function () {
+            var url = "{:url('seller/appt.datetime/remove')}";
+            var data = {"id": id};
+            $.operate.submit(url, "post", "json", data,function (){
+                $.modal.close();
+            });
+        });
+    }
+    $.table.refresh = function () {
+        parent.reloads();
+    }
+    $.operate.successCallback = function (result){
+        if (result.code == 1) {
+            var parent = window.parent;
+            $.modal.close();
+            parent.toastr.success(result.msg); // toastr提示
+            window.parent.reloads();
+
+        } else {
+            $.modal.alertError(result.msg);
+        }
+    }
+</script>

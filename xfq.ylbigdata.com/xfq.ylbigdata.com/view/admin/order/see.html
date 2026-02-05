@@ -1,0 +1,1002 @@
+<style>
+    .th-inner {
+        padding: 0 !important;
+    }
+
+    .th-inner input {
+        height: auto !important;
+    }
+
+    .bootstrap-table .fixed-table-container .table thead th {
+        padding: 5px !important;
+        background-color: #eff3f8 !important;
+    }
+
+    .table td,
+    .table th {
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .is_permanent {
+        display: none;
+    }
+</style>
+<!--内容开始-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!--顶部提示开始-->
+            <!--顶部提示结束-->
+            <!--数据表开始-->
+            <form name="form-builder" class="col-12 form_builder" method="post"
+                action="/admin/CouponIssue/editPost.html">
+                <input class="form-control" type="hidden" id="id" name="id" value="{$couponissue.id}">
+                <!--消费券名称 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_coupon_title">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="coupon_title">
+                        消费券名称
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="text" id="coupon_title" name="coupon_title"
+                            value="{$couponissue.coupon_title}" placeholder="请输入消费券名称">
+                    </div>
+                </div>
+                <!--消费券名称 end -->
+
+                <!--消费券分类 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_cid">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="cid">所属分类</label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <select class="form-control" id="cid" name="cid">
+                            <option value="">请选择</option>
+                            {volist name="list" id="option"}
+                            <option value="{$option.id}" {if $couponissue.cid==$option.id}selected{/if}>{$option.title}
+                            </option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <!--消费券分类 end -->
+
+                <!--优惠券面额 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_coupon_price">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="coupon_price">
+                        优惠券面额
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="coupon_price" name="coupon_price"
+                            value="{$couponissue.coupon_price}" step="1">
+                    </div>
+                </div>
+                <!--优惠券面额 end -->
+
+                <!--购买价格 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_sale_price">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="sale_price">
+                        购买价格
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="sale_price" name="sale_price"
+                            value="{$couponissue.sale_price}">
+                    </div>
+                </div>
+                <!--购买价格 end -->
+
+                <!--消费券领取数量 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_total_count">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="total_count">
+                        预计投放总数
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="total_count" name="total_count"
+                            value="{$couponissue.total_count}" step="1">
+                    </div>
+                </div>
+                <!--消费券领取数量 end -->
+
+                <!--消费券图标 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_image">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label"
+                        for="coupon_icon">消费券图标</label>
+                    <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                        <input class="form-control" type="text" id="coupon_icon" name="coupon_icon"
+                            value="{$couponissue.coupon_icon}" placeholder="请点击按钮上传或手动输入地址">
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-5 dd_ts dd_ts_img">
+                        <!--上传图片-->
+                        <!--用来存放item-->
+                        <div id="fileList_image" class="uploader-list"></div>
+                        <div id="filePicker_image"><i class="fa fa-upload m-r-10"></i>选择图片</div>
+                        <a href="{if $couponissue.coupon_icon}{$couponissue.coupon_icon}{else/}/static/admin/images/nopic.png{/if}"
+                            target="_blank">
+                            <img class="image_preview_info"
+                                src="{if $couponissue.coupon_icon}{$couponissue.coupon_icon}{else/}/static/admin/images/nopic.png{/if}"
+                                id="image_preview">
+                        </a>
+                        <!--上传图片-->
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    webupload('fileList_image', 'filePicker_image', 'image_preview', 'coupon_icon', false, 'jpg,png,gif,jpeg,ico', '0');
+                </script>
+                <!--消费券图标 end -->
+
+                <!--领取时间 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_limit_time">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="limit_time">
+                        发放时间
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="limit_time" class="dd_radio" id="limit_time2" value="0" {eq
+                                name="$couponissue.limit_time" value="0" }checked{/eq}>
+                            <label for="limit_time2">
+                                不限时
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="limit_time" class="show dd_radio" id="limit_time1" value="1" {eq
+                                name="$couponissue.limit_time" value="1" }checked{/eq}>
+                            <label for="limit_time1">
+                                限时
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters limit_time" id="form_group_coupon_time_limit" {eq
+                    name="$couponissue.limit_time" value="0" }style="display:none" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="coupon_time_limit">该时段内可以领取</label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="coupon_time_limit" name="coupon_time_limit"
+                                value="{$couponissue.start_time|date='Y-m-d H:i:s'} - {$couponissue.end_time|date='Y-m-d H:i:s'}"
+                                placeholder="请选择或输入是否在首页展示  1=是  0=否" autocomplete="off">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#coupon_time_limit').daterangepicker({
+                            showDropdowns: true,     // 年月份下拉框
+                            timePicker: true,        // 显示时间
+                            timePicker24Hour: true,  // 时间制
+                            timePickerSeconds: true, // 时间显示到秒
+                            ranges: {
+                                '今天': [moment(), moment()],
+                                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                '上周': [moment().subtract(6, 'days'), moment()],
+                                '前30天': [moment().subtract(29, 'days'), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
+                                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            },
+                            //timePicker: true,
+                            //timePickerIncrement: 30,
+                            locale: {
+                                format: 'YYYY-MM-DD H:m:s',
+                                applyLabel: '确定',       // 确定按钮文本
+                                cancelLabel: '取消',      // 取消按钮文本
+                                customRangeLabel: '自定义',
+                            }
+                        });
+                    })
+                </script>
+                <!--领取时间 end -->
+
+                <!--使用门槛 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_is_permanent">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="is_threshold">
+                        使用门槛
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_threshold" class="show dd_radio" id="is_threshold1" {eq
+                                name="$couponissue.is_threshold" value="0" }checked{/eq} value="0">
+                            <label for="is_threshold1">
+                                无门槛
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_threshold" class="dd_radio" id="is_threshold2" {eq
+                                name="$couponissue.is_threshold" value="1" }checked{/eq} value="1">
+                            <label for="is_threshold2">
+                                有门槛
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters is_threshold" id="form_group_use_min_price" {eq
+                    name="$couponissue.is_threshold" value="0" }style="display:none" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="use_min_price">
+                        限制低消额度
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="use_min_price" name="use_min_price"
+                            value="{$couponissue.use_min_price}" step="0.01">
+                    </div>
+                    <div
+                        class="col-12 offset-sm-2 offset-md-2 offset-lg-0 offset-xl-0 col-sm-10 col-md-10 col-lg-4 col-xl-7 dd_ts">
+                        <small class="text-muted">
+                            <i class="fa fa-info-circle"></i>最低消费多少金额可以领取该优惠券
+                        </small>
+                    </div>
+                </div>
+                <!--使用门槛 end -->
+
+                <!--单人限制领取数量 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_is_limit_total">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="is_limit_total">
+                        是否限制领取数量
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_limit_total" class="dd_radio" id="is_limit_total2" {eq
+                                name="$couponissue.is_limit_total" value="0" }checked{/eq} value="0">
+                            <label for="is_limit_total2">
+                                否
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_limit_total" class="show dd_radio" id="is_limit_total1" {eq
+                                name="$couponissue.is_limit_total" value="1" }checked{/eq} value="1">
+                            <label for="is_limit_total1">
+                                是
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters is_limit_total" id="form_group_limit_total" {eq
+                    name="$couponissue.is_limit_total" value="0" }style="display:none" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="limit_total">
+                        单人限制领取数量
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="limit_total" name="limit_total"
+                            value="{$couponissue.limit_total}" step="1">
+                    </div>
+                </div>
+                <!--单人限制领取数量 end -->
+
+                <!--该优惠券是否永久有效 start -->
+                <div class="row dd_input_group no-gutters">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="is_permanent">
+                        有效期设置
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="show dd_radio" id="is_permanent1" {eq
+                                name="$couponissue.is_permanent" value="1" }checked{/eq} value="1">
+                            <label for="is_permanent1">
+                                永久有效
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="dd_radio" id="is_permanent2" {eq
+                                name="$couponissue.is_permanent" value="2" }checked{/eq} value="2">
+                            <label for="is_permanent2">
+                                期限内有效
+                            </label>
+                        </div>
+
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_permanent" class="dd_radio" id="is_permanent3" {eq
+                                name="$couponissue.is_permanent" value="3" }checked{/eq} value="3">
+                            <label for="is_permanent3">
+                                指定N天内有效
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters is_permanent is_permanent-time" id="form_group_coupon_time"
+                    {eq name="$couponissue.is_permanent" value="2" } style="display:flex" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="coupon_time">该时段内有效</label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="coupon_time" name="coupon_time"
+                                value="{$couponissue.coupon_time_start|date='Y-m-d H:i:s'} - {$couponissue.coupon_time_end|date='Y-m-d H:i:s'}"
+                                placeholder="请选择日期范围" autocomplete="off">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters is_permanent is_permanent-day" id="is_permanent3_input" {eq
+                    name="$couponissue.is_permanent" value="3" } style="display:flex" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="is_permanent3_input_">
+                        指定N天内有效
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="is_permanent3_input_" value="{$couponissue.day}"
+                            name="day" value="0" step="1">
+                    </div>
+                </div>
+
+
+                <script>
+                    $(function () {
+                        $('#coupon_time').daterangepicker({
+                            showDropdowns: true,     // 年月份下拉框
+                            timePicker: true,        // 显示时间
+                            timePicker24Hour: true,  // 时间制
+                            timePickerSeconds: true, // 时间显示到秒
+                            ranges: {
+                                '今天': [moment(), moment()],
+                                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                '上周': [moment().subtract(6, 'days'), moment()],
+                                '前30天': [moment().subtract(29, 'days'), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
+                                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            },
+                            //timePicker: true,
+                            //timePickerIncrement: 30,
+                            locale: {
+                                format: 'YYYY-MM-DD H:m:s',
+                                applyLabel: '确定',       // 确定按钮文本
+                                cancelLabel: '取消',      // 取消按钮文本
+                                customRangeLabel: '自定义',
+                            }
+                        });
+                    })
+                </script>
+                <!--该优惠券是否永久有效 end -->
+
+                <!--栏目类型 start -->
+                <input type="hidden" name="class_id" value="1">
+                <!-- <div class="row dd_input_group no-gutters " id="form_group_class_id">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="class_id">
+                        栏目类型
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="class_id" class="dd_radio" id="class_id1" {eq
+                                name="$couponissue.class_id" value="1" }checked{/eq} value="1">
+                            <label for="class_id1">
+                                通用
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="class_id" data-name="门票" class="dd_radio" id="class_id2" {eq
+                                name="$couponissue.class_id" value="2" }checked{/eq} value="2">
+                            <label for="class_id2">
+                                门票
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="class_id" data-name="线路" class="dd_radio" id="class_id3" {eq
+                                name="$couponissue.class_id" value="3" }checked{/eq} value="3">
+                            <label for="class_id3">
+                                线路
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="class_id" data-name="商品" class="dd_radio" id="class_id4" {eq
+                                name="$couponissue.class_id" value="4" }checked{/eq} value="4">
+                            <label for="class_id4">
+                                商品
+                            </label>
+                        </div>
+                    </div>
+                </div> -->
+                <!--栏目类型 end -->
+
+                <!--消费类型 start -->
+                <input type="hidden" name="type" value="1">
+                <!-- <div class="row dd_input_group no-gutters" id="form_group_type">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="type">
+                        消费类型
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="type" class="dd_radio" id="type1" {eq name="$couponissue.type"
+                                value="1" }checked{/eq} value="1">
+                            <label for="type1">
+                                通用
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline consumption_type" {eq name="$couponissue.class_id"
+                            value="1" }style="display: none;" {/eq}>
+                            <input type="radio" name="type" class="dd_radio" id="type2" {eq name="$couponissue.type"
+                                value="2" }checked{/eq} value="2">
+                            <label for="type2">
+                                品类ID
+                            </label>
+                        </div>
+
+
+
+                        <div class="icheck-peterriver icheck-inline consumption_type" {eq name="$couponissue.class_id"
+                            value="1" }style="display: none;" {/eq}>
+                            <input type="radio" name="type" class="dd_radio" id="type3" {eq name="$couponissue.type"
+                                value="3" }checked{/eq} value="3">
+                            <label for="type3">
+                                商品ID
+                            </label>
+                        </div>
+                    </div>
+                </div> -->
+                <!--消费类型 end -->
+
+                <!--品类ID 选择 start -->
+                <div class="row dd_input_group no-gutters type2" {eq name="$couponissue.type" value="2"
+                    }style="display: block;" {/eq} style="display:none">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="category_id">所属品类</label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <select class="form-control" id="category_id" name="category_id">
+                            <option value="0" selected>请选择</option>
+                            {volist name="ticket_class" id="option"}
+                            <option value="{$option.id}">{$option.status}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <!--品类ID 选择 end -->
+
+                <div class="row dd_input_group no-gutters type3" id="goods-box" {eq name="$couponissue.type" value="3"
+                    }style="display: flex;" {/eq} style="display:none">
+                </div>
+
+                <!--消费类型 start -->
+                <div class="row dd_input_group no-gutters " id="form_group_use_store">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="use_store">
+                        使用门店
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="use_store" class="dd_radio" id="use_store1" {eq
+                                name="$couponissue.use_store" value="1" }checked{/eq} value="1">
+                            <label for="use_store1">
+                                通用
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="use_store" class="dd_radio" id="use_store2" {eq
+                                name="$couponissue.use_store" value="2" }checked{/eq} value="2">
+                            <label for="use_store2">
+                                景区
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="use_store" class="dd_radio" id="use_store3" {eq
+                                name="$couponissue.use_store" value="3" }checked{/eq} value="3">
+                            <label for="use_store3">
+                                旅行社
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="use_store" class="dd_radio" id="use_store4" {eq
+                                name="$couponissue.use_store" value="4" }checked{/eq} value="4">
+                            <label for="use_store4">
+                                剧院
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="use_store" class="dd_radio" id="use_store5" {eq
+                                name="$couponissue.use_store" value="5" }checked{/eq} value="5">
+                            <label for="use_store5">
+                                影院
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dd_input_group no-gutters type3" id="use_store-box" {eq name="$couponissue.use_store"
+                    value="1" }style="display: none;" {/eq} style="display:flex;">
+                </div>
+                <!--消费类型 end -->
+
+                <!--商品ID start -->
+                <div class="row dd_input_group no-gutters " id="form_group_product_id">
+                    <!-- <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="product_id">
+                        商品ID
+                    </label> -->
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="hidden" id="product_id" name="product_id"
+                            value="{$couponissue.product_id}" placeholder="请输入所属商品id 根据消费类型选择不同的商品ID">
+                    </div>
+                </div>
+                <!--商品ID end -->
+
+                <div class="row dd_input_group no-gutters " id="form_group_product_id">
+                    <!--  <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label "
+                        for="use_stroe_id">
+                        使用门店ID
+                    </label> -->
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="hidden" id="use_stroe_id" name="use_stroe_id"
+                            value="{$couponissue.use_stroe_id}" placeholder="请输入所属商品id 根据消费类型选择不同的商品ID">
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_remark">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label  is-required"
+                        for="remark">使用细则</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+                        <textarea id="remark" name="remark"
+                            style="width:100%;height: 400px">{$couponissue.remark}</textarea>
+                    </div>
+                </div>
+                <script>
+                    CKEDITOR.replace('remark', { height: '400px' });
+                </script>
+
+                <div class="row dd_input_group no-gutters " id="form_group_coupon_type">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="coupon_type">
+                        券类型
+                    </label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="coupon_type" class="dd_radio" id="coupon_type1" value="1" {eq
+                                name="$couponissue.coupon_type" value="1" }checked{/eq}>
+                            <label for="coupon_type1">
+                                通用
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="coupon_type" class="dd_radio" id="coupon_type2" value="2" {eq
+                                name="$couponissue.coupon_type" value="2" }checked{/eq}>
+                            <label for="coupon_type2">
+                                散客
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="coupon_type" class="dd_radio" id="coupon_type3" value="3" {eq
+                                name="$couponissue.coupon_type" value="3" }checked{/eq}>
+                            <label for="coupon_type3">
+                                团体
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_tag" {eq name="$couponissue.coupon_type"
+                    value="3" }style="display: none;" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="tag">
+                        是否首页展示
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="tag" class="dd_radio" id="tag1" value="1" {eq
+                                name="$couponissue.tag" value="1" }checked{/eq}>
+                            <label for="tag1">
+                                是
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="tag" class="dd_radio" id="tag2" value="0" {eq
+                                name="$couponissue.tag" value="0" }checked{/eq}>
+                            <label for="tag2">
+                                否
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_is_get" {eq name="$couponissue.coupon_type"
+                    value="3" }style="display: none;" {/eq}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required"
+                        for="is_get">
+                        是否可领取
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9 dd_radio_lable_left border-white">
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_get" class="dd_radio" id="is_get1" value="1" {eq
+                                name="$couponissue.is_get" value="1" }checked{/eq}>
+                            <label for="is_get1">
+                                是
+                            </label>
+                        </div>
+                        <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="is_get" class="dd_radio" id="is_get2" value="0" {eq
+                                name="$couponissue.is_get" value="0" }checked{/eq}>
+                            <label for="is_get2">
+                                否
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dd_input_group no-gutters " id="form_group_tips" {if
+                    condition="$couponissue.is_get == 0" } style="display: flex;" {else/} style="display: none;" {/if}>
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label " for="tips">
+                        禁止领取提示语
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="text" id="tips" name="tips" value="{$couponissue.tips}">
+                    </div>
+                </div>
+
+
+
+                <div class="row dd_input_group no-gutters " id="form_group_sort">
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label " for="sort">
+                        排序
+                    </label>
+                    <div class="col-8 col-sm-8 col-md-9 col-lg-6 col-xl-9">
+                        <input class="form-control" type="number" id="sort" name="sort" value="{$couponissue.sort}"
+                            step="1">
+                    </div>
+                </div>
+                <!---->
+                <div class="row dd_input_group form-builder-submit no-gutters">
+                    <div
+                        class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                        <button type="button" class="btn btn-flat btn-default" onclick="back()">
+                            返 回
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </form>
+            <!--底部提示-->
+        </div>
+    </div>
+    </div>
+    <script>
+        function back() {
+            var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+            parent.layer.close(index);//关闭窗口
+        }
+        $(`input:radio[name='is_get']`).change(function () {
+            let val = $(this).val();
+            val = Number(val);
+            console.log(val);
+            if (val == 0) {
+                $("#form_group_tips").show();
+            } else {
+                $("#form_group_tips").hide();
+            }
+        });
+
+        // 领取时间是否限时,使用门槛,是否限制领取数量,是否永久有效
+        let radio = $(".show");
+        radio.each((index, item) => {
+            let name = $(item).attr("name");
+            $(`input:radio[name='${name}']`).change(function () {
+                let val = $(this).val();
+                radioShowOrHide(val, name);
+            });
+        })
+        function radioShowOrHide(val, name) {
+            console.log(name);
+            /**
+             * {val}    radio的值，
+             * {name}   class控制显示隐藏的div
+             **/
+            val = Number(val);
+            if (name == 'is_permanent') {
+                //是否永久有效 0是显示，1隐藏
+                if (val === 2) {
+                    $(`.${name}-time`).css({ "display": "flex" });
+                    $(`.${name}-day`).css({ "display": "none" });
+                } else if (val === 3) {
+                    $(`.${name}-day`).css({ "display": "flex" });
+                    $(`.${name}-time`).css({ "display": "none" });
+                } else {
+                    $(`.${name}`).hide();
+                }
+                return false;
+
+            } else {
+                // 0是隐藏，1显示
+                if (val === 0) {
+                    if (name == 'is_threshold') {
+                        $("#use_min_price").val('0.00');//最低消费等于空
+                    };
+                    if (name == 'is_limit_total') {
+                        $("#limit_total").val('0');// 单人限制领取数量
+                    }
+                    $(`.${name}`).hide();
+                } else {
+                    $(`.${name}`).show();
+                }
+
+            }
+        }
+        // 领取时间是否限时,使用门槛,是否限制领取数量,是否永久有效end
+
+        //消费类型
+        $(`input:radio[name='type']`).change(function () {
+            let val = $(this).val();
+            val = Number(val);
+            if (val === 2) {
+                $(".type2").show();
+                $("#product_id").val(0);
+            } else {
+                $(".type2").hide()
+            }
+
+            if (val === 3) {
+                $(".type3").show();
+                $("#category_id").val(0);
+            } else {
+                $(".type3").hide()
+            }
+
+
+        });
+        //消费类型end
+
+
+        //  栏目类型联动消费类型
+        let class_idVal = 0;
+        let href, name;
+        $(`input:radio[name='class_id']`).change(function () {
+            class_idVal = Number($(this).val());
+            name = $(this).attr("data-name");
+            if (class_idVal === 1) {
+                var radios = document.getElementById("type1");
+                radios.checked = true;
+                $(".consumption_type").hide();
+                $(".type2").hide();
+                $(".type3").hide();
+            } else {
+                $(".consumption_type").show();
+            };
+            if (class_idVal === 2) {
+                //门票方法
+                href = '/admin/Ticket/list';
+            };
+            if (class_idVal === 3) {
+                //线路方法
+            };
+            if (class_idVal === 4) {
+                //商品方法
+            };
+            if (class_idVal != 1) {
+                new dataTables({
+                    dom: 'bootstrap-table',//初始化表格的容器id
+                    buttonDom: 'goods-box',//放按钮的容器id
+                    buttonLabel: `${name}`,//按钮名称
+                    href: href,//子页面请求的接口
+                    hideInput: 'product_id',//隐藏域的id名称
+                    urls: `/admin/CouponIssue/add.html?_layer=1&menuId=${class_idVal}`,//子页面选择数据以后通过id查询并渲染
+                    checkboxName: 'btSelectItem',//子页面的复选框name值
+                    columns: [{ checkbox: true, }, { field: 'nickname', title: '名称' }, { field: 'create_time', title: '添加时间' }, { field: 'status', title: '状态' }],//表格的字段
+                });
+            } else {
+                $("#category_id").val();
+            };
+
+
+        });
+
+        setTimeout(() => {
+            let data = new dataTables({
+                dom: 'bootstrap-table',//初始化表格的容器id
+                buttonDom: 'goods-box',//放按钮的容器id
+                buttonLabel: `商品`,//按钮名称
+                href: href_info('{$couponissue.class_id}'),//子页面请求的接口
+                hideInput: 'product_id',//隐藏域的id名称
+                urls: `/admin/CouponIssue/add.html?_layer=1&menuId=${2}`,//子页面选择数据以后通过id查询并渲染
+                checkboxName: 'btSelectItem',//子页面的复选框name值
+                columns: [{ checkbox: true, }, { field: 'nickname', title: '名称' }, { field: 'create_time', title: '添加时间' }, { field: 'status', title: '状态' }],//表格的字段
+            });
+            data.dataTable('{$couponissue.product_id}');
+
+            let datas = new dataTables({
+                dom: 'bootstrap-table_',//初始化表格的容器id
+                buttonDom: 'use_store-box',//放按钮的容器id
+                buttonLabel: `${models("{$couponissue.use_store}").name}`,//按钮名称
+                href: `${models("{$couponissue.use_store}").model}`,//子页面请求的接口
+                hideInput: 'use_stroe_id',//隐藏域的id名称
+                urls: `/admin/CouponIssue/add.html?_layer=1&class_id=${models("{$couponissue.use_store}").value}`,//子页面选择数据以后通过id查询并渲染
+                checkboxName: 'btSelectItem',//子页面的复选框name值
+                columns: [{ checkbox: true, }, { field: 'nickname', title: '名称' }, { field: 'create_time', title: '添加时间' }, { field: 'status', title: '状态' }],//表格的字段
+            });
+
+            datas.dataTable('{$couponissue.use_stroe_id}');
+
+
+        }, 50);
+
+        function href_info(id) {
+            id = Number(id);
+
+            let href = '';
+            switch (id) {
+                case 2:
+                    href = '/admin/Ticket/list';
+                    break;
+                case 3:
+                    href = '';
+                    break;
+                case 4:
+                    href = '';
+                    break;
+            };
+            return href;
+        }
+
+        // 使用门店
+        $(`input:radio[name='use_store']`).change(function () {
+            let val = Number($(this).val());
+            let obj = models(val);
+            console.log(obj);
+            if (val !== 1) {
+                $("#use_store-box").show();
+                $("#use_stroe_id").val('');
+                new dataTables({
+                    dom: 'bootstrap-table_',//初始化表格的容器id
+                    buttonDom: 'use_store-box',//放按钮的容器id
+                    buttonLabel: `${obj.name}`,//按钮名称
+                    href: obj.model,//子页面请求的接口
+                    hideInput: 'use_stroe_id',//隐藏域的id名称
+                    urls: `/admin/CouponIssue/add.html?_layer=1&class_id=${obj.value}`,//子页面选择数据以后通过id查询并渲染
+                    checkboxName: 'btSelectItem',//子页面的复选框name值
+                    columns: [{ checkbox: true, }, { field: 'nickname', title: '名称' }, { field: 'create_time', title: '添加时间' }, { field: 'status', title: '状态' }],//表格的字段
+                });
+            } else {
+                $("#use_store-box").hide();
+                $("#use_stroe_id").val(0);
+            }
+
+        });
+
+        function models(val) {
+            let obj = { name: '', model: '', value: 0 };
+            val = Number(val);
+            switch (val) {
+                case 2:
+                    obj.name = '景区';
+                    obj.model = '/admin/seller/list?class_id=2';
+                    obj.value = 2;
+                    break;
+                case 3:
+                    obj.name = '旅行社';
+                    obj.model = '/admin/seller/list?class_id=3';
+                    obj.value = 3;
+                    break;
+                case 4:
+                    obj.name = '剧院';
+                    obj.model = '/admin/seller/list?class_id=4';
+                    obj.value = 4;
+                    break;
+                case 5:
+                    obj.name = '影院';
+                    obj.model = '/admin/seller/list?class_id=5';
+                    obj.value = 5;
+                    break;
+            };
+            return obj;
+        }
+
+        // 使用门店end
+        class dataTables {
+            constructor(option) {
+                this.dom = option.dom;
+                this.urls = option.urls + '&getList=';
+                this.columns = option.columns;
+                this.checkboxName = option.checkboxName;
+                this.checkboxId_ = 0;
+                this.hideInput = option.hideInput;
+                this.init(option.dom, option.buttonDom, option.buttonLabel, option.href, option.hideInput);
+
+            };
+            init(dom, buttonDom, name, href, hideInput) {
+                $(`#${buttonDom}`).children().remove();
+                let html = `
+                    <label class="col-4 col-sm-4 col-md-2 col-lg-6 col-xl-3 dd_input_l col-form-label is-required">${name}</label>
+                    <div>
+                        <table id="${this.dom}" class="${this.dom}"></table>
+                        <button type="button" onclick="this.buttonClick()" style="margin-top:10px" class="btn btn-flat btn-primary">选择${name}</button>
+                        <button type="button" onclick='this.remove()' style="margin-top:10px" class="btn btn-flat btn-primary">删除选中</button>
+                    </div>`;
+                $(`#${buttonDom}`).append(html);
+
+                let buttonBox = document.querySelectorAll(`#${buttonDom} button`);
+                let that = this;
+                for (let i = 0; i < buttonBox.length; i++) {
+                    buttonBox[0].onclick = function () {
+                        var options = {
+                            title: `请选择${name}`,
+                            url: `${href}`,
+                            btn: ['<i class="fa"></i>确定', '<i class="fa fa-close"></i> 取消'],
+                            that: that,
+                            callBack: that.success,
+                        };
+                        $.modal.openOptions(options);
+
+
+                    };
+                    buttonBox[1].onclick = function () {
+                        var rows = $(`#${dom}`).bootstrapTable('getSelections');//获取选中行
+                        if (rows.length == 0) {
+                            layer.msg("请选择要删除的数据");
+                            return;
+                        };
+                        var indexs = [];
+                        for (var i = 0; i < rows.length; i++) {
+                            indexs[i] = rows[i].id;
+                        };
+
+                        $(`#${dom}`).bootstrapTable('remove', {
+                            field: 'id',
+                            values: indexs
+                        });
+                        let product_id = $(`#${hideInput}`).val().split(",");
+                        product_id = product_id.map((item) => {
+                            item = Number(item);
+                            return item
+                        });
+                        product_id = product_id.filter(items => {
+                            if (!indexs.includes(items)) return items;
+                        });
+                        if (product_id.length == 0) {
+                            product_id.push(0);
+                            $(`.${dom}`).hide();
+                        };
+                        $(`#${hideInput}`).val(product_id)//给隐藏域赋值
+                    }
+                };
+            };
+            dataTable(id) {
+                if (id == 0 || id == '' || id == null || id == undefined) return false;
+                $(`#${this.dom}`).bootstrapTable('destroy');
+                $(`#${this.dom}`).bootstrapTable({
+                    url: `${this.urls}${id}`,
+                    columns: this.columns
+                });
+                $(`#${this.dom}`).on('load-success.bs.table', function (e, data) {
+                    $("input[name='btSelectAll']").removeAttr("name");
+                    $("input[name='btSelectItem']").removeAttr("name");
+                });
+            };
+            success(index, layero, that) {
+                $(`.${that.dom}`).show();
+                let checkboxId = [];
+                var body = layer.getChildFrame('body', index);
+                body.find("#bootstrap-table tr").each((index, item) => {
+                    let selected = $(item).hasClass("selected");
+                    if (selected) {
+                        let val = $(item).find(`input:checkbox[name='${that.checkboxName}']`).val();
+                        val = Number(val);
+                        checkboxId.push(val);
+                    }
+                });
+                if (checkboxId.length != 0) {
+                    this.checkboxId_ = checkboxId.join(",");
+                    $(`#${that.hideInput}`).val(this.checkboxId_);//给隐藏域赋值;
+                    that.dataTable(this.checkboxId_);
+                } else {
+                    $(`.${that.dom}`).hide();
+                };
+                layer.close(index);
+            }
+
+        }
+    </script>
+</section>
+<!--内容结束-->

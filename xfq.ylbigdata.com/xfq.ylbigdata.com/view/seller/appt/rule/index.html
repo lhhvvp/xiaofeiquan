@@ -1,0 +1,90 @@
+<!--内容开始-->
+<style>
+    .clock-slot-list .clock-slot-item {
+        border-radius: 10px;
+        border: 1px solid #eee;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        margin: 15px;
+    }
+
+    .clock-slot-list .clock-slot-item .content {
+
+        flex-grow: 1;
+    }
+
+    .clock-slot-list .clock-slot-item .content > div {
+        margin: 5px 0;
+    }
+
+    .clock-slot-list .clock-slot-item .content > div span {
+        display: inline-block;
+        width: 80px;
+        color: #999;
+    }
+
+    .clock-slot-list .clock-slot-item .oper {
+
+        flex-shrink: 0;
+    }
+</style>
+<section class="content">
+    <!--顶部提示开始-->
+    <!--顶部提示结束-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 select-table table-striped">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-success" onclick="$.modal.open('添加规则','{:url("seller/appt.rule/post",['_layer'=>'1'])}')">
+                    <i class="fa fa-plus"></i> 新增       </a>
+                </div>
+                <div class="row clock-slot-list">
+                    {foreach $list as $item}
+                    <div class="col-12 col-md-6 clock-slot-item">
+                        <div class="content">
+                            <div><span>时段名：</span> {$item.title}</div>
+                            <div><span>时间段：</span> {$item.time_start_end_text}</div>
+                            <div><span>时段库存：</span> {$item.stock}</div>
+                            <div><span>有效星期：</span> {$item.weeks_text}</div>
+                        </div>
+                        <div class="oper">
+                            <button class="btn btn-sm btn-success" href="javascript:void(0)" onclick="$.modal.open('添加规则','{:url("seller/appt.rule/post",['_layer'=>1,'id'=>$item['id']])}')">编辑</button>
+                            <button class="btn btn-sm btn-danger" href="javascript:void(0)" onclick="remove({$item.id})">删除</button>
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function remove(id) {
+        layer.confirm('确定删除该条数据吗？', {
+            btn: ['确定', '取消'] //按钮
+        }, function(){
+            $.ajax({
+                url:"{:url('seller/appt.Rule/del')}",
+                method:"post",
+                dataType:'json',
+                data:{id:id},
+                success:function (res){
+                    if(res.code == 1){
+                        toastr.success(res.msg);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    }else{
+                        toastr.msg(res.msg);
+                    }
+                }
+            })
+        }, function(){
+            console.log('取消了！')
+        });
+    }
+    function reloads(){
+        window.location.reload();
+    }
+</script>

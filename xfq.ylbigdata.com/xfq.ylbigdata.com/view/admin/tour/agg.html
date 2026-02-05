@@ -1,0 +1,522 @@
+<!--内容开始-->
+<section class="content">
+<!--顶部提示开始-->
+<!--顶部提示结束-->
+<div class="container-fluid">
+<div class="row">
+    <!--搜索区域开始-->
+    <div class="col-12 search-collapse">
+        <form id="search_form" name="search_form">
+            <div class="select-list">
+                <ul>
+                    <!-- <li>
+                        <label>所属区域：</label> 
+                        <select id="search_area" name="area">
+                            <option value="">
+                                所有
+                            </option>
+                            <option value="1">榆阳区</option>
+                            <option value="2">横山区</option>
+                            <option value="3">神木市</option>
+                            <option value="4">府谷县</option>
+                            <option value="5">靖边县</option>
+                            <option value="6">定边县</option>
+                            <option value="7">绥德县</option>
+                            <option value="8">米脂县</option>
+                            <option value="9">佳县</option>
+                            <option value="10">吴堡县</option>
+                            <option value="11">清涧县</option>
+                            <option value="12">子洲县</option>
+                        </select>
+                    </li> -->
+                    <li>
+                        <label>商户名称： </label>
+                        <select id="search_mid" name="mid">
+                        <option value="">所有</option>
+                            {volist name="seller_list" id="item"}
+                            <option value="{$item.id}">
+                                {$item.nickname}
+                            </option>
+                            {/volist}
+                        </select>
+                    </li>
+                    <li>
+                        <label>名称：</label> 
+                        <input type="text" id="search_name" name="name" value="" placeholder="请输入旅行团名称">
+                    </li>
+                    <li>
+                        <label>团ID：</label> 
+                        <input type="text" id="search_tid" name="tid" value="" placeholder="请输入旅行团ID">
+                    </li>
+                    <li>
+                        <label>团期：</label> <input type="text" id="search_term" name="term" value="" daterange="true" autocomplete="off">
+                    </li>
+                    <li>
+                        <label>团状态：</label> 
+                        <select id="search_status" name="status">
+                            <option value="">所有</option>
+                            <!-- <option value="1">审核中</option>
+                            <option value="2">不通过</option>
+                            <option value="3">通过</option> -->
+                            <option value="4">团确定</option>
+                            <option value="5">团结束</option>
+                            <option value="6">团无效</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>是否锁客：</label> 
+                        <select id="search_is_locking" name="is_locking">
+                            <option value="">所有</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">&nbsp;搜索</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()">&nbsp;重置</a> <input class="hide" type="submit" name="btnSave" value="提交" onclick="$.table.search();return false;">
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--搜索区域结束-->
+    <input type="hidden" id="is_clock_switch" value="{$system.is_clock_switch}">
+    <div class="col-sm-12 select-table table-striped">
+        <div class="btn-group-sm" id="toolbar" role="group">
+                     <a class="btn btn-warning"  onclick="$.table.export()">
+            <i class="fa fa-download"></i> 导出        </a>
+        </div>
+        <table id="bootstrap-table" data-mobile-responsive="true"></table>
+    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        var is_clock_switch = $('#is_clock_switch').val();
+        var options = {
+            uniqueId      : "id",         // 表格主键名称，（默认为id，如表主键不为id必须设置主键）
+            url           : "/admin/tour/agg.html?getList=1",      // 请求后台的URL
+            addUrl        : "/admin/tour/addInfo.html?id=__id__",      // 新增的地址
+            exportUrl     : "/admin/tour/export_agg.html",    // 导出的地址
+            sortUrl       : "/admin/tour/sort.html",      // 排序的地址
+            sortName      : "id",         // 排序列名称
+            sortOrder     : "desc",       // 排序方式  asc 或者 desc
+			pagination    : true,			// 是否进行分页
+            parentIdField : "pid",   // 列表树模式需传递父id字段名（parent_id/pid）
+			clickToSelect : true,				    // 默认false不响应，设为true则当点击此行的某处时，会自动选中此行的checkbox/radiobox
+            pageSize      : "10",         // 每页显示的行数
+            layerOpen     : "1",        // 添加/编辑等页启用layer弹层加载
+            emptyTips     : "没有找到匹配的记录",        // 空数据提示信息
+            fixedColumns  : true,                   // 是否启用固定列功能
+            fixedLeft     : 0,          // 左侧固定列数
+            fixedRight    : 1,         // 右侧固定列数
+            columns: [
+                {
+                    //field: 'state',
+                    checkbox: true,
+					// 当某行包含checkbox_disabled时禁止选择
+					formatter: function(value, row, index) {
+						if(row.checkbox_disabled =='1'){
+							 return {
+								 disabled : true
+							}
+						 }
+					}
+                },
+                {
+                    field: 'id',
+                    title: '编号',
+                    sortable: true,
+                },
+                {
+                    field: 'mid',
+                    title: '所属商家',
+                    sortable: true,
+                },
+                /*{
+                    field: 'no',
+                    title: '团号',
+                    sortable: true,
+                },*/
+                {
+                    field: 'name',  
+                    title: '名称', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'team_type',
+                    title: '团类型',
+                    sortable: true
+                },
+                {
+                    field: 'term',
+                    title: '团期', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'area_id',  
+                    title: '客源地', 
+                    sortable: true,              
+                },
+                {
+                    field: 'numbers',  
+                    title: '人数', 
+                    sortable: true,              
+                },
+                {
+                    field: 'guide_name',
+                    title: '导游姓名',
+                    sortable: true,
+                },
+                {
+                    field: 'planner',  
+                    title: '计调人', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'mobile',  
+                    title: '电话', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'create_time',  
+                    title: '创建时间', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'status',  
+                    title: '状态', 
+                    sortable: false,
+                    formatter: function(value, row, index) {
+                        switch (Number(value)) {
+                            case 1:
+                                return '<span class="badge badge-primary">审核中</span>';
+                                break;
+                            case 2:
+                                return '<span class="badge badge-secondary">不通过</span>';
+                                break;
+                            case 3:
+                                return '<span class="badge badge-success">通过</span>';
+                                break;
+                            case 4:
+                                return '<span class="badge badge-danger">团确认</span>';
+                                break;
+                            case 5:
+                                return '<span class="badge badge-secondary">团结束</span>';
+                                break;
+                            case 6:
+                                return '<span class="badge badge-secondary">无效团</span>';
+                                break;
+                            default:
+                                // code...
+                                break;
+                        }
+                    }
+                },
+                {
+                    field: 'is_locking',  
+                    title: '是否锁客', 
+                    sortable: false,
+                    formatter: function(value, row, index) {
+                        switch (Number(value)) {
+                            case 0:
+                                return '<span class="badge badge-secondary">未锁客</span>';
+                                break;
+                            case 1:
+                                return '<span class="badge badge-success">已锁客</span>';
+                                break;
+                            
+                            default:
+                                // code...
+                                break;
+                        }
+                    }
+                },
+                {
+                    field: 'guide_total',  
+                    title: '导游人数', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'coupon_group_total',  
+                    title: '核销情况', 
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return HTMLDecode(value);
+                    }
+                },
+                {
+                    field: 'tour_accounting_id',  
+                    title: '结算ID', 
+                    sortable: false,     
+                    formatter: function(value, row, index) {
+                        if(value>0) return value;
+                        return '-';
+                    }
+                },
+                {
+                    field: 'right_button',  
+                    title: '操作', 
+                    sortable: false,     
+                    class : 'text-nowrap',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if(row.status==6){
+                            var confirm = 'confirm';
+                            var verify = 'verify';
+                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="upStatus(\'' + row.id + '\',\'' + verify + '\')"><i class="fa fa-edit"></i> 恢复到待审核</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="upStatus(\'' + row.id + '\',\'' + confirm + '\')"><i class="fa fa-edit"></i> 恢复到确认团</a> ');
+                            return actions.join('');
+                        }
+                        /*actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="detail(\'' + row.id + '\',1)"><i class="fa fa-edit"></i> 查看详情</a> ');*/
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="add(\'' + row.id + '\',1)"><i class="fa fa-edit"></i> 查看导游</a> ');
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="add(\'' + row.id + '\',2)"><i class="fa fa-edit"></i> 查看游客</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="receive(\'' + row.id + '\',2)"><i class="fa fa-gift"></i> 查看消费券</a> ');
+                        if(is_clock_switch == 1){
+                            actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="over(\'' + row.id + '\')"><i class="fa fa-window-close"></i> 景区打卡记录</a> ');
+                        }
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="overhotel(\'' + row.id + '\')"><i class="fa fa-window-close"></i> 酒店打卡记录</a> ');
+                        if(row.status==5){
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="photos(\'' + row.id + '\')"><i class="fa fa-search"></i> 查看合影&发票</a> ');
+                        }
+                        return actions.join('');
+                    }
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+
+    // 查看合影发票
+    function photos(id){
+        var url = '/admin/tour/photos?id='+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.common.jump(url);
+            //$.modal.openFull(msg+"管理", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 搜索
+    function searchPre() {
+        var data = {};
+        $.table.search('', data);
+    }
+
+    // 重置搜索
+    function resetPre() {
+        $.form.reset();
+    }
+	//HTML反转义
+	function HTMLDecode(text) {
+		var temp = document.createElement("div");
+		temp.innerHTML = text;
+		var output = temp.innerText || temp.textContent;
+		temp = null;
+		return output;
+	}
+
+    function upStatus(id,status)
+    {
+        $.modal.confirm("确认要更改状态吗?", function () {
+            var data = {"id": id,"status":status};
+            $.operate.submit('/admin/tour/editStatus', "post", "json", data);
+        });
+    }
+
+    // 查看详情
+    function detail(id){
+        var url = '/admin/tour_accounting/detail?tid='+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            $.common.jump(url);
+            //$.modal.openFull(msg+"管理", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+    function isMobile() {
+        let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        return flag;
+    };
+    // 查看游客 & 导游信息
+    function add(id,tags) {
+        var url = '/admin/tour_accounting/tourinfo?tid='+id+'&tags='+tags;
+        let area  =  [];
+        if (isMobile()) {
+            area  =  [100 + '%', 100 + '%']
+        } else {
+            area  =  [1200 + 'px', 700 + 'px']
+        }
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            };
+            let index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+            // 弹窗打开要添加的地址
+            // $.common.jump(url);
+            //$.modal.openFull(msg+"管理", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+    // 查看消费券
+    function receive(id) {
+        if (isMobile()) {
+            area  =  [100 + '%', 100 + '%']
+        } else {
+            area  =  [1200 + 'px', 700 + 'px']
+        }
+        var url = '/admin/tour_accounting/couponinfo?id='+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            let index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+            //$.modal.openFull(msg+"管理", url);
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+
+    // 查看打卡记录
+    function over(id) {
+        var url = '/admin/tour_accounting/overlist?id='+id;
+        if (isMobile()) {
+            area  =  [100 + '%', 100 + '%']
+        } else {
+            area  =  [1200 + 'px', 700 + 'px']
+        }
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            // $.common.jump(url);
+            //$.modal.openFull(msg
+            // +"管理", url);
+            let index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+    // 查看打卡记录
+    function overhotel(id) {
+        if (isMobile()) {
+            area  =  [100 + '%', 100 + '%']
+        } else {
+            area  =  [1200 + 'px', 700 + 'px']
+        }
+        var url = '/admin/tour_accounting/overlisthotel?id='+id;
+        if ($.table._option.layerOpen == "1") {
+            // 通过参数隐藏左侧和顶部等数据
+            if (url.indexOf('?') != -1) {
+                url = url + '&_layer=1'
+            } else {
+                url = url + '?_layer=1'
+            }
+            // 弹窗打开要添加的地址
+            // $.common.jump(url);
+            //$.modal.openFull(msg+"管理", url);
+            let index = layer.open({
+                type: 2,
+                maxmin: true,
+                shade: 0.3,
+                title: '查看',
+                fix: false,
+                area,
+                content: url,
+                cancel: function () {
+                    return true;
+                }
+            });
+        } else {
+            // 当前窗口打开要添加的地址
+            $.common.jump(url);
+        }
+    }
+</script>
+
+<!--bootstrap table end-->
+
+<!--底部提示-->
+</section>

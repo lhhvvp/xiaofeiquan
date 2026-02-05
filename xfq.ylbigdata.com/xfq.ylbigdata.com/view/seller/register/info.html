@@ -1,0 +1,464 @@
+<style>
+    .webuploader-element-invisible {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    #more_images_business_license_set {
+        max-width: 160px;
+        overflow-x: auto;
+        white-space: nowrap;
+        white-space: nowrap;
+        height: 80px;
+    }
+</style>
+<script type="text/javascript">
+    /**
+     * 封装上传组件
+     * @param list
+     * @param filePicker_image
+     * @param image_preview
+     * @param image
+     * @param more            是否图集
+     * @param upload_allowext 格式限制
+     * @param size            大小限制
+     * @param type            上传类型[file/img]
+     */
+    function webupload(list, filePicker_image, image_preview, image, more, upload_allowext, size, type, callback) {
+        if (upload_allowext) {
+            upload_allowext = upload_allowext.replace(/\|/g, ",");
+        }
+        if (size) {
+            size = size * 1024;
+        } else {
+            size = 10240 * 1024 * 1024;
+        }
+        type = type || 'img';
+        var $list = $("#" + list + "");                                // 这几个初始化全局的百度文档上没说明，好蛋疼
+        var GUID = 22323321;                            // 一个GUID
+        var uploader = WebUploader.create({
+            auto: true,                                                // 选完文件后，是否自动上传。
+            swf: '/static/plugins/webuploader-0.1.5/uploader.swf',     // 加载swf文件，路径一定要对
+            server: '/api/webupload/index.html' + '?upload_type=' + type, // 文件接收服务端
+            pick: '#' + filePicker_image,                              // 选择文件的按钮。可选。
+            resize: false,                                             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            chunked: true,                                             // 是否分片
+            chunkSize: 5 * 1024 * 1024,                                // 分片大小
+            threads: 1,                                                // 上传并发数
+            formData: {
+                // 由于Http的无状态特征，在往服务器发送数据过程传递一个进入当前页面是生成的GUID作为标示
+                GUID: GUID,                                            // 自定义参数
+            },
+            compress: false,
+            fileSingleSizeLimit: size,                                 // 限制大小200M，单文件
+            //fileSizeLimit: allMaxSize*1024*1024,                     // 限制大小10M，所有被选文件，超出选择不上
+            accept: {
+                title: '上传图片/文件',
+                extensions: upload_allowext,                           // 允许上传的类型 'gif,jpg,jpeg,bmp,png'
+                mimeTypes: '*',                                        // 默认全部文件，为兼容上传文件功能，如只上传图片可写成img/*
+            }
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $list,
+                $percent = $li.find('.progress .progress-bar');
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<div class="progress progress-striped active">' +
+                    '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                    '</div>' +
+                    '</div>').appendTo($li).find('.progress-bar');
+            }
+            //$li.find('p.state').text('上传中');
+            $percent.css('width', percentage * 100 + '%');
+        });
+        uploader.on('uploadSuccess', function (file, response) {
+            if (response.code == 0) {
+                $.modal.alertError(response.msg);
+            }
+            var url = response.url;
+            if (more == true) {
+                var images = '' +
+                    '   <input type="hidden" name="' + image + '[]" value="' + url + '" class="form-control"/>' +
+                    '   <a href="' + url + '" target="_blank">  <img class="image_preview_info" src="' + url + '"></a>'
+                var images_list = $('#more_images_' + image).html();
+                console.log(images_list);
+                console.log(images);
+                $('#more_images_' + image).html(images + images_list);
+
+            } else {
+                $("input[name='" + image + "']").val(url);
+                $("#" + image_preview).attr('src', url);
+                $("#" + image_preview).parent("a").attr('href', url);
+            }
+        });
+        uploader.on('uploadComplete', function (file) {
+            $list.find('.progress').fadeOut();
+        });
+        // 错误提示
+        uploader.on("error", function (type) {
+            if (type == "Q_TYPE_DENIED") {
+                $.modal.alertError('请上传' + upload_allowext + '格式的文件！');
+            } else if (type == "F_EXCEED_SIZE") {
+                $.modal.alertError('单个文件大小不能超过' + size / 1024 + 'kb！');
+            } else if (type == "F_DUPLICATE") {
+                $.modal.alertError('请不要重复选择文件');
+            } else {
+                $.modal.alertError('上传出错！请检查后重新上传！错误代码' + type);
+            }
+        });
+    }
+</script>
+<form class="layui-form login-form layui-panel" method="post" action="/seller/register/index.html">
+    <input type="hidden" name="id" value="{$seller.id}">
+    <h1 class="login-title">商户信息</h1>
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-user"></i>
+        <input type="text" name="nickname" placeholder="请输入商户名称" class="layui-input" lay-verify="required"
+            value="{$seller.nickname}" lay-reqtext="商户名称">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-release"></i>
+        <select class="form-control" id="area" name="area">
+            <!-- <option value="">请选择所属区域</option> -->
+            {volist name="areaClass" key="k" id="item"}
+            <option value="{$k}" {if $seller.area==$k}selected{/if}>{$item}</option>
+            {/volist}
+        </select>
+    </div>
+
+    <div class="layui-form-item-file">
+        <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="image">LOGO图标</label>
+        <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+            <input class="form-control" type="hidden" id="image" name="image"
+                value="{if $seller.image}{$seller.image}{/if}" placeholder="请点击按钮上传或手动输入地址">
+        </div>
+        <div class="uploader-lists">
+            <!--上传图片-->
+            <!--用来存放item-->
+            <div id="fileList_image" class="uploader-list"></div>
+            <div id="filePicker_image">
+                <div class="img-button">上传LOGO图标</div>
+            </div>
+            <a href="{if $seller.image}{$seller.image}{else /}/static/admin/images/nopic.png{/if}" target="_blank">
+                <img class="image_preview_info"
+                    src="{if $seller.image}{$seller.image}{else /}/static/admin/images/nopic.png{/if}"
+                    id="image_preview">
+            </a>
+            <!--上传图片-->
+        </div>
+    </div>
+    <script type="text/javascript">
+        webupload('fileList_image', 'filePicker_image', 'image_preview', 'image', false, 'jpg,png,gif,jpeg,ico', '0');
+    </script>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-username"></i>
+        <input type="text" name="name" placeholder="请输入联系人" class="layui-input" lay-verify="required"
+            value="{$seller.name}" lay-reqtext="请输入联系人">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-cellphone"></i>
+        <input type="text" name="mobile" placeholder="请输入电话" class="layui-input" lay-verify="required"
+            value="{$seller.mobile}" lay-reqtext="请输入电话">
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-log"></i>
+        <input type="text" name="do_business_time" placeholder="请输入营业时间" class="layui-input" lay-verify="required"
+            value="{$seller.do_business_time}">
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-col-md8">
+            <i class="layui-icon layui-icon-location"></i>
+            <input type="text" name="address" id="address" placeholder="请选择商户位置" class="layui-input"
+                lay-verify="required" value="{$seller.address}">
+        </div>
+        <div class="layui-col-md4">
+            <a class="img-button" href="javascript:;" onclick="getAmap();">点击选择区域</a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-col-md6">
+            <i class="layui-icon layui-icon-location"></i>
+            <input type="text" name="longitude" id="longitude" placeholder="经度" class="layui-input"
+                lay-verify="required" value="{$seller.longitude != 0 ? $seller.longitude : ''}">
+        </div>
+        <div class="layui-col-md6">
+            <i class="layui-icon layui-icon-location"></i>
+            <input type="text" name="latitude" id="latitude" placeholder="纬度" class="layui-input" lay-verify="required"
+                value="{$seller.latitude != 0 ? $seller.latitude : ''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-layer"></i>
+        <input type="number" name="cart_number" placeholder="请输入收款账户号码" class="layui-input" lay-verify="required"
+            value="{$seller.cart_number !=0 ? $seller.cart_number : ''}">
+    </div>
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-chat"></i>
+        <input type="text" name="card_name" placeholder="请输入收款账户名称" class="layui-input" lay-verify="required"
+            value="{$seller.card_name}">
+    </div>
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-about"></i>
+        <input type="text" name="card_deposit" placeholder="请输入收款开户银行" class="layui-input" lay-verify="required"
+            value="{$seller.card_deposit}">
+    </div>
+    <div class="layui-form-item"> <i class="layui-icon layui-icon-about"></i>
+        <input type="text" name="credit_code" placeholder="请输入统一社会信用代码" class="layui-input" lay-verify="required"
+            value="{$seller.credit_code}">
+    </div>
+
+    <div class="layui-form-item-radio">
+        <div class="layui-input-block">
+            {volist name="class_list" id="item"}
+            <input type="radio" name="class_id" value="{$item.id}" title="{$item.class_name}" lay-filter="erweima" {if
+                $seller.class_id==$item.id}checked{/if}>
+            {/volist}
+        </div>
+    </div>
+
+
+    <div class="layui-form-item-file">
+        <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="idcard_front">上传身份证正面</label>
+        <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+            <input class="form-control" type="hidden" id="idcard_front" name="idcard_front"
+                value="{if $seller.idcard_front}{$seller.idcard_front}{/if}" placeholder="请点击按钮上传或手动输入地址">
+        </div>
+        <div class="uploader-lists">
+            <!--上传图片-->
+            <!--用来存放item-->
+            <div id="frontOfIDCard" class="uploader-list"></div>
+            <div id="frontOfIDCard_list">
+                <div class="img-button">上传身份证正面</div>
+            </div>
+            <a href="{if $seller.idcard_front}{$seller.idcard_front}{else /}/static/admin/images/nopic.png{/if}"
+                target="_blank">
+                <img class="image_preview_info"
+                    src="{if $seller.idcard_front}{$seller.idcard_front}{else /}/static/admin/images/nopic.png{/if}"
+                    id="frontOfIDCard_list_license">
+            </a>
+            <!--上传图片-->
+        </div>
+    </div>
+    <!-- frontOfIDCard -->
+    <script type="text/javascript">
+        webupload('frontOfIDCard', 'frontOfIDCard_list', 'frontOfIDCard_list_license', 'idcard_front', false, 'jpg,png,gif,jpeg,ico', '0');
+    </script>
+
+
+    <div class="layui-form-item-file">
+        <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+            for="idcard_back">上传身份证反面</label>
+        <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+            <input class="form-control" type="hidden" id="idcard_back" name="idcard_back"
+                value="{if $seller.idcard_back}{$seller.idcard_back}{/if}" placeholder="请点击按钮上传或手动输入地址">
+        </div>
+        <div class="uploader-lists">
+            <!--上传图片-->
+            <!--用来存放item-->
+            <div id="backOfIDCard" class="uploader-list"></div>
+            <div id="backOfIDCard_list">
+                <div class="img-button">上传身份证反面</div>
+            </div>
+            <a href="{if $seller.idcard_back}{$seller.idcard_back}{else /}/static/admin/images/nopic.png{/if}"
+                target="_blank">
+                <img class="image_preview_info"
+                    src="{if $seller.idcard_back}{$seller.idcard_back}{else /}/static/admin/images/nopic.png{/if}"
+                    id="backOfIDCard_list_license">
+            </a>
+            <!--上传图片-->
+        </div>
+    </div>
+    <!-- backOfIDCard -->
+    <script type="text/javascript">
+        webupload('backOfIDCard', 'backOfIDCard_list', 'backOfIDCard_list_license', 'idcard_back', false, 'jpg,png,gif,jpeg,ico', '0');
+    </script>
+
+
+    <div class="layui-form-item-file">
+        <label class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 dd_input_l col-form-label is-required"
+            for='business_license_set'>资质上传</label>
+        <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+
+        </div>
+        <div class="uploader-lists">
+            <!--上传图片-->
+            <!--用来存放item-->
+            <div id="fileList_business_license_set" class="uploader-list"></div>
+            <div id="filePicker_business_license_set">
+                <div class="img-button">资质上传</div>
+            </div>
+
+            <div id="more_images_business_license_set">
+                {volist name ="$seller.business_license_set" id="vo"}
+                <input type="hidden" name="business_license_set[]" value="{$vo}" class="form-control"/>
+                <a href="{if $vo} {$vo} {else /}/static/admin/images/nopic.png{/if}" target="_blank"
+                    id="a_image_preview_permit_foroperation">
+                    <img class="image_preview_info" src="{if $vo}{$vo}{else /}/static/admin/images/nopic.png{/if}"
+                        id="image_preview_permit_foroperation">
+                </a>
+            {/volist}
+            </div>
+            <!--上传图片-->
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        webupload('fileList_business_license_set', 'filePicker_business_license_set', 'business_license_set_preview', 'business_license_set', true, 'jpg,png,gif,jpeg', '0', 'file');
+    </script>
+
+    <div id="is_show" {if $seller.class_id==3} style="height: auto;opacity:1;overflow: inherit;" {/if}
+        style="height: 0;opacity: 0;overflow: hidden;">
+        <div class="layui-form-item-file">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                for="permit_foroperation">经营许可证</label>
+            <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                <input class="form-control" type="hidden" id="permit_foroperation" name="permit_foroperation"
+                    value="{if $seller.permit_foroperation}{$seller.permit_foroperation}{/if}"
+                    placeholder="请点击按钮上传或手动输入地址">
+            </div>
+            <div class="uploader-lists">
+                <!--上传图片-->
+                <!--用来存放item-->
+                <div id="fileList_image_permit_foroperation" class="uploader-list"></div>
+                <div id="filePicker_image_permit_foroperation">
+                    <div class="img-button">经营许可证</div>
+                </div>
+                <a href="{if $seller.permit_foroperation}{$seller.permit_foroperation}{else /}/static/admin/images/nopic.png{/if}"
+                    target="_blank" id="a_image_preview_permit_foroperation">
+                    <img class="image_preview_info"
+                        src="{if $seller.permit_foroperation}{$seller.permit_foroperation}{else /}/static/admin/images/nopic.png{/if}"
+                        id="image_preview_permit_foroperation">
+                </a>
+                <!--上传图片-->
+            </div>
+        </div>
+        <script type="text/javascript">
+            webupload('fileList_image_permit_foroperation', 'filePicker_image_permit_foroperation', 'image_preview_permit_foroperation', 'permit_foroperation', false, 'jpg,png,gif,jpeg,ico', '0');
+        </script>
+
+        <div class="layui-form-item-file">
+            <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required"
+                for="social_liability_insurance">企业责任险</label>
+            <div class="col-9 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                <input class="form-control" type="hidden" id="social_liability_insurance"
+                    name="social_liability_insurance"
+                    value="{if $seller.social_liability_insurance}{$seller.social_liability_insurance}{/if}"
+                    placeholder="请点击按钮上传或手动输入地址">
+            </div>
+            <div class="uploader-lists">
+                <!--上传图片-->
+                <!--用来存放item-->
+                <div id="fileList_image_social_liability_insurance" class="uploader-list"></div>
+                <div id="filePicker_image_social_liability_insurance">
+                    <div class="img-button">旅行社责任险</div>
+                </div>
+                <a href="{if $seller.social_liability_insurance}{$seller.social_liability_insurance}{else /}/static/admin/images/nopic.png{/if}"
+                    target="_blank" id="a_image_preview_social_liability_insurance">
+                    <img class="image_preview_info"
+                        src="{if $seller.social_liability_insurance}{$seller.social_liability_insurance}{else /}/static/admin/images/nopic.png{/if}"
+                        id="image_preview_social_liability_insurance">
+                </a>
+                <!--上传图片-->
+            </div>
+        </div>
+        <script type="text/javascript">
+            webupload('fileList_image_social_liability_insurance', 'filePicker_image_social_liability_insurance', 'image_preview_social_liability_insurance', 'social_liability_insurance', false, 'jpg,png,gif,jpeg,ico', '0');
+        </script>
+
+    </div>
+
+    <!-- 商户描述 -->
+    <script type="text/javascript" src="/static/plugins/ckeditor/ckeditor.js"></script>
+    <style>
+        #cke_45,
+        #cke_16,
+        #cke_42,
+        #cke_24 {
+            display: none !important;
+        }
+    </style>
+    <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7" style="margin-bottom: 20px;">
+        <label class="dd_input_l col-form-label" style="line-height: 2.5;">商户介绍:</label>
+        <textarea id="content" name="content" style="width:100%;height: 400px">
+            {$seller.content}
+        </textarea>
+    </div>
+    <script>
+        CKEDITOR.replace('content', { filebrowserImageUploadUrl: "/api/webupload/index?from=ckeditor" });
+    </script>
+
+    <!-- 商户描述 -->
+
+    <!-- <div class="layui-form-item" id="form_group_content">
+        <div class="col-9 col-sm-9 col-md-9 col-lg-8 col-xl-7">
+            <textarea id="content" name="content" placeholder="商户介绍" class="form-control" style="width:calc(100% - 20px);height: 200px;border: 1px solid #e6e6e6;resize:none;padding: 10px;">{$seller.content}</textarea>
+        </div>
+    </div> -->
+
+    <div class="layui-form-item">
+        <button class="layui-btn layui-btn-normal layui-btn-fluid" id="submit" type="submit" lay-submit="go"
+            lay-filter="register">完成</button>
+    </div>
+</form>
+<script type="text/javascript">
+
+    $("#submit").click(() => {
+
+        let class_id = $("input[name='class_id']:checked").val();
+        if (class_id == 3) {
+
+            if ($("#social_liability_insurance").val() == '' && $("#permit_foroperation").val() == '') {
+                layer.msg('请上传经营许可证/旅行社责任险');
+                return false;
+            };
+        }
+        if ($("#image").val() == '') {
+            layer.msg('请上传Logo图标');
+            return false;
+        };
+        if ($("#business_license").val() == '') {
+            layer.msg('请上传营业执照');
+            return false;
+        };
+
+    });
+
+
+    /***********************************地图窗口*****************************************/
+    function getAmap(argument) {
+        // 每次打开窗口前 删除本地存储的数据 避免造成资源占用
+        layui.data('_coordinate_info_', { key: 'data', remove: true });
+        var index = layer.open({
+            title: '坐标拾取',
+            type: 2,
+            shade: 0.2,
+            maxmin: false,
+            shadeClose: false,  //禁用最大化，最小化按钮
+            closeBtn: 1,        //不显示右上角关闭按钮
+            area: ['80%', '60%'],
+            content: "{:url('seller/register/map')}",
+            end: function () {
+                // 窗口关闭 获取所选的坐标 并赋值给对应的文本框
+                var _coordinate_info_ = layui.data('_coordinate_info_');
+                if (_coordinate_info_) {
+                    console.log(_coordinate_info_.data);
+                    $('#longitude').val(_coordinate_info_.data.longitude);
+                    $('#latitude').val(_coordinate_info_.data.latitude);
+                    $('#address').val(_coordinate_info_.data.title);
+                }
+                return;
+            }
+        });
+        $(window).on("resize", function () {
+            layer.full(index);
+        });
+    }
+    /***********************************地图窗口*****************************************/
+
+
+
+
+</script>

@@ -1,0 +1,44 @@
+{// css}
+{include file="accounting/css"/}
+<section class="content">
+    <div class="container-fluid">
+        <div class="callout callout-info">
+            <h5>商户信息</h5>
+            <div>
+                <div class="p-30">
+                    商户分类：{$seller_list.class_id}
+                </div>
+                <div class="p-30">
+                    商户名称：{$seller_list.nickname}
+                </div>
+                <div class="p-30">
+                    每日打卡阈值：{$seller_mark_qc.day_threshold_value} 次
+                </div>
+                <div class="p-30">
+                    打卡范围：{$seller_mark_qc.range} 米
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <h5>二维码</h5>
+            <div class="img" style="display: flex;justify-content: center;align-items: center;">
+                <div class="img"><img src="{$seller_mark_qc.qrcode_base}" /></div>
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <div class="row dd_input_group form-builder-submit no-gutters" style="width: 300px;">
+                <button type="button" class="btn btn-flat btn-default" onclick="back()">返
+                    回</button>
+            </div>
+        </div>
+    </div>
+</section>
+<!--内容结束-->
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+        parent.layer.close(index);//关闭窗口
+    }
+</script>

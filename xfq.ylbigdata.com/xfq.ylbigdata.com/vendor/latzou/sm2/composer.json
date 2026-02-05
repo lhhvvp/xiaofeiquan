@@ -1,0 +1,32 @@
+{
+    "name": "latzou/sm2",
+    "description": "This is a PHP library for sm2 encrypt decrypt and sm3 hash",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zlq",
+            "email": "751608899@qq.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0 || ^8.0",
+        "ext-gmp": "*",
+        "fgrosse/phpasn1": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0||^8.0||^9.0",
+        "squizlabs/php_codesniffer": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lat\\Ecc\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mdanter\\Ecc\\Tests\\": "tests/unit",
+            "Mdanter\\Ecc\\WycheProof\\": "tests/wycheproof"
+        }
+    }
+}

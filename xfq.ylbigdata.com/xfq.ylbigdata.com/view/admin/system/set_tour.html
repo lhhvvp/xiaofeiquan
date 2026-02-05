@@ -1,0 +1,37 @@
+<!--内容开始-->
+<section class="content">
+<div class="container-fluid">
+    <div class="row">
+        <form name="form-builder" class="col-12 form_builder" method="post" action="/admin/System/setTour.html" >
+            <input type="hidden" name="id" value="{$system.id}">
+            <div class="tab-pane " id="nav-tab-content-5" >       
+                <div class="row dd_input_group no-gutters " id="form_group_tour_status">
+                    <label class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 dd_input_l col-form-label is-required" for="tour_status">旅行团上报开关</label>
+                    <div class="col-9 col-sm-9 col-md-9 col-lg-6 col-xl-4 dd_radio_lable_left border-white">
+                                <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="tour_status" class="dd_radio" id="tour_status1" value="1"  {eq
+                                name="$system.tour_status" value="1" }checked{/eq}>
+                            <label for="tour_status1">禁止上报</label>
+                        </div>
+                                <div class="icheck-peterriver icheck-inline">
+                            <input type="radio" name="tour_status" class="dd_radio" id="tour_status2" value="0" {eq
+                                name="$system.tour_status" value="0" }checked{/eq}>
+                            <label for="tour_status2">允许上报</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <div class="row dd_input_group form-builder-submit no-gutters">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-11 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-1">
+                    <button type="submit" class="btn btn-flat btn-primary ">提 交</button>
+                    <button type="button" class="btn btn-flat btn-default " onclick="javascript :history.back(-1)">返 回</button>
+                </div>
+            </div>
+        </form>
+        <!--底部提示-->
+    </div>
+</div>
+</section>
