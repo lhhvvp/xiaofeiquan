@@ -80,8 +80,10 @@ function normalizeDetail(data, baseUrl) {
   const ticketInfo = data.ticket_info && typeof data.ticket_info === 'object' ? data.ticket_info : {}
   const detailList = Array.isArray(data.detail_list) ? data.detail_list : []
   const orderStatus = data.order_status || ''
+  const isCommented = data.iscomment === true
   const tourists = detailList.map(normalizeTourist).filter(Boolean)
   const canRefundAll = orderStatus === 'paid' && tourists.length > 0 && tourists.every((t) => t && t.canRefund)
+  const canComment = orderStatus === 'used' && !isCommented
 
   return {
     id: data.id,
@@ -101,6 +103,8 @@ function normalizeDetail(data, baseUrl) {
     rightsOptions: normalizeRightsOptions(data.rights_qrcode_list),
     tourists,
     canRefundAll,
+    isCommented,
+    canComment,
     raw: data,
   }
 }
@@ -302,6 +306,27 @@ Page({
     if (!no) return
     wx.setClipboardData({ data: String(no) })
   },
+  onTapCopyOrderQrText() {
+    const text = this.data.orderQrText
+    if (!text) return
+    wx.setClipboardData({ data: String(text) })
+  },
+  onTapCopyTouristQrText() {
+    const text = this.data.qrModal && this.data.qrModal.qrText
+    if (!text) return
+    wx.setClipboardData({ data: String(text) })
+  },
+  onTapOpenQrPage() {
+    const modal = this.data.qrModal
+    const text = modal && modal.qrText
+    if (!text) return
+
+    const title = (modal && modal.title) || ''
+    this.onCloseQrModal()
+    wx.navigateTo({
+      url: `/subpackages/user/qrcode?text=${encodeURIComponent(String(text))}&title=${encodeURIComponent(String(title))}`,
+    })
+  },
   onTapRefresh() {
     this.fetchDetail({ showLoading: false })
   },
@@ -486,6 +511,11 @@ Page({
       })
       .catch(() => ui.toast('支付失败，请稍后重试'))
       .finally(() => this.setData({ paying: false }))
+  },
+  onTapComment() {
+    const detail = this.data.detail
+    if (!detail || !detail.id) return
+    wx.navigateTo({ url: `/subpackages/user/commentAdd?id=${encodeURIComponent(String(detail.id))}` })
   },
   onRetry() {
     this.fetchDetail({ showLoading: false })

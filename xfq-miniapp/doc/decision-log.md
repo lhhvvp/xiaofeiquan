@@ -23,6 +23,7 @@
 | D008 | 接口契约与 Mock 策略（Apifox/Swagger/本地 mock） | M1 | 已定 |  |
 | D009 | 发布流程与回滚策略（分阶段发布/开关回滚） | M2 | TBD | TBD |
 | D010 | 旧页面合并/废弃策略（例：`merchant/info/merchant`） | M2 | 已定 |  |
+| D011 | 无真实 API 时的轻量 Mock 策略（内置 mock + mockPayment） | M3 | 已定 |  |
 
 ---
 
@@ -111,6 +112,27 @@
 - **影响范围**：迁移跟踪表与后续验收以 `pages/merchant/info/info` 为准。
 - **落地动作**：
   - [x] `migration-tracker.csv` 标记为“合并迁移”并随 `merchant/info/info` 一起验收
+
+### D011 - 无真实 API 时的轻量 Mock（dev-only）
+- **日期**：2026-02-05
+- **背景/问题**：当前阶段可能出现“无可用真实测试环境 API / baseUrl 为空”的情况，导致页面迁移后无法在 DevTools 内进行关键链路自测，风险在后期集中爆发。
+- **约束**：
+  - 不引入重型 Mock 平台或额外复杂依赖（与 D008 一致）
+  - 不影响真实环境联调：默认关闭，必须显式开启
+  - mock 仅用于 UI/交互/流程自测，不能替代真实后端联调与回归
+- **候选方案**：
+  - A：完全等待真实 API，再做自测
+  - B：本地起 mock server（HTTP），`baseUrl` 指向本地
+  - C：小程序内置 mock（`services/request` 拦截返回 fixtures），并提供 `mockPayment` 跳过 `wx.requestPayment`
+- **选择**：C（优先）。B 作为可选补充（当需要更贴近真实网络行为时）
+- **理由**：单人推进时能显著提升“可验证性”和推进效率；默认关闭不影响后续联调；保持工程轻量。
+- **落地动作**：
+  - [x] 新增 `config.mock` / `config.mockPayment`，通过 `miniprogram/config/local.js` 开启
+  - [x] `services/request` 支持 mock 拦截（无网络、无真实 baseUrl 也可跑通页面）
+  - [x] `utils/payment` 支持 `mockPayment`（开发自测跳过微信支付拉起）
+  - [x] 文档补充：`xfq-miniapp/doc/env-config.md`、`xfq-miniapp/doc/m3-smoke-test.md`
+  - [ ] 真实 API 可用后：关闭 mock，跑一遍完整 M3 冒烟回归并更新 `migration-tracker.csv` 到 `done`
+- **复盘点**：接入真实 API 后，对比字段差异，修正页面兼容点与 mock 覆盖范围。
 
 ## Decision 模板（复制后填写）
 

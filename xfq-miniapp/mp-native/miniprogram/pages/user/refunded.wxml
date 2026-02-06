@@ -22,10 +22,10 @@
       text="{{single ? '提交（单人退款）' : '提交'}}"
       block="{{true}}"
       loading="{{submitting}}"
+      disabled="{{submitting}}"
       bind:tap="onTapSubmit"
     />
   </view>
 
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onTapSubmit" />
 </view>
-

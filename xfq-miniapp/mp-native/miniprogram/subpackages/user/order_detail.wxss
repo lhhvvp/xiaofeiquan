@@ -50,6 +50,12 @@
   color: #666;
 }
 
+.qrcode-actions {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
 .product {
   margin-top: 16rpx;
   display: flex;
@@ -202,4 +208,3 @@
   font-weight: 700;
   color: #333;
 }
-

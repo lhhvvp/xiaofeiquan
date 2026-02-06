@@ -5,9 +5,9 @@
 > 新工程（拟建）：`xfq-miniapp/mp-native`（微信小程序原生）
 
 **版本**：v1.0  
-**最后更新**：2026-02-05  
+**最后更新**：2026-02-06  
 **目标上线**：TBD  
-**负责人/评审人**：TBD
+**负责人/评审人**：本人（单人推进）
 
 ---
 
@@ -284,9 +284,25 @@ xfq-miniapp/mp-native/
 - 订单列表/详情/售后（退款/退票）核心路径
 - 二维码展示/核销相关页面（若为核心业务则提升到 M2）
 
+#### M3 封板清单（必须项）
+- [ ] DevTools 自测通过：`xfq-miniapp/doc/m3-smoke-test.md`
+- [x] mock 自测通过：`cd xfq-miniapp/mp-native && npm run mock:smoke`
+- [x] 工程自检通过：`cd xfq-miniapp/mp-native && npm run check`
+- [ ] 门票下单支付：成功/取消/失败提示正确，不会重复扣款或卡死
+- [ ] 门票订单列表/详情：分页/空态/错误态可用；二维码展示与切换可用
+- [ ] 商户扫码核销：支持券（`type=user`）与门票（`type=order/order_user`）
+- [ ] 门票退款：单人/全部退款可提交；可取消退款（若后端支持）
+- [ ] 退款记录：列表/详情可用（用于核对退款进度）
+- [ ] 券购买支付订单：列表/详情可用；支付与退款可用
+- [ ] `xfq-miniapp/doc/migration-tracker.csv`：上述相关页面由 `ready_for_qa` 推进到 `done`，并在 `notes` 记录 `self-test` 时间
+
 ### M4：非核心但必须功能补齐（2~4 周）
 - 公告/搜索/收藏/投诉/评价/签到/任务/团购旅行团等
 - 对齐旧工程的埋点、日志、异常处理
+#### M4 封板清单（必须项）
+- [ ] DevTools 自测通过：`xfq-miniapp/doc/m4-smoke-test.md`
+- [ ] `migration-tracker.csv`：相关页面从 `todo` -> `ready_for_qa` -> `done`，并记录 `self-test` 信息
+- [ ] 真实 API 可用后：关闭 mock，回归公告/协议相关接口与字段差异
 
 ### M5：全面回归与性能/包体优化（1~2 周）
 - 包体分包复查、冗余资源清理、长列表优化

@@ -9,12 +9,24 @@
 
   <view class="actions">
     <button type="primary" bindtap="onTapGoLogin">去登录页</button>
+    <button bindtap="onTapProfile">个人资料</button>
+    <button bindtap="onTapCollect">我的收藏</button>
+    <button bindtap="onTapComplaints">反馈与建议</button>
+    <button bindtap="onTapMyComments">我的评价</button>
     <button bindtap="onTapMyCoupons">我的券</button>
     <button bindtap="onTapTicketOrders">门票订单</button>
     <button bindtap="onTapPayOrders">支付订单</button>
     <button bindtap="onTapRefundLogs">售后（退款记录）</button>
     <button bindtap="onTapTourists">常用游客</button>
+    <button bindtap="onTapMyAppointments">我的预约</button>
+    <button bindtap="onTapSignInTasks">打卡任务</button>
+    <button bindtap="onTapCouponClockTask">打卡券任务</button>
+    <button bindtap="onTapMyMap">当前位置地图</button>
     <button wx:if="{{mid}}" bindtap="onTapScanWriteoff">扫码核销</button>
+    <button wx:if="{{mid}}" bindtap="onTapWriteoffLogs">核销记录</button>
+    <button bindtap="onTapNews">公告</button>
+    <button bindtap="onTapServiceAgreement">服务协议</button>
+    <button bindtap="onTapPrivacyPolicy">隐私政策</button>
     <button bindtap="onTapLogout">退出登录</button>
   </view>
 

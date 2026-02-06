@@ -33,6 +33,15 @@ function getDetail({ couponId, userid = 0 } = {}, { showLoading = true } = {}) {
   })
 }
 
+function getUserCouponRecordList({ userid, couponId } = {}, { showLoading = true } = {}) {
+  return request({
+    path: '/coupon/getUserCouponRecordList',
+    method: 'GET',
+    data: { userid, couponId },
+    showLoading,
+  })
+}
+
 function receive({ userid, couponId, latitude, longitude } = {}, { showLoading = true } = {}) {
   return request({
     path: '/coupon/receive',
@@ -58,11 +67,12 @@ function getApplicableMerchants({
   page = 0,
   limit = 15,
   keyword = '',
-} = {}) {
+} = {}, { showLoading = true } = {}) {
   return request({
     path: '/coupon/applicableto',
     method: 'POST',
     data: { id, latitude, longitude, page, limit, keyword },
+    showLoading,
   })
 }
 
@@ -93,14 +103,35 @@ function writeoff(payload = {}, { showLoading = true } = {}) {
   })
 }
 
+function getWriteoffLog({ page = 1, limit = 20, userid, mid } = {}, { showLoading = true } = {}) {
+  return request({
+    path: '/coupon/writeofflog',
+    method: 'POST',
+    data: { page, limit, userid, mid },
+    showLoading,
+  })
+}
+
+function getWriteoffDetail({ userid, mid, id } = {}, { showLoading = true } = {}) {
+  return request({
+    path: '/coupon/writeoffdetail',
+    method: 'POST',
+    data: { userid, mid, id },
+    showLoading,
+  })
+}
+
 module.exports = {
   getIndex,
   getTempApi,
   getDetail,
+  getUserCouponRecordList,
   receive,
   getApplicableMerchantsV2,
   getApplicableMerchants,
   idToCoupon,
   encryptAES,
   writeoff,
+  getWriteoffLog,
+  getWriteoffDetail,
 }

@@ -13,14 +13,20 @@ const configByEnvVersion = {
   develop: {
     baseUrl: '',
     monitorEventId: 'wxdata_perf_monitor',
+    mock: false,
+    mockPayment: false,
   },
   trial: {
     baseUrl: '',
     monitorEventId: 'wxdata_perf_monitor',
+    mock: false,
+    mockPayment: false,
   },
   release: {
     baseUrl: '',
     monitorEventId: 'wxdata_perf_monitor',
+    mock: false,
+    mockPayment: false,
   },
 }
 
@@ -36,8 +42,14 @@ function loadLocalConfig(env) {
   }
 }
 
-module.exports = {
+const merged = {
   envVersion,
   ...configByEnvVersion[envVersion],
   ...loadLocalConfig(envVersion),
 }
+
+if (merged.mock && (!merged.baseUrl || !String(merged.baseUrl).trim())) {
+  merged.baseUrl = 'mock'
+}
+
+module.exports = merged

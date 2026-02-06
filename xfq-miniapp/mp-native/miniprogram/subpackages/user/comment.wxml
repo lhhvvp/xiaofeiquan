@@ -1,0 +1,29 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{needLoginNotice}}" class="notice">
+    请先登录后再查看我的评价
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{canShow && empty && !error}}" text="暂无评价" />
+
+  <view wx:for="{{list}}" wx:key="key" class="item">
+    <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />
+    <view class="main">
+      <view class="top">
+        <text class="name">{{item.nickname}}</text>
+        <text class="rate">{{item.rateText}}</text>
+      </view>
+      <view class="content">{{item.content}}</view>
+      <view class="time">{{item.createTime}}</view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{canShow && !empty && !error}}" status="{{loadingStatus}}" bind:retry="onRetry" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>

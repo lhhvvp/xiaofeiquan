@@ -8,11 +8,11 @@ function getTicketList({ seller_id }, { showLoading = true } = {}) {
   return request({ path: '/ticket/getTicketList', method: 'GET', data: { seller_id }, showLoading })
 }
 
-function getCommentList({ mid, page = 1, page_size = 6 }, { showLoading = true } = {}) {
+function getCommentList({ mid, user_id, page = 1, page_size = 6 }, { showLoading = true } = {}) {
   return request({
     path: '/ticket/getCommentList',
     method: 'GET',
-    data: { mid, page, page_size },
+    data: { mid, user_id, page, page_size },
     showLoading,
   })
 }
@@ -107,6 +107,34 @@ function getRefundLogDetail({ id } = {}, { showLoading = true } = {}) {
   })
 }
 
+function writeOff({ qrcode_str, be_id, use_lat, use_lng } = {}, { showLoading = true } = {}) {
+  return request({
+    path: '/ticket/writeOff',
+    method: 'POST',
+    data: { qrcode_str, be_id, use_lat, use_lng },
+    showLoading,
+  })
+}
+
+function getOrderDetailDetail({ order_detail_id } = {}, { showLoading = true } = {}) {
+  return request({
+    path: '/ticket/getOrderDetailDetail',
+    method: 'GET',
+    data: { order_detail_id },
+    showLoading,
+  })
+}
+
+function writeComment({ order_id, id, content, rate } = {}, { showLoading = true } = {}) {
+  const orderId = typeof order_id !== 'undefined' ? order_id : id
+  return request({
+    path: '/ticket/writeComment',
+    method: 'POST',
+    data: { order_id: orderId, content, rate },
+    showLoading,
+  })
+}
+
 module.exports = {
   getScenicList,
   getTicketList,
@@ -121,4 +149,7 @@ module.exports = {
   singleRefund,
   getRefundLogList,
   getRefundLogDetail,
+  writeOff,
+  getOrderDetailDetail,
+  writeComment,
 }

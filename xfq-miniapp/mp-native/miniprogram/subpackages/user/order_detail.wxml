@@ -35,7 +35,10 @@
   <view wx:if="{{detail}}" class="card">
     <view class="price-box">
       <view class="price-tit">二维码展示</view>
-      <view class="refresh" bindtap="onTapRefresh">刷新</view>
+      <view class="qrcode-actions">
+        <view class="refresh" bindtap="onTapRefresh">刷新</view>
+        <view wx:if="{{orderQrText}}" class="copy" bindtap="onTapCopyOrderQrText">复制核销JSON</view>
+      </view>
     </view>
 
     <view class="qrcode">
@@ -131,12 +134,18 @@
     />
   </view>
 
+  <view wx:if="{{detail && detail.canComment}}" class="bottom">
+    <ui-button type="primary" text="我要评价" block="{{true}}" bind:tap="onTapComment" />
+  </view>
+
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
 
   <view wx:if="{{qrModal.show}}" class="mask" bindtap="onCloseQrModal">
     <view class="modal" catchtap="noop">
       <view class="modal-title">{{qrModal.title}}</view>
       <canvas class="qrcode-canvas" canvas-id="touristQrcode"></canvas>
+      <ui-button text="复制核销JSON" plain="{{true}}" block="{{true}}" bind:tap="onTapCopyTouristQrText" />
+      <ui-button text="全屏查看" plain="{{true}}" block="{{true}}" bind:tap="onTapOpenQrPage" />
       <ui-button text="关闭" plain="{{true}}" block="{{true}}" bind:tap="onCloseQrModal" />
     </view>
   </view>

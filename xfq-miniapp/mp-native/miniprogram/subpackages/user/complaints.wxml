@@ -1,0 +1,55 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再提交反馈
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasLogin}}" class="card">
+    <view class="title">反馈和建议</view>
+    <textarea
+      class="textarea"
+      value="{{content}}"
+      maxlength="800"
+      placeholder="请描述你遇到的问题或建议（最多 800 字）"
+      bindinput="onInputContent"
+    ></textarea>
+
+    <view class="subtitle">图片（最多 {{maxImages}} 张）</view>
+    <view class="images">
+      <view wx:for="{{images}}" wx:key="localPath" class="img-wrap">
+        <image
+          class="img"
+          src="{{item.previewUrl}}"
+          mode="aspectFill"
+          data-index="{{index}}"
+          bindtap="onPreviewImage"
+        />
+        <view class="delete" data-index="{{index}}" bindtap="onDeleteImage">×</view>
+      </view>
+
+      <view wx:if="{{images.length < maxImages}}" class="add" bindtap="onTapAddImage">
+        <view class="add-plus">+</view>
+        <view class="add-text">添加</view>
+      </view>
+    </view>
+
+    <button
+      class="submit"
+      type="primary"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+      bindtap="onTapSubmit"
+    >
+      提交
+    </button>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onTapSubmit" />
+</view>
+

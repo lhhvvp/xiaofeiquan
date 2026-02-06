@@ -13,7 +13,7 @@
     <view class="actions">
       <button size="mini" bindtap="onTapCall">拨打电话</button>
       <button size="mini" bindtap="onTapNav">去这里</button>
-      <button wx:if="{{detail.apptOpen}}" type="primary" size="mini" bindtap="onTapTodo">立即预约</button>
+      <button wx:if="{{detail.apptOpen}}" type="primary" size="mini" bindtap="onTapSubscribe">立即预约</button>
     </view>
   </view>
 
@@ -70,7 +70,7 @@
         <view class="comment-date">{{item.createTime}}</view>
       </view>
     </view>
-    <view class="more" bindtap="onTapTodo">查看更多</view>
+    <view class="more" bindtap="onTapMoreComments">查看更多</view>
   </view>
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>

@@ -48,3 +48,15 @@
 
 ## 4. 配置矩阵（模板）
 - `xfq-miniapp/doc/env-matrix.csv`
+
+## 5. 无真实后端时的 mock 模式（开发自测用）
+当暂时没有可用的真实后端 API（`baseUrl` 为空）时，为了不阻塞页面迁移与交互自测，可以在本地开启 mock：
+
+1. 新建本地配置：`xfq-miniapp/mp-native/miniprogram/config/local.js`（该文件已被 `.gitignore` 忽略，不要提交）。
+2. 写入如下配置（示例）：
+   - `module.exports = { mock: true, mockPayment: true }`
+
+说明：
+- `mock: true`：`services/request` 将返回内置 mock 数据（不发起真实网络请求）。
+- `mockPayment: true`：跳过 `wx.requestPayment`，便于在 DevTools 内走通支付相关页面流程（仅开发自测使用）。
+- 当真实 API 可用后：把 `mock` / `mockPayment` 关掉，并配置真实 `baseUrl`，再按 `xfq-miniapp/doc/m3-smoke-test.md` 完整跑一遍回归。

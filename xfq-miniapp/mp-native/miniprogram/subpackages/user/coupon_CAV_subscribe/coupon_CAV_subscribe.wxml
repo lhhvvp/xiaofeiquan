@@ -1,0 +1,50 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    <view>核销需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="title">{{detail.sellerName}}</view>
+    <view class="sub">预约人数：{{detail.number}} 人</view>
+    <view class="sub" wx:if="{{detail.statusText}}">当前状态：{{detail.statusText}}</view>
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="row">
+      <view class="label">联系人</view>
+      <view class="value">{{detail.fullname}}</view>
+    </view>
+    <view class="row">
+      <view class="label">手机号</view>
+      <view class="value">{{detail.phone}}</view>
+    </view>
+    <view class="row">
+      <view class="label">身份证号</view>
+      <view class="value">{{detail.idcard}}</view>
+    </view>
+    <view class="row">
+      <view class="label">有效期</view>
+      <view class="value">{{detail.start}} - {{detail.timeEndText}}</view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{!detail && hasBaseUrl && hasLogin}}">
+    <view class="sub">加载中..</view>
+  </view>
+
+  <view wx:if="{{showMask}}" class="mask">
+    <view class="mask-card">
+      <view class="mask-title">{{mask.title}}</view>
+      <view class="mask-msg">{{mask.message}}</view>
+      <ui-button type="primary" text="确定" block="{{true}}" bind:tap="onTapMaskConfirm" />
+    </view>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

@@ -243,8 +243,20 @@ Page({
     if (!id) return
     wx.navigateTo({ url: `/subpackages/tickets/order?id=${encodeURIComponent(String(id))}` })
   },
-  onTapTodo() {
-    ui.toast('待迁移：评论页/预约页')
+  onTapSubscribe() {
+    const sellerId = this.data.sellerId
+    const detail = this.data.detail
+    if (!sellerId) return
+    if (detail && detail.apptOpen === false) {
+      ui.toast('当前景区暂不支持预约')
+      return
+    }
+    wx.navigateTo({ url: `/subpackages/user/subscribe/subscribe?seller_id=${encodeURIComponent(String(sellerId))}` })
+  },
+  onTapMoreComments() {
+    const sellerId = this.data.sellerId
+    if (!sellerId) return
+    wx.navigateTo({ url: `/subpackages/user/comment?mid=${encodeURIComponent(String(sellerId))}` })
   },
   noop() {},
 })

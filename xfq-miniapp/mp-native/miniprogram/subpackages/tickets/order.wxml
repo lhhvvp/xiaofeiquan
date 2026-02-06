@@ -67,7 +67,9 @@
 
   <view class="footer">
     <view class="total">合计：￥{{totalPrice}}</view>
-    <button type="primary" loading="{{submitting}}" bindtap="onTapSubmit">提交并支付</button>
+    <button type="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onTapSubmit">
+      提交并支付
+    </button>
   </view>
 
   <view wx:if="{{payResultText}}" class="card">

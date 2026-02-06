@@ -1,0 +1,24 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    <view>查看核销记录需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty}}" text="暂无核销记录" />
+
+  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
+    <view class="top">
+      <view class="title">{{item.title}}</view>
+      <view class="price">￥{{item.price}}</view>
+    </view>
+    <view class="sub">核销时间：{{item.createTimeText}}</view>
+  </view>
+
+  <ui-list-footer wx:if="{{hasLogin && !empty}}" status="{{loadingStatus}}" bind:retry="onRetry" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

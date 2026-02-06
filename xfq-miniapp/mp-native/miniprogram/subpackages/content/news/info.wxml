@@ -1,0 +1,20 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{detail && !error}}" class="header">
+    <view class="title">{{detail.title}}</view>
+    <view class="meta">
+      <view class="time">{{detail.createTime}}</view>
+      <view class="hits">浏览 {{detail.hits}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail && !error}}" class="content">
+    <rich-text nodes="{{detail.contentHtml}}"></rich-text>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

@@ -7,12 +7,14 @@
 ## 0. 前置条件
 - [ ] 微信开发者工具已打开项目：`xfq-miniapp/mp-native`
 - [ ] 已构建 npm（若项目依赖 npm）：开发者工具「工具 -> 构建 npm」
-- [ ] 已配置测试环境 `baseUrl`：创建 `xfq-miniapp/mp-native/miniprogram/config/local.js`
+- [ ] 方案 A（真实 API）：已配置测试环境 `baseUrl`：创建 `xfq-miniapp/mp-native/miniprogram/config/local.js`
   - 参考：`xfq-miniapp/doc/env-config.md`
-  - 示例（不要提交到 git）：
-    - `module.exports = { baseUrl: 'https://test-api.example.com' }`
-- [ ] 开发者工具已开启「不校验合法域名」或已在小程序后台配置 request 合法域名（否则请求会失败）
-- [ ] 准备测试数据（至少一组即可）：
+  - 示例（不要提交到 git）：`module.exports = { baseUrl: 'https://test-api.example.com' }`
+- [ ] 方案 B（暂无真实 API）：启用 mock（不发起真实网络请求）
+  - 创建 `xfq-miniapp/mp-native/miniprogram/config/local.js`（不要提交到 git）
+  - 示例：`module.exports = { mock: true, mockPayment: true }`
+- [ ] （仅方案 A 需要）开发者工具已开启「不校验合法域名」或已在小程序后台配置 request 合法域名（否则请求会失败）
+- [ ] （仅方案 A 需要）准备测试数据（至少一组即可）：
   - [ ] 可购买的门票/景区数据（能走到 `/ticket/pay`）
   - [ ] 至少 1 笔「未支付」的支付订单（券购买订单，能走到 `/pay/submit`）
   - [ ] 至少 1 笔「已支付」的门票订单（用于退款/二维码展示）
@@ -94,14 +96,33 @@
 
 ---
 
-## 6. 扫码核销（券核销）
-入口：`pages/user/user` -> 「扫码核销」-> `wx.scanCode` -> `subpackages/coupon/coupon_CAV`
+## 6. 扫码核销（券 / 门票）
+入口：`pages/user/user` -> 「扫码核销」-> `wx.scanCode`
 
 - [ ] 前置：当前账号具备 `mid`（否则入口不显示/或提示未绑定）
-- [ ] 扫码结果为 JSON 且 `type === 'user'` 时可跳转核销页
+- [ ] 扫码结果为 JSON，按 `type` 分流到对应核销页
+
+### 6.1 券核销（`type === 'user'`）
+跳转：`subpackages/coupon/coupon_CAV`
 - [ ] 核销页：
   - [ ] `idToCoupon` 能查到券信息并展示
   - [ ] `writeoff` 返回成功/失败时状态提示明确
+
+### 6.2 门票核销（整单，`type === 'order'`）
+跳转：`subpackages/user/coupon_CAV_order/coupon_CAV_order`
+- [ ] 能调用 `/ticket/writeOff` 并提示核销结果
+- [ ] 能展示订单信息（`/ticket/getOrderDetail`）
+
+### 6.3 门票核销（单人，`type === 'order_user'`）
+跳转：`subpackages/user/coupon_CAV_order/coupon_CAV_user`
+- [ ] 能调用 `/ticket/writeOff` 并提示核销结果
+- [ ] 能展示游客/票种信息（`/ticket/getOrderDetailDetail`）
+
+### 6.4 核销记录（商户）
+入口：`pages/user/user` -> 「核销记录」-> `subpackages/user/order_CAV` -> `subpackages/user/order_CAV_info`
+- [ ] 列表分页/空态/错误态正常
+- [ ] 点击进入详情页，能展示核销时间与使用细则
+- [ ] 「适用于」跳转到对应商户列表：`subpackages/coupon/list`
 
 ---
 
@@ -121,4 +142,5 @@
 - `subpackages/user/order_refund_detail`
 - `subpackages/user/pay_order`
 - `subpackages/user/pay_detail`
-
+- `subpackages/user/coupon_CAV_order/coupon_CAV_order`
+- `subpackages/user/coupon_CAV_order/coupon_CAV_user`

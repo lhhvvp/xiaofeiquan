@@ -1,0 +1,42 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    <view>查看核销详情需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="title">{{detail.couponTitle}}</view>
+    <view class="price" wx:if="{{detail.couponPrice}}">￥{{detail.couponPrice}}</view>
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="row" bindtap="onTapOpenApplicableMerchants">
+      <view class="label">适用于</view>
+      <view class="value">
+        <view class="app-name">{{suitable.address || '-'}}</view>
+        <view class="app-sub" wx:if="{{suitable.distanceText}}">{{suitable.distanceText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="section-title">核销时间</view>
+    <view class="section-text">{{detail.createTimeText || '-'}}</view>
+  </view>
+
+  <view class="card" wx:if="{{detail && detail.remarkHtml}}">
+    <view class="section-title">使用细则</view>
+    <rich-text nodes="{{detail.remarkHtml}}"></rich-text>
+  </view>
+
+  <view class="card" wx:if="{{!detail && hasBaseUrl && hasLogin}}">
+    <view class="sub">加载中..</view>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

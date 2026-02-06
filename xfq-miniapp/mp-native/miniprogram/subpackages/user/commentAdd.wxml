@@ -1,0 +1,42 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再评价
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasLogin}}" class="card">
+    <view class="row">
+      <view class="label">评分</view>
+      <view class="value">{{rateText}}</view>
+    </view>
+    <slider min="0" max="10" step="1" value="{{rateSteps}}" bindchange="onChangeRate" activeColor="#a00000" />
+
+    <view class="label2">评论内容</view>
+    <textarea
+      class="textarea"
+      value="{{content}}"
+      maxlength="800"
+      placeholder="请输入评论内容（最多 800 字）"
+      bindinput="onInputContent"
+    ></textarea>
+
+    <button
+      class="submit"
+      type="primary"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+      bindtap="onTapSubmit"
+    >
+      我要求评价
+    </button>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onTapSubmit" />
+</view>
+

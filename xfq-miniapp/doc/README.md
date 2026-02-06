@@ -6,10 +6,12 @@
 - `xfq-miniapp/doc/native-refactor-plan.md`：重构目标、架构、里程碑、分包、范围控制、风险与灰度回滚策略。
 
 ## 2) 执行与验收
-- `xfq-miniapp/doc/migration-tracker.csv`：页面迁移跟踪表（建议用 Excel 维护）。
-- `xfq-miniapp/doc/page-dod-checklist.md`：页面迁移 DoD + 高风险链路加严清单（支付/定位/核销）。
-- `xfq-miniapp/doc/m3-smoke-test.md`：M3（交易闭环）自测/冒烟用例清单（支付/订单/退款/核销）。
+- `xfq-miniapp/doc/migration-tracker.csv`：页面迁移跟踪表（建议用 Excel 维护）。  
+- `xfq-miniapp/doc/page-dod-checklist.md`：页面迁移 DoD + 高风险链路加严清单（支付/定位/核销）。  
+- `xfq-miniapp/doc/m3-smoke-test.md`：M3（交易闭环）自测/冒烟用例清单（支付/订单/退款/核销）。  
+- `xfq-miniapp/doc/m4-smoke-test.md`：M4（非核心补齐）自测/冒烟用例清单（公告/协议）。  
 - `xfq-miniapp/mp-native/tools/check-miniprogram.js`：原生小程序自检（路由文件存在性 + JS/JSON 语法校验）。运行：`cd xfq-miniapp/mp-native && npm run check`
+- `xfq-miniapp/mp-native/tools/mock-smoke-test.js`：mock 模式冒烟自测（覆盖主要接口与 mockPayment）。运行：`cd xfq-miniapp/mp-native && npm run mock:smoke`
 
 ## 3) 治理（保证“做得完”的关键补充）
 - `xfq-miniapp/doc/decision-log.md`：关键决策记录（避免反复争论与返工）。

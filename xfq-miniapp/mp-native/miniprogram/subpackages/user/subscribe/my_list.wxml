@@ -1,0 +1,45 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后查看我的预约
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasLogin && hasBaseUrl}}" class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="title"
+      class="tab {{tabIndex === index ? 'tab--active' : ''}}"
+      data-index="{{index}}"
+      bindtap="onTapTab"
+    >
+      {{item.title}}
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty && !error}}" text="暂无预约" />
+
+  <view wx:for="{{list}}" wx:key="key" class="item" data-id="{{item.id}}" bindtap="onTapItem">
+    <view class="top">
+      <view class="name">{{item.sellerName}}</view>
+      <view class="status">{{item.statusText}}</view>
+    </view>
+    <view class="bottom">
+      <image class="img" src="{{item.sellerImage}}" mode="aspectFill" />
+      <view class="info">
+        <view class="line">预约人：{{item.fullname}}</view>
+        <view class="line">人数：{{item.number}}</view>
+        <view class="line">时间：{{item.start}} - {{item.timeEndText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{hasLogin && !empty && !error}}" status="{{loadingStatus}}" bind:retry="onRetry" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

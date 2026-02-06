@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="card">
+    <view wx:if="{{title}}" class="title">{{title}}</view>
+
+    <view wx:if="{{used}}" class="used">已使用</view>
+    <canvas wx:elif="{{!error}}" class="qrcode-canvas" canvas-id="qrcodeCanvas"></canvas>
+
+    <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+
+    <ui-button
+      wx:if="{{text && !used}}"
+      text="复制二维码文本"
+      plain="{{true}}"
+      block="{{true}}"
+      bind:tap="onTapCopy"
+    />
+  </view>
+</view>
+

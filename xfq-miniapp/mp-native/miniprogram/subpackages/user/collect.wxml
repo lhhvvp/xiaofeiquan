@@ -1,0 +1,31 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再查看收藏
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty && !error}}" text="暂无收藏" />
+
+  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapMerchant">
+    <image class="item-img" src="{{item.image}}" mode="aspectFill" />
+    <view class="item-main">
+      <view class="item-title">
+        <text class="item-name">{{item.nickname}}</text>
+        <text class="item-distance">{{item.distanceText}}</text>
+      </view>
+      <view class="item-sub">电话：{{item.mobile}}</view>
+      <view class="item-sub">营业时间：{{item.do_business_time}}</view>
+      <view class="item-sub">地址：{{item.address}}</view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{hasLogin && !empty && !error}}" status="{{loadingStatus}}" bind:retry="onRetry" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

@@ -1,3 +1,5 @@
+const config = require('../config')
+
 function normalizeWxPayParams(payload) {
   if (!payload || typeof payload !== 'object') return null
   const data = payload.data && typeof payload.data === 'object' ? payload.data : payload
@@ -22,6 +24,7 @@ function normalizeWxPayParams(payload) {
 }
 
 function requestWxPayment(payloadOrParams) {
+  if (config && config.mockPayment) return Promise.resolve({ mockPayment: true })
   const pay = normalizeWxPayParams(payloadOrParams)
   if (!pay) return Promise.reject(new Error('INVALID_WXPAY_PARAMS'))
   return new Promise((resolve, reject) => {
@@ -37,4 +40,3 @@ module.exports = {
   normalizeWxPayParams,
   requestWxPayment,
 }
-

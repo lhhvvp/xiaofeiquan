@@ -1,0 +1,53 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后查看打卡任务
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty && !error}}" text="暂无打卡任务" />
+
+  <view wx:for="{{list}}" wx:key="key" wx:for-index="itemIndex" class="item">
+    <view class="top">
+      <view class="tit">
+        <text class="tag">{{item.tagText}}</text>
+        <text class="name">{{item.couponTitle}}</text>
+      </view>
+      <button
+        size="mini"
+        type="{{item.isClock ? 'default' : 'primary'}}"
+        disabled="{{item.isClock}}"
+        data-index="{{itemIndex}}"
+        bindtap="onTapClock"
+      >
+        {{item.isClock ? '已打卡' : '打卡'}}
+      </button>
+    </view>
+
+    <view class="sub">创建时间：{{item.createTimeText}}</view>
+    <view class="sub">旅行团名称：{{item.tourName}}</view>
+    <view class="sub">打卡地点：{{item.addressText}}</view>
+    <view class="sub">打卡时间：{{item.clockTimeText}}</view>
+
+    <view wx:if="{{item.images.length}}" class="images">
+      <image
+        wx:for="{{item.images}}"
+        wx:key="*this"
+        wx:for-index="imgIndex"
+        class="img"
+        src="{{item}}"
+        mode="aspectFill"
+        data-index="{{itemIndex}}"
+        data-imgindex="{{imgIndex}}"
+        bindtap="onPreviewImage"
+      />
+    </view>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>

@@ -1,0 +1,75 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后查看预约详情
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{detail}}" class="status">{{detail.statusText || '-'}}</view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="card-title">预约详情</view>
+
+    <view class="row">
+      <view class="label">预约人数</view>
+      <view class="value">x{{detail.number}}</view>
+    </view>
+    <view class="row">
+      <view class="label">预约人</view>
+      <view class="value">{{detail.fullname}}</view>
+    </view>
+    <view class="row">
+      <view class="label">手机号</view>
+      <view class="value">{{detail.phone}}</view>
+    </view>
+
+    <view wx:if="{{detail.status == 0 && qrText}}" class="qrcode">
+      <canvas class="qrcode-canvas" canvas-id="qrcodeCanvas"></canvas>
+      <view class="qrcode-actions">
+        <ui-button text="复制核销JSON" plain="{{true}}" block="{{true}}" bind:tap="onTapCopyQrText" />
+        <ui-button text="全屏查看" plain="{{true}}" block="{{true}}" bind:tap="onTapOpenQrPage" />
+      </view>
+    </view>
+
+    <view class="row">
+      <view class="label">预约编号</view>
+      <view class="value value--code">{{detail.code || '-'}}</view>
+      <view class="copy" bindtap="onTapCopyCode">复制</view>
+    </view>
+
+    <view class="row">
+      <view class="label">有效期</view>
+      <view class="value">{{detail.start}} - {{detail.timeEndText}}（仅限当天使用）</view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail}}" class="card">
+    <view class="card-title">游客列表</view>
+    <view wx:for="{{detail.touristList}}" wx:key="index" class="tourist">
+      <view class="tourist-name">{{item.tourist_mobile}} {{item.tourist_fullname}}</view>
+      <view class="tourist-sub">身份证号：{{item.tourist_cert_id}}</view>
+    </view>
+    <view wx:if="{{detail.touristList.length == 0}}" class="empty">暂无游客信息</view>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <view wx:if="{{detail && detail.status == 0}}" class="bottom">
+    <ui-button
+      type="default"
+      text="{{canceling ? '取消中..' : '取消预约'}}"
+      block="{{true}}"
+      loading="{{canceling}}"
+      disabled="{{canceling}}"
+      bind:tap="onTapCancel"
+    />
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

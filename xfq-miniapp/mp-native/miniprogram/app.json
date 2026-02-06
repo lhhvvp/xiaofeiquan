@@ -31,11 +31,15 @@
   "subpackages": [
     {
       "root": "subpackages/coupon",
-      "pages": ["list", "coupon", "my_coupon", "coupon_CAV"]
+      "pages": ["list", "coupon", "my_coupon", "coupon_CAV", "coupon_CAV_Group/coupon_CAV_Group"]
+    },
+    {
+      "root": "subpackages/content",
+      "pages": ["news/news", "news/info", "user/agreement"]
     },
     {
       "root": "subpackages/merchant",
-      "pages": ["info/info", "search/search"]
+      "pages": ["info/info", "search/search", "mymap"]
     },
     {
       "root": "subpackages/tickets",
@@ -47,12 +51,29 @@
         "order/order",
         "person/list",
         "person/add",
+        "collect",
+        "set",
+        "complaints",
+        "comment",
+        "commentAdd",
+        "qrcode",
+        "subscribe/subscribe",
+        "subscribe/my_list",
+        "subscribe/detail",
+        "signIn/signIn",
+        "signIn/info",
+        "task/detail",
         "pay_order",
         "pay_detail",
         "my_order",
         "order_detail",
+        "order_CAV",
+        "order_CAV_info",
         "my_order_refund",
-        "order_refund_detail"
+        "order_refund_detail",
+        "coupon_CAV_subscribe/coupon_CAV_subscribe",
+        "coupon_CAV_order/coupon_CAV_order",
+        "coupon_CAV_order/coupon_CAV_user"
       ]
     }
   ],

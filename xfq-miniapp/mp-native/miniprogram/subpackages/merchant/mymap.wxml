@@ -1,0 +1,13 @@
+<view class="container">
+  <map class="map" latitude="{{lat}}" longitude="{{lng}}" markers="{{markers}}" show-location="{{true}}"></map>
+
+  <view class="info">{{info}}</view>
+
+  <view class="actions">
+    <button class="btn" size="mini" bindtap="onTapCopy">复制</button>
+    <button class="btn" size="mini" type="primary" loading="{{updating}}" disabled="{{updating}}" bindtap="onTapUpdate">
+      更新位置
+    </button>
+  </view>
+</view>
+

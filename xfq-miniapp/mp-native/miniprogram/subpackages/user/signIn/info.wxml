@@ -1,0 +1,50 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再打卡
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasLogin && hasBaseUrl}}" class="card">
+    <view class="card-title">打卡信息</view>
+
+    <view class="input-row">
+      <view class="label">打卡地点</view>
+      <input class="input" value="{{spotName}}" bindinput="onInputSpotName" placeholder="请输入打卡地点" />
+    </view>
+
+    <view class="input-row">
+      <view class="label">打卡留言</view>
+      <textarea class="textarea" value="{{desc}}" bindinput="onInputDesc" placeholder="请输入打卡留言（可选）"></textarea>
+    </view>
+
+    <view class="input-row">
+      <view class="label">地点图片</view>
+      <view class="image-box">
+        <view wx:for="{{images}}" wx:key="localPath" class="img-wrap">
+          <image class="img" src="{{item.previewUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="onPreviewImage" />
+          <view class="del" data-index="{{index}}" bindtap="onDeleteImage">×</view>
+        </view>
+        <button
+          wx:if="{{images.length < maxImages}}"
+          class="add"
+          size="mini"
+          plain="{{true}}"
+          bindtap="onTapAddImage"
+        >
+          添加
+        </button>
+      </view>
+    </view>
+
+    <button type="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onTapSubmit">提交</button>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

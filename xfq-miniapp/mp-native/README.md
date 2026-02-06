@@ -12,3 +12,6 @@
 
 ## 本地配置（baseUrl）
 默认 `baseUrl` 为空；本地联调请新建 `xfq-miniapp/mp-native/miniprogram/config/local.js`（参考 `local.example.js`）。
+
+若暂时没有真实后端 API，可在 `local.js` 开启 mock（仅开发自测用）：
+- `module.exports = { mock: true, mockPayment: true }`

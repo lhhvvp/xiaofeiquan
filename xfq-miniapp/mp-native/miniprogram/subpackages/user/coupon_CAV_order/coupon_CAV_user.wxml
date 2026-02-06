@@ -1,0 +1,62 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    <view>核销需要先登录</view>
+    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="title">
+      {{detail.ticketTitle}}
+      <text wx:if="{{writeoffInfo && writeoffInfo.title}}"> - {{writeoffInfo.title}}</text>
+    </view>
+    <view class="price" wx:if="{{writeoffInfo && writeoffInfo.price && writeoffInfo.price != 0}}">
+      {{writeoffInfo.price}}
+    </view>
+    <view class="sub">核销人数：{{(writeoffInfo && writeoffInfo.number) || 1}} 人</view>
+  </view>
+
+  <view class="card" wx:if="{{detail}}">
+    <view class="row">
+      <view class="label">票种</view>
+      <view class="value">{{detail.ticketTitle}}</view>
+    </view>
+    <view class="row">
+      <view class="label">联系人</view>
+      <view class="value">{{detail.fullname}}</view>
+    </view>
+    <view class="row">
+      <view class="label">联系方式</view>
+      <view class="value">{{detail.mobile}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail && (detail.explainBuyHtml || detail.explainUseHtml)}}" class="card">
+    <view wx:if="{{detail.explainBuyHtml}}" class="section">
+      <view class="section-title">购买说明</view>
+      <rich-text nodes="{{detail.explainBuyHtml}}"></rich-text>
+    </view>
+    <view wx:if="{{detail.explainUseHtml}}" class="section">
+      <view class="section-title">使用说明</view>
+      <rich-text nodes="{{detail.explainUseHtml}}"></rich-text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{!detail && hasBaseUrl && hasLogin}}">
+    <view class="sub">加载中..</view>
+  </view>
+
+  <view wx:if="{{showMask}}" class="mask">
+    <view class="mask-card">
+      <view class="mask-title">{{mask.title}}</view>
+      <view class="mask-msg">{{mask.message}}</view>
+      <ui-button type="primary" text="确定" block="{{true}}" bind:tap="onTapMaskConfirm" />
+    </view>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

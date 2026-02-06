@@ -1,6 +1,7 @@
 const config = require('../config')
 const auth = require('./auth')
 const monitor = require('./monitor')
+const mock = require('./mock')
 
 let loadingCount = 0
 
@@ -79,6 +80,25 @@ function request({
     if (!shouldShowLoading || didHideLoading) return
     didHideLoading = true
     hideLoading()
+  }
+
+  if (config.mock && !url && path) {
+    if (shouldShowLoading) showLoading(loadingTitle)
+    return Promise.resolve()
+      .then(() =>
+        mock.request({
+          path,
+          method,
+          data,
+          timeout,
+          header: {
+            'content-type': 'application/x-www-form-urlencoded',
+            ...auth.getAuthHeaders(),
+            ...headers,
+          },
+        })
+      )
+      .finally(() => hideLoadingOnce())
   }
 
   if (!url && (!config.baseUrl || !String(config.baseUrl).trim())) {

@@ -1,0 +1,39 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后再打卡
+    <view class="notice-actions">
+      <button size="mini" type="primary" bindtap="onTapGoLogin">去登录</button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasLogin && hasBaseUrl}}" class="card">
+    <view class="card-title">打卡提示</view>
+    <view class="prompt">{{promptText}}</view>
+  </view>
+
+  <view wx:if="{{hasLogin && hasBaseUrl}}" class="card">
+    <view class="list-title" wx:if="{{list.length}}">已打卡地点</view>
+    <view class="list-title" wx:else>暂未打卡</view>
+
+    <view wx:for="{{list}}" wx:key="id" class="item">
+      <image class="avatar" src="{{item.sellerImage}}" mode="aspectFill" />
+      <view class="item-main">
+        <view class="name">{{item.sellerName}}</view>
+        <view class="time">{{item.createTimeText}}</view>
+      </view>
+      <view class="status">已打卡</view>
+    </view>
+
+    <view class="actions">
+      <button type="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onTapScanClock">打卡</button>
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && hasBaseUrl && empty && !error}}" text="暂无打卡记录" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

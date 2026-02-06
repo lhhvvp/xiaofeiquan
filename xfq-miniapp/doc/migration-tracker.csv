@@ -6,27 +6,27 @@ tabbar,pages/merchant/merchant,main,P0,,in_progress,xfq-miniapp/xfq-miniapp/page
 tabbar,pages/user/user,main,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/user.vue,mp-native 已建占位页（展示 uerInfo）
 misc,pages/search/search,main,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/search/search.vue,mp-native 已实现基础搜索（/seller/search）+ SearchHistory（subpackage: subpackages/merchant/search/search）
 user,pages/user/order,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/order.vue,mp-native 已实现（subpackages/user/order/order）：/user/get_user_coupon_id + /user/coupon_issue_user（分页/下拉刷新/状态tab）
-user,pages/user/set,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/set.vue,
+user,pages/user/set,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/set.vue,mp-native 已实现：subpackages/user/set（/user/index；/user/edit；头像 chooseAvatar + /upload/index）；入口：pages/user/user（个人资料）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
 merchant,pages/merchant/info/info,merchant,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/merchant/info/info.vue,mp-native 已实现基础详情（/seller/detail）+ 拨号/导航 + 富文本渲染（subpackage: subpackages/merchant/info/info）
 coupon,pages/coupon/coupon,coupon,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/coupon/coupon.vue,mp-native 已实现（subpackages/coupon/coupon）：/coupon/detail + /coupon/receive + /coupon/applicabletoV2
 coupon,pages/coupon/my_coupon,coupon,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/coupon/my_coupon.vue,mp-native 已实现（subpackages/coupon/my_coupon）：/coupon/idtocoupon + /coupon/encryptAES + /coupon/applicableto（含二维码canvas绘制）
 coupon,pages/coupon/logistics,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/coupon/logistics.vue,
 merchant,pages/merchant/info/merchant,merchant,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/merchant/info/merchant.vue,不单独迁移；合并到 pages/merchant/info/info（mp-native：subpackages/merchant/info/info）
-user,pages/user/order_CAV,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/order_CAV.vue,
+user,pages/user/order_CAV,user,P1,,done,xfq-miniapp/xfq-miniapp/pages/user/order_CAV.vue,mp-native 已实现：subpackages/user/order_CAV（/coupon/writeofflog）；入口：pages/user/user（核销记录）；self-test: 2026-02-06; mock; ok; pending real-api
 misc,pages/list/list,main,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/list/list.vue,
 coupon,pages/coupon/list,coupon,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/coupon/list.vue,mp-native 已建基础页（subpackage: subpackages/coupon/list；/coupon/applicableto + 定位）
-content,pages/news/news,content,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/news/news.vue,
-content,pages/news/info,content,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/news/info.vue,
+content,pages/news/news,content,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/news/news.vue,mp-native 已实现：subpackages/content/news/news（/index/note_list）；入口：pages/user/user（公告）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+content,pages/news/info,content,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/news/info.vue,mp-native 已实现：subpackages/content/news/info（/index/note_detail）；入口：subpackages/content/news/news；self-test: 2026-02-06; mock; smoke; ok; pending real-api
 coupon,pages/coupon/coupon_CAV,coupon,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/coupon/coupon_CAV.vue,mp-native 已实现（subpackages/coupon/coupon_CAV）：扫码核销 -> /coupon/idtocoupon + /coupon/writeoff
-user,pages/user/collect,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/collect.vue,
-content,pages/user/agreement,content,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/agreement.vue,
-user,pages/user/order_CAV_info,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/order_CAV_info.vue,
-user,pages/user/signIn/signIn,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/signIn/signIn.vue,
-user,pages/user/signIn/info,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/signIn/info.vue,
+user,pages/user/collect,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/collect.vue,mp-native 已实现：subpackages/user/collect（/user/collection；分页+定位入参）；入口：pages/user/user（我的收藏）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+content,pages/user/agreement,content,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/agreement.vue,mp-native 已实现：subpackages/content/user/agreement（/index/system service/policy）；入口：pages/user/user（服务协议/隐私政策）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/order_CAV_info,user,P1,,done,xfq-miniapp/xfq-miniapp/pages/user/order_CAV_info.vue,mp-native 已实现：subpackages/user/order_CAV_info（/coupon/writeoffdetail；/coupon/applicableto）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/signIn/signIn,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/signIn/signIn.vue,mp-native 已实现：subpackages/user/signIn/signIn（/user/clock_list；图片预览）；入口：pages/user/user（打卡任务）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/signIn/info,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/signIn/info.vue,mp-native 已实现：subpackages/user/signIn/info（/index/transform；/user/clock；/user/hotel_clock；选图+上传/跳过mock）；入口：subpackages/user/signIn/signIn；self-test: 2026-02-06; mock; smoke(api); ok; pending real-api
 groupcoupon,pages/user/GroupCoupon/GroupCoupon,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/GroupCoupon/GroupCoupon.vue,
 groupcoupon,pages/user/GroupCoupon/list,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/GroupCoupon/list.vue,
 groupcoupon,pages/user/GroupCoupon/my_coupon,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/GroupCoupon/my_coupon.vue,
-coupon,pages/coupon/coupon_CAV_Group/coupon_CAV_Group,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/coupon/coupon_CAV_Group/coupon_CAV_Group.vue,
+coupon,pages/coupon/coupon_CAV_Group/coupon_CAV_Group,coupon,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/coupon/coupon_CAV_Group/coupon_CAV_Group.vue,mp-native 已实现：subpackages/coupon/coupon_CAV_Group/coupon_CAV_Group（/user/tour_coupon_group；/user/writeoff_tour；自动核销结果弹层）；入口：pages/user/user 扫码核销（type=groupCoupon）；self-test: 2026-02-06; mock; smoke(api); ok; pending real-api
 groupcoupon,pages/user/order_groupCoupon,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/order_groupCoupon.vue,
 groupcoupon,pages/user/GroupCoupon/touristInfo/touristInfo,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/GroupCoupon/touristInfo/touristInfo.vue,
 groupcoupon,pages/user/GroupCoupon/hotelList,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/GroupCoupon/hotelList.vue,
@@ -34,31 +34,31 @@ groupcoupon,pages/user/GroupCoupon/hotelUserList,coupon,TBD,,todo,xfq-miniapp/xf
 coupon,pages/coupon/lineList,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/coupon/lineList.vue,
 coupon,pages/coupon/lineInfo,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/coupon/lineInfo.vue,
 coupon,pages/coupon/travelList,coupon,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/coupon/travelList.vue,
-user,pages/user/complaints,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/complaints.vue,
-user,pages/common/paySuccess,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/common/paySuccess.vue,mp-native 已实现：pages/common/paySuccess（返回与首页）
-user,pages/user/pay_order,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/pay_order.vue,mp-native 已实现：subpackages/user/pay_order（/user/coupon_order；/pay/submit+微信支付；/pay/refund）
-user,pages/user/pay_detail,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/pay_detail.vue,mp-native 已实现：subpackages/user/pay_detail（/user/coupon_order_detail）
+user,pages/user/complaints,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/complaints.vue,mp-native 已实现：subpackages/user/complaints（/user/feed_back；最多 3 张图；mock 跳过上传）；入口：pages/user/user（反馈与建议）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/common/paySuccess,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/common/paySuccess.vue,mp-native 已实现：pages/common/paySuccess（返回与首页）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/pay_order,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/pay_order.vue,mp-native 已实现：subpackages/user/pay_order（/user/coupon_order；/pay/submit+微信支付；/pay/refund）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/pay_detail,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/pay_detail.vue,mp-native 已实现：subpackages/user/pay_detail（/user/coupon_order_detail）；self-test: 2026-02-06; mock; ok; pending real-api
 user,pages/user/attestation,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/attestation.vue,
 tabbar,pages/tickets/tickets,main,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/tickets/tickets.vue,mp-native 已实现筛选+列表（/ticket/getScenicList）+ 分页/下拉刷新
 tickets,pages/tickets/info,tickets,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/tickets/info.vue,mp-native 已实现基础详情（/seller/detail）+ 门票列表（/ticket/getTicketList）+ 推荐/评论预览 + 须知弹层（subpackage: subpackages/tickets/info）
-tickets,pages/tickets/order,tickets,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/tickets/order.vue,mp-native 已实现（subpackages/tickets/order）：/ticket/getTicketPirce + /ticket/pay + 微信支付；成功跳转 pages/user/paySuccess
+tickets,pages/tickets/order,tickets,P0,,done,xfq-miniapp/xfq-miniapp/pages/tickets/order.vue,mp-native 已实现（subpackages/tickets/order）：/ticket/getTicketPirce + /ticket/pay + 微信支付；成功跳转 pages/user/paySuccess；self-test: 2026-02-06; mock; ok; pending real-api
 user,pages/user/person/add,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/person/add.vue,mp-native 已实现（subpackages/user/person/add）：/user/getCertTypeList + /user/postTourist
 user,pages/user/person/list,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/person/list.vue,mp-native 已实现（subpackages/user/person/list）：/user/getTouristList + /user/delTourist
-merchant,pages/user/mymap,merchant,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/mymap.vue,
-user,pages/user/my_order,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/my_order.vue,mp-native 已实现：subpackages/user/my_order（/ticket/getOrderList）
-user,pages/user/order_detail,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/order_detail.vue,mp-native 已实现：subpackages/user/order_detail（/ticket/getOrderDetail；二维码 canvas；/ticket/orderpay 支付）
-user,pages/user/paySuccess,user,P0,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/paySuccess.vue,mp-native 已实现：pages/user/paySuccess（查看订单跳转 subpackages/user/my_order）
-user,pages/user/comment,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/comment.vue,
-user,pages/user/commentAdd,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/commentAdd.vue,
-user,pages/user/qrcode,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/qrcode.vue,
-user,pages/user/subscribe/subscribe,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/subscribe/subscribe.vue,
-user,pages/user/subscribe/my_list,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/subscribe/my_list.vue,
-user,pages/user/refunded,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/refunded.vue,mp-native 已实现：pages/user/refunded（/ticket/refund；/ticket/single_refund）；入口：subpackages/user/order_detail（单人/全部退款）
-user,pages/user/coupon_CAV_order/coupon_CAV_order,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_order/coupon_CAV_order.vue,
-user,pages/user/subscribe/detail,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/subscribe/detail.vue,
-user,pages/user/coupon_CAV_subscribe/coupon_CAV_subscribe,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_subscribe/coupon_CAV_subscribe.vue,
-user,pages/user/coupon_CAV_order/coupon_CAV_user,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_order/coupon_CAV_user.vue,
-user,pages/user/my_order_refund,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/my_order_refund.vue,mp-native 已实现：subpackages/user/my_order_refund（/ticket/getRefundLogList）
-user,pages/user/order_refund_detail,user,TBD,,in_progress,xfq-miniapp/xfq-miniapp/pages/user/order_refund_detail.vue,mp-native 已实现：subpackages/user/order_refund_detail（/ticket/getRefundLogDetail）
+merchant,pages/user/mymap,merchant,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/mymap.vue,mp-native 已实现：subpackages/merchant/mymap（map 标记当前位置；复制；更新定位）；入口：pages/user/user（当前位置地图）；self-test: pending devtools; mock ok
+user,pages/user/my_order,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/my_order.vue,mp-native 已实现：subpackages/user/my_order（/ticket/getOrderList）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/order_detail,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/order_detail.vue,mp-native 已实现：subpackages/user/order_detail（/ticket/getOrderDetail；二维码 canvas；/ticket/orderpay 支付）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/paySuccess,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/paySuccess.vue,mp-native 已实现：pages/user/paySuccess（查看订单跳转 subpackages/user/my_order）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/comment,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/comment.vue,mp-native 已实现：subpackages/user/comment（/ticket/getCommentList mid/user_id；分页/下拉刷新）；入口：pages/user/user（我的评价）；self-test: 2026-02-05; mock; smoke; ok; pending real-api
+user,pages/user/commentAdd,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/commentAdd.vue,mp-native 已实现：subpackages/user/commentAdd（/ticket/writeComment）；入口：subpackages/user/order_detail（我要评价）；self-test: 2026-02-05; mock; smoke; ok; pending real-api
+user,pages/user/qrcode,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/qrcode.vue,mp-native 已实现：subpackages/user/qrcode（canvas 绘制二维码 + 复制）；入口：subpackages/user/order_detail（游客二维码弹层 -> 全屏查看）；self-test: 2026-02-05; mock; ok; pending real-api
+user,pages/user/subscribe/subscribe,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/subscribe/subscribe.vue,mp-native 已实现：subpackages/user/subscribe/subscribe（/appt/getDatetime；/appt/createAppt；游客选择弹层）；入口：subpackages/tickets/info（立即预约）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/subscribe/my_list,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/subscribe/my_list.vue,mp-native 已实现：subpackages/user/subscribe/my_list（/appt/getList；状态 tab；分页/下拉刷新）；入口：pages/user/user（我的预约）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/refunded,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/refunded.vue,mp-native 已实现：pages/user/refunded（/ticket/refund；/ticket/single_refund）；入口：subpackages/user/order_detail（单人/全部退款）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/coupon_CAV_order/coupon_CAV_order,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_order/coupon_CAV_order.vue,mp-native 已实现：subpackages/user/coupon_CAV_order/coupon_CAV_order（/ticket/writeOff；/ticket/getOrderDetail）；入口：pages/user/user 扫码核销（type=order）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/subscribe/detail,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/subscribe/detail.vue,mp-native 已实现：subpackages/user/subscribe/detail（/appt/getDetail；/appt/cancelAppt；二维码 canvas + 全屏）；入口：subpackages/user/subscribe/my_list；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/coupon_CAV_subscribe/coupon_CAV_subscribe,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_subscribe/coupon_CAV_subscribe.vue,mp-native 已实现：subpackages/user/coupon_CAV_subscribe/coupon_CAV_subscribe（/appt/getDetail；/appt/writeOff；自动核销结果弹层）；入口：pages/user/user 扫码核销（type=subscribe）；self-test: 2026-02-06; mock; smoke; ok; pending real-api
+user,pages/user/coupon_CAV_order/coupon_CAV_user,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/coupon_CAV_order/coupon_CAV_user.vue,mp-native 已实现：subpackages/user/coupon_CAV_order/coupon_CAV_user（/ticket/writeOff；/ticket/getOrderDetailDetail）；入口：pages/user/user 扫码核销（type=order_user）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/my_order_refund,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/my_order_refund.vue,mp-native 已实现：subpackages/user/my_order_refund（/ticket/getRefundLogList）；self-test: 2026-02-06; mock; ok; pending real-api
+user,pages/user/order_refund_detail,user,P0,,done,xfq-miniapp/xfq-miniapp/pages/user/order_refund_detail.vue,mp-native 已实现：subpackages/user/order_refund_detail（/ticket/getRefundLogDetail）；self-test: 2026-02-06; mock; ok; pending real-api
 tickets,pages/getopenid/travelorderinfo,tickets,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/getopenid/travelorderinfo.vue,
-user,pages/user/task/detail,user,TBD,,todo,xfq-miniapp/xfq-miniapp/pages/user/task/detail.vue,
+user,pages/user/task/detail,user,TBD,,ready_for_qa,xfq-miniapp/xfq-miniapp/pages/user/task/detail.vue,mp-native 已实现：subpackages/user/task/detail（/coupon/getUserCouponRecordList；/user/userClock；扫码打卡+记录列表）；入口：pages/user/user（打卡券任务）；self-test: 2026-02-06; mock; smoke(api); ok; pending real-api

@@ -1,0 +1,19 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{hasBaseUrl && empty && !error}}" text="暂无公告" />
+
+  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
+    <view class="title">{{item.title}}</view>
+    <view class="sub">
+      <view class="time">{{item.createTime}}</view>
+      <view class="hits">浏览 {{item.hits}}</view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{hasBaseUrl && !empty && !error}}" status="{{loadingStatus}}" bind:retry="onRetry" />
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
+</view>
+

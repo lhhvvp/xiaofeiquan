@@ -2,7 +2,7 @@
   "name": "xfq-mp-native",
   "private": true,
   "scripts": {
-    "check": "node tools/check-miniprogram.js"
+    "check": "node tools/check-miniprogram.js",
+    "mock:smoke": "node tools/mock-smoke-test.js"
   }
 }
-

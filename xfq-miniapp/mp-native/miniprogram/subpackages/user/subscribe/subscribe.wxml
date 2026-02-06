@@ -1,0 +1,101 @@
+<view class="container">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card">
+    <view class="card-title">分时预约</view>
+    <view class="row">
+      <view class="label">日期</view>
+      <picker mode="selector" range="{{dateOptions}}" value="{{selectedDateIndex}}" bindchange="onPickDate">
+        <view class="picker">{{selectedDate || '请选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="slots" wx:if="{{slotList.length}}">
+      <view
+        wx:for="{{slotList}}"
+        wx:key="id"
+        class="slot {{selectedSlotId === item.id ? 'slot--active' : ''}}"
+        data-index="{{index}}"
+        bindtap="onTapSlot"
+      >
+        <view class="slot-time">{{item.timeStartText}}-{{item.timeEndText}}</view>
+        <view class="slot-stock">余 {{item.stock}}</view>
+      </view>
+    </view>
+    <ui-empty wx:else text="暂无可预约时间段" />
+
+    <view class="row row-qty">
+      <view class="label">数量</view>
+      <view class="qty">
+        <button size="mini" bindtap="onTapMinus" disabled="{{quantity <= 1}}">-</button>
+        <input class="qty-input" type="number" value="{{quantity}}" bindinput="onInputQuantity" />
+        <button size="mini" bindtap="onTapPlus" disabled="{{quantity >= maxQuantity}}">+</button>
+      </view>
+      <view class="qty-hint">最多 {{maxQuantity}} 人</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">游客信息</view>
+    <view wx:if="{{selectedTourists.length}}" class="tourist-list">
+      <view wx:for="{{selectedTourists}}" wx:key="id" class="tourist-item">
+        <view class="tourist-name">{{item.fullname}}</view>
+        <view class="tourist-sub">手机 {{item.mobile}}</view>
+        <view class="tourist-sub">证件 {{item.cert_id}}</view>
+      </view>
+    </view>
+    <view wx:else class="empty">未选择游客</view>
+    <button bindtap="onTapChooseTourists">选择游客（需与数量一致）</button>
+    <view wx:if="{{autoTouristHint}}" class="hint">{{autoTouristHint}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">预约人信息</view>
+    <view class="input-row">
+      <view class="label">姓名</view>
+      <input class="input" value="{{fullname}}" bindinput="onInputFullname" placeholder="请输入姓名" />
+    </view>
+    <view class="input-row">
+      <view class="label">身份证号</view>
+      <input class="input" value="{{idcard}}" bindinput="onInputIdcard" placeholder="请输入身份证号" />
+    </view>
+    <view class="input-row">
+      <view class="label">手机号</view>
+      <input class="input" value="{{phone}}" bindinput="onInputPhone" placeholder="请输入手机号" />
+    </view>
+  </view>
+
+  <view class="footer">
+    <button type="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onTapSubmit">提交预约</button>
+  </view>
+
+  <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="refreshSchedule" />
+
+  <view wx:if="{{showTouristModal}}" class="modal-mask" bindtap="onTapCloseTouristModal">
+    <view class="modal" catchtap="noop">
+      <view class="modal-header">
+        <view class="modal-title">选择游客（{{touristTempCount}}/{{quantity}}）</view>
+        <view class="modal-close" bindtap="onTapCloseTouristModal">×</view>
+      </view>
+      <view class="modal-body">
+        <checkbox-group bindchange="onTouristCheckboxChange">
+          <view wx:for="{{touristList}}" wx:key="id" class="tourist-option">
+            <checkbox value="{{item.id}}" checked="{{item.checked}}" disabled="{{item.disabled}}" />
+            <view class="opt-main">
+              <view class="opt-title">{{item.fullname}}</view>
+              <view class="opt-sub">{{item.mobile}} | {{item.cert_id}}</view>
+            </view>
+          </view>
+        </checkbox-group>
+        <view wx:if="{{touristList.length == 0}}" class="empty">暂无游客数据</view>
+      </view>
+      <view class="modal-actions">
+        <button bindtap="onTapCloseTouristModal">取消</button>
+        <button type="primary" bindtap="onTapConfirmTourists">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+
