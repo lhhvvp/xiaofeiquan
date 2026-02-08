@@ -4,7 +4,7 @@
   </view>
 
   <view wx:if="{{contentHtml && !error}}" class="content">
-    <rich-text nodes="{{contentHtml}}"></rich-text>
+    <ui-rich-text nodes="{{contentHtml}}"></ui-rich-text>
   </view>
 
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />

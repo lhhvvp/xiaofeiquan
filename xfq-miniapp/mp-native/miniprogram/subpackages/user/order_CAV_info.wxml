@@ -30,7 +30,7 @@
 
   <view class="card" wx:if="{{detail && detail.remarkHtml}}">
     <view class="section-title">使用细则</view>
-    <rich-text nodes="{{detail.remarkHtml}}"></rich-text>
+    <ui-rich-text nodes="{{detail.remarkHtml}}"></ui-rich-text>
   </view>
 
   <view class="card" wx:if="{{!detail && hasBaseUrl && hasLogin}}">

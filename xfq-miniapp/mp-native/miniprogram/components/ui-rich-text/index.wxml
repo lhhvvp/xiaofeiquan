@@ -1,0 +1,1 @@
+<rich-text nodes="{{safeNodes}}"></rich-text>

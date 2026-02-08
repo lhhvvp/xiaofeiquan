@@ -113,11 +113,11 @@
   <view wx:if="{{detail && (detail.explainBuyHtml || detail.explainUseHtml)}}" class="card">
     <view wx:if="{{detail.explainBuyHtml}}" class="row2">
       <view class="label">购买说明</view>
-      <rich-text nodes="{{detail.explainBuyHtml}}"></rich-text>
+      <ui-rich-text nodes="{{detail.explainBuyHtml}}"></ui-rich-text>
     </view>
     <view wx:if="{{detail.explainUseHtml}}" class="row2">
       <view class="label">使用说明</view>
-      <rich-text nodes="{{detail.explainUseHtml}}"></rich-text>
+      <ui-rich-text nodes="{{detail.explainUseHtml}}"></ui-rich-text>
     </view>
   </view>
 

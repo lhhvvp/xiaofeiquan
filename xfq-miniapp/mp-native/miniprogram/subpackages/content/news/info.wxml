@@ -12,7 +12,7 @@
   </view>
 
   <view wx:if="{{detail && !error}}" class="content">
-    <rich-text nodes="{{detail.contentHtml}}"></rich-text>
+    <ui-rich-text nodes="{{detail.contentHtml}}"></ui-rich-text>
   </view>
 
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />

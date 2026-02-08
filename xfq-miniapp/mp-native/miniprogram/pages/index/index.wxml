@@ -30,7 +30,7 @@
 
   <view wx:if="{{actRuleHtml}}" class="card">
     <view class="card-title">活动规则</view>
-    <rich-text nodes="{{actRuleHtml}}"></rich-text>
+    <ui-rich-text nodes="{{actRuleHtml}}"></ui-rich-text>
   </view>
 
   <view wx:if="{{debugOpen}}" class="card">

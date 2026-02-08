@@ -32,12 +32,12 @@
 
   <view wx:if="{{info && info.remarkHtml}}" class="card">
     <view class="card-title">使用细则</view>
-    <rich-text nodes="{{info.remarkHtml}}"></rich-text>
+    <ui-rich-text nodes="{{info.remarkHtml}}"></ui-rich-text>
   </view>
 
   <view wx:if="{{info && info.useTypeDescHtml}}" class="card">
     <view class="card-title">核销规则</view>
-    <rich-text nodes="{{info.useTypeDescHtml}}"></rich-text>
+    <ui-rich-text nodes="{{info.useTypeDescHtml}}"></ui-rich-text>
   </view>
 
   <view wx:if="{{info && info.writeoff}}" class="card">

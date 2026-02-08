@@ -21,7 +21,7 @@
 
   <view class="card" wx:if="{{detail && detail.contentHtml}}">
     <view class="section-title">介绍</view>
-    <rich-text nodes="{{detail.contentHtml}}"></rich-text>
+    <ui-rich-text nodes="{{detail.contentHtml}}"></ui-rich-text>
   </view>
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>

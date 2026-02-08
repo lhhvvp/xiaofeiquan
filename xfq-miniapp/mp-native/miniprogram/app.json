@@ -14,7 +14,8 @@
     "ui-button": "components/ui-button/index",
     "ui-empty": "components/ui-empty/index",
     "ui-error": "components/ui-error/index",
-    "ui-list-footer": "components/ui-list-footer/index"
+    "ui-list-footer": "components/ui-list-footer/index",
+    "ui-rich-text": "components/ui-rich-text/index"
   },
   "tabBar": {
     "color": "#969696",
@@ -88,6 +89,5 @@
     "navigationBarTextStyle": "black",
     "backgroundColor": "#ffffff"
   },
-  "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

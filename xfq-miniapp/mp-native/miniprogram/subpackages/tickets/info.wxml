@@ -84,11 +84,11 @@
       <view class="modal-body">
         <view class="modal-section" wx:if="{{currentTicket.explainBuyHtml}}">
           <view class="modal-section-title">购买须知</view>
-          <rich-text nodes="{{currentTicket.explainBuyHtml}}"></rich-text>
+          <ui-rich-text nodes="{{currentTicket.explainBuyHtml}}"></ui-rich-text>
         </view>
         <view class="modal-section" wx:if="{{currentTicket.explainUseHtml}}">
           <view class="modal-section-title">使用须知</view>
-          <rich-text nodes="{{currentTicket.explainUseHtml}}"></rich-text>
+          <ui-rich-text nodes="{{currentTicket.explainUseHtml}}"></ui-rich-text>
         </view>
         <view class="modal-section" wx:if="{{currentTicket.rightsList.length}}">
           <view class="modal-section-title">核销须知</view>

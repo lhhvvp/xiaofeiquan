@@ -9,6 +9,5 @@
   form-type="{{formType}}"
   bindtap="onTap"
 >
-  <slot>{{text}}</slot>
+  {{text}}
 </button>
-
