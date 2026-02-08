@@ -1,0 +1,42 @@
+{
+  "id": "p0-quality10-post-api-index-set_user_info-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Index",
+    "action": "set_user_info",
+    "notes": "quality-batch10: non-empty params keep legacy 200 empty body"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/index/set_user_info",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "name": "测试用户",
+        "idcard": "610822200001011234"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": ""
+    }
+  },
+  "compare": {
+    "mode": "raw",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

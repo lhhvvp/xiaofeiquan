@@ -1,0 +1,53 @@
+{
+  "id": "p0-miniapp-post-api-user-collection-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "user",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/user.js",
+    "source_line": 107,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/collection",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1",
+        "page": 1,
+        "limit": 12,
+        "latitude": 0,
+        "longitude": 0,
+        "is_token": ""
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "没有收藏任何商家",
+        "time": 1770536335,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

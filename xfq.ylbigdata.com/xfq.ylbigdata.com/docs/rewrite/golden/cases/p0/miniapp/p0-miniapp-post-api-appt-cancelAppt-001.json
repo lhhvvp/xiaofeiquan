@@ -1,0 +1,46 @@
+{
+  "id": "p0-miniapp-post-api-appt-cancelAppt-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "appt",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/appt.js",
+    "source_line": 41,
+    "notes": "clean-batch14: p0 baseline switched to structured branch"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/appt/cancelAppt",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "参数错误！",
+        "time": 1770571117,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,2 @@
+-- P0 quality batch12 optional seed
+-- no additional data required; keep file for workflow consistency

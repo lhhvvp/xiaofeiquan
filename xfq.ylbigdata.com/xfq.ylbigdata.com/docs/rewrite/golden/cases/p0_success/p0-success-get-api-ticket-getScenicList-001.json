@@ -1,0 +1,66 @@
+{
+  "id": "p0-success-get-api-ticket-getScenicList-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: scenic list baseline under success seed"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/api/ticket/getScenicList",
+    "query": {
+      "page": "1",
+      "page_size": "10"
+    },
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "none"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583751,
+        "data": [
+          {
+            "id": 281,
+            "status": 1,
+            "nickname": "Dev Seller",
+            "image": "",
+            "mobile": "",
+            "do_business_time": "",
+            "area": 0,
+            "comment_rate": 0,
+            "comment_num": 0,
+            "address": "",
+            "content": null,
+            "longitude": 0,
+            "latitude": 0,
+            "class_id": 2,
+            "distance": 0,
+            "area_text": "-",
+            "min_price": "100.00"
+          }
+        ]
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time",
+      "comment_rate"
+    ],
+    "ignore_json_pointers": []
+  }
+}

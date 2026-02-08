@@ -1272,6 +1272,23 @@ class User extends BaseController
             $this->apiError('当前身份证号已经绑定其他手机号:'.$idcard['mobile']);
         }
 
+        // Dev-only: offline mock identity verification for golden replay.
+        if (env('rewrite.mock_identity')) {
+            $jsonData = [
+                'status' => 'OK',
+                'state' => 1,
+                'request_id' => 'mock-request-id',
+                'result_message' => 'mock ok',
+            ];
+            $this->user_auth_log($jsonData, $param);
+            // 跟新信息（与真实分支保持一致）
+            Db::name('users')
+                ->where(['id' => $uInfo['id']])
+                ->strict(false)->field(true)
+                ->update($param);
+            $this->apiSuccess('认证成功', $jsonData['result_message']);
+        }
+
         
         $system = \app\common\model\System::find(1);
         if($system['app_code']==''){
@@ -1658,6 +1675,27 @@ class User extends BaseController
             if (!check_phone($param['mobile'])) {
                 $this->apiError('手机号错误');
             }
+        }
+
+        // Dev-only: offline mock SMS send for golden replay.
+        // Put before rate-limit checks so replay stays stable across repeated runs.
+        if (env('rewrite.mock_sms')) {
+            $code = 123456;
+            $minute = 5;
+            $inData = [
+                'uid'         => $param['uid'],
+                'mobile'      => $param['mobile'],
+                'sms_code'    => strval($code),
+                'template'    => '',
+                'create_time' => time(),
+                'smsid'       => 'mock-smsid',
+                'code'        => '0',
+                'balance'     => 9999,
+                'msg'         => 'mock ok',
+                'expire_time' => time() + $minute * 60,
+            ];
+            Db::name('users_sms_log')->strict(false)->field(true)->insert($inData);
+            $this->apiSuccess('发送成功');
         }
 
         // 一小时超过3条 提示

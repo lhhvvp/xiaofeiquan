@@ -1,0 +1,45 @@
+{
+  "id": "p0-success-post-api-index-jia-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "app": "api",
+    "controller": "Index",
+    "action": "jia",
+    "notes": "success: migrated from p0-stub-api-post-api-index-jia-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/index/jia",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583751,
+        "data": "OUU1ZDVERWdLSHpTR0cyTmZLVkVNNkVHY0ttRlZMREhvQ0ZlZEdYNUZLVWNVTVRlcUtuUlhVRWdMQ1ZtRDlZRi1PRTRKNlR5R09tVkZDVG9CSERKcVBIWm49RHczM0NDMUpJOVNPV3J5"
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": [
+      "/data"
+    ]
+  }
+}

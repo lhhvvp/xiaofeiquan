@@ -1,0 +1,53 @@
+{
+  "id": "p0-success-post-api-user-auth_info-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "module": "user",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/user.js",
+    "source_line": 23,
+    "notes": "success: migrated from p0-miniapp-post-api-user-auth_info-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/auth_info",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583752,
+        "data": {
+          "name": "",
+          "mobile": "13800000001",
+          "idcard": null,
+          "auth_status": 0
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "p0-success-post-api-user-smsVerification-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: smsVerification in mock mode (REWRITE_MOCK_SMS/legacy rewrite.mock_sms)"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/smsVerification",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "mobile": "13800000000",
+        "uid": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "发送成功",
+        "time": 1770583753,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

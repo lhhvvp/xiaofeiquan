@@ -1,0 +1,36 @@
+{
+  "id": "p0-stub-selfservice-get-selfservice-index-captcha-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "selfservice",
+    "controller": "Index",
+    "action": "captcha",
+    "notes": "stub：captcha 通常为图片/二进制，建议用 raw 对比（录制 baseline 后会存 raw_base64/sha256）。 variant=path"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/selfservice/index/captcha",
+    "query": {},
+    "headers": {
+      "X-Rewrite-Enable": "1"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "image/png"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgAAEAAAUAAQ0KLbQAAAAASUVORK5CYII="
+    }
+  },
+  "compare": {
+    "mode": "raw",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

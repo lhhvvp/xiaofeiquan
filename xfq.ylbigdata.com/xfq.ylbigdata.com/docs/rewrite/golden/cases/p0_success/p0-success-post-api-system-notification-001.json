@@ -1,0 +1,34 @@
+{
+  "id": "p0-success-post-api-system-notification-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "app": "api",
+    "controller": "System",
+    "action": "notification",
+    "notes": "success: migrated from p0-stub-api-post-api-system-notification-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/system/notification",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "MA=="
+    }
+  },
+  "compare": {
+    "mode": "raw"
+  }
+}

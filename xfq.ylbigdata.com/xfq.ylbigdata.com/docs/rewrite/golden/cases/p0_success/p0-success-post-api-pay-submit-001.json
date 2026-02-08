@@ -1,0 +1,61 @@
+{
+  "id": "p0-success-post-api-pay-submit-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: pay/submit (mock wechat pay; requires 05-seed-success)"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/pay/submit",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1",
+        "openid": "dev-openid-1",
+        "coupon_uuno": "SEED_COUPON_UUNO_1",
+        "data": "{\"uuno\":\"SEED_COUPON_UUNO_1\",\"number\":1,\"price\":\"10.00\"}",
+        "type": "miniapp"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "订单添加成功",
+        "time": 1770583752,
+        "data": {
+          "pay": {
+            "timeStamp": "0",
+            "nonceStr": "mock-nonce",
+            "package": "prepay_id=mock_prepay",
+            "signType": "MD5",
+            "paySign": "mock-sign"
+          },
+          "order_no": "20260209044912398033",
+          "amount_price": "10.00"
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": [
+      "/data/order_no"
+    ]
+  }
+}

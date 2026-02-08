@@ -1,0 +1,38 @@
+{
+  "id": "p0-stub-api-post-api-system-tableTohtml-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "System",
+    "action": "tableTohtml",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/system/tableTohtml",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "c3VjY2Vzcw=="
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

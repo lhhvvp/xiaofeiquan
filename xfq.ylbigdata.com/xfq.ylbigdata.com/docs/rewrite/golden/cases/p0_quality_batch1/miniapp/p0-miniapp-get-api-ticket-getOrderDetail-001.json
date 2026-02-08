@@ -1,0 +1,111 @@
+{
+  "id": "p0-miniapp-get-api-ticket-getOrderDetail-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "tickets",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/tickets.js",
+    "source_line": 49,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/api/ticket/getOrderDetail",
+    "query": {
+      "order_id": "1"
+    },
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "",
+        "time": 1770549228,
+        "data": {
+          "id": 1,
+          "trade_no": "SEED_ORDER_0001",
+          "out_trade_no": "SEED_OUT_0001",
+          "channel": "online",
+          "origin_price": "100.00",
+          "amount_price": "100.00",
+          "refund_fee": "0.00",
+          "order_status": "paid",
+          "refund_status": "not_refunded",
+          "create_time": "2023-11-15 06:13:20",
+          "seller": {
+            "nickname": "Seed Scenic",
+            "image": ""
+          },
+          "order_status_text": "已付款",
+          "channel_text": "线上",
+          "iscomment": false,
+          "qrcode_str": "6JYooKfmDDfiJeoJUbSHug2NKYAe04+9U+RZv5KwOjS86vfOT19HRJl97FpeUyWfuGF5m51BhfRBHniTIVGFIg==",
+          "rights_qrcode_list": [],
+          "detail_list": [
+            {
+              "id": 1,
+              "trade_no": "SEED_ORDER_0001",
+              "out_trade_no": "SEED_OUT_0001",
+              "out_refund_no": null,
+              "ticket_code": "SEED_TICKET_CODE_0001",
+              "tourist_fullname": "Seed Tourist",
+              "tourist_cert_type": 1,
+              "tourist_cert_id": "610827199001011234",
+              "tourist_mobile": "13800000001",
+              "ticket_number": 1,
+              "ticket_cate_id": 1,
+              "ticket_id": 1,
+              "ticket_title": "Seed Ticket",
+              "ticket_date": "2026-02-08",
+              "ticket_cover": "",
+              "ticket_price": "100.00",
+              "ticket_rights_num": 0,
+              "writeoff_rights_num": 0,
+              "explain_use": "",
+              "explain_buy": "",
+              "enter_time": 1700000000,
+              "refund_status": "not_refunded",
+              "refund_progress": "init",
+              "refund_time": null,
+              "refund_amount": null,
+              "refund_id": null,
+              "is_full_refund": null,
+              "create_time": "2023-11-15 06:13:20",
+              "settlement_status": null,
+              "tourist_cert_type_text": "身份证",
+              "refund_status_text": "未退款",
+              "qrcode_str": "p5wcxCMvvfX5CMjd9i5v1cHDFLj+oi/KgkMOhEwwNTKNYv4vj6cciipfDfIwUH9SLxXMToNXEmLckG2yDy5ldQ==",
+              "rights_list": []
+            }
+          ],
+          "ticket_info": {
+            "id": 1,
+            "title": "Seed Ticket",
+            "date": "2026-02-08",
+            "cover": "",
+            "price": "100.00",
+            "explain_use": "",
+            "explain_buy": ""
+          }
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time",
+      "qrcode_str"
+    ],
+    "ignore_json_pointers": []
+  }
+}

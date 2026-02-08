@@ -1,0 +1,47 @@
+{
+  "id": "p0-stub-api-post-api-test-tokenTaohua-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Test",
+    "action": "tokenTaohua",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/test/tokenTaohua",
+    "query": {},
+    "headers": {
+      "X-Rewrite-Enable": "1"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770574467,
+        "data": {
+          "token": "mock-taohua-token"
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

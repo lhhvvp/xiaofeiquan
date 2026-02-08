@@ -1,0 +1,41 @@
+{
+  "id": "p0-stub-window-post-window-ticket-list-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "window",
+    "controller": "Ticket",
+    "action": "list",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/window/ticket/list",
+    "query": {},
+    "headers": {
+      "Token": "${WINDOW_TOKEN}",
+      "Uuid": "${WINDOW_UUID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "PCFkb2N0eXBlIGh0bWw+PGh0bWwgbGFuZz0iIj48aGVhZD48bWV0YSBjaGFyc2V0PSJ1dGYtOCI+PG1ldGEgaHR0cC1lcXVpdj0iWC1VQS1Db21wYXRpYmxlIiBjb250ZW50PSJJRT1lZGdlIj48bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLGluaXRpYWwtc2NhbGU9MSI+PGxpbmsgcmVsPSJpY29uIiBocmVmPSIvd2luZG93L2Zhdmljb24uaWNvIj48dGl0bGU+dGlja2V0PC90aXRsZT48c2NyaXB0IGRlZmVyPSJkZWZlciIgc3JjPSIvd2luZG93L2pzL2NodW5rLXZlbmRvcnMuOWIyNzM4MzguanMiPjwvc2NyaXB0PjxzY3JpcHQgZGVmZXI9ImRlZmVyIiBzcmM9Ii93aW5kb3cvanMvYXBwLmQ1NGJmOWFiLmpzIj48L3NjcmlwdD48bGluayBocmVmPSIvd2luZG93L2Nzcy9jaHVuay12ZW5kb3JzLjQ3NzFlM2ZiLmNzcyIgcmVsPSJzdHlsZXNoZWV0Ij48bGluayBocmVmPSIvd2luZG93L2Nzcy9hcHAuMzE2YjAyMDkuY3NzIiByZWw9InN0eWxlc2hlZXQiPjwvaGVhZD48Ym9keT48bm9zY3JpcHQ+PHN0cm9uZz5XZSdyZSBzb3JyeSBidXQgdGlja2V0IGRvZXNuJ3Qgd29yayBwcm9wZXJseSB3aXRob3V0IEphdmFTY3JpcHQgZW5hYmxlZC4gUGxlYXNlIGVuYWJsZSBpdCB0byBjb250aW51ZS48L3N0cm9uZz48L25vc2NyaXB0PjxkaXYgaWQ9ImFwcCI+PC9kaXY+PC9ib2R5PjxzdHlsZT5ib2R5ewogICAgICAgICAgICBtaW4td2lkdGg6IDE0MDBweDsKICAgICAgICB9PC9zdHlsZT48L2h0bWw+"
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

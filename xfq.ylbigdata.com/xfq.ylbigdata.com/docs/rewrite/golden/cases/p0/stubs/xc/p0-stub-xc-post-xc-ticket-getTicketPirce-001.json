@@ -1,0 +1,52 @@
+{
+  "id": "p0-stub-xc-post-xc-ticket-getTicketPirce-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "xc",
+    "controller": "Ticket",
+    "action": "getTicketPirce",
+    "notes": "stub：xc 验签/AES 失败用例（body 解密错误），用于锁定错误码/返回结构。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/xc/ticket/getTicketPirce",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "json",
+      "json": {
+        "header": {
+          "accountId": "INVALID",
+          "serviceName": "getTicketPirce",
+          "requestTime": "19700101000000",
+          "version": "1.0",
+          "sign": "invalid"
+        },
+        "body": "invalid"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "header": {
+          "resultCode": "0001",
+          "resultMessage": "报文解析失败:body解密错误"
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

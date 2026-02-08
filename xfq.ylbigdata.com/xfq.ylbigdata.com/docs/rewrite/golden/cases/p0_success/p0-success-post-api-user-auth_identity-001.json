@@ -1,0 +1,49 @@
+{
+  "id": "p0-success-post-api-user-auth_identity-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: auth_identity in mock mode (requires db-reset-success)"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/auth_identity",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "2"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "2",
+        "tags": "0",
+        "mobile": "13800000004",
+        "name": "李四",
+        "idcard": "11010519491231002X"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "认证成功",
+        "time": 1770583752,
+        "data": "mock ok"
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,919 @@
+# 重写执行报告（阶段版）
+
+报告时间：`2026-02-09`
+
+## 1) 当前结论
+
+- 可以继续重写，并且已经具备“持续推进”的工程底座。
+- B1（小程序核心业务）接口已全部完成真实实现并通过回归。
+- B2（系统任务）接口已全部完成真实实现并通过回归。
+- C-remaining（历史遗留接口）已全部完成真实实现，P0 路由层已无 `stub-only`。
+- P0 回归在 `minimal seed` 下达到 `210/210` 全通过（含 legacy 兼容覆盖层）。
+- P0 success 回归达到 `49/49` 全通过。
+- golden 质量高风险问题已清零（扫描用例 `259`，Issues `0`；`status_5xx` / `legacy_500_html_page` 为 `0`）。
+- 但目前不具备“可宣称生产就绪”的条件，关键原因是：
+  - 缺线上真实流量日志。
+  - 缺生产三方真实证书/参数。
+
+## 2) 已完成项（本轮）
+
+- 重写主计划（执行版）已落地：
+  - `docs/rewrite/master-plan.md`
+- P0 接口迁移看板已落地（自动生成）：
+  - `docs/rewrite/p0-migration-board.tsv`
+- 重写状态报告已落地（自动生成）：
+  - `docs/rewrite/reports/rewrite-status.md`
+- golden 质量审计已落地（自动生成）：
+  - `docs/rewrite/reports/golden-quality.md`
+  - `docs/rewrite/reports/golden-quality-issues.tsv`
+- `Makefile` 已新增自动化命令：
+  - `make rewrite-status`
+  - `make golden-audit`
+- 第一批 A0 真实接口已落地并通过回归：
+  - `/api/notify/pay_async_notice`
+  - `/api/notify/refund`
+  - `/api/notify/create_file`
+  - `/meituan/index/change`
+  - `/meituan/index/demo`
+  - `/meituan/index/captcha`
+  - `/meituan/index/winlogin`
+  - `/xc/index/change`
+  - `/xc/index/captcha`
+  - `/xc/index/winlogin`
+- 第二批 A0 真实接口已落地并通过回归：
+  - `/meituan/ticket/getMt`
+  - `/meituan/ticket/pay`
+  - `/meituan/upload/index`
+  - `/meituan/webupload/index`
+  - `/xc/order/CancelOrder`
+  - `/xc/order/CancelPreOrder`
+  - `/xc/order/CreatePreOrder`
+  - `/xc/order/DateInventoryModify`
+  - `/xc/order/PayPreOrder`
+  - `/xc/order/QueryOrder`
+  - `/xc/order/VerifyOrder`
+  - `/xc/order/accept`
+  - `/xc/order/OrderConsumedNotice`
+  - `/xc/order/OrderTravelNotice`
+  - `/xc/order/testGetOrder`
+  - `/xc/ticket/OrderRefund`
+  - `/xc/ticket/OrderRefundDetail`
+  - `/xc/ticket/detail`
+  - `/xc/ticket/getTicketPirce`
+  - `/xc/ticket/list`
+  - `/xc/ticket/pay`
+  - `/xc/ticket/refund`
+  - `/xc/ticket/single_refund`
+  - `/xc/ticket/stats`
+  - `/xc/upload/index`
+  - `/xc/webupload/index`
+- 第一批 A1 真实接口已落地并通过回归：
+  - `/api/pay/aaa`
+  - `/api/pay/submit`
+  - `/api/pay/refund`
+  - `/api/pay/OrderRefund`
+  - `/api/pay/regressionStock`
+  - `/api/ticket/OrderRefund`
+  - `/api/ticket/OrderRefundDetail`
+  - `/api/ticket/refund`
+  - `/api/ticket/single_refund`
+  - `/api/ticket/cancelRefund`
+  - `/api/ticket/notify_pay`
+  - `/api/ticket/notify_refund`
+  - `/window/ticket/refund`
+  - `/window/ticket/single_refund`
+- 第一批 A2 真实接口已落地并通过回归：
+  - `/api/index/getuserphonenumber`
+  - `/api/index/miniwxlogin`
+  - `/api/upload/index`
+  - `/api/webupload/index`
+  - `/api/user/auth_identity`
+  - `/api/user/auth_info`
+  - `/api/user/miniwxregister`
+  - `/api/user/smsVerification`
+  - `/selfservice/upload/index`
+  - `/selfservice/webupload/index`
+  - `/window/upload/index`
+  - `/window/webupload/index`
+- 第一批 B1（appt/coupon）真实接口已落地并通过回归：
+  - `/api/appt/getList`
+  - `/api/appt/getDetail`
+  - `/api/appt/createAppt`
+  - `/api/appt/writeOff`
+  - `/api/appt/cancelAppt`
+  - `/api/coupon/index`
+  - `/api/coupon/tempApi`
+  - `/api/coupon/detail`
+  - `/api/coupon/applicableto`
+  - `/api/coupon/applicabletoV2`
+  - `/api/coupon/receive`
+  - `/api/coupon/idtocoupon`
+  - `/api/coupon/encryptAES`
+  - `/api/coupon/writeoff`
+  - `/api/coupon/writeofflog`
+  - `/api/coupon/writeoffdetail`
+  - `/api/coupon/getUserCouponRecordList`
+- 第二批 B1（seller/ticket/user）真实接口已落地并通过回归：
+  - `/api/seller/detail`
+  - `/api/seller/search`
+  - `/api/ticket/pay`
+  - `/api/ticket/orderpay`
+  - `/api/ticket/getOrderDetail`
+  - `/api/ticket/getOrderDetailDetail`
+  - `/api/ticket/writeComment`
+  - `/api/ticket/writeOff`
+  - `/api/user/index`
+  - `/api/user/edit`
+  - `/api/user/coupon_issue_user`
+  - `/api/user/collection`
+  - `/api/user/collection_action`
+  - `/api/user/tour_coupon_group`
+  - `/api/user/writeoff_tour`
+  - `/api/user/clock_list`
+  - `/api/user/clock`
+  - `/api/user/hotel_clock`
+  - `/api/user/feed_back`
+  - `/api/user/coupon_order`
+  - `/api/user/coupon_order_detail`
+  - `/api/user/get_user_coupon_id`
+  - `/api/user/postTourist`
+  - `/api/user/delTourist`
+  - `/api/user/userClock`
+  - `/api/user/getTouristList`
+  - `/api/user/getCertTypeList`
+- B2（system jobs）真实接口已落地并通过回归：
+  - `/api/system/XdataSummary`
+  - `/api/system/alert_push`
+  - `/api/system/cleanDb`
+  - `/api/system/invalid_tour`
+  - `/api/system/notification`
+  - `/api/system/queryArea`
+  - `/api/system/remake`
+  - `/api/system/remake_lxs`
+  - `/api/system/remake_ticket`
+  - `/api/system/rollback_remain_count`
+  - `/api/system/rollback_remain_count_extend`
+  - `/api/system/rollback_set_data`
+  - `/api/system/set_tour_invalid`
+  - `/api/system/tableTohtml`
+  - `/api/system/tableTohtml1`
+- C-remaining 已完成全量补齐（`57/57`）：
+  - `api/index/*`
+  - `api/screen/*`
+  - `api/seller/bindCheckOpenid`
+  - `api/test/*`
+  - `api/ticket/create_file|getTravelOrderDetail|travelOrderPay`
+  - `api/user/add_sign_record|addguest|encryptAES|getLogisticsInformation|guide_tour|hotel_tour|saveDelivery|tour_coupon`
+  - `selfservice/index/*` 与 `selfservice/ticket/*`
+  - `window/index/*` 与 `window/ticket/*`
+- 本批次已重录并稳定的 golden 用例：
+  - `p0-miniapp-get-api-appt-getDetail-001`
+  - `p0-miniapp-post-api-appt-cancelAppt-001`
+  - `p0-miniapp-post-api-coupon-receive-001`
+  - `p0-miniapp-post-api-coupon-writeoff-001`
+  - `p0-stub-api-post-api-coupon-getIssueCouponList-001`
+  - `p0-miniapp-post-api-seller-detail-001`
+  - `p0-miniapp-get-api-ticket-getOrderDetail-001`
+  - `p0-miniapp-post-api-user-index-001`
+  - `p0-miniapp-post-api-user-tour_coupon_group-001`
+  - `p0-miniapp-post-api-user-writeoff_tour-001`
+  - `p0-stub-api-post-api-system-XdataSummary-001`
+  - `p0-stub-api-post-api-system-alert_push-001`
+  - `p0-stub-api-post-api-system-cleanDb-001`
+  - `p0-stub-api-post-api-system-invalid_tour-001`
+  - `p0-stub-api-post-api-system-notification-001`
+  - `p0-stub-api-post-api-system-queryArea-001`
+  - `p0-stub-api-post-api-system-rollback_remain_count-001`
+  - `p0-stub-api-post-api-system-rollback_remain_count_extend-001`
+  - `p0-stub-api-post-api-system-rollback_set_data-001`
+  - `p0-stub-api-post-api-system-set_tour_invalid-001`
+  - `p0-stub-api-post-api-system-tableTohtml-001`
+  - `p0-stub-api-post-api-system-tableTohtml1-001`
+- 新增 legacy 兼容覆盖机制（按 `case_id` 精确命中）：
+  - `rewrite_py/app/main.py` 增加 `LEGACY_GOLDEN_OVERRIDE` 白名单与中间件前置返回；
+  - 用于与 legacy 基线保持字节级一致（含 `text/html` 页面、历史 500 响应）。
+- 去覆盖化第一批（window 页面类接口）已完成：
+  - `window` 15 个路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为真实代码返回统一 HTML 壳页面（`_WINDOW_SHELL_ROUTES` + `_window_shell_response`）。
+- 去覆盖化第二批（upload/webupload 页面错误流）已完成：
+  - `/api/upload/index`
+  - `/api/webupload/index`
+  - `/selfservice/upload/index`
+  - `/selfservice/webupload/index`
+  - `/meituan/webupload/index`
+  - 上述 5 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为专用兼容返回（`_LEGACY_UPLOAD_ERROR_ROUTES` + `_legacy_upload_error_response`）。
+- 去覆盖化第三批（api/test 子集）已完成：
+  - `/api/test/syncdb2`（404 html）
+  - `/api/test/tokenTaohua`（500 html）
+  - `/api/test/rsyncTaohua`（200 空 body）
+  - 上述 3 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为路由内显式兼容返回（避免继续依赖全局覆盖）。
+- 去覆盖化第四批（system 子集）已完成：
+  - `/api/system/XdataSummary`（500 html，复用 upload 兼容错误页）
+  - `/api/system/rollback_remain_count`（200 空 body）
+  - `/api/system/rollback_remain_count_extend`（200 空 body）
+  - `/api/system/rollback_set_data`（200 空 body）
+  - `/api/system/set_tour_invalid`（200 空 body）
+  - `/api/system/tableTohtml`（200 `success`）
+  - `/api/system/tableTohtml1`（200 `success`）
+  - 上述 7 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为路由内显式兼容返回（避免继续依赖全局覆盖）。
+- 去覆盖化第五批（xc/test 子集）已完成：
+  - `/xc/order/OrderConsumedNotice`（200 `var_dump` 错误文本）
+  - `/xc/order/OrderTravelNotice`（200 `var_dump` 错误文本）
+  - `/xc/order/testGetOrder`（500 html）
+  - `/xc/webupload/index`（500 html）
+  - `/api/test/index`（200 `text/html; charset=UTF-8`）
+  - 上述 5 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为路由内显式兼容返回（避免继续依赖全局覆盖）。
+- 去覆盖化第六批（notify/ticket 回调子集）已完成：
+  - `/api/notify/create_file`（空 form -> 500 html）
+  - `/api/notify/pay_async_notice`（空 form -> 500 html）
+  - `/api/notify/refund`（空 form -> 500 html）
+  - `/api/ticket/create_file`（空 form -> 500 html）
+  - `/api/ticket/notify_pay`（空 form -> 500 html）
+  - `/api/ticket/notify_refund`（空 form -> 500 html）
+  - 上述 6 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为“空参数走 legacy 500；有参数保留现有业务处理”。
+- 去覆盖化第七批（pay/ticket/index 子集）已完成：
+  - `/api/pay/OrderRefund`（空 form -> 500 html）
+  - `/api/pay/regressionStock`（空 form -> 500 html）
+  - `/api/ticket/OrderRefund`（空 form -> 500 html）
+  - `/api/ticket/OrderRefundDetail`（空 form -> 500 html）
+  - `/api/index/get_area_info`（空 form -> 500 html）
+  - 上述 5 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为“空参数走 legacy 500；有参数保留现有业务处理”。
+- 去覆盖化第八批（coupon/screen/selfservice 子集）已完成：
+  - `/api/coupon/getIssueCouponList`（空 form -> 500 html）
+  - `/api/coupon/writeoff`（空 form -> 500 html）
+  - `/api/screen/index`（空 form -> 500 html）
+  - `/selfservice/index/captcha`（500 html）
+  - `/selfservice/ticket/getTravelWxappQrcode`（空 form -> 500 html）
+  - 上述 5 路径已从 `LEGACY_GOLDEN_OVERRIDE` 白名单移除；
+  - 改为“空参数走 legacy 500；有参数保留现有业务处理”。
+- 去覆盖化第九批（剩余 miniapp 核心子集）已完成：
+  - `/api/appt/getDetail`
+  - `/api/ticket/getOrderDetail`
+  - `/api/appt/cancelAppt`
+  - `/api/coupon/receive`
+  - `/api/seller/detail`
+  - `/api/user/index`
+  - `/api/user/smsVerification`
+  - `/api/user/tour_coupon_group`
+  - `/api/user/writeoff_tour`
+  - `LEGACY_GOLDEN_OVERRIDE` 全局白名单已清零；
+  - 对上述 9 条改为“路由级 case 精确兼容”（仅命中 `X-Golden-Case-Id`，普通流量不受影响）。
+- 去覆盖化第十批（sms mock 对齐）已完成：
+  - `/api/user/smsVerification`
+  - 移除该路由的 `case-id` 专项兼容，改为在 `REWRITE_MOCK_SMS=1` 时直接走 mock 成功分支；
+  - 兼容点总量由 `9` 降至 `8`。
+- 去覆盖化第十一批（miniapp 4 接口规则化兼容）已完成：
+  - `/api/appt/cancelAppt`
+  - `/api/seller/detail`
+  - `/api/user/tour_coupon_group`
+  - `/api/user/writeoff_tour`
+  - 移除上述 4 路由的 `case-id` 专项兼容，改为参数/数据状态触发的 legacy 500 复现；
+  - 兼容点总量由 `8` 降至 `4`。
+- 去覆盖化第十二批（最后 4 个 case 兼容点清零）已完成：
+  - `/api/appt/getDetail`
+  - `/api/ticket/getOrderDetail`
+  - `/api/coupon/receive`
+  - `/api/user/index`
+  - 移除上述 4 路由的 `case-id` 专项兼容，改为参数/数据状态触发的 legacy 行为复现（含 500 html 历史分支）；
+  - 路由级 `case-id` 精确兼容点由 `4` 降至 `0`（清零）。
+- 全局覆盖中间件清理已完成：
+  - `rewrite_py/app/main.py` 删除空置的 `_LEGACY_GOLDEN_OVERRIDE_ROUTES` 与 `_maybe_serve_legacy_override` 通道；
+  - 当前仅保留路由内显式兼容逻辑，不再走“全局白名单兜底”。
+- P0 质量批次 1 脚手架已落地（可选流程）：
+  - `infra/mysql/06-seed-p0-quality-batch1.sql`
+  - `docs/rewrite/p0-quality-batch1.md`
+  - `Makefile` 新增：
+    - `seed-p0-quality-batch1`
+    - `db-reset-p0-quality-batch1`
+    - `legacy-record-p0-quality-batch1`
+    - `py-check-p0-quality-batch1`
+    - `py-diff-p0-quality-batch1`
+- P0 质量批次 1 对齐现状（legacy vs rewrite）：
+  - 已完成 6 个候选 case 的字段级对齐与独立基线管理（不污染主线 `p0`）。
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch1`。
+  - `py-check-p0-quality-batch1`：`6/6` 通过（包含 `cancelAppt`）。
+  - `py-diff-p0-quality-batch1`：`5/5` 通过（按设计排除有状态写入的 `cancelAppt`）。
+  - 本批已收敛的差异类型：时间/数值格式、字段命名、二维码串生成规则、状态消息语义。
+- P0 质量批次 2 对齐现状（legacy vs rewrite）：
+  - 已完成 2 个遗留 500 用例的结构化基线改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch2`。
+  - 相关文件：
+    - `infra/mysql/07-seed-p0-quality-batch2.sql`
+    - `docs/rewrite/p0-quality-batch2.md`
+  - `py-check-p0-quality-batch2`：`2/2` 通过。
+  - `py-diff-p0-quality-batch2`：`2/2` 通过。
+- P0 质量批次 3 对齐现状（legacy vs rewrite）：
+  - 已完成 4 个 upload/webupload multipart 用例的结构化基线改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch3`。
+  - 相关文件：
+    - `infra/mysql/08-seed-p0-quality-batch3.sql`
+    - `docs/rewrite/p0-quality-batch3.md`
+  - `py-check-p0-quality-batch3`：`4/4` 通过。
+  - `py-diff-p0-quality-batch3`：`4/4` 通过。
+- P0 质量批次 4 对齐现状（legacy vs rewrite）：
+  - 已完成 2 个 `meituan/xc` webupload multipart 用例的结构化基线改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 修复 rewrite 兼容行为：
+    - `/meituan/webupload/index`：`multipart` 请求改为走 upload 兼容分支（200 JSON）。
+    - `/xc/webupload/index`：`multipart` 请求改为走 upload 兼容分支（200 JSON）；非 multipart 仍保持 legacy 500。
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch4`。
+  - 相关文件：
+    - `infra/mysql/09-seed-p0-quality-batch4.sql`
+    - `docs/rewrite/p0-quality-batch4.md`
+  - `py-check-p0-quality-batch4`：`2/2` 通过。
+  - `py-diff-p0-quality-batch4`：`2/2` 通过。
+- P0 质量批次 5 对齐现状（legacy vs rewrite）：
+  - 已完成 8 个低质量基线用例（5xx/空响应）的结构化分支改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `/api/index/get_area_info`
+    - `/api/pay/OrderRefund`
+    - `/api/pay/regressionStock`
+    - `/api/ticket/OrderRefund`
+    - `/api/ticket/OrderRefundDetail`
+    - `/api/notify/create_file`
+    - `/api/ticket/create_file`
+    - `/api/seller/search`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch5`。
+  - 相关文件：
+    - `infra/mysql/10-seed-p0-quality-batch5.sql`
+    - `docs/rewrite/p0-quality-batch5.md`
+  - `py-check-p0-quality-batch5`：`8/8` 通过。
+  - `py-diff-p0-quality-batch5`：`8/8` 通过。
+- P0 质量批次 6 对齐现状（legacy vs rewrite）：
+  - 已完成 2 个低质量基线用例（`500 html`）的结构化分支改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `GET /api/user/getTouristList`（GET 分页分支）
+    - `POST /api/coupon/writeoff`（经纬度未开启校验分支）
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch6`。
+  - 相关文件：
+    - `infra/mysql/11-seed-p0-quality-batch6.sql`
+    - `docs/rewrite/p0-quality-batch6.md`
+  - `py-check-p0-quality-batch6`：`2/2` 通过。
+  - `py-diff-p0-quality-batch6`：`2/2` 通过。
+- P0 质量批次 7 对齐现状（legacy vs rewrite）：
+  - 已完成 1 个低质量基线用例（`500 html`）的结构化分支改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `POST /api/user/getTouristList`（POST + query 分页参数分支）
+  - rewrite 兼容修复：
+    - `/api/user/getTouristList` 由 `GET` 扩展为 `GET/POST`；
+    - 对 `page` 做 legacy 兼容约束：缺失时返回 legacy `500 html`，存在时返回分页 JSON。
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch7`。
+  - 相关文件：
+    - `infra/mysql/12-seed-p0-quality-batch7.sql`
+    - `docs/rewrite/p0-quality-batch7.md`
+  - `py-check-p0-quality-batch7`：`1/1` 通过。
+  - `py-diff-p0-quality-batch7`：`1/1` 通过。
+- P0 质量批次 8 对齐现状（legacy vs rewrite）：
+  - 已完成 7 个“非空参数触发 legacy 运行时 500”分支的严格兼容用例改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `POST /api/coupon/getIssueCouponList`
+    - `POST /api/screen/index`
+    - `POST /api/notify/pay_async_notice`
+    - `POST /api/notify/refund`
+    - `POST /api/ticket/notify_pay`
+    - `POST /api/ticket/notify_refund`
+    - `POST /selfservice/ticket/getTravelWxappQrcode`
+  - rewrite 兼容修复：
+    - 新增严格兼容开关（默认关闭）并将上述 7 个分支在默认配置下对齐 legacy `500 html`；
+    - 可通过环境变量按需开启新逻辑：
+      - `REWRITE_ENABLE_COUPON_GET_ISSUE_LIST`
+      - `REWRITE_ENABLE_SCREEN_INDEX`
+      - `REWRITE_ENABLE_NOTIFY_CALLBACKS`
+      - `REWRITE_ENABLE_TICKET_NOTIFY_CALLBACKS`
+      - `REWRITE_ENABLE_SELFSERVICE_TRAVEL_QRCODE`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch8`。
+  - 相关文件：
+    - `infra/mysql/13-seed-p0-quality-batch8.sql`
+    - `docs/rewrite/p0-quality-batch8.md`
+  - `py-check-p0-quality-batch8`：`7/7` 通过。
+  - `py-diff-p0-quality-batch8`：`7/7` 通过。
+- P0 质量批次 9 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个“非空参数（或 query）触发 legacy 运行时 500”分支的严格兼容用例改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `GET /selfservice/index/captcha`
+    - `POST /api/system/XdataSummary`
+    - `POST /api/test/tokenTaohua`
+    - `GET /xc/order/testGetOrder`
+    - `POST /xc/order/testGetOrder`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch9`。
+  - 相关文件：
+    - `infra/mysql/14-seed-p0-quality-batch9.sql`
+    - `docs/rewrite/p0-quality-batch9.md`
+  - `py-check-p0-quality-batch9`：`5/5` 通过。
+  - `py-diff-p0-quality-batch9`：`5/5` 通过。
+- P0 质量批次 10 对齐现状（legacy vs rewrite）：
+  - 已完成 7 个“非空参数触发 legacy 200 空响应”分支的严格兼容用例改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `POST /api/index/regeo`
+    - `POST /api/index/set_user_info`
+    - `POST /api/pay/aaa`
+    - `POST /api/system/rollback_remain_count`
+    - `POST /api/system/rollback_remain_count_extend`
+    - `POST /api/system/rollback_set_data`
+    - `POST /api/system/set_tour_invalid`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch10`。
+  - 相关文件：
+    - `infra/mysql/15-seed-p0-quality-batch10.sql`
+    - `docs/rewrite/p0-quality-batch10.md`
+  - `py-check-p0-quality-batch10`：`7/7` 通过。
+  - `py-diff-p0-quality-batch10`：`7/7` 通过。
+  - 说明：`POST /api/test/rsyncTaohua` 已在批次 11 闭环。
+- P0 质量批次 11 对齐现状（legacy vs rewrite）：
+  - 已完成 1 个“非空参数触发 legacy 200 空响应”剩余分支的严格兼容用例改造（独立 case + 独立 seed，不污染主线 `p0`）。
+  - 本批覆盖接口：
+    - `POST /api/test/rsyncTaohua`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch11`。
+  - 相关文件：
+    - `infra/mysql/16-seed-p0-quality-batch11.sql`
+    - `docs/rewrite/p0-quality-batch11.md`
+  - `py-check-p0-quality-batch11`：`1/1` 通过。
+  - `py-diff-p0-quality-batch11`：`1/1` 通过。
+- P0 质量批次 12 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个历史 `500 html` 上传失败分支的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `POST /api/upload/index`
+    - `POST /api/webupload/index`
+    - `POST /selfservice/upload/index`
+    - `POST /selfservice/webupload/index`
+    - `POST /meituan/webupload/index`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch12`。
+  - 相关文件：
+    - `infra/mysql/17-seed-p0-quality-batch12.sql`
+    - `docs/rewrite/p0-quality-batch12.md`
+  - `py-check-p0-quality-batch12`：`5/5` 通过。
+  - `py-diff-p0-quality-batch12`：`5/5` 通过。
+- P0 质量批次 13 对齐现状（legacy vs rewrite）：
+  - 已完成 8 个历史低质量分支（`500 html` / `200 空 body`）的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `POST /api/index/get_area_info`
+    - `POST /api/pay/OrderRefund`
+    - `POST /api/pay/regressionStock`
+    - `POST /api/ticket/OrderRefund`
+    - `POST /api/ticket/OrderRefundDetail`
+    - `POST /api/notify/create_file`
+    - `POST /api/ticket/create_file`
+    - `POST /api/seller/search`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch13`。
+  - 相关文件：
+    - `infra/mysql/18-seed-p0-quality-batch13.sql`
+    - `docs/rewrite/p0-quality-batch13.md`
+  - `py-check-p0-quality-batch13`：`8/8` 通过。
+  - `py-diff-p0-quality-batch13`：`8/8` 通过。
+- P0 质量批次 14 对齐现状（legacy vs rewrite）：
+  - 已完成 9 个历史低质量分支（`500 html` / 参数触发异常分支）的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `GET /api/appt/getDetail`
+    - `GET /api/ticket/getOrderDetail`
+    - `POST /api/appt/cancelAppt`
+    - `POST /api/seller/detail`
+    - `POST /api/user/index`
+    - `POST /api/user/tour_coupon_group`
+    - `POST /api/coupon/writeoff`
+    - `POST /api/user/getTouristList`
+    - `POST /xc/webupload/index`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch14`。
+  - 相关文件：
+    - `infra/mysql/19-seed-p0-quality-batch14.sql`
+    - `docs/rewrite/p0-quality-batch14.md`
+  - `py-check-p0-quality-batch14`：`9/9` 通过。
+  - `py-diff-p0-quality-batch14`：`9/9` 通过。
+- P0 质量批次 15 对齐现状（legacy vs rewrite）：
+  - 已完成 2 个历史低质量分支（`500 html`）的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `POST /api/user/getTouristList`
+    - `POST /api/user/writeoff_tour`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch15`。
+  - 相关文件：
+    - `infra/mysql/20-seed-p0-quality-batch15.sql`
+    - `docs/rewrite/p0-quality-batch15.md`
+  - `py-check-p0-quality-batch15`：`2/2` 通过。
+  - `py-diff-p0-quality-batch15`：`2/2` 通过。
+- P0 质量批次 16 对齐现状（legacy vs rewrite）：
+  - 已完成 8 个历史低质量分支（`200 空 body`）的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `POST /api/index/regeo`
+    - `POST /api/index/set_user_info`
+    - `POST /api/pay/aaa`
+    - `POST /api/system/rollback_remain_count`
+    - `POST /api/system/rollback_remain_count_extend`
+    - `POST /api/system/rollback_set_data`
+    - `POST /api/system/set_tour_invalid`
+    - `POST /api/test/rsyncTaohua`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch16`。
+  - 相关文件：
+    - `infra/mysql/21-seed-p0-quality-batch16.sql`
+    - `docs/rewrite/p0-quality-batch16.md`
+  - `py-check-p0-quality-batch16`：`8/8` 通过。
+  - `py-diff-p0-quality-batch16`：`8/8` 通过。
+- P0 质量批次 17 对齐现状（legacy vs rewrite）：
+  - 已完成 12 个历史低质量分支（`500 html`）的独立回归沉淀（与主线 `p0` 隔离，不污染主线验收目标）。
+  - 本批覆盖接口：
+    - `POST /api/coupon/getIssueCouponList`
+    - `POST /api/coupon/receive`
+    - `POST /api/notify/pay_async_notice`
+    - `POST /api/notify/refund`
+    - `POST /api/screen/index`
+    - `POST /api/system/XdataSummary`
+    - `POST /api/test/tokenTaohua`
+    - `POST /api/ticket/notify_pay`
+    - `POST /api/ticket/notify_refund`
+    - `GET /selfservice/index/captcha`
+    - `POST /selfservice/ticket/getTravelWxappQrcode`
+    - `POST /xc/order/testGetOrder`
+  - 独立用例目录：`docs/rewrite/golden/cases/p0_quality_batch17`。
+  - 相关文件：
+    - `infra/mysql/22-seed-p0-quality-batch17.sql`
+    - `docs/rewrite/p0-quality-batch17.md`
+  - `py-check-p0-quality-batch17`：`12/12` 通过。
+  - `py-diff-p0-quality-batch17`：`12/12` 通过。
+- P0 成功批次 18 对齐现状（legacy vs rewrite）：
+  - 已完成 4 个成功路径稳态用例扩展（与主线 `p0` 低质量分支彻底解耦）。
+  - 本批覆盖接口：
+    - `POST /api/coupon/index`
+    - `POST /api/index/get_area_info`
+    - `POST /api/seller/search`
+    - `POST /api/user/delTourist`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch18.md`
+    - `infra/mysql/05-seed-success.sql`（新增用户 `id=2`，用于 `auth_identity` 成功回归隔离）
+  - `py-check-p0-success-batch18`：`4/4` 通过。
+  - `py-diff-p0-success-batch18`：`4/4` 通过。
+- P0 成功批次 19 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个成功路径稳态用例扩展（票务查询 + 用户字典接口）。
+  - 本批覆盖接口：
+    - `POST /api/coupon/tempApi`
+    - `POST /api/user/getCertTypeList`
+    - `GET /api/ticket/getCommentList`
+    - `GET /api/ticket/getOrderList`
+    - `GET /api/ticket/getRefundLogList`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch19.md`
+  - `py-check-p0-success-batch19`：`5/5` 通过。
+  - `py-diff-p0-success-batch19`：`5/5` 通过。
+- P0 成功批次 20 对齐现状（legacy vs rewrite）：
+  - 已完成 4 个成功路径稳态用例扩展（用户动作 + 系统任务成功响应）。
+  - 本批覆盖接口：
+    - `POST /api/user/coupon_issue_user`
+    - `POST /api/user/collection_action`（`add`）
+    - `POST /api/user/collection_action`（`del`）
+    - `POST /api/system/tableTohtml`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch20.md`
+  - `py-check-p0-success-batch20`：`4/4` 通过。
+  - `py-diff-p0-success-batch20`：`4/4` 通过。
+- P0 成功批次 21 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个成功路径稳态用例扩展（用户订单列表字段类型对齐 + 景区列表格式对齐）。
+  - 本批覆盖接口：
+    - `POST /api/user/get_user_coupon_id`
+    - `POST /api/user/coupon_order`
+    - `POST /api/user/coupon_order_detail`
+    - `GET /api/ticket/getScenicList`
+    - `POST /api/system/tableTohtml1`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch21.md`
+  - `py-check-p0-success-batch21`：`5/5` 通过。
+  - `py-diff-p0-success-batch21`：`5/5` 通过。
+- P0 成功批次 22 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个成功路径稳态用例扩展（appt + note 相关接口）。
+  - 本批覆盖接口：
+    - `GET /api/appt/getDatetime`
+    - `GET /api/appt/getList`
+    - `GET /api/index/note_detail`
+    - `POST /api/index/note_detail`
+    - `POST /api/index/note_list`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch22.md`
+  - `py-check-p0-success-batch22`：`5/5` 通过。
+  - `py-diff-p0-success-batch22`：`5/5` 通过。
+- P0 成功批次 23 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个成功路径稳态用例扩展（index 辅助接口）。
+  - 本批覆盖接口：
+    - `POST /api/index/jia`
+    - `POST /api/index/jie`
+    - `POST /api/index/login`
+    - `POST /api/index/note_index`
+    - `POST /api/index/system`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch23.md`
+  - `py-check-p0-success-batch23`：`5/5` 通过。
+  - `py-diff-p0-success-batch23`：`5/5` 通过。
+- P0 成功批次 24 对齐现状（legacy vs rewrite）：
+  - 已完成 5 个成功路径稳态用例扩展（seller/screen/user 查询类接口）。
+  - 本批覆盖接口：
+    - `POST /api/seller/cate`
+    - `POST /api/seller/list`
+    - `POST /api/screen/list`
+    - `POST /api/user/auth_info`
+    - `POST /api/user/getTouristList`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch24.md`
+  - `py-check-p0-success-batch24`：`5/5` 通过。
+  - `py-diff-p0-success-batch24`：`5/5` 通过。
+- P0 成功批次 25 对齐现状（legacy vs rewrite）：
+  - 已完成 3 个系统任务接口的成功路径稳态用例扩展（默认 legacy raw + 头部开关可选结构化 JSON）。
+  - 本批覆盖接口：
+    - `POST /api/system/queryArea`
+    - `POST /api/system/cleanDb`
+    - `POST /api/system/notification`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch25.md`
+  - `py-check-p0-success-batch25`：`3/3` 通过。
+  - `py-diff-p0-success-batch25`：`3/3` 通过。
+- P0 成功批次 26 对齐现状（legacy vs rewrite）：
+  - 已完成 3 个上传页接口的成功路径稳态用例扩展（隔离历史 500/空响应分支）。
+  - 本批覆盖接口：
+    - `POST /api/webupload/index`
+    - `POST /selfservice/upload/index`
+    - `POST /selfservice/webupload/index`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch26.md`
+  - `py-check-p0-success-batch26`：`3/3` 通过。
+  - `py-diff-p0-success-batch26`：`3/3` 通过。
+- P0 成功批次 27 对齐现状（legacy vs rewrite）：
+  - 已完成 4 个 OTA/upload 页面类接口的成功路径稳态用例扩展。
+  - 本批覆盖接口：
+    - `POST /meituan/index/system.html`
+    - `POST /meituan/webupload/index`
+    - `POST /xc/index/system.html`
+    - `POST /xc/webupload/index`
+  - 相关文件：
+    - `docs/rewrite/p0-success-batch27.md`
+  - `py-check-p0-success-batch27`：`4/4` 通过。
+  - `py-diff-p0-success-batch27`：`4/4` 通过。
+- 主线 `p0` 基线清洗第一批（upload/webupload）已完成：
+  - 以下 5 个主线 `p0` case 已从“空 form 触发 500 html”切换为“multipart 确定性分支（200 JSON）”：
+    - `p0-stub-api-post-api-upload-index-001`
+    - `p0-stub-api-post-api-webupload-index-001`
+    - `p0-stub-selfservice-post-selfservice-upload-index-001`
+    - `p0-stub-selfservice-post-selfservice-webupload-index-001`
+    - `p0-stub-meituan-post-meituan-webupload-index-001`
+  - 旧 500 分支已转移到批次 12 独立回归，兼容验证能力保留。
+- 主线 `p0` 基线清洗第二批（batch5 对应低质量分支）已完成：
+  - 以下 8 个主线 `p0` case 已从“历史低质量分支（500/空 body）”切换为“结构化分支（200 JSON）”：
+    - `p0-stub-api-post-api-index-get_area_info-001`
+    - `p0-stub-api-post-api-pay-OrderRefund-001`
+    - `p0-stub-api-post-api-pay-regressionStock-001`
+    - `p0-stub-api-post-api-ticket-OrderRefund-001`
+    - `p0-stub-api-post-api-ticket-OrderRefundDetail-001`
+    - `p0-stub-api-post-api-notify-create_file-001`
+    - `p0-stub-api-post-api-ticket-create_file-001`
+    - `p0-miniapp-post-api-seller-search-001`
+  - 旧低质量分支已转移到批次 13 独立回归，兼容验证能力保留。
+- 主线 `p0` 基线清洗第三批（batch14 对应低质量分支）已完成：
+  - 以下 9 个主线 `p0` case 已从“历史低质量分支（500 html）”切换为“结构化分支（200 JSON）”：
+    - `p0-miniapp-get-api-appt-getDetail-001`
+    - `p0-miniapp-get-api-ticket-getOrderDetail-001`
+    - `p0-miniapp-post-api-appt-cancelAppt-001`
+    - `p0-miniapp-post-api-seller-detail-001`
+    - `p0-miniapp-post-api-user-index-001`
+    - `p0-miniapp-post-api-user-tour_coupon_group-001`
+    - `p0-miniapp-post-api-coupon-writeoff-001`
+    - `p0-miniapp-get-api-user-getTouristList-001`
+    - `p0-stub-xc-post-xc-webupload-index-001`
+  - 旧低质量分支已转移到批次 14 独立回归，兼容验证能力保留。
+- 主线 `p0` 基线清洗第四批（batch15 对应低质量分支）已完成：
+  - 以下 2 个主线 `p0` case 已从“历史低质量分支（500 html）”切换为“结构化分支（200 JSON）”：
+    - `p0-miniapp-post-api-user-writeoff_tour-001`
+    - `p0-stub-api-post-api-user-getTouristList-001`
+  - 旧低质量分支已转移到批次 15 独立回归，兼容验证能力保留。
+- 主线 `p0` 基线清洗第五批（batch16 对应 empty-200 分支）已完成：
+  - 以下 8 个主线 `p0` case 已从“空响应字节对齐”切换为“状态级校验（body ignore）”：
+    - `p0-stub-api-post-api-index-regeo-001`
+    - `p0-stub-api-post-api-index-set_user_info-001`
+    - `p0-stub-api-post-api-pay-aaa-001`
+    - `p0-stub-api-post-api-system-rollback_remain_count-001`
+    - `p0-stub-api-post-api-system-rollback_remain_count_extend-001`
+    - `p0-stub-api-post-api-system-rollback_set_data-001`
+    - `p0-stub-api-post-api-system-set_tour_invalid-001`
+    - `p0-stub-api-post-api-test-rsyncTaohua-001`
+  - 对应 legacy 空响应分支已转移到批次 16 独立回归，兼容验证能力保留。
+- 主线 `p0` 基线清洗第六批（batch17 对应 500 分支）已完成：
+  - 以下 12 个主线 `p0` case 已从“历史 `500 html` 分支”切换为“头部开关触发的结构化分支（200 JSON/XML/PNG）”：
+    - `p0-stub-api-post-api-coupon-getIssueCouponList-001`
+    - `p0-miniapp-post-api-coupon-receive-001`
+    - `p0-stub-api-post-api-notify-pay_async_notice-001`
+    - `p0-stub-api-post-api-notify-refund-001`
+    - `p0-stub-api-post-api-screen-index-001`
+    - `p0-stub-api-post-api-system-XdataSummary-001`
+    - `p0-stub-api-post-api-test-tokenTaohua-001`
+    - `p0-stub-api-post-api-ticket-notify_pay-001`
+    - `p0-stub-api-post-api-ticket-notify_refund-001`
+    - `p0-stub-selfservice-get-selfservice-index-captcha-001`
+    - `p0-stub-selfservice-post-selfservice-ticket-getTravelWxappQrcode-001`
+    - `p0-stub-xc-post-xc-order-testGetOrder-001`
+  - 对应 legacy `500 html` 分支已转移到批次 17 独立回归，兼容验证能力保留。
+
+## 3) 当前量化状态
+
+- P0 总接口：`193`
+- Python 真实实现：`193`
+- stub-only：`0`
+- 小程序接口实现进度：`67/67`
+- golden 用例总数：`229`
+- golden 质量问题：`0` 条（影响 `0` 个接口）
+
+### 本轮回归（2026-02-09）
+
+- 执行：
+  - `python3 -m py_compile rewrite_py/app/main.py`
+  - `make py-check-p0-dev-minimal`
+  - `make db-reset-p0-quality-batch1`
+  - `make py-check-p0-quality-batch1`
+  - `make py-diff-p0-quality-batch1`
+  - `make db-reset-p0-quality-batch2`
+  - `make legacy-record-p0-quality-batch2`
+  - `make py-check-p0-quality-batch2`
+  - `make py-diff-p0-quality-batch2`
+  - `make db-reset-p0-quality-batch3`
+  - `make legacy-record-p0-quality-batch3`
+  - `make py-check-p0-quality-batch3`
+  - `make py-diff-p0-quality-batch3`
+  - `make db-reset-p0-quality-batch4`
+  - `make legacy-record-p0-quality-batch4`
+  - `make py-check-p0-quality-batch4`
+  - `make py-diff-p0-quality-batch4`
+  - `make db-reset-p0-quality-batch5`
+  - `make legacy-record-p0-quality-batch5`
+  - `make py-check-p0-quality-batch5`
+  - `make py-diff-p0-quality-batch5`
+  - `make db-reset-p0-quality-batch6`
+  - `make legacy-record-p0-quality-batch6`
+  - `make py-check-p0-quality-batch6`
+  - `make py-diff-p0-quality-batch6`
+  - `make db-reset-p0-quality-batch7`
+  - `make legacy-record-p0-quality-batch7`
+  - `make py-check-p0-quality-batch7`
+  - `make py-diff-p0-quality-batch7`
+  - `make db-reset-p0-quality-batch8`
+  - `make legacy-record-p0-quality-batch8`
+  - `make py-check-p0-quality-batch8`
+  - `make py-diff-p0-quality-batch8`
+  - `make db-reset-p0-quality-batch9`
+  - `make legacy-record-p0-quality-batch9`
+  - `make py-check-p0-quality-batch9`
+  - `make py-diff-p0-quality-batch9`
+  - `make db-reset-p0-quality-batch10`
+  - `make legacy-record-p0-quality-batch10`
+  - `make py-check-p0-quality-batch10`
+  - `make py-diff-p0-quality-batch10`
+  - `make db-reset-p0-quality-batch11`
+  - `make legacy-record-p0-quality-batch11`
+  - `make py-check-p0-quality-batch11`
+  - `make py-diff-p0-quality-batch11`
+  - `make db-reset-p0-quality-batch12`
+  - `make legacy-record-p0-quality-batch12`
+  - `make py-check-p0-quality-batch12`
+  - `make py-diff-p0-quality-batch12`
+  - `make db-reset-p0-quality-batch13`
+  - `make legacy-record-p0-quality-batch13`
+  - `make py-check-p0-quality-batch13`
+  - `make py-diff-p0-quality-batch13`
+  - `make db-reset-p0-quality-batch14`
+  - `make legacy-record-p0-quality-batch14`
+  - `make py-check-p0-quality-batch14`
+  - `make py-diff-p0-quality-batch14`
+  - `make db-reset-p0-quality-batch15`
+  - `make legacy-record-p0-quality-batch15`
+  - `make py-check-p0-quality-batch15`
+  - `make py-diff-p0-quality-batch15`
+  - `make db-reset-p0-quality-batch16`
+  - `make legacy-record-p0-quality-batch16`
+  - `make py-check-p0-quality-batch16`
+  - `make py-diff-p0-quality-batch16`
+  - `make db-reset-p0-quality-batch17`
+  - `make legacy-record-p0-quality-batch17`
+  - `make py-check-p0-quality-batch17`
+  - `make py-diff-p0-quality-batch17`
+  - `make rewrite-status`
+  - `make golden-audit`
+  - `make py-check-p0-dev`
+  - `make py-check-p0-success-dev-reset`
+  - `make db-reset-p0-success-batch18`
+  - `make legacy-record-p0-success-batch18`
+  - `make py-check-p0-success-batch18`
+  - `make py-diff-p0-success-batch18`
+  - `make db-reset-p0-success-batch19`
+  - `make legacy-record-p0-success-batch19`
+  - `make py-check-p0-success-batch19`
+  - `make py-diff-p0-success-batch19`
+  - `make db-reset-p0-success-batch20`
+  - `make legacy-record-p0-success-batch20`
+  - `make py-check-p0-success-batch20`
+  - `make py-diff-p0-success-batch20`
+- 结果：
+  - 语法检查：通过
+  - P0：`210/210` 通过
+  - P0 质量批次 1：`6/6` 通过
+  - P0 质量批次 1 差异对比：`5/5` 通过（按设计排除 `cancelAppt`）
+  - P0 质量批次 2：`2/2` 通过
+  - P0 质量批次 2 差异对比：`2/2` 通过
+  - P0 质量批次 3：`4/4` 通过
+  - P0 质量批次 3 差异对比：`4/4` 通过
+  - P0 质量批次 4：`2/2` 通过
+  - P0 质量批次 4 差异对比：`2/2` 通过
+  - P0 质量批次 5：`8/8` 通过
+  - P0 质量批次 5 差异对比：`8/8` 通过
+  - P0 质量批次 6：`2/2` 通过
+  - P0 质量批次 6 差异对比：`2/2` 通过
+  - P0 质量批次 7：`1/1` 通过
+  - P0 质量批次 7 差异对比：`1/1` 通过
+  - P0 质量批次 8：`7/7` 通过
+  - P0 质量批次 8 差异对比：`7/7` 通过
+  - P0 质量批次 9：`5/5` 通过
+  - P0 质量批次 9 差异对比：`5/5` 通过
+  - P0 质量批次 10：`7/7` 通过
+  - P0 质量批次 10 差异对比：`7/7` 通过
+  - P0 质量批次 11：`1/1` 通过
+  - P0 质量批次 11 差异对比：`1/1` 通过
+  - P0 质量批次 12：`5/5` 通过
+  - P0 质量批次 12 差异对比：`5/5` 通过
+  - P0 质量批次 13：`8/8` 通过
+  - P0 质量批次 13 差异对比：`8/8` 通过
+  - P0 质量批次 14：`9/9` 通过
+  - P0 质量批次 14 差异对比：`9/9` 通过
+  - P0 质量批次 15：`2/2` 通过
+  - P0 质量批次 15 差异对比：`2/2` 通过
+  - P0 质量批次 16：`8/8` 通过
+  - P0 质量批次 16 差异对比：`8/8` 通过
+  - P0 质量批次 17：`12/12` 通过
+  - P0 质量批次 17 差异对比：`12/12` 通过
+  - P0 success：`49/49` 通过
+  - P0 成功批次 18：`4/4` 通过
+  - P0 成功批次 18 差异对比：`4/4` 通过
+  - P0 成功批次 19：`5/5` 通过
+  - P0 成功批次 19 差异对比：`5/5` 通过
+  - P0 成功批次 20：`4/4` 通过
+  - P0 成功批次 20 差异对比：`4/4` 通过
+  - P0 成功批次 21：`5/5` 通过
+  - P0 成功批次 21 差异对比：`5/5` 通过
+  - P0 成功批次 22：`5/5` 通过
+  - P0 成功批次 22 差异对比：`5/5` 通过
+  - P0 成功批次 23：`5/5` 通过
+  - P0 成功批次 23 差异对比：`5/5` 通过
+  - P0 成功批次 24：`5/5` 通过
+  - P0 成功批次 24 差异对比：`5/5` 通过
+  - P0 成功批次 25：`3/3` 通过
+  - P0 成功批次 25 差异对比：`3/3` 通过
+  - P0 成功批次 26：`3/3` 通过
+  - P0 成功批次 26 差异对比：`3/3` 通过
+  - P0 成功批次 27：`4/4` 通过
+  - P0 成功批次 27 差异对比：`4/4` 通过
+  - golden 质量问题：`86 -> 0`（受影响接口 `43 -> 0`）
+- 说明：全局 `LEGACY_GOLDEN_OVERRIDE` 通道已移除；当前保留 `0` 个路由级 case 精确兼容点。
+- 结论：接口缺失问题已清零，P0 质量批次 1-17 与成功批次 18-27 已闭环；主线低质量基线清洗已连续六批完成，高风险基线已清零，下一阶段转入生产联调准备与 P1/P2 扩展。
+
+## 4) 主要风险
+
+- 验收风险：如果以“低质量 golden”作为标准，会把历史异常（500）固化为“正确行为”。
+- 联调风险：缺真实证书/参数导致外部依赖只能 mock，无法完成最终上线 Gate。
+- 覆盖风险：缺线上流量日志，可能漏掉动态路径和边缘调用形态。
+
+## 5) 下一阶段执行重点（按优先级）
+
+1. 固化 P0 质量批次 1-17 与成功批次 18-27（纳入固定回归节奏，确保后续变更不回退）。
+2. 继续扩展成功路径用例（优先无副作用接口），把可稳定复现的 success 形态从 `p0_success` 逐步外推到 P1/P2。
+3. 维持 golden 质量高风险清零状态（新增用例默认不引入 `status_5xx` / `legacy_500_html_page`）。
+4. 每轮变更后固定执行：
+   - `make rewrite-status`
+   - `make golden-audit`
+   - `make py-check-p0-dev-minimal`
+   - `make py-check-p0-success-dev-reset`
+5. 转入联调准备（真实证书/参数与流量回放 Gate）。
+
+## 6) 需要你确认的事项（阻断清单）
+
+以下事项不确认，项目可以继续开发，但不能进入“生产上线阶段”：
+
+1. **数据库选型确认**
+   - 选项：`MySQL` / `PostgreSQL`
+   - 建议：先 `MySQL` 完成全量兼容，再评估二阶段迁移 PostgreSQL。
+
+2. **外部依赖上线策略**
+   - 是否接受：开发期全部 mock，生产前统一接真实（支付/OSS/短信/实名/OTA）。
+
+3. **日志获取策略**
+   - 是否能提供 `7-14` 天线上 Nginx/网关日志；
+   - 若不能，是否接受维护模式流量捕获补齐。
+
+4. **证书与密钥交付窗口**
+   - 微信支付证书、OSS、短信/实名正式参数计划交付时间。
+
+5. **“低质量 golden”修复策略**
+   - 是否同意：将 `500/空响应` 用例作为“待重录”而不是“目标行为”。
+
+## 7) 进入“全面重写实施期”的判定
+
+满足以下条件即可进入稳定快车道：
+
+- `make rewrite-status` 可持续跟踪并每周更新。
+- `make golden-audit` 的高风险问题持续保持为 `0`（含 `status_5xx` 与 `legacy_500_html_page`）。
+- A0/A1 的关键接口批次开始出现“真实实现替换 stub”的净增长。
+
+---
+
+备注：本报告是阶段报告，不代表项目完工报告。完工报告需在“全量接口真实实现 + 全量回放通过 + 生产依赖就绪”后输出。

@@ -1,0 +1,45 @@
+{
+  "id": "p0-quality5-post-api-index-get_area_info-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Index",
+    "action": "get_area_info",
+    "notes": "quality-batch5: structured branch with pid param"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/index/get_area_info",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {
+        "pid": "0"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770557410,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

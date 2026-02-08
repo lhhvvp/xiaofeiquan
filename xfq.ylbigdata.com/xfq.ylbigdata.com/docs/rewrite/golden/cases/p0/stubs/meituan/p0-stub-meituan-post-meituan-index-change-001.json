@@ -1,0 +1,43 @@
+{
+  "id": "p0-stub-meituan-post-meituan-index-change-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "meituan",
+    "controller": "Index",
+    "action": "change",
+    "notes": "stub：meituan BA 失败用例（固定返回 code=300），用于锁定错误响应。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/meituan/index/change",
+    "query": {},
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8",
+      "Date": "Thu, 01 Jan 1970 00:00:00 GMT",
+      "PartnerId": "0",
+      "Authorization": "MWS invalid:invalid"
+    },
+    "body": {
+      "type": "json",
+      "json": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "eyJjb2RlIjozMDAsImRlc2NyaWJlIjoiQkHpqozor4HplJnor68iLCJwYXJ0bmVySWQiOiI3MDMifQ=="
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

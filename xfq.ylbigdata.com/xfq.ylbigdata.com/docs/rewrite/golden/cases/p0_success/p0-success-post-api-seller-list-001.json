@@ -1,0 +1,52 @@
+{
+  "id": "p0-success-post-api-seller-list-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "module": "merchant",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/merchant.js",
+    "source_line": 9,
+    "notes": "success: migrated from p0-miniapp-post-api-seller-list-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/seller/list",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "class_id": "1",
+        "page": 1,
+        "limit": 12,
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583752,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

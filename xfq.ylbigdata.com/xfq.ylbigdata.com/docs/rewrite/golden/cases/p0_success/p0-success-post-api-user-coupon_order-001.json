@@ -1,0 +1,112 @@
+{
+  "id": "p0-success-post-api-user-coupon_order-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: coupon_order baseline under success seed"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/coupon_order",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1",
+        "page": "1",
+        "limit": "10"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583753,
+        "data": {
+          "total": 1,
+          "per_page": 10,
+          "current_page": 1,
+          "last_page": 1,
+          "data": [
+            {
+              "id": 22,
+              "openid": "dev-openid-1",
+              "uuid": "dev-user-uuid-1",
+              "mch_id": 0,
+              "order_no": "20260209044912398033",
+              "order_out_no": "XFQ20260209044912398033",
+              "origin_price": "10.00",
+              "amount_price": "10.00",
+              "payment_code": "",
+              "payment_trade": "",
+              "payment_status": 0,
+              "payment_image": "",
+              "payment_remark": "",
+              "payment_datetime": "0",
+              "number_count": 1,
+              "order_remark": "用户购买消费券",
+              "cancel_status": 0,
+              "cancel_remark": "",
+              "cancel_datetime": 0,
+              "deleted_status": 0,
+              "deleted_remark": "",
+              "deleted_datetime": 0,
+              "is_refund": null,
+              "status": 1,
+              "create_time": 1770583752,
+              "update_time": 1770583752,
+              "issue_coupon_user_id": null,
+              "payment_data_id": 0,
+              "detail": {
+                "id": 22,
+                "uuid": "dev-user-uuid-1",
+                "order_no": "20260209044912398033",
+                "coupon_uuno": "SEED_COUPON_UUNO_1",
+                "coupon_cid": 1,
+                "coupon_title": "Seed Coupon",
+                "coupon_price": "10.00",
+                "coupon_icon": "",
+                "coupon_sale_price": "10.00",
+                "total_market": "10.00",
+                "price_selling": "10.00",
+                "total_selling": "10.00",
+                "stock_sales": 1,
+                "discount_amount": "0.00",
+                "status": 0,
+                "deleted": 0,
+                "update_time": 1770583752,
+                "create_time": 1770583752
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": [
+      "/data/data/0/order_no",
+      "/data/data/0/order_out_no",
+      "/data/data/0/create_time",
+      "/data/data/0/update_time",
+      "/data/data/0/detail/order_no",
+      "/data/data/0/detail/create_time",
+      "/data/data/0/detail/update_time"
+    ]
+  }
+}

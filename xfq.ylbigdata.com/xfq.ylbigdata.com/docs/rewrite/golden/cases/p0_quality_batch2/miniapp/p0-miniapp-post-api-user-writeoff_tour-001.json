@@ -1,0 +1,55 @@
+{
+  "id": "p0-miniapp-post-api-user-writeoff_tour-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "user",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/user.js",
+    "source_line": 179,
+    "notes": "P0 quality batch2: avoid legacy 500 by deterministic structured error replay"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/writeoff_tour",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "userid": "1",
+        "mid": "2001",
+        "coupon_issue_user_id": "2001",
+        "longitude": "0",
+        "latitude": "0",
+        "vr_longitude": "0",
+        "vr_latitude": "0",
+        "qrcode_url": "seed-q2-group-qrcode"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "该消费券已使用",
+        "time": 1770550395,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

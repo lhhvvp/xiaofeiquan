@@ -1,0 +1,50 @@
+{
+  "id": "p0-success-post-api-screen-list-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "app": "api",
+    "controller": "Screen",
+    "action": "list",
+    "notes": "success: migrated from p0-stub-api-post-api-screen-list-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/screen/list",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583752,
+        "data": {
+          "top_seller_20": [],
+          "top_coupon_issue_user_20": [],
+          "top_write_off_20": []
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

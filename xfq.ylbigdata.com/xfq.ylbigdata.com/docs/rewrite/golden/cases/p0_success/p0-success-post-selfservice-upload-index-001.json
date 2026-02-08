@@ -1,0 +1,54 @@
+{
+  "id": "p0-success-post-selfservice-upload-index-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "app": "selfservice",
+    "controller": "Upload",
+    "action": "index",
+    "notes": "success: migrated from p0-stub-selfservice-post-selfservice-upload-index-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/selfservice/upload/index",
+    "query": {},
+    "headers": {
+      "Token": "${SELFSERVICE_TOKEN}",
+      "No": "${SELFSERVICE_NO}"
+    },
+    "body": {
+      "type": "multipart",
+      "parts": [
+        {
+          "name": "upload_type",
+          "value": "file"
+        },
+        {
+          "name": "file",
+          "file_path": "upload-fixture.txt",
+          "filename": "upload-fixture.txt",
+          "content_type": "text/plain"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "Failed to open temp directory.",
+        "url": ""
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

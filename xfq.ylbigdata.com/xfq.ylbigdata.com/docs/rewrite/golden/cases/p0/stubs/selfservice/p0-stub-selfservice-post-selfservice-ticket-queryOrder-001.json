@@ -1,0 +1,43 @@
+{
+  "id": "p0-stub-selfservice-post-selfservice-ticket-queryOrder-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "selfservice",
+    "controller": "Ticket",
+    "action": "queryOrder",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/selfservice/ticket/queryOrder",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "请求方式错误！",
+        "time": 1770536517,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

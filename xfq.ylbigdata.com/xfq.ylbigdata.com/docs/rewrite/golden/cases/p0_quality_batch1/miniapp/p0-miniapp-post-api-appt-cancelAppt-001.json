@@ -1,0 +1,48 @@
+{
+  "id": "p0-miniapp-post-api-appt-cancelAppt-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "appt",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/appt.js",
+    "source_line": 41,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/appt/cancelAppt",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "log_id": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "操作成功！",
+        "time": 1770549229,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "p0-quality6-post-api-coupon-writeoff-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Coupon",
+    "action": "writeoff",
+    "notes": "quality-batch6: structured validation branch (longitude/latitude not enabled)"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/coupon/writeoff",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "userid": "1",
+        "mid": "1",
+        "coupon_issue_user_id": "1",
+        "longitude": "1",
+        "latitude": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "当前游客未开启定位",
+        "time": 1770558781,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

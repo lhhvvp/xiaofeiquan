@@ -1,0 +1,46 @@
+{
+  "id": "p0-stub-api-post-api-appt-getList-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Appt",
+    "action": "getList",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/appt/getList",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "请求方式错误！",
+        "time": 1770536337,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

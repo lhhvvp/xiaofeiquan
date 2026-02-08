@@ -75,6 +75,11 @@ class XiechengService {
      * @return string|bool
      */
     public function decrypt($encryptedText, $secretKey, $vector) {
+        // The OTA "encodeBytes" output must have an even length (2 chars per byte).
+        // Guard against odd/invalid input to avoid PHP warnings being promoted to exceptions.
+        if (!is_string($encryptedText) || $encryptedText === '' || (strlen($encryptedText) % 2) !== 0) {
+            return false;
+        }
         $decrypted = openssl_decrypt($this->decodeBytes($encryptedText), 'AES-128-CBC', $secretKey, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $vector);
         if ($decrypted === false) {
             return false;

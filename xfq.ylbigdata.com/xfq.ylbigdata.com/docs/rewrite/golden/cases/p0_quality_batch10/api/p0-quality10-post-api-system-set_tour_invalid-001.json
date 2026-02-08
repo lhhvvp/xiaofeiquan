@@ -1,0 +1,38 @@
+{
+  "id": "p0-quality10-post-api-system-set_tour_invalid-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "System",
+    "action": "set_tour_invalid",
+    "notes": "quality-batch10: non-empty params keep legacy 200 empty body"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/system/set_tour_invalid",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {
+        "x": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": ""
+    }
+  },
+  "compare": {
+    "mode": "raw",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

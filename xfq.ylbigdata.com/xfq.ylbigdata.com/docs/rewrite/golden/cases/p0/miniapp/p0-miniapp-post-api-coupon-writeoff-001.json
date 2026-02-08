@@ -1,0 +1,52 @@
+{
+  "id": "p0-miniapp-post-api-coupon-writeoff-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "coupon",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/coupon.js",
+    "source_line": 99,
+    "notes": "clean-batch14: p0 baseline switched to structured branch"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/coupon/writeoff",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "userid": "1",
+        "mid": "1",
+        "coupon_issue_user_id": "1",
+        "longitude": "1",
+        "latitude": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "当前游客未开启定位",
+        "time": 1770571117,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

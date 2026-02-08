@@ -1,0 +1,43 @@
+{
+  "id": "p0-quality13-post-api-seller-search-legacy-empty-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "module": "merchant",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/merchant.js",
+    "source_line": 24,
+    "notes": "quality-batch13: preserve legacy empty 200 branch after p0 baseline cleanup"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/seller/search",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "nickname": ""
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": ""
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

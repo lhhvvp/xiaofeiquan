@@ -1,0 +1,41 @@
+{
+  "id": "p0-quality8-post-api-coupon-getIssueCouponList-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Coupon",
+    "action": "getIssueCouponList",
+    "notes": "quality-batch8: non-empty form should keep legacy 500 in strict parity profile"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/coupon/getIssueCouponList",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 500,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KICAgIDxoZWFkPgogICAgICAgIDxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KICAgICAgICA8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEuMCI+CiAgICAgICAgPG1ldGEgaHR0cC1lcXVpdj0iWC1VQS1Db21wYXRpYmxlIiBjb250ZW50PSJpZT1lZGdlIj4KICAgICAgICA8dGl0bGU+NTAwPC90aXRsZT4KICAgICAgICA8bGluayByZWw9InNob3J0Y3V0IGljb24iIGhyZWY9ImZhdmljb24uaWNvIj4KICAgIDwvaGVhZD4KICAgIDxzdHlsZT4KICAgICAgICBib2R5e2ZvbnQtc2l6ZToxMnB4O2JhY2tncm91bmQ6I2ZmZjtmb250LWZhbWlseToiTGFudGluZ2hlaSBTQyIsIkhlbHZldGljYSBOZXVlIiwiTWljcm9zb2Z0IFlhSGVpIiwiV2VuUXVhbllpIE1pY3JvIEhlaSIsIkhlaXRpIFNDIiwiU2Vnb2UgVUkiLEFyaWFsLHNhbnMtc2VyaWZ9CiAgICAgICAgYm9keSxoMSxoMixoMyxoNCxoNSxwLHVsLGxpe3BhZGRpbmc6MDttYXJnaW46MDtsaXN0LXN0eWxlOm5vbmV9CiAgICAgICAgLnRjeV80MDR7cGFkZGluZy10b3A6MTgwcHg7cGFkZGluZy1ib3R0b206MTEycHh9CiAgICAgICAgLmNvbnRhaW5lcnt3aWR0aDoxMTcwcHh9CiAgICAgICAgLmNvbnRhaW5lcntwYWRkaW5nLXJpZ2h0OjE1cHg7cGFkZGluZy1sZWZ0OjE1cHg7bWFyZ2luLXJpZ2h0OmF1dG87bWFyZ2luLWxlZnQ6YXV0b30KICAgICAgICAudGN5XzQwNCBpbWd7ZGlzcGxheTpibG9jazttYXJnaW46YXV0b30KICAgICAgICAudGN5XzQwNCBoMntmb250LXNpemU6MzJweDtjb2xvcjojMzMzMzMzO3RleHQtYWxpZ246Y2VudGVyO2xldHRlci1zcGFjaW5nOjVweDtwYWRkaW5nLXRvcDozM3B4O3BhZGRpbmctYm90dG9tOjI1cHh9CiAgICAgICAgLnRjeV80MDQgcHtmb250LXNpemU6MTRweDtjb2xvcjojNjY2NjY2O2xldHRlci1zcGFjaW5nOjFweDt0ZXh0LWFsaWduOmNlbnRlcjtwYWRkaW5nLWJvdHRvbTozNXB4fQogICAgICAgIC5idG57ZGlzcGxheTppbmxpbmUtYmxvY2s7cGFkZGluZzo2cHggMTJweDttYXJnaW4tYm90dG9tOjA7Zm9udC1zaXplOjE0cHg7Zm9udC13ZWlnaHQ6NDAwO2xpbmUtaGVpZ2h0OjEuNDI4NTcxNDM7dGV4dC1hbGlnbjpjZW50ZXI7d2hpdGUtc3BhY2U6bm93cmFwO3ZlcnRpY2FsLWFsaWduOm1pZGRsZTstbXMtdG91Y2gtYWN0aW9uOm1hbmlwdWxhdGlvbjt0b3VjaC1hY3Rpb246bWFuaXB1bGF0aW9uO2N1cnNvcjpwb2ludGVyOy13ZWJraXQtdXNlci1zZWxlY3Q6bm9uZTstbW96LXVzZXItc2VsZWN0Om5vbmU7LW1zLXVzZXItc2VsZWN0Om5vbmU7dXNlci1zZWxlY3Q6bm9uZTtiYWNrZ3JvdW5kLWltYWdlOm5vbmU7Ym9yZGVyOjFweCBzb2xpZCB0cmFuc3BhcmVudDtib3JkZXItcmFkaXVzOjRweH0KICAgICAgICAuYnRuLXByaW1hcnl7Y29sb3I6I2ZmZjtiYWNrZ3JvdW5kLWNvbG9yOiMzMzdhYjc7Ym9yZGVyLWNvbG9yOiMyZTZkYTR9CiAgICAgICAgLmJ0bl9ibHVle2Rpc3BsYXk6aW5saW5lLWJsb2NrO2hlaWdodDo1NnB4O2xpbmUtaGVpZ2h0OjU2cHg7dGV4dC1hbGlnbjpjZW50ZXI7Ym9yZGVyLXJhZGl1czozcHg7YmFja2dyb3VuZDojN2NhY2VkO2NvbG9yOiNmZmY7bGV0dGVyLXNwYWNpbmc6NXB4O2JvcmRlcjowO2ZvbnQtc2l6ZToxOHB4O3BhZGRpbmc6MDt0ZXh0LWRlY29yYXRpb246bm9uZTstd2Via2l0LXRyYW5zaXRpb24tZHVyYXRpb246MC4zczt0cmFuc2l0aW9uLWR1cmF0aW9uOjAuM3M7LXdlYmtpdC10cmFuc2l0aW9uLXRpbWluZy1mdW5jdGlvbjplYXNlLW91dDt0cmFuc2l0aW9uLXRpbWluZy1mdW5jdGlvbjplYXNlLW91dDstd2Via2l0LXRyYW5zaXRpb24tcHJvcGVydHk6YmFja2dyb3VuZDt0cmFuc2l0aW9uLXByb3BlcnR5OmJhY2tncm91bmR9CiAgICAgICAgLnRjeV80MDQgYXtkaXNwbGF5OmJsb2NrO21hcmdpbjphdXRvO3dpZHRoOjIyMHB4O2hlaWdodDo1NnB4fQogICAgPC9zdHlsZT4KICAgIDxib2R5PgogICAgICAgIDxkaXYgY2xhc3M9InRjeV80MDQgY29udGFpbmVyIj4KICAgICAgICA8aW1nIHNyYz0iL3N0YXRpYy9jb21tb24vaW1hZ2VzLzUwMC5wbmciPgogICAgICAgIDxoMj7mirHmrYnvvIzmgqjorr/pl67nmoTpobXpnaLlh7rplJnkuoY8L2gyPgogICAgICAgIDxwPuivt+iBlOezu+euoeeQhuWRmOW4ruW/meino+WGs348L3A+CiAgICAgICAgPGEgaHJlZj0iLyIgY2xhc3M9ImJ0biBidG4tcHJpbWFyeSBidG5fYmx1ZSI+6L+U5Zue5Li76aG1PC9hPgogICAgICAgIDwvZGl2PgogICAgPC9ib2R5Pgo8L2h0bWw+"
+    }
+  },
+  "compare": {
+    "mode": "raw",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

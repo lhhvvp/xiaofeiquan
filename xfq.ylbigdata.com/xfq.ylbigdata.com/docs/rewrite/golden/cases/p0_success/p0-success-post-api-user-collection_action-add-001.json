@@ -1,0 +1,47 @@
+{
+  "id": "p0-success-post-api-user-collection_action-add-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: collection action add baseline under success seed"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/collection_action",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "uid": "1",
+        "mid": "281",
+        "action": "add"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "收藏成功",
+        "time": 1770583752,
+        "data": "data success"
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

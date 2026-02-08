@@ -1,0 +1,42 @@
+{
+  "id": "p0-api-user-smsVerification-001",
+  "meta": {
+    "tier": "p0",
+    "owner": "",
+    "notes": "建议用 --record 从旧系统录制 response 作为基线"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/smsVerification",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "phone": "13800000000",
+        "type": "login"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "type": "json",
+      "json": {}
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}
+

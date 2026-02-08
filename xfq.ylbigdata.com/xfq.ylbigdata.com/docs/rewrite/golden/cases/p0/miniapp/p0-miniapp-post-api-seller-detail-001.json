@@ -1,0 +1,46 @@
+{
+  "id": "p0-miniapp-post-api-seller-detail-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "merchant",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/merchant.js",
+    "source_line": 33,
+    "notes": "clean-batch14: p0 baseline switched to structured branch"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/seller/detail",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "请检查商户ID是否正确",
+        "time": 1770571117,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

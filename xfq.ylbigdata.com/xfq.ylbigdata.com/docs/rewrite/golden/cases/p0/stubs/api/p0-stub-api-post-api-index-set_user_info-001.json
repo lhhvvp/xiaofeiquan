@@ -1,0 +1,37 @@
+{
+  "id": "p0-stub-api-post-api-index-set_user_info-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Index",
+    "action": "set_user_info",
+    "notes": "stub：主线仅校验状态，legacy 空响应已迁移至 p0_quality_batch16"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/index/set_user_info",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "ignore"
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

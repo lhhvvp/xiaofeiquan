@@ -100,6 +100,27 @@ class TicketPay extends Base
         $data['payip']  =   request()->ip();//支付IP
         $res = self::create($data);
         if ($res !== false) {
+            // Dev-only: offline mock pay params for golden replay (avoid calling real WeChat).
+            if (env('rewrite.mock_wechat_pay')) {
+                switch ($type) {
+                    case "miniapp":
+                    case "mp":
+                        return [
+                            'timeStamp' => '0',
+                            'nonceStr'  => 'mock-nonce',
+                            'package'   => 'prepay_id=mock_prepay',
+                            'signType'  => 'MD5',
+                            'paySign'   => 'mock-sign',
+                        ];
+                    case "wap":
+                        return 'https://mock-pay.local/mweb_url';
+                    case "app":
+                        return '{"appid":"wx-dev-appid","partnerid":"1900000001","prepayid":"mock_prepay","package":"Sign=WXPay","noncestr":"mock-nonce","timestamp":"0","sign":"mock-sign"}';
+                    default:
+                        return '';
+                }
+            }
+
             switch ($type){
             case "miniapp"://小程序支付
                 $pay = Pay::wechat($config)->miniapp($orderInfo);//小程序

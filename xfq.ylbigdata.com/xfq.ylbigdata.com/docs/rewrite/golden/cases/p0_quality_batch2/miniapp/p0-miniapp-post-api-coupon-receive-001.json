@@ -1,0 +1,51 @@
+{
+  "id": "p0-miniapp-post-api-coupon-receive-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "coupon",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/coupon.js",
+    "source_line": 47,
+    "notes": "P0 quality batch2: avoid legacy 500 by deterministic structured error replay"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/coupon/receive",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "userid": "1",
+        "couponId": "2001",
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 3,
+        "msg": "已领取过该优惠劵!",
+        "time": 1770550395,
+        "data": ""
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

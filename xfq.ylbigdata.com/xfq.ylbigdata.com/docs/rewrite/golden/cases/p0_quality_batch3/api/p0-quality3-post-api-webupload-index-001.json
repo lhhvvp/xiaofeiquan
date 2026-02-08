@@ -1,0 +1,51 @@
+{
+  "id": "p0-quality3-post-api-webupload-index-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Webupload",
+    "action": "index",
+    "notes": "quality-batch3: multipart file upload deterministic error path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/webupload/index",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "multipart",
+      "parts": [
+        {
+          "name": "upload_type",
+          "value": "file"
+        },
+        {
+          "name": "file",
+          "file_path": "upload-fixture.txt",
+          "filename": "upload-fixture.txt",
+          "content_type": "text/plain"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "Failed to open temp directory.",
+        "url": ""
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

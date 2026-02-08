@@ -1,0 +1,43 @@
+{
+  "id": "p0-stub-api-post-api-system-remake_ticket-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "System",
+    "action": "remake_ticket",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/system/remake_ticket",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "当前记录不存在",
+        "time": 1770536475,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "p0-miniapp-post-api-appt-writeOff-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "appt",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/appt.js",
+    "source_line": 50,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/appt/writeOff",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "参数错误！",
+        "time": 1770536332,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "p0-stub-api-post-api-test-syncdb2-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Test",
+    "action": "syncdb2",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/test/syncdb2",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "CjwhRE9DVFlQRSBodG1sPgo8aHRtbCBsYW5nPSJlbiI+CiAgICA8aGVhZD4KICAgICAgICA8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CiAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgogICAgICAgIDxtZXRhIGh0dHAtZXF1aXY9IlgtVUEtQ29tcGF0aWJsZSIgY29udGVudD0iaWU9ZWRnZSI+CiAgICAgICAgPHRpdGxlPjQwNDwvdGl0bGU+CiAgICAgICAgPGxpbmsgcmVsPSJzaG9ydGN1dCBpY29uIiBocmVmPSJmYXZpY29uLmljbyI+CiAgICA8L2hlYWQ+CiAgICA8c3R5bGU+CiAgICAgICAgYm9keXtmb250LXNpemU6MTJweDtiYWNrZ3JvdW5kOiNmZmY7Zm9udC1mYW1pbHk6IkxhbnRpbmdoZWkgU0MiLCJIZWx2ZXRpY2EgTmV1ZSIsIk1pY3Jvc29mdCBZYUhlaSIsIldlblF1YW5ZaSBNaWNybyBIZWkiLCJIZWl0aSBTQyIsIlNlZ29lIFVJIixBcmlhbCxzYW5zLXNlcmlmfQogICAgICAgIGJvZHksaDEsaDIsaDMsaDQsaDUscCx1bCxsaXtwYWRkaW5nOjA7bWFyZ2luOjA7bGlzdC1zdHlsZTpub25lfQogICAgICAgIC50Y3lfNDA0e3BhZGRpbmctdG9wOjE4MHB4O3BhZGRpbmctYm90dG9tOjExMnB4fQogICAgICAgIC5jb250YWluZXJ7d2lkdGg6MTE3MHB4fQogICAgICAgIC5jb250YWluZXJ7cGFkZGluZy1yaWdodDoxNXB4O3BhZGRpbmctbGVmdDoxNXB4O21hcmdpbi1yaWdodDphdXRvO21hcmdpbi1sZWZ0OmF1dG99CiAgICAgICAgLnRjeV80MDQgaW1ne2Rpc3BsYXk6YmxvY2s7bWFyZ2luOmF1dG99CiAgICAgICAgLnRjeV80MDQgaDJ7Zm9udC1zaXplOjMycHg7Y29sb3I6IzMzMzMzMzt0ZXh0LWFsaWduOmNlbnRlcjtsZXR0ZXItc3BhY2luZzo1cHg7cGFkZGluZy10b3A6MzNweDtwYWRkaW5nLWJvdHRvbToyNXB4fQogICAgICAgIC50Y3lfNDA0IHB7Zm9udC1zaXplOjE0cHg7Y29sb3I6IzY2NjY2NjtsZXR0ZXItc3BhY2luZzoxcHg7dGV4dC1hbGlnbjpjZW50ZXI7cGFkZGluZy1ib3R0b206MzVweH0KICAgICAgICAuYnRue2Rpc3BsYXk6aW5saW5lLWJsb2NrO3BhZGRpbmc6NnB4IDEycHg7bWFyZ2luLWJvdHRvbTowO2ZvbnQtc2l6ZToxNHB4O2ZvbnQtd2VpZ2h0OjQwMDtsaW5lLWhlaWdodDoxLjQyODU3MTQzO3RleHQtYWxpZ246Y2VudGVyO3doaXRlLXNwYWNlOm5vd3JhcDt2ZXJ0aWNhbC1hbGlnbjptaWRkbGU7LW1zLXRvdWNoLWFjdGlvbjptYW5pcHVsYXRpb247dG91Y2gtYWN0aW9uOm1hbmlwdWxhdGlvbjtjdXJzb3I6cG9pbnRlcjstd2Via2l0LXVzZXItc2VsZWN0Om5vbmU7LW1vei11c2VyLXNlbGVjdDpub25lOy1tcy11c2VyLXNlbGVjdDpub25lO3VzZXItc2VsZWN0Om5vbmU7YmFja2dyb3VuZC1pbWFnZTpub25lO2JvcmRlcjoxcHggc29saWQgdHJhbnNwYXJlbnQ7Ym9yZGVyLXJhZGl1czo0cHh9CiAgICAgICAgLmJ0bi1wcmltYXJ5e2NvbG9yOiNmZmY7YmFja2dyb3VuZC1jb2xvcjojMzM3YWI3O2JvcmRlci1jb2xvcjojMmU2ZGE0fQogICAgICAgIC5idG5fYmx1ZXtkaXNwbGF5OmlubGluZS1ibG9jaztoZWlnaHQ6NTZweDtsaW5lLWhlaWdodDo1NnB4O3RleHQtYWxpZ246Y2VudGVyO2JvcmRlci1yYWRpdXM6M3B4O2JhY2tncm91bmQ6IzdjYWNlZDtjb2xvcjojZmZmO2xldHRlci1zcGFjaW5nOjVweDtib3JkZXI6MDtmb250LXNpemU6MThweDtwYWRkaW5nOjA7dGV4dC1kZWNvcmF0aW9uOm5vbmU7LXdlYmtpdC10cmFuc2l0aW9uLWR1cmF0aW9uOjAuM3M7dHJhbnNpdGlvbi1kdXJhdGlvbjowLjNzOy13ZWJraXQtdHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246ZWFzZS1vdXQ7dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246ZWFzZS1vdXQ7LXdlYmtpdC10cmFuc2l0aW9uLXByb3BlcnR5OmJhY2tncm91bmQ7dHJhbnNpdGlvbi1wcm9wZXJ0eTpiYWNrZ3JvdW5kfQogICAgICAgIC50Y3lfNDA0IGF7ZGlzcGxheTpibG9jazttYXJnaW46YXV0bzt3aWR0aDoyMjBweDtoZWlnaHQ6NTZweH0KICAgIDwvc3R5bGU+CiAgICA8Ym9keT4KICAgICAgICA8ZGl2IGNsYXNzPSJ0Y3lfNDA0IGNvbnRhaW5lciI+CiAgICAgICAgPGltZyBzcmM9Ii9zdGF0aWMvY29tbW9uL2ltYWdlcy80MDQucG5nIj4KICAgICAgICA8aDI+5oqx5q2J77yM5oKo6K6/6Zeu55qE6aG16Z2i5Ye66ZSZ5LqGPC9oMj4KICAgICAgICA8cD7kuLrkuobnoa7kv53mgqjnmoTlronlhajpobrliKnorr/pl67vvIzor7fli7/pmo/mhI/mm7TmlLnpobXpnaLpk77mjqXjgII8L3A+CiAgICAgICAgPGEgaHJlZj0iLyIgY2xhc3M9ImJ0biBidG4tcHJpbWFyeSBidG5fYmx1ZSI+6L+U5Zue5Li76aG1PC9hPgogICAgICAgIDwvZGl2PgogICAgPC9ib2R5Pgo8L2h0bWw+"
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "p0-miniapp-get-api-ticket-getScenicList-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "tickets",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/tickets.js",
+    "source_line": 4,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/api/ticket/getScenicList",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770536332,
+        "data": [
+          {
+            "id": 281,
+            "status": 1,
+            "nickname": "Dev Seller",
+            "image": "",
+            "mobile": "",
+            "do_business_time": "",
+            "area": 0,
+            "comment_rate": 0,
+            "comment_num": 0,
+            "address": "",
+            "content": null,
+            "longitude": 0,
+            "latitude": 0,
+            "class_id": 2,
+            "distance": 0,
+            "area_text": "-",
+            "min_price": null
+          }
+        ]
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

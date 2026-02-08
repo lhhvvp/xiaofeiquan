@@ -9,11 +9,11 @@ return [
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持file cache
-    'type'           => 'cache',
+    'type'           => env('session.type', 'cache'),
     // 存储连接标识 当type使用cache的时候有效
-    'store'          => 'redis',
+    'store'          => env('session.store', 'redis'),
     // 过期时间
-    'expire'         => 86400,
+    'expire'         => intval(env('session.expire', 86400)),
     // 前缀
-    'prefix'         => '',
+    'prefix'         => env('session.prefix', ''),
 ];

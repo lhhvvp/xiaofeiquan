@@ -1,0 +1,51 @@
+{
+  "id": "p0-miniapp-post-api-ticket-single_refund-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "tickets",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/tickets.js",
+    "source_line": 85,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/ticket/single_refund",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "out_trade_no": "",
+        "refund_desc": "",
+        "openid": "1",
+        "uuid": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 1,
+        "msg": "refund_desc不能为空",
+        "time": 1770536335,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

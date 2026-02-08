@@ -1,0 +1,163 @@
+{
+  "id": "p0-miniapp-post-api-user-tour_coupon_group-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "user",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/user.js",
+    "source_line": 170,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/user/tour_coupon_group",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "id": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770549229,
+        "data": {
+          "id": 1,
+          "create_time": "2023-11-15 06:13:20",
+          "update_time": "2023-11-15 06:13:20",
+          "receive_time": 1700000000,
+          "sort": 50,
+          "status": 0,
+          "tid": 1,
+          "coupon_issue_id": 1,
+          "is_receive": 1,
+          "cid": 1,
+          "enstr_salt": "seed-salt",
+          "qrcode_url": "seed-qrcode",
+          "code_time_create": 1700000000,
+          "code_time_expire": 1700000300,
+          "write_use": 0,
+          "seller": {
+            "nickname": "Seed Scenic",
+            "image": ""
+          },
+          "tour_write_off": [],
+          "tourist": [],
+          "tour": {
+            "id": 1,
+            "create_time": "2023-11-15 06:13:20",
+            "update_time": "2023-11-15 06:13:20",
+            "sort": 50,
+            "status": 3,
+            "name": "Seed Tour",
+            "no": "SEED_TOUR_0001",
+            "term": "2026-02",
+            "numbers": 1,
+            "planner": "Seed Planner",
+            "mobile": "13800000000",
+            "line_info": "",
+            "travel_id": 0,
+            "spot_ids": "",
+            "mid": 1,
+            "is_to_ckeck": 1,
+            "over_time": 0,
+            "tour_accounting_id": 0,
+            "accounting_time": 0,
+            "invoice": null,
+            "photos": null,
+            "term_start": 1700000000,
+            "term_end": 1700086400,
+            "ht_type": 0,
+            "is_locking": 0,
+            "dining": null,
+            "travelling_expenses": null,
+            "modif_numbers": 0,
+            "area_id": "6108",
+            "brief": null,
+            "guide_name": "",
+            "guide_certificate": "",
+            "team_type": null
+          },
+          "couponIssue": {
+            "id": 1,
+            "uuno": "SEED_COUPON_UUNO_1",
+            "cid": 1,
+            "coupon_title": "Seed Coupon",
+            "coupon_icon": "",
+            "limit_time": 0,
+            "start_time": 0,
+            "end_time": 0,
+            "total_count": 100000,
+            "remain_count": 100000,
+            "status": 1,
+            "is_del": 0,
+            "coupon_price": "10.00",
+            "is_threshold": 0,
+            "use_min_price": "0.00",
+            "is_permanent": 1,
+            "coupon_time_start": 0,
+            "coupon_time_end": 0,
+            "class_id": 1,
+            "type": 1,
+            "product_id": "",
+            "category_id": 0,
+            "receive_type": 1,
+            "sort": 50,
+            "remark": null,
+            "last_time": 0,
+            "tag": 0,
+            "is_limit_total": 0,
+            "limit_total": 0,
+            "use_store": 1,
+            "use_stroe_id": "0",
+            "create_time": "2023-11-15 06:13:20",
+            "update_time": "2023-11-15 06:13:20",
+            "sale_price": "10.00",
+            "is_get": 1,
+            "tips": "",
+            "day": 0,
+            "pid": 0,
+            "is_rollback": 0,
+            "rollback_num": 0,
+            "coupon_type": 1,
+            "provide_count": 0,
+            "rollback_num_extend": 0,
+            "use_type": 2,
+            "use_type_desc": null,
+            "receive_crowd": 1,
+            "write_off_seller": 0
+          },
+          "couponClass": {
+            "id": 1,
+            "create_time": "2023-11-15 06:13:20",
+            "update_time": "2023-11-15 06:13:20",
+            "sort": 50,
+            "status": 1,
+            "title": "Seed Coupon Class",
+            "class_icon": ""
+          }
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

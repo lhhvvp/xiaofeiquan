@@ -1,0 +1,66 @@
+{
+  "id": "p0-success-post-xc-index-system-html-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "app": "xc",
+    "controller": "Index",
+    "action": "system",
+    "notes": "success: migrated from p0-valid-xc-post-xc-index-system-html-001"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/xc/index/system.html",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "json",
+      "json": {
+        "header": {
+          "accountId": "5931ac6d70f46ed2",
+          "serviceName": "system",
+          "requestTime": "19700101000000",
+          "version": "1.0",
+          "sign": "b92c7582a52bbb13caae5a0daba8ce41"
+        },
+        "body": "oaicogippcdkodmmcmobijddpfkddnhh"
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583754,
+        "data": {
+          "service": null,
+          "policy": null,
+          "name": "",
+          "logo": "",
+          "copyright": "",
+          "act_rule": null,
+          "tel": "",
+          "is_open_api": 0,
+          "message_code": 1,
+          "is_queue_number": 0,
+          "is_qrcode_number": 0,
+          "is_clock_switch": 0,
+          "slide": null
+        }
+      }
+    }
+  }
+}

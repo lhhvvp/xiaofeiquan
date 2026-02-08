@@ -97,6 +97,11 @@ class Auth
                 $response = null;
                 break;
         }
+        // xc 的 controller action 普遍依赖“解密后的 bodyJsonStr”，
+        // 因此这里直接返回 middleware 调用得到的响应，避免进入 controller 后再次执行导致 TypeError/500。
+        if ($response !== null) {
+            return $response;
+        }
         return $next($request);
     }
 

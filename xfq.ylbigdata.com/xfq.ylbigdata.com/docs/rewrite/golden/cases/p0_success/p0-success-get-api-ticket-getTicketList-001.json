@@ -1,0 +1,76 @@
+{
+  "id": "p0-success-get-api-ticket-getTicketList-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: seeded ticket list for seller=281 (requires db-reset-success)"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/api/ticket/getTicketList",
+    "query": {
+      "seller_id": "281"
+    },
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "",
+        "time": 1770583751,
+        "data": [
+          {
+            "id": 1,
+            "seller_id": 281,
+            "title": "Seed Category",
+            "content": null,
+            "create_time": "2023-11-15 06:13:20",
+            "update_time": "2023-11-15 06:13:20",
+            "sort": 50,
+            "status": 1,
+            "delete_time": null,
+            "ticket_list": [
+              {
+                "id": 1,
+                "seller_id": 281,
+                "category_id": 1,
+                "title": "Seed Ticket",
+                "cover": "",
+                "quota": 0,
+                "explain_use": null,
+                "explain_buy": null,
+                "crossed_price": "0.00",
+                "status": 1,
+                "sort": 50,
+                "create_time": "2023-11-15 06:13:20",
+                "update_time": "2023-11-15 06:13:20",
+                "delete_time": null,
+                "quota_order": 99,
+                "rights_num": 0,
+                "code": "SEED_TICKET_1",
+                "min_price": "100.00",
+                "rights_list": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

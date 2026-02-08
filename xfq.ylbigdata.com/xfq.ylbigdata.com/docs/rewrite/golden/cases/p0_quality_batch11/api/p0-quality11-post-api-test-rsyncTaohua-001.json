@@ -1,0 +1,38 @@
+{
+  "id": "p0-quality11-post-api-test-rsyncTaohua-001",
+  "meta": {
+    "tier": "p0",
+    "source": "manual",
+    "app": "api",
+    "controller": "Test",
+    "action": "rsyncTaohua",
+    "notes": "quality-batch11: non-empty params keep legacy 200 empty body"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/test/rsyncTaohua",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {
+        "foo": "bar"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": ""
+    }
+  },
+  "compare": {
+    "mode": "raw",
+    "ignore_json_keys": [],
+    "ignore_json_pointers": []
+  }
+}

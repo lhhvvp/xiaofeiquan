@@ -1,0 +1,194 @@
+method	path	path_html	app	controller	action	auth	auth_required	desc	file	line
+UNKNOWN	/api/appt/cancelAppt	/api/appt/cancelAppt.html	api	Appt	cancelAppt	api-token(Userid)	yes		app/api/controller/Appt.php	349
+UNKNOWN	/api/appt/createAppt	/api/appt/createAppt.html	api	Appt	createAppt	api-token(Userid)	yes		app/api/controller/Appt.php	87
+UNKNOWN	/api/appt/getDatetime	/api/appt/getDatetime.html	api	Appt	getDatetime	api-token(Userid)	no		app/api/controller/Appt.php	45
+UNKNOWN	/api/appt/getDetail	/api/appt/getDetail.html	api	Appt	getDetail	api-token(Userid)	yes		app/api/controller/Appt.php	235
+UNKNOWN	/api/appt/getList	/api/appt/getList.html	api	Appt	getList	api-token(Userid)	yes		app/api/controller/Appt.php	213
+UNKNOWN	/api/appt/writeOff	/api/appt/writeOff.html	api	Appt	writeOff	api-token(Userid)	yes		app/api/controller/Appt.php	249
+UNKNOWN	/api/coupon/applicableto	/api/coupon/applicableto.html	api	Coupon	applicableto	api-token(Userid)	no		app/api/controller/Coupon.php	772
+UNKNOWN	/api/coupon/applicabletoV2	/api/coupon/applicabletoV2.html	api	Coupon	applicabletoV2	api-token(Userid)	no		app/api/controller/Coupon.php	709
+UNKNOWN	/api/coupon/couponissueuser	/api/coupon/couponissueuser.html	api	Coupon	couponissueuser	api-token(Userid)	yes		app/api/controller/Coupon.php	1300
+UNKNOWN	/api/coupon/detail	/api/coupon/detail.html	api	Coupon	detail	api-token(Userid)	no		app/api/controller/Coupon.php	593
+UNKNOWN	/api/coupon/encryptAES	/api/coupon/encryptAES.html	api	Coupon	encryptAES	api-token(Userid)	yes		app/api/controller/Coupon.php	1378
+UNKNOWN	/api/coupon/getIssueCouponList	/api/coupon/getIssueCouponList.html	api	Coupon	getIssueCouponList	api-token(Userid)	yes		app/api/controller/Coupon.php	141
+UNKNOWN	/api/coupon/getUserCouponRecordList	/api/coupon/getUserCouponRecordList.html	api	Coupon	getUserCouponRecordList	api-token(Userid)	yes		app/api/controller/Coupon.php	1489
+UNKNOWN	/api/coupon/idtocoupon	/api/coupon/idtocoupon.html	api	Coupon	idtocoupon	api-token(Userid)	yes		app/api/controller/Coupon.php	1337
+UNKNOWN	/api/coupon/index	/api/coupon/index.html	api	Coupon	index	api-token(Userid)	no		app/api/controller/Coupon.php	44
+UNKNOWN	/api/coupon/line_detail	/api/coupon/line_detail.html	api	Coupon	line_detail	api-token(Userid)	no		app/api/controller/Coupon.php	694
+UNKNOWN	/api/coupon/line_list	/api/coupon/line_list.html	api	Coupon	line_list	api-token(Userid)	no		app/api/controller/Coupon.php	641
+UNKNOWN	/api/coupon/list	/api/coupon/list.html	api	Coupon	list	api-token(Userid)	no		app/api/controller/Coupon.php	843
+UNKNOWN	/api/coupon/receive	/api/coupon/receive.html	api	Coupon	receive	api-token(Userid)	yes		app/api/controller/Coupon.php	278
+UNKNOWN	/api/coupon/tempApi	/api/coupon/tempApi.html	api	Coupon	tempApi	api-token(Userid)	no		app/api/controller/Coupon.php	92
+POST	/api/coupon/tourwriteofflog	/api/coupon/tourwriteofflog.html	api	Coupon	tourwriteofflog	api-token(Userid)	yes	旅行团--核销记录列表	app/api/controller/Coupon.php	1447
+UNKNOWN	/api/coupon/writeoff	/api/coupon/writeoff.html	api	Coupon	writeoff	api-token(Userid)	yes		app/api/controller/Coupon.php	923
+UNKNOWN	/api/coupon/writeoffdetail	/api/coupon/writeoffdetail.html	api	Coupon	writeoffdetail	api-token(Userid)	yes		app/api/controller/Coupon.php	1253
+UNKNOWN	/api/coupon/writeofflog	/api/coupon/writeofflog.html	api	Coupon	writeofflog	api-token(Userid)	yes		app/api/controller/Coupon.php	1207
+UNKNOWN	/api/index/get_area_info	/api/index/get_area_info.html	api	Index	get_area_info	api-token(Userid)	no		app/api/controller/Index.php	354
+POST	/api/index/getuserphonenumber	/api/index/getuserphonenumber.html	api	Index	getuserphonenumber	api-token(Userid)	no	系统登录接口，返回 token 用于操作需验证身份的接口	app/api/controller/Index.php	133
+POST	/api/index/jia	/api/index/jia.html	api	Index	jia	api-token(Userid)	no	返回系统信息	app/api/controller/Index.php	66
+POST	/api/index/jie	/api/index/jie.html	api	Index	jie	api-token(Userid)	no	返回系统信息	app/api/controller/Index.php	78
+UNKNOWN	/api/index/login	/api/index/login.html	api	Index	login	api-token(Userid)	yes		app/api/controller/Index.php	41
+POST	/api/index/miniwxlogin	/api/index/miniwxlogin.html	api	Index	miniwxlogin	api-token(Userid)	no	系统登录接口，返回 token 用于操作需验证身份的接口	app/api/controller/Index.php	172
+POST	/api/index/note_detail	/api/index/note_detail.html	api	Index	note_detail	api-token(Userid)	no	公告详情	app/api/controller/Index.php	292
+POST	/api/index/note_index	/api/index/note_index.html	api	Index	note_index	api-token(Userid)	no	公告列表	app/api/controller/Index.php	320
+POST	/api/index/note_list	/api/index/note_list.html	api	Index	note_list	api-token(Userid)	no	公告列表	app/api/controller/Index.php	276
+UNKNOWN	/api/index/regeo	/api/index/regeo.html	api	Index	regeo	api-token(Userid)	no		app/api/controller/Index.php	451
+UNKNOWN	/api/index/set_user_info	/api/index/set_user_info.html	api	Index	set_user_info	api-token(Userid)	no		app/api/controller/Index.php	363
+POST	/api/index/system	/api/index/system.html	api	Index	system	api-token(Userid)	no	返回系统信息	app/api/controller/Index.php	91
+POST	/api/index/transform	/api/index/transform.html	api	Index	transform	api-token(Userid)	yes	返回区域列表	app/api/controller/Index.php	334
+UNKNOWN	/api/notify/create_file	/api/notify/create_file.html	api	Notify	create_file	api-token(Userid)	yes		app/api/controller/Notify.php	173
+UNKNOWN	/api/notify/pay_async_notice	/api/notify/pay_async_notice.html	api	Notify	pay_async_notice	api-token(Userid)	no		app/api/controller/Notify.php	40
+UNKNOWN	/api/notify/refund	/api/notify/refund.html	api	Notify	refund	api-token(Userid)	no		app/api/controller/Notify.php	102
+UNKNOWN	/api/pay/aaa	/api/pay/aaa.html	api	Pay	aaa	api-token(Userid)	no		app/api/controller/Pay.php	36
+UNKNOWN	/api/pay/OrderRefund	/api/pay/OrderRefund.html	api	Pay	OrderRefund	api-token(Userid)	yes		app/api/controller/Pay.php	255
+POST	/api/pay/refund	/api/pay/refund.html	api	Pay	refund	api-token(Userid)	yes	提交退款	app/api/controller/Pay.php	199
+UNKNOWN	/api/pay/regressionStock	/api/pay/regressionStock.html	api	Pay	regressionStock	api-token(Userid)	yes		app/api/controller/Pay.php	281
+POST	/api/pay/submit	/api/pay/submit.html	api	Pay	submit	api-token(Userid)	yes	提交订单	app/api/controller/Pay.php	44
+POST	/api/screen/index	/api/screen/index.html	api	Screen	index	api-token(Userid)	no	图形数据	app/api/controller/Screen.php	62
+POST	/api/screen/list	/api/screen/list.html	api	Screen	list	api-token(Userid)	yes	列表数据	app/api/controller/Screen.php	384
+POST	/api/screen/login	/api/screen/login.html	api	Screen	login	api-token(Userid)	no	大屏登录接口，返回 token	app/api/controller/Screen.php	38
+POST	/api/seller/bindCheckOpenid	/api/seller/bindCheckOpenid.html	api	Seller	bindCheckOpenid	api-token(Userid)	yes	返回商家信息	app/api/controller/Seller.php	208
+POST	/api/seller/cate	/api/seller/cate.html	api	Seller	cate	api-token(Userid)	no	返回商家分类	app/api/controller/Seller.php	30
+POST	/api/seller/detail	/api/seller/detail.html	api	Seller	detail	api-token(Userid)	no	返回商家详细信息	app/api/controller/Seller.php	114
+POST	/api/seller/list	/api/seller/list.html	api	Seller	list	api-token(Userid)	no	返回商家信息	app/api/controller/Seller.php	48
+POST	/api/seller/search	/api/seller/search.html	api	Seller	search	api-token(Userid)	yes	返回商家信息	app/api/controller/Seller.php	192
+UNKNOWN	/api/system/alert_push	/api/system/alert_push.html	api	System	alert_push	api-token(Userid)	no		app/api/controller/System.php	1147
+UNKNOWN	/api/system/cleanDb	/api/system/cleanDb.html	api	System	cleanDb	api-token(Userid)	no		app/api/controller/System.php	175
+UNKNOWN	/api/system/invalid_tour	/api/system/invalid_tour.html	api	System	invalid_tour	api-token(Userid)	no		app/api/controller/System.php	1313
+UNKNOWN	/api/system/notification	/api/system/notification.html	api	System	notification	api-token(Userid)	no		app/api/controller/System.php	1233
+UNKNOWN	/api/system/queryArea	/api/system/queryArea.html	api	System	queryArea	api-token(Userid)	no		app/api/controller/System.php	493
+UNKNOWN	/api/system/remake	/api/system/remake.html	api	System	remake	api-token(Userid)	no		app/api/controller/System.php	541
+UNKNOWN	/api/system/remake_lxs	/api/system/remake_lxs.html	api	System	remake_lxs	api-token(Userid)	no		app/api/controller/System.php	823
+UNKNOWN	/api/system/remake_ticket	/api/system/remake_ticket.html	api	System	remake_ticket	api-token(Userid)	no		app/api/controller/System.php	1319
+POST	/api/system/rollback_remain_count	/api/system/rollback_remain_count.html	api	System	rollback_remain_count	api-token(Userid)	no	回滚消费券剩余数量	app/api/controller/System.php	31
+UNKNOWN	/api/system/rollback_remain_count_extend	/api/system/rollback_remain_count_extend.html	api	System	rollback_remain_count_extend	api-token(Userid)	no		app/api/controller/System.php	94
+UNKNOWN	/api/system/rollback_set_data	/api/system/rollback_set_data.html	api	System	rollback_set_data	api-token(Userid)	no		app/api/controller/System.php	62
+POST	/api/system/set_tour_invalid	/api/system/set_tour_invalid.html	api	System	set_tour_invalid	api-token(Userid)	no	团状态等于确认团且不能是无效团的，团期超过当前时间 没有游客  没有导游 没有领券的 将团设置无效	app/api/controller/System.php	124
+UNKNOWN	/api/system/tableTohtml	/api/system/tableTohtml.html	api	System	tableTohtml	api-token(Userid)	no		app/api/controller/System.php	229
+UNKNOWN	/api/system/tableTohtml1	/api/system/tableTohtml1.html	api	System	tableTohtml1	api-token(Userid)	no		app/api/controller/System.php	373
+POST	/api/system/XdataSummary	/api/system/XdataSummary.html	api	System	XdataSummary	api-token(Userid)	no		app/api/controller/System.php	997
+UNKNOWN	/api/test/clb	/api/test/clb.html	api	Test	clb	api-token(Userid)	unknown		app/api/controller/Test.php	69
+UNKNOWN	/api/test/getUserTaohua	/api/test/getUserTaohua.html	api	Test	getUserTaohua	api-token(Userid)	unknown		app/api/controller/Test.php	344
+UNKNOWN	/api/test/index	/api/test/index.html	api	Test	index	api-token(Userid)	unknown		app/api/controller/Test.php	16
+UNKNOWN	/api/test/rsyncTaohua	/api/test/rsyncTaohua.html	api	Test	rsyncTaohua	api-token(Userid)	unknown		app/api/controller/Test.php	105
+UNKNOWN	/api/test/rsyncTaohuaSign	/api/test/rsyncTaohuaSign.html	api	Test	rsyncTaohuaSign	api-token(Userid)	unknown		app/api/controller/Test.php	215
+UNKNOWN	/api/test/syncdb2	/api/test/syncdb2.html	api	Test	syncdb2	api-token(Userid)	unknown		app/api/controller/Test.php	55
+UNKNOWN	/api/test/tokenTaohua	/api/test/tokenTaohua.html	api	Test	tokenTaohua	api-token(Userid)	unknown		app/api/controller/Test.php	74
+UNKNOWN	/api/ticket/cancelRefund	/api/ticket/cancelRefund.html	api	Ticket	cancelRefund	api-token(Userid)	yes		app/api/controller/Ticket.php	1973
+UNKNOWN	/api/ticket/create_file	/api/ticket/create_file.html	api	Ticket	create_file	api-token(Userid)	yes		app/api/controller/Ticket.php	1110
+UNKNOWN	/api/ticket/getCommentList	/api/ticket/getCommentList.html	api	Ticket	getCommentList	api-token(Userid)	no		app/api/controller/Ticket.php	1315
+UNKNOWN	/api/ticket/getOrderDetail	/api/ticket/getOrderDetail.html	api	Ticket	getOrderDetail	api-token(Userid)	yes		app/api/controller/Ticket.php	1387
+UNKNOWN	/api/ticket/getOrderDetailDetail	/api/ticket/getOrderDetailDetail.html	api	Ticket	getOrderDetailDetail	api-token(Userid)	yes		app/api/controller/Ticket.php	1865
+UNKNOWN	/api/ticket/getOrderList	/api/ticket/getOrderList.html	api	Ticket	getOrderList	api-token(Userid)	yes		app/api/controller/Ticket.php	1344
+UNKNOWN	/api/ticket/getRefundLogDetail	/api/ticket/getRefundLogDetail.html	api	Ticket	getRefundLogDetail	api-token(Userid)	yes		app/api/controller/Ticket.php	1938
+UNKNOWN	/api/ticket/getRefundLogList	/api/ticket/getRefundLogList.html	api	Ticket	getRefundLogList	api-token(Userid)	yes		app/api/controller/Ticket.php	1892
+UNKNOWN	/api/ticket/getScenicList	/api/ticket/getScenicList.html	api	Ticket	getScenicList	api-token(Userid)	no	返回景区列表信息	app/api/controller/Ticket.php	1193
+UNKNOWN	/api/ticket/getTicketList	/api/ticket/getTicketList.html	api	Ticket	getTicketList	api-token(Userid)	no		app/api/controller/Ticket.php	1123
+UNKNOWN	/api/ticket/getTicketPirce	/api/ticket/getTicketPirce.html	api	Ticket	getTicketPirce	api-token(Userid)	no		app/api/controller/Ticket.php	1153
+UNKNOWN	/api/ticket/getTravelOrderDetail	/api/ticket/getTravelOrderDetail.html	api	Ticket	getTravelOrderDetail	api-token(Userid)	no		app/api/controller/Ticket.php	2037
+UNKNOWN	/api/ticket/notify_pay	/api/ticket/notify_pay.html	api	Ticket	notify_pay	api-token(Userid)	no		app/api/controller/Ticket.php	944
+UNKNOWN	/api/ticket/notify_refund	/api/ticket/notify_refund.html	api	Ticket	notify_refund	api-token(Userid)	no		app/api/controller/Ticket.php	1008
+UNKNOWN	/api/ticket/orderpay	/api/ticket/orderpay.html	api	Ticket	orderpay	api-token(Userid)	yes		app/api/controller/Ticket.php	266
+UNKNOWN	/api/ticket/OrderRefund	/api/ticket/OrderRefund.html	api	Ticket	OrderRefund	api-token(Userid)	yes		app/api/controller/Ticket.php	883
+UNKNOWN	/api/ticket/OrderRefundDetail	/api/ticket/OrderRefundDetail.html	api	Ticket	OrderRefundDetail	api-token(Userid)	yes		app/api/controller/Ticket.php	756
+POST	/api/ticket/pay	/api/ticket/pay.html	api	Ticket	pay	api-token(Userid)	yes	提交订单	app/api/controller/Ticket.php	63
+POST	/api/ticket/refund	/api/ticket/refund.html	api	Ticket	refund	api-token(Userid)	yes	提交退款整单退款	app/api/controller/Ticket.php	802
+POST	/api/ticket/single_refund	/api/ticket/single_refund.html	api	Ticket	single_refund	api-token(Userid)	yes	提交退款整单退款	app/api/controller/Ticket.php	660
+UNKNOWN	/api/ticket/travelOrderPay	/api/ticket/travelOrderPay.html	api	Ticket	travelOrderPay	api-token(Userid)	no		app/api/controller/Ticket.php	2075
+UNKNOWN	/api/ticket/writeComment	/api/ticket/writeComment.html	api	Ticket	writeComment	api-token(Userid)	yes		app/api/controller/Ticket.php	1255
+UNKNOWN	/api/ticket/writeOff	/api/ticket/writeOff.html	api	Ticket	writeOff	api-token(Userid)	yes		app/api/controller/Ticket.php	1427
+UNKNOWN	/api/upload/index	/api/upload/index.html	api	Upload	index	api-token(Userid)	yes		app/api/controller/Upload.php	45
+UNKNOWN	/api/user/add_sign_record	/api/user/add_sign_record.html	api	User	add_sign_record	api-token(Userid)	yes		app/api/controller/User.php	822
+POST	/api/user/addguest	/api/user/addguest.html	api	User	addguest	api-token(Userid)	no	返回是否成功	app/api/controller/User.php	1004
+UNKNOWN	/api/user/auth_identity	/api/user/auth_identity.html	api	User	auth_identity	api-token(Userid)	yes		app/api/controller/User.php	1167
+UNKNOWN	/api/user/auth_info	/api/user/auth_info.html	api	User	auth_info	api-token(Userid)	no		app/api/controller/User.php	82
+POST	/api/user/clock	/api/user/clock.html	api	User	clock	api-token(Userid)	yes	游客打卡	app/api/controller/User.php	758
+POST	/api/user/clock_list	/api/user/clock_list.html	api	User	clock_list	api-token(Userid)	yes	获取用户核销记录 = 打卡记录	app/api/controller/User.php	665
+POST	/api/user/collection	/api/user/collection.html	api	User	collection	api-token(Userid)	yes	用户收藏商家列表	app/api/controller/User.php	228
+POST	/api/user/collection_action	/api/user/collection_action.html	api	User	collection_action	api-token(Userid)	yes	取消&收藏	app/api/controller/User.php	294
+POST	/api/user/coupon_issue_user	/api/user/coupon_issue_user.html	api	User	coupon_issue_user	api-token(Userid)	yes	消费券--我的领取记录	app/api/controller/User.php	194
+POST	/api/user/coupon_order	/api/user/coupon_order.html	api	User	coupon_order	api-token(Userid)	yes	用户订单	app/api/controller/User.php	1060
+POST	/api/user/coupon_order_detail	/api/user/coupon_order_detail.html	api	User	coupon_order_detail	api-token(Userid)	yes	用户订单详情	app/api/controller/User.php	1100
+UNKNOWN	/api/user/delTourist	/api/user/delTourist.html	api	User	delTourist	api-token(Userid)	yes		app/api/controller/User.php	1614
+POST	/api/user/edit	/api/user/edit.html	api	User	edit	api-token(Userid)	yes	用户修改资料	app/api/controller/User.php	104
+UNKNOWN	/api/user/encryptAES	/api/user/encryptAES.html	api	User	encryptAES	api-token(Userid)	yes		app/api/controller/User.php	425
+POST	/api/user/feed_back	/api/user/feed_back.html	api	User	feed_back	api-token(Userid)	yes	返回是否成功	app/api/controller/User.php	960
+POST	/api/user/get_user_coupon_id	/api/user/get_user_coupon_id.html	api	User	get_user_coupon_id	api-token(Userid)	yes	获取用户所领取的消费券ID集	app/api/controller/User.php	1139
+UNKNOWN	/api/user/getCertTypeList	/api/user/getCertTypeList.html	api	User	getCertTypeList	api-token(Userid)	no		app/api/controller/User.php	1503
+UNKNOWN	/api/user/getLogisticsInformation	/api/user/getLogisticsInformation.html	api	User	getLogisticsInformation	api-token(Userid)	yes		app/api/controller/User.php	1927
+UNKNOWN	/api/user/getTouristList	/api/user/getTouristList.html	api	User	getTouristList	api-token(Userid)	yes		app/api/controller/User.php	1510
+POST	/api/user/guide_tour	/api/user/guide_tour.html	api	User	guide_tour	api-token(Userid)	yes	导游-我的团	app/api/controller/User.php	324
+POST	/api/user/hotel_clock	/api/user/hotel_clock.html	api	User	hotel_clock	api-token(Userid)	yes	游客酒店打卡	app/api/controller/User.php	894
+POST	/api/user/hotel_tour	/api/user/hotel_tour.html	api	User	hotel_tour	api-token(Userid)	yes	导游-我的团-酒店打卡记录	app/api/controller/User.php	351
+POST	/api/user/index	/api/user/index.html	api	User	index	api-token(Userid)	yes	个人中心	app/api/controller/User.php	34
+UNKNOWN	/api/user/miniwxregister	/api/user/miniwxregister.html	api	User	miniwxregister	api-token(Userid)	no		app/api/controller/User.php	1390
+UNKNOWN	/api/user/postTourist	/api/user/postTourist.html	api	User	postTourist	api-token(Userid)	yes		app/api/controller/User.php	1524
+UNKNOWN	/api/user/saveDelivery	/api/user/saveDelivery.html	api	User	saveDelivery	api-token(Userid)	yes		app/api/controller/User.php	1842
+UNKNOWN	/api/user/smsVerification	/api/user/smsVerification.html	api	User	smsVerification	api-token(Userid)	yes		app/api/controller/User.php	1644
+POST	/api/user/tour_coupon	/api/user/tour_coupon.html	api	User	tour_coupon	api-token(Userid)	yes	导游-我的团-团体券	app/api/controller/User.php	373
+POST	/api/user/tour_coupon_group	/api/user/tour_coupon_group.html	api	User	tour_coupon_group	api-token(Userid)	yes	导游-我的团-团体券-详情	app/api/controller/User.php	394
+UNKNOWN	/api/user/userClock	/api/user/userClock.html	api	User	userClock	api-token(Userid)	yes		app/api/controller/User.php	1726
+UNKNOWN	/api/user/writeoff_tour	/api/user/writeoff_tour.html	api	User	writeoff_tour	api-token(Userid)	yes		app/api/controller/User.php	471
+UNKNOWN	/api/webupload/index	/api/webupload/index.html	api	Webupload	index	api-token(Userid)	no		app/api/controller/Webupload.php	45
+UNKNOWN	/meituan/index/captcha	/meituan/index/captcha.html	meituan	Index	captcha	meituan(BA-sign)	yes		app/meituan/controller/Index.php	487
+UNKNOWN	/meituan/index/change	/meituan/index/change.html	meituan	Index	change	meituan(BA-sign)	yes		app/meituan/controller/Index.php	52
+UNKNOWN	/meituan/index/demo	/meituan/index/demo.html	meituan	Index	demo	meituan(BA-sign)	yes		app/meituan/controller/Index.php	60
+POST	/meituan/index/system	/meituan/index/system.html	meituan	Index	system	meituan(BA-sign)	yes	返回系统信息	app/meituan/controller/Index.php	459
+POST	/meituan/index/winlogin	/meituan/index/winlogin.html	meituan	Index	winlogin	meituan(BA-sign)	yes	系统登录接口，返回 token 用于操作需验证身份的接口	app/meituan/controller/Index.php	497
+UNKNOWN	/meituan/ticket/getMt	/meituan/ticket/getMt.html	meituan	Ticket	getMt	meituan(BA-sign)	no		app/meituan/controller/Ticket.php	43
+POST	/meituan/ticket/pay	/meituan/ticket/pay.html	meituan	Ticket	pay	meituan(BA-sign)	yes	提交订单	app/meituan/controller/Ticket.php	37
+UNKNOWN	/meituan/upload/index	/meituan/upload/index.html	meituan	Upload	index	meituan(BA-sign)	yes		app/meituan/controller/Upload.php	45
+UNKNOWN	/meituan/webupload/index	/meituan/webupload/index.html	meituan	Webupload	index	meituan(BA-sign)	no		app/meituan/controller/Webupload.php	45
+UNKNOWN	/selfservice/index/captcha	/selfservice/index/captcha.html	selfservice	Index	captcha	selfservice-token(No)	no		app/selfservice/controller/Index.php	54
+POST	/selfservice/index/selflogin	/selfservice/index/selflogin.html	selfservice	Index	selflogin	selfservice-token(No)	no	系统登录接口，返回 token 用于操作需验证身份的接口	app/selfservice/controller/Index.php	64
+UNKNOWN	/selfservice/ticket/getTicketPirce	/selfservice/ticket/getTicketPirce.html	selfservice	Ticket	getTicketPirce	selfservice-token(No)	yes		app/selfservice/controller/Ticket.php	389
+UNKNOWN	/selfservice/ticket/getTradeNo	/selfservice/ticket/getTradeNo.html	selfservice	Ticket	getTradeNo	selfservice-token(No)	yes		app/selfservice/controller/Ticket.php	432
+UNKNOWN	/selfservice/ticket/getTravelWxappQrcode	/selfservice/ticket/getTravelWxappQrcode.html	selfservice	Ticket	getTravelWxappQrcode	selfservice-token(No)	yes		app/selfservice/controller/Ticket.php	285
+UNKNOWN	/selfservice/ticket/queryOrder	/selfservice/ticket/queryOrder.html	selfservice	Ticket	queryOrder	selfservice-token(No)	no		app/selfservice/controller/Ticket.php	480
+UNKNOWN	/selfservice/ticket/queryTourist	/selfservice/ticket/queryTourist.html	selfservice	Ticket	queryTourist	selfservice-token(No)	yes		app/selfservice/controller/Ticket.php	448
+POST	/selfservice/ticket/submit	/selfservice/ticket/submit.html	selfservice	Ticket	submit	selfservice-token(No)	no	提交订单	app/selfservice/controller/Ticket.php	55
+UNKNOWN	/selfservice/ticket/takeTicket	/selfservice/ticket/takeTicket.html	selfservice	Ticket	takeTicket	selfservice-token(No)	yes		app/selfservice/controller/Ticket.php	504
+UNKNOWN	/selfservice/ticket/travelOrderPay	/selfservice/ticket/travelOrderPay.html	selfservice	Ticket	travelOrderPay	selfservice-token(No)	no		app/selfservice/controller/Ticket.php	334
+UNKNOWN	/selfservice/upload/index	/selfservice/upload/index.html	selfservice	Upload	index	selfservice-token(No)	yes		app/selfservice/controller/Upload.php	45
+UNKNOWN	/selfservice/webupload/index	/selfservice/webupload/index.html	selfservice	Webupload	index	selfservice-token(No)	no		app/selfservice/controller/Webupload.php	45
+UNKNOWN	/window/index/captcha	/window/index/captcha.html	window	Index	captcha	window-token(Uuid)	no		app/window/controller/Index.php	86
+POST	/window/index/system	/window/index/system.html	window	Index	system	window-token(Uuid)	no	返回系统信息	app/window/controller/Index.php	58
+POST	/window/index/winlogin	/window/index/winlogin.html	window	Index	winlogin	window-token(Uuid)	no	系统登录接口，返回 token 用于操作需验证身份的接口	app/window/controller/Index.php	96
+POST	/window/ticket/detail	/window/ticket/detail.html	window	Ticket	detail	window-token(Uuid)	yes	订单详情	app/window/controller/Ticket.php	421
+UNKNOWN	/window/ticket/getTicketPirce	/window/ticket/getTicketPirce.html	window	Ticket	getTicketPirce	window-token(Uuid)	yes		app/window/controller/Ticket.php	312
+POST	/window/ticket/list	/window/ticket/list.html	window	Ticket	list	window-token(Uuid)	yes	获取订单列表	app/window/controller/Ticket.php	353
+POST	/window/ticket/pay	/window/ticket/pay.html	window	Ticket	pay	window-token(Uuid)	yes	提交订单	app/window/controller/Ticket.php	55
+UNKNOWN	/window/ticket/queryOrder	/window/ticket/queryOrder.html	window	Ticket	queryOrder	window-token(Uuid)	yes		app/window/controller/Ticket.php	565
+UNKNOWN	/window/ticket/queryTourist	/window/ticket/queryTourist.html	window	Ticket	queryTourist	window-token(Uuid)	yes		app/window/controller/Ticket.php	533
+POST	/window/ticket/refund	/window/ticket/refund.html	window	Ticket	refund	window-token(Uuid)	yes	提交退款整单退款	app/window/controller/Ticket.php	280
+POST	/window/ticket/single_refund	/window/ticket/single_refund.html	window	Ticket	single_refund	window-token(Uuid)	yes	提交退款整单退款	app/window/controller/Ticket.php	249
+POST	/window/ticket/stats	/window/ticket/stats.html	window	Ticket	stats	window-token(Uuid)	no	报表统计	app/window/controller/Ticket.php	451
+UNKNOWN	/window/ticket/takeTicket	/window/ticket/takeTicket.html	window	Ticket	takeTicket	window-token(Uuid)	yes		app/window/controller/Ticket.php	589
+UNKNOWN	/window/upload/index	/window/upload/index.html	window	Upload	index	window-token(Uuid)	yes		app/window/controller/Upload.php	45
+UNKNOWN	/window/webupload/index	/window/webupload/index.html	window	Webupload	index	window-token(Uuid)	no		app/window/controller/Webupload.php	45
+UNKNOWN	/xc/index/captcha	/xc/index/captcha.html	xc	Index	captcha	xc(AES+md5-sign)	yes		app/xc/controller/Index.php	92
+UNKNOWN	/xc/index/change	/xc/index/change.html	xc	Index	change	xc(AES+md5-sign)	no		app/xc/controller/Index.php	51
+POST	/xc/index/system	/xc/index/system.html	xc	Index	system	xc(AES+md5-sign)	yes	返回系统信息	app/xc/controller/Index.php	64
+POST	/xc/index/winlogin	/xc/index/winlogin.html	xc	Index	winlogin	xc(AES+md5-sign)	yes	系统登录接口，返回 token 用于操作需验证身份的接口	app/xc/controller/Index.php	102
+UNKNOWN	/xc/order/accept	/xc/order/accept.html	xc	Order	accept	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	56
+UNKNOWN	/xc/order/CancelOrder	/xc/order/CancelOrder.html	xc	Order	CancelOrder	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	481
+UNKNOWN	/xc/order/CancelPreOrder	/xc/order/CancelPreOrder.html	xc	Order	CancelPreOrder	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	468
+UNKNOWN	/xc/order/CreatePreOrder	/xc/order/CreatePreOrder.html	xc	Order	CreatePreOrder	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	61
+UNKNOWN	/xc/order/DateInventoryModify	/xc/order/DateInventoryModify.html	xc	Order	DateInventoryModify	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	675
+UNKNOWN	/xc/order/OrderConsumedNotice	/xc/order/OrderConsumedNotice.html	xc	Order	OrderConsumedNotice	xc(AES+md5-sign)	no		app/xc/controller/Order.php	851
+UNKNOWN	/xc/order/OrderTravelNotice	/xc/order/OrderTravelNotice.html	xc	Order	OrderTravelNotice	xc(AES+md5-sign)	no		app/xc/controller/Order.php	840
+UNKNOWN	/xc/order/PayPreOrder	/xc/order/PayPreOrder.html	xc	Order	PayPreOrder	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	361
+UNKNOWN	/xc/order/QueryOrder	/xc/order/QueryOrder.html	xc	Order	QueryOrder	xc(AES+md5-sign)	yes		app/xc/controller/Order.php	589
+UNKNOWN	/xc/order/testGetOrder	/xc/order/testGetOrder.html	xc	Order	testGetOrder	xc(AES+md5-sign)	no		app/xc/controller/Order.php	860
+UNKNOWN	/xc/order/VerifyOrder	/xc/order/VerifyOrder.html	xc	Order	VerifyOrder	xc(AES+md5-sign)	yes	描述：下单验证接口在客人下单时提前将下单信息提交给供应商系统进行校验，及时告知客人是否可以预定成功，有助于提高订单预定成功率和提升客人预定体验。	app/xc/controller/Order.php	719
+POST	/xc/ticket/detail	/xc/ticket/detail.html	xc	Ticket	detail	xc(AES+md5-sign)	yes	订单详情	app/xc/controller/Ticket.php	672
+UNKNOWN	/xc/ticket/getTicketPirce	/xc/ticket/getTicketPirce.html	xc	Ticket	getTicketPirce	xc(AES+md5-sign)	yes		app/xc/controller/Ticket.php	563
+POST	/xc/ticket/list	/xc/ticket/list.html	xc	Ticket	list	xc(AES+md5-sign)	yes	获取订单列表	app/xc/controller/Ticket.php	604
+UNKNOWN	/xc/ticket/OrderRefund	/xc/ticket/OrderRefund.html	xc	Ticket	OrderRefund	xc(AES+md5-sign)	yes		app/xc/controller/Ticket.php	486
+UNKNOWN	/xc/ticket/OrderRefundDetail	/xc/ticket/OrderRefundDetail.html	xc	Ticket	OrderRefundDetail	xc(AES+md5-sign)	yes		app/xc/controller/Ticket.php	336
+POST	/xc/ticket/pay	/xc/ticket/pay.html	xc	Ticket	pay	xc(AES+md5-sign)	yes	提交订单	app/xc/controller/Ticket.php	51
+POST	/xc/ticket/refund	/xc/ticket/refund.html	xc	Ticket	refund	xc(AES+md5-sign)	yes	提交退款整单退款	app/xc/controller/Ticket.php	421
+POST	/xc/ticket/single_refund	/xc/ticket/single_refund.html	xc	Ticket	single_refund	xc(AES+md5-sign)	yes	提交退款整单退款	app/xc/controller/Ticket.php	247
+POST	/xc/ticket/stats	/xc/ticket/stats.html	xc	Ticket	stats	xc(AES+md5-sign)	no	报表统计	app/xc/controller/Ticket.php	702
+UNKNOWN	/xc/upload/index	/xc/upload/index.html	xc	Upload	index	xc(AES+md5-sign)	yes		app/xc/controller/Upload.php	45
+UNKNOWN	/xc/webupload/index	/xc/webupload/index.html	xc	Webupload	index	xc(AES+md5-sign)	no		app/xc/controller/Webupload.php	45

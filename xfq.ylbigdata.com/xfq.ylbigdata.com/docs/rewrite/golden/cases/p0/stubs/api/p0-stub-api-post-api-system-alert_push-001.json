@@ -1,0 +1,51 @@
+{
+  "id": "p0-stub-api-post-api-system-alert_push-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "System",
+    "action": "alert_push",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/system/alert_push",
+    "query": {},
+    "headers": {
+      "X-Rewrite-Enable": "1"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "操作成功",
+        "time": 1770534097,
+        "data": {
+          "single_customer_price": "0.00",
+          "single_customer_count": 0,
+          "tour_customer_price": "0.00",
+          "tour_customer_count": 0,
+          "warning_price": "0.00"
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

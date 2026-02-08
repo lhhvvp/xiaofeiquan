@@ -1,0 +1,72 @@
+{
+  "id": "p0-miniapp-post-api-seller-detail-001",
+  "meta": {
+    "tier": "p0",
+    "source": "miniapp",
+    "module": "merchant",
+    "source_file": "/home/yuan/proj/xiaofeiquan/xfq-miniapp/mp-native/miniprogram/services/api/merchant.js",
+    "source_line": 33,
+    "notes": "运行前设置 API_TOKEN/API_USERID；必要时补齐 form/query 参数后再录制 baseline"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/seller/detail",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "seller_id": "1",
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770549228,
+        "data": {
+          "detail": {
+            "id": 1,
+            "status": 1,
+            "nickname": "Seed Scenic",
+            "image": "",
+            "mobile": "13800000000",
+            "do_business_time": "09:00-18:00",
+            "address": "Seed Address",
+            "content": null,
+            "longitude": 109.7,
+            "latitude": 38.3,
+            "class_id": 2,
+            "distance": 12497.512,
+            "comment_rate": 0,
+            "comment_num": 0,
+            "appt_open": 0,
+            "appt_limit": 0,
+            "collection": "",
+            "seller_child_node": []
+          },
+          "coupon": []
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

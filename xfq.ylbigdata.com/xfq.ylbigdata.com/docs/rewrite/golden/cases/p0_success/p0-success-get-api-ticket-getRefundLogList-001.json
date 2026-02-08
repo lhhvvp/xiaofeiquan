@@ -1,0 +1,45 @@
+{
+  "id": "p0-success-get-api-ticket-getRefundLogList-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: refund log list baseline under success seed"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/api/ticket/getRefundLogList",
+    "query": {
+      "page": "1",
+      "page_size": "10"
+    },
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "none"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "",
+        "time": 1770583751,
+        "data": []
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

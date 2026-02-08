@@ -1,0 +1,84 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: xfq-rewrite-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: xfq_v2
+      MYSQL_USER: xfq
+      MYSQL_PASSWORD: xfq
+      TZ: Asia/Shanghai
+    ports:
+      - "13306:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --default-time-zone=+08:00
+    volumes:
+      - ./DDL_xfq_v2.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/infra/mysql/02-seed-minimal.sql:/docker-entrypoint-initdb.d/02-seed-minimal.sql:ro
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/infra/mysql/03-seed-dev-auth.sql:/docker-entrypoint-initdb.d/03-seed-dev-auth.sql:ro
+      - xfq-rewrite-mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: xfq-rewrite-redis
+    ports:
+      - "16379:6379"
+    volumes:
+      - xfq-rewrite-redis-data:/data
+
+  legacy-php:
+    build:
+      context: ./xfq.ylbigdata.com/xfq.ylbigdata.com/infra/legacy-php
+      dockerfile: Dockerfile
+    container_name: xfq-legacy-php
+    working_dir: /app
+    depends_on:
+      - mysql
+    ports:
+      - "18080:8000"
+    volumes:
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com:/app
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/.env.docker:/app/.env:ro
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/infra/legacy-php/conf.d/99-legacy-local.ini:/usr/local/etc/php/conf.d/99-legacy-local.ini:ro
+    # 说明：旧代码在 PHP8 下会产生 warning/deprecated，若直接输出会导致 JSON 头部无法正确发送，
+    # 从而影响 golden 基线录制；这里提前关闭 display_errors 以保证响应干净可比对。
+    command:
+      ["php", "-d", "display_errors=0", "think", "run", "--host", "0.0.0.0", "--port", "8000"]
+
+  rewrite-py:
+    build:
+      context: ./xfq.ylbigdata.com/xfq.ylbigdata.com/rewrite_py
+      dockerfile: Dockerfile
+    container_name: xfq-rewrite-py
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "28080:8000"
+    environment:
+      STUB_FROM_GOLDEN: "1"
+      GOLDEN_CASES_DIR: /golden/p0:/golden/p0_success
+      P0_INTERFACES_TSV: /golden/p0-interfaces.tsv
+      # Dev-only: keep offline replay stable (no real 3rd-party calls)
+      REWRITE_MOCK_WECHAT_PAY: "1"
+      REWRITE_MOCK_WECHAT_REFUND: "1"
+      REWRITE_MOCK_SMS: "1"
+      REWRITE_MOCK_IDENTITY: "1"
+      # Dev-only OTA keys (match legacy config/ota.php for deterministic replay)
+      XC_ACCOUNT_ID: "5931ac6d70f46ed2"
+      XC_SIGN_KEY: "be8c6b51e5817111a4d7d8757093d4ec"
+      XC_AES_KEY: "bc3cd7f181409eda"
+      XC_AES_IV: "ce0e70accadb339f"
+      MEITUAN_CLIENT_ID: "703"
+      MEITUAN_CLIENT_SECRET: "pw4user2test@RA"
+      MEITUAN_PARTNER_ID: "703"
+    volumes:
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/docs/rewrite/golden/cases/p0:/golden/p0:ro
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/docs/rewrite/golden/cases/p0_success:/golden/p0_success:ro
+      - ./xfq.ylbigdata.com/xfq.ylbigdata.com/docs/rewrite/p0-interfaces.tsv:/golden/p0-interfaces.tsv:ro
+
+volumes:
+  xfq-rewrite-mysql-data:
+  xfq-rewrite-redis-data:

@@ -66,7 +66,19 @@ class BaseRefunds extends Base
             'refund_desc'   => $reason,
         ];
         
-        $result = Pay::wechat($config)->refund($order);//退款
+        // Dev-only: offline mock refund for golden replay (avoid calling real WeChat).
+        if (env('rewrite.mock_wechat_refund')) {
+            $result = [
+                'return_code'    => 'SUCCESS',
+                'result_code'    => 'SUCCESS',
+                'appid'          => $config['miniapp_id'] ?? ($config['appid'] ?? 'wx-dev-appid'),
+                'mch_id'         => $config['mch_id'] ?? '1900000001',
+                'transaction_id' => 'mock-transaction-id',
+                'refund_id'      => 'mock-refund-id',
+            ];
+        } else {
+            $result = Pay::wechat($config)->refund($order);//退款
+        }
         if($result['return_code']=='SUCCESS' && $result['result_code']=='SUCCESS'){
             $data['appid']      =   $result['appid'];
             $data['mch_id']     =   $result['mch_id'];

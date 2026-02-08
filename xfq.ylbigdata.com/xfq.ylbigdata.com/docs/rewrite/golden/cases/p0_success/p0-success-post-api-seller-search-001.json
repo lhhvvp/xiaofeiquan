@@ -1,0 +1,53 @@
+{
+  "id": "p0-success-post-api-seller-search-001",
+  "meta": {
+    "tier": "p0_success",
+    "source": "manual",
+    "notes": "success: seller search baseline under success seed"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/seller/search",
+    "query": {},
+    "headers": {
+      "Token": "${API_TOKEN}",
+      "Userid": "${API_USERID}"
+    },
+    "body": {
+      "type": "form",
+      "form": {
+        "nickname": "seed",
+        "page": "1",
+        "limit": "10"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "type": "json",
+      "json": {
+        "code": 0,
+        "msg": "请求成功",
+        "time": 1770583752,
+        "data": {
+          "total": 0,
+          "per_page": 10,
+          "current_page": 1,
+          "last_page": 0,
+          "data": []
+        }
+      }
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

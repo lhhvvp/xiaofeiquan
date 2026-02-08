@@ -1,0 +1,38 @@
+{
+  "id": "p0-quality16-post-api-index-regeo-legacy-empty-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Index",
+    "action": "regeo",
+    "notes": "quality-batch16: keep legacy empty-200 baseline in isolated suite"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/index/regeo",
+    "query": {},
+    "headers": {},
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": ""
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}

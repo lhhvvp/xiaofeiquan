@@ -1,0 +1,40 @@
+{
+  "id": "p0-stub-api-post-api-ticket-notify_refund-001",
+  "meta": {
+    "tier": "p0",
+    "source": "p0-interfaces",
+    "app": "api",
+    "controller": "Ticket",
+    "action": "notify_refund",
+    "notes": "stub：先录制 legacy baseline，再用它验收 Python 实现。 variant=path"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/api/ticket/notify_refund",
+    "query": {},
+    "headers": {
+      "X-Rewrite-Enable": "1"
+    },
+    "body": {
+      "type": "form",
+      "form": {}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/xml; charset=utf-8"
+    },
+    "body": {
+      "type": "raw_base64",
+      "base64": "PHhtbD48cmV0dXJuX2NvZGU+PCFbQ0RBVEFbU1VDQ0VTU11dPjwvcmV0dXJuX2NvZGU+PHJldHVybl9tc2c+PCFbQ0RBVEFbT0tdXT48L3JldHVybl9tc2c+PC94bWw+"
+    }
+  },
+  "compare": {
+    "mode": "json",
+    "ignore_json_keys": [
+      "time"
+    ],
+    "ignore_json_pointers": []
+  }
+}
