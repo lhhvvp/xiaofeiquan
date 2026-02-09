@@ -1,42 +1,90 @@
-<view class="container">
+<view class="index-page">
+  <view class="hero" style="{{slideUrl ? 'background-image:url(' + slideUrl + ')' : ''}}">
+    <view class="hero-mask"></view>
+    <view class="hero-main">
+      <view class="hero-top">
+        <view class="hero-title">榆林市旅游消费平台</view>
+        <view class="hero-actions">
+          <button wx:if="{{!hasLogin}}" class="hero-btn primary" bindtap="onTapGoLogin">去登录</button>
+          <button class="hero-btn" bindtap="onTapMyCoupons">我的券</button>
+        </view>
+      </view>
+
+      <scroll-view scroll-x class="nav-scroll" show-scrollbar="{{false}}">
+        <view class="nav-row">
+          <view class="nav-item {{selectedNavId==='all' ? 'active' : ''}}" bindtap="onTapNav">全部</view>
+          <view
+            wx:for="{{navList}}"
+            wx:key="id"
+            class="nav-item {{selectedNavId===item.idKey ? 'active' : ''}}"
+            data-id="{{item.id}}"
+            bindtap="onTapNav"
+          >
+            {{item.title}}
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="notice-bar">
+        <view class="notice-icon">播</view>
+        <swiper class="notice-swiper" autoplay interval="5000" circular vertical>
+          <swiper-item wx:for="{{news}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapNotice">
+            <view class="notice-item">{{item.title}}</view>
+          </swiper-item>
+          <swiper-item wx:if="{{!news.length}}">
+            <view class="notice-item">暂无公告，点击查看详情</view>
+          </swiper-item>
+        </swiper>
+        <view class="notice-more" bindtap="onTapNoticeList">更多</view>
+      </view>
+    </view>
+  </view>
+
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <image wx:if="{{slideUrl}}" class="slide" src="{{slideUrl}}" mode="aspectFill" />
+  <view wx:for="{{visibleSections}}" wx:key="id" class="section page-card">
+    <view class="section-head">
+      <view class="section-title-wrap">
+        <image wx:if="{{item.iconUrl}}" class="section-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
+        <view class="section-title">{{item.title}}</view>
+      </view>
+      <view class="section-more" data-id="{{item.id}}" bindtap="onTapSectionMore">查看更多</view>
+    </view>
 
-  <view class="actions">
-    <ui-button wx:if="{{!hasLogin}}" size="mini" type="primary" text="去登录" bind:tap="onTapGoLogin" />
-    <ui-button size="mini" text="我的券" bind:tap="onTapMyCoupons" />
-    <ui-button size="mini" text="适用商家（测试页）" bind:tap="onTapOpenApplicableMerchants" />
-    <ui-button size="mini" text="{{debugOpen?'关闭调试':'打开调试'}}" bind:tap="onTapToggleDebug" />
-  </view>
-
-  <view wx:if="{{couponSections.length}}">
-    <view wx:for="{{couponSections}}" wx:key="id" wx:for-item="section" class="section">
-      <view class="section-title">{{section.title}}</view>
-      <view wx:for="{{section.list}}" wx:key="id" wx:for-item="coupon" class="coupon" data-id="{{coupon.id}}" bindtap="onTapCoupon">
-        <view class="coupon-left">
-          <view class="coupon-name">{{coupon.couponTitle}}</view>
-          <view class="coupon-sub">{{section.title}}</view>
-        </view>
-        <view class="coupon-right">
-          <view wx:if="{{coupon.couponPrice}}" class="coupon-price">{{coupon.couponPrice}}</view>
-          <view class="coupon-action {{coupon.isUse?'used':''}}">{{coupon.actionText}}</view>
+    <view class="coupon-grid">
+      <view
+        wx:for="{{item.list}}"
+        wx:key="id"
+        class="coupon-item"
+        data-id="{{item.id}}"
+        bindtap="onTapCoupon"
+      >
+        <view class="coupon-inner">
+          <view class="coupon-left">
+            <view class="coupon-tag">{{item.displayTag}}</view>
+            <view class="coupon-name">{{item.couponTitle}}</view>
+          </view>
+          <view class="coupon-right">
+            <view wx:if="{{item.couponPrice}}" class="coupon-price">{{item.couponPrice}}</view>
+            <view class="coupon-action {{item.isUse ? 'used' : ''}}">{{item.actionText}}</view>
+          </view>
         </view>
       </view>
     </view>
   </view>
 
-  <view wx:if="{{actRuleHtml}}" class="card">
-    <view class="card-title">活动规则</view>
+  <view wx:if="{{actRuleHtml}}" class="rule-card page-card">
+    <view class="rule-title">活动规则</view>
     <ui-rich-text nodes="{{actRuleHtml}}"></ui-rich-text>
   </view>
 
-  <view wx:if="{{debugOpen}}" class="card">
-    <view class="card-title">调试信息</view>
-    <text selectable="true" class="json">{{debugText}}</text>
+  <view wx:if="{{debugOpen}}" class="debug-card page-card">
+    <view class="debug-title">调试信息</view>
+    <text selectable="true" class="debug-json">{{debugText}}</text>
   </view>
 
+  <view class="float-debug" bindtap="onTapToggleDebug">{{debugOpen ? '关闭调试' : '调试'}}</view>
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
 </view>

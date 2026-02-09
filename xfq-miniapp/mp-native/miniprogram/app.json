@@ -6,6 +6,20 @@
     "pages/user/user",
     "pages/user/login/login",
     "pages/getopenid/getopenid",
+    "pages/coupon/logistics",
+    "pages/list/list",
+    "pages/user/GroupCoupon/GroupCoupon",
+    "pages/user/GroupCoupon/list",
+    "pages/user/GroupCoupon/my_coupon",
+    "pages/user/order_groupCoupon",
+    "pages/user/GroupCoupon/touristInfo/touristInfo",
+    "pages/user/GroupCoupon/hotelList",
+    "pages/user/GroupCoupon/hotelUserList",
+    "pages/coupon/lineList",
+    "pages/coupon/lineInfo",
+    "pages/coupon/travelList",
+    "pages/user/attestation",
+    "pages/getopenid/travelorderinfo",
     "pages/user/paySuccess",
     "pages/user/refunded",
     "pages/common/paySuccess"
@@ -23,10 +37,30 @@
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [
-      { "pagePath": "pages/index/index", "text": "首页" },
-      { "pagePath": "pages/merchant/merchant", "text": "商家" },
-      { "pagePath": "pages/tickets/tickets", "text": "门票" },
-      { "pagePath": "pages/user/user", "text": "我的" }
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon/home.png",
+        "selectedIconPath": "static/icon/home-hover.png",
+        "text": "消费券"
+      },
+      {
+        "pagePath": "pages/merchant/merchant",
+        "iconPath": "static/icon/merchants.png",
+        "selectedIconPath": "static/icon/merchants-hover.png",
+        "text": "商家"
+      },
+      {
+        "pagePath": "pages/tickets/tickets",
+        "iconPath": "static/icon/mp.png",
+        "selectedIconPath": "static/icon/mp-hover.png",
+        "text": "门票"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/icon/my.png",
+        "selectedIconPath": "static/icon/my-hover.png",
+        "text": "我的"
+      }
     ]
   },
   "subpackages": [
@@ -85,9 +119,9 @@
   },
   "window": {
     "navigationBarTitleText": "消费券",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "backgroundColor": "#ffffff"
+    "navigationBarBackgroundColor": "#a00000",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f7f7f7"
   },
   "sitemapLocation": "sitemap.json"
 }

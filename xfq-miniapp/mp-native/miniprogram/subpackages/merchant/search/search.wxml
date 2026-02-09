@@ -1,21 +1,24 @@
-<view class="container">
+<view class="search-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view class="search">
-    <input
-      class="search-input"
-      value="{{keyword}}"
-      placeholder="请输入关键字"
-      bindinput="onInputKeyword"
-      confirm-type="search"
-      bindconfirm="onTapSearch"
-    />
+  <view class="search-wrap page-card">
+    <view class="search-main">
+      <view class="search-icon">🔍</view>
+      <input
+        class="search-input"
+        value="{{keyword}}"
+        placeholder="请输入关键字"
+        bindinput="onInputKeyword"
+        confirm-type="search"
+        bindconfirm="onTapSearch"
+      />
+    </view>
     <button class="search-btn" size="mini" bindtap="onTapSearch">搜索</button>
   </view>
 
-  <view wx:if="{{showHistory}}">
+  <view wx:if="{{showHistory}}" class="history-card page-card">
     <view class="history-head">
       <view class="history-title">历史记录</view>
       <view class="history-del" bindtap="onTapClearHistory">清空</view>
@@ -33,23 +36,22 @@
     </view>
   </view>
 
-  <view wx:if="{{!showHistory}}">
+  <view wx:if="{{!showHistory}}" class="result-list">
     <view wx:if="{{empty}}" class="empty">暂无数据</view>
 
-    <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapMerchant">
+    <view wx:for="{{list}}" wx:key="id" class="item page-card" data-id="{{item.id}}" bindtap="onTapMerchant">
       <image class="item-img" src="{{item.image}}" mode="aspectFill" />
       <view class="item-main">
         <view class="item-title">
-          <text class="item-name">{{item.nickname}}</text>
-          <text class="item-distance">{{item.distanceText}}</text>
+          <text class="item-name">{{item.nickname || '未命名商家'}}</text>
+          <text class="item-distance">{{item.distanceText || '--'}}</text>
         </view>
-        <view class="item-sub">电话：{{item.mobile}}</view>
-        <view class="item-sub">营业时间：{{item.doBusinessTime}}</view>
-        <view class="item-sub">地址：{{item.address}}</view>
+        <view class="item-sub">电话：{{item.mobile || '暂无电话'}}</view>
+        <view class="item-sub">营业时间：{{item.doBusinessTime || '-'}}</view>
+        <view class="item-sub">地址：{{item.address || '暂无地址'}}</view>
       </view>
     </view>
   </view>
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 </view>
-

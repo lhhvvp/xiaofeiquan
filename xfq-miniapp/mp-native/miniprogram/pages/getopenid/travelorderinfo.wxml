@@ -1,0 +1,50 @@
+<view class="travel-order-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="status">{{(detail && detail.order_status_text) || '-'}}</view>
+
+  <view class="card page-card" wx:if="{{detail}}">
+    <view class="price-box">
+      <view class="price-title">应付金额</view>
+      <view class="price">{{detail.amount_price || '-'}}</view>
+    </view>
+    <view class="product">
+      <view class="product-title">{{(detail.seller && detail.seller.nickname) || '-'}} - {{(detail.ticket_info && detail.ticket_info.title) || '-'}}</view>
+      <view class="number" wx:if="{{detail.detail_list && detail.detail_list.length}}">x{{detail.detail_list.length}}</view>
+    </view>
+    <view class="content-row">
+      <view class="label">有效期</view>
+      <view class="value">{{(detail.ticket_info && detail.ticket_info.date) || '-'}}（仅限当天使用）</view>
+    </view>
+    <view class="content-row">
+      <view class="label">订单号</view>
+      <view class="value">{{detail.trade_no || '-'}}</view>
+      <view class="copy" bindtap="copyTradeNo">复制</view>
+    </view>
+  </view>
+
+  <view class="card page-card" wx:if="{{detail && detail.detail_list && detail.detail_list.length}}">
+    <view class="section-title">游客列表</view>
+    <view class="tour-row" wx:for="{{detail.detail_list}}" wx:key="id">
+      <view class="tour-name">{{item.tourist_fullname || '-'}}</view>
+      <view class="tour-mobile">手机号：{{item.tourist_mobile || '-'}}</view>
+    </view>
+  </view>
+
+  <view class="card page-card" wx:if="{{detail}}">
+    <view class="section-title">购买说明</view>
+    <ui-rich-text nodes="{{(detail.ticket_info && detail.ticket_info.explain_buy) || '-'}}"></ui-rich-text>
+    <view class="section-title mt">使用说明</view>
+    <ui-rich-text nodes="{{(detail.ticket_info && detail.ticket_info.explain_use) || '-'}}"></ui-rich-text>
+  </view>
+
+  <view wx:if="{{detail}}" class="bottom-space"></view>
+  <view wx:if="{{detail}}" class="bottom-bar">
+    <view class="pay-btn" bindtap="orderPay">{{paying ? '支付中...' : '立即付款'}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

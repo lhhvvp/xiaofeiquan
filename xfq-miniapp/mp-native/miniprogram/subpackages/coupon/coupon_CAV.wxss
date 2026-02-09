@@ -1,5 +1,7 @@
-.container {
-  padding: 24rpx;
+.coupon-cav-page {
+  min-height: 100vh;
+  padding: 120rpx 24rpx 24rpx;
+  background: #f7f7f7;
 }
 
 .notice {
@@ -14,9 +16,49 @@
 
 .card {
   margin-top: 16rpx;
-  background: #fff;
-  border-radius: 20rpx;
   padding: 20rpx;
+  position: relative;
+}
+
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  background: #f7f7f7;
+  top: 52%;
+}
+
+.card::before {
+  left: -15rpx;
+}
+
+.card::after {
+  right: -15rpx;
+}
+
+.title-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14rpx;
+  border-bottom: 1px dashed #d1d5db;
+}
+
+.title-label {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.title-arrow {
+  font-size: 34rpx;
+  color: #c0c0c0;
+}
+
+.coupon-main {
+  padding: 46rpx 0 20rpx;
 }
 
 .title {
@@ -28,7 +70,7 @@
 .price {
   margin-top: 10rpx;
   text-align: center;
-  font-size: 60rpx;
+  font-size: 76rpx;
   font-weight: 700;
   color: #932027;
 }
@@ -38,6 +80,32 @@
   font-size: 26rpx;
   color: #6b7280;
   text-align: center;
+  word-break: break-all;
+}
+
+.content-info {
+  margin-top: 18rpx;
+  border-top: 1px dashed #d1d5db;
+}
+
+.info-row {
+  padding: 16rpx 0;
+}
+
+.info-row + .info-row {
+  border-top: 1px solid #f1f5f9;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: #111827;
+  font-weight: 600;
+}
+
+.info-value {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #6b7280;
   word-break: break-all;
 }
 
@@ -69,6 +137,28 @@
   margin-bottom: 12rpx;
 }
 
+.status-img {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto 16rpx;
+  border-radius: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.status-img.ok {
+  color: #047857;
+  background: #d1fae5;
+}
+
+.status-img.fail {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
 .mask-msg {
   font-size: 28rpx;
   color: #374151;
@@ -82,4 +172,3 @@
   color: #b91c1c;
   word-break: break-all;
 }
-

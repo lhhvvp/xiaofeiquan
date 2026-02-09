@@ -17,6 +17,13 @@ function normalizeStatus(status) {
   return { status: Number.isFinite(s) ? s : 0, text: `状态：${String(status)}` }
 }
 
+function getStatusImage(status) {
+  const normalized = normalizeStatus(status)
+  if (normalized.status === 1) return '/static/icon/001.png'
+  if (normalized.status === 2) return '/static/icon/002.png'
+  return ''
+}
+
 function formatDateTime(input) {
   if (input === null || typeof input === 'undefined') return ''
   if (typeof input === 'number') {
@@ -102,6 +109,7 @@ Page({
     showQrcode: false,
     qrcodeHint: '',
     qrcodeText: '',
+    statusImage: '',
     nowText: '',
     error: null,
   },
@@ -196,6 +204,7 @@ Page({
         if (!nextInfo.enstrSalt && data.enstr_salt) nextInfo.enstrSalt = data.enstr_salt
 
         this.setData({ info: nextInfo, couponIssueId: Number(data.id) || 0 })
+        this.setData({ statusImage: getStatusImage(nextInfo.status) })
 
         if (nextInfo.couponTitle) wx.setNavigationBarTitle({ title: nextInfo.couponTitle })
 
@@ -241,19 +250,37 @@ Page({
     const isOffline = Number.isFinite(useType) ? useType !== 1 : true
 
     if (!this.data.hasLogin) {
-      this.setData({ showQrcode: false, qrcodeHint: '未登录，无法生成核销码', info: { ...info, statusText: status.text } })
+      this.setData({
+        showQrcode: false,
+        qrcodeHint: '未登录，无法生成核销码',
+        statusImage: getStatusImage(status.status),
+        info: { ...info, statusText: status.text },
+      })
       return Promise.resolve()
     }
     if (!isOffline) {
-      this.setData({ showQrcode: false, info: { ...info, statusText: status.text || '线上核销券（无二维码）' } })
+      this.setData({
+        showQrcode: false,
+        statusImage: getStatusImage(status.status),
+        info: { ...info, statusText: status.text || '线上核销券（无二维码）' },
+      })
       return Promise.resolve()
     }
     if (status.status !== 0) {
-      this.setData({ showQrcode: false, info: { ...info, statusText: status.text } })
+      this.setData({
+        showQrcode: false,
+        statusImage: getStatusImage(status.status),
+        info: { ...info, statusText: status.text },
+      })
       return Promise.resolve()
     }
 
-    this.setData({ showQrcode: true, qrcodeHint: '核销码生成中..', info: { ...info, statusText: status.text } })
+    this.setData({
+      showQrcode: true,
+      qrcodeHint: '核销码生成中..',
+      statusImage: '',
+      info: { ...info, statusText: status.text },
+    })
 
     try {
       wx.setScreenBrightness({ value: 1 })
@@ -312,6 +339,7 @@ Page({
           this.setData({
             info: { ...nextInfo, status: status.status, statusText: status.text },
             showQrcode: false,
+            statusImage: getStatusImage(status.status),
             qrcodeHint: '',
           })
           if (this.qrcodeTimer) clearTimeout(this.qrcodeTimer)
@@ -319,7 +347,7 @@ Page({
         }
 
         const qrcodeText = JSON.stringify({ id: data.id, qrcode: data.qrcode_url, coord, type: 'user' })
-        this.setData({ info: nextInfo, qrcodeHint: '核销码已更新', qrcodeText })
+        this.setData({ info: nextInfo, qrcodeHint: '核销码已更新', qrcodeText, statusImage: '' })
         return this.drawQrCode(qrcodeText)
       })
       .catch(() => {

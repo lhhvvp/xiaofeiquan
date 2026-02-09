@@ -20,7 +20,7 @@ function safeSetStorage(key, value) {
 }
 
 function isPhone(val) {
-  return /^1\\d{10}$/.test(String(val || '').trim())
+  return /^1\d{10}$/.test(String(val || '').trim())
 }
 
 Page({
@@ -58,6 +58,8 @@ Page({
       })
       safeSetStorage(EDIT_PAYLOAD_KEY, null)
       wx.setNavigationBarTitle({ title: '编辑游客' })
+    } else {
+      wx.setNavigationBarTitle({ title: '新增游客' })
     }
 
     if (this.data.hasBaseUrl && hasLogin) this.fetchCertTypes()
@@ -167,4 +169,3 @@ Page({
       .finally(() => this.setData({ saving: false }))
   },
 })
-

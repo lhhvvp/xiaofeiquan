@@ -10,14 +10,17 @@ const DEFAULT_AVATAR_URL =
 
 function normalizeDetail(detail, baseUrl) {
   if (!detail || typeof detail !== 'object') return null
+  const distance = Number(detail.distance)
+  const distanceText = Number.isFinite(distance) ? `${distance.toFixed(2)}km` : ''
   return {
     nickname: detail.nickname || '',
     image: urlUtil.normalizeNetworkUrl(detail.image, baseUrl),
     doBusinessTime: detail.do_business_time || '',
     address: detail.address || '',
     mobile: detail.mobile || '',
-    commentRate: detail.comment_rate || 0,
-    commentNum: detail.comment_num || 0,
+    commentRate: Number(detail.comment_rate || 0),
+    commentNum: Number(detail.comment_num || 0),
+    distanceText,
     apptOpen: Number(detail.appt_open) === 1,
     latitude: detail.latitude,
     longitude: detail.longitude,
@@ -257,6 +260,11 @@ Page({
     const sellerId = this.data.sellerId
     if (!sellerId) return
     wx.navigateTo({ url: `/subpackages/user/comment?mid=${encodeURIComponent(String(sellerId))}` })
+  },
+  onTapScenic(e) {
+    const id = e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.id
+    if (!id) return
+    wx.navigateTo({ url: `/subpackages/tickets/info?seller_id=${encodeURIComponent(String(id))}` })
   },
   noop() {},
 })

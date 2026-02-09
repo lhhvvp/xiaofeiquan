@@ -7,9 +7,11 @@ const couponApi = require('../../services/api/coupon')
 
 function normalizeDetail(detail, baseUrl) {
   if (!detail || typeof detail !== 'object') return null
+  const couponClass = detail.couponClass && typeof detail.couponClass === 'object' ? detail.couponClass : {}
   return {
     id: detail.id,
     cid: detail.cid,
+    titleClass: couponClass.title || '',
     couponTitle: detail.coupon_title || '',
     couponPrice: detail.coupon_price || '',
     salePrice: detail.sale_price || 0,
@@ -34,6 +36,25 @@ function calcProgressPercent(remainCount, totalCount) {
   return Math.max(0, Math.min(100, Number(percent.toFixed(2))))
 }
 
+function resolveReceiveAction(detail, hasLogin) {
+  if (!detail) {
+    return { text: '立即领取', disabled: false }
+  }
+  if (detail.status === 2) {
+    return { text: '已结束', disabled: true }
+  }
+  if (detail.status === 3) {
+    return { text: '已领取', disabled: true }
+  }
+  if (Number(detail.remainCount || 0) <= 0) {
+    return { text: '已抢完', disabled: true }
+  }
+  if (!hasLogin) {
+    return { text: '登录后领取', disabled: false }
+  }
+  return { text: '立即领取', disabled: false }
+}
+
 Page({
   data: {
     baseUrl: config.baseUrl,
@@ -48,6 +69,8 @@ Page({
     progressPercent: 0,
 
     receiving: false,
+    receiveText: '立即领取',
+    receiveDisabled: false,
     error: null,
   },
   onLoad(options) {
@@ -63,7 +86,9 @@ Page({
   },
   onShow() {
     const user = auth.getUser()
-    this.setData({ hasLogin: !!(user && user.token && user.uid) })
+    const hasLogin = !!(user && user.token && user.uid)
+    this.setData({ hasLogin })
+    this.updateReceiveAction(this.data.detail, hasLogin)
   },
   onPullDownRefresh() {
     if (!this.data.hasBaseUrl) {
@@ -104,6 +129,7 @@ Page({
           detail: normalized,
           progressPercent: calcProgressPercent(normalized && normalized.remainCount, normalized && normalized.totalCount),
         })
+        this.updateReceiveAction(normalized, this.data.hasLogin)
         if (normalized && normalized.couponTitle) {
           wx.setNavigationBarTitle({ title: normalized.couponTitle })
         }
@@ -206,5 +232,12 @@ Page({
         ui.toast('领取失败，请稍后重试')
       })
       .finally(() => this.setData({ receiving: false }))
+  },
+  updateReceiveAction(detail, hasLogin) {
+    const next = resolveReceiveAction(detail, hasLogin)
+    this.setData({
+      receiveText: next.text,
+      receiveDisabled: !!next.disabled,
+    })
   },
 })

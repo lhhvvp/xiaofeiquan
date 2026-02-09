@@ -1,0 +1,48 @@
+<view class="attestation-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card page-card" wx:if="{{authStatus !== 1}}">
+    <view class="field">
+      <text class="label">姓名</text>
+      <input class="input" value="{{name}}" placeholder="请输入姓名" bindinput="onInputName" />
+    </view>
+
+    <view class="field">
+      <text class="label">身份证号</text>
+      <input class="input" value="{{idcard}}" placeholder="请输入身份证号" bindinput="onInputIdCard" />
+    </view>
+
+    <view class="field">
+      <text class="label">手机号</text>
+      <input class="input phone-input" value="{{mobile}}" placeholder="请输入手机号" bindinput="onInputMobile" />
+      <view class="phone-action">
+        <button
+          wx:if="{{!isMobile}}"
+          class="mini-btn"
+          open-type="getPhoneNumber"
+          bindgetphonenumber="onGetPhoneNumber"
+        >
+          一键获取手机号
+        </button>
+        <view wx:if="{{isMobile}}" class="mini-btn send-btn" bindtap="sendCode">{{sendTitle}}</view>
+      </view>
+    </view>
+
+    <view class="field" wx:if="{{isMobile}}">
+      <text class="label">验证码</text>
+      <input class="input" value="{{mobileCode}}" placeholder="请填写验证码" bindinput="onInputMobileCode" />
+    </view>
+
+    <view class="submit" bindtap="submit">实名验证</view>
+  </view>
+
+  <view class="card page-card success-card" wx:if="{{authStatus === 1}}">
+    <view class="success-icon">✓</view>
+    <view class="success-title">实名验证成功</view>
+    <view class="success-sub" bindtap="navBack">返回上一页</view>
+  </view>
+
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

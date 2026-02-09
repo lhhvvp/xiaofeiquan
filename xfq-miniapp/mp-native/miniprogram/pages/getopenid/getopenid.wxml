@@ -1,18 +1,35 @@
-<view class="container">
-  <view wx:if="{{!hasBaseUrl}}" class="notice">
-    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+<view class="auth-page">
+  <view class="hero">
+    <view class="hero-overlay"></view>
+    <view class="hero-main">
+      <view class="hero-title">榆林市文旅电子消费券</view>
+      <view class="hero-subtitle">核销账号授权绑定</view>
+    </view>
   </view>
 
-  <view class="card">
-    <view class="title">核销人员绑定</view>
-    <view class="sub">scene: {{sceneRaw}}</view>
-    <view class="sub">mid: {{mid}}</view>
-    <view class="sub">uuid: {{uuid}}</view>
+  <view class="card page-card">
+    <view class="card-title">绑定信息确认</view>
+    <view class="card-sub">请完成授权后继续使用核销功能</view>
+
+    <view wx:if="{{!hasBaseUrl}}" class="notice">
+      baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+    </view>
+
+    <view class="kv">
+      <text class="kv-label">商户 ID</text>
+      <text class="kv-value">{{mid || '-'}}</text>
+    </view>
+    <view class="kv">
+      <text class="kv-label">核验 UID</text>
+      <text class="kv-value">{{uuid || '-'}}</text>
+    </view>
+    <view class="kv">
+      <text class="kv-label">scene</text>
+      <text class="kv-value multi">{{sceneRaw || '-'}}</text>
+    </view>
+
+    <button class="auth-btn" bindtap="onTapAuthorize">授权并完成绑定</button>
+    <view wx:if="{{statusText}}" class="status">状态：{{statusText}}</view>
+    <view wx:if="{{error}}" class="error">error: {{error}}</view>
   </view>
-
-  <button type="primary" bindtap="onTapAuthorize">授权/绑定</button>
-
-  <view wx:if="{{statusText}}" class="status">状态：{{statusText}}</view>
-  <view wx:if="{{error}}" class="error">error: {{error}}</view>
 </view>
-

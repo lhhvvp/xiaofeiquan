@@ -1,29 +1,40 @@
-<view class="container">
+<view class="tickets-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view class="filters">
+  <view class="filter-bar page-card">
     <picker mode="selector" range="{{areaOptions}}" range-key="name" value="{{areaIndex}}" bindchange="onAreaChange">
-      <view class="filter-item">区域：{{areaOptions[areaIndex].name}}</view>
+      <view class="filter-item">
+        <text class="filter-label">区域</text>
+        <text class="filter-value">{{areaOptions[areaIndex].name}}</text>
+      </view>
     </picker>
     <picker mode="selector" range="{{sortOptions}}" range-key="name" value="{{sortIndex}}" bindchange="onSortChange">
-      <view class="filter-item">排序：{{sortOptions[sortIndex].name}}</view>
+      <view class="filter-item">
+        <text class="filter-label">排序</text>
+        <text class="filter-value">{{sortOptions[sortIndex].name}}</text>
+      </view>
     </picker>
   </view>
 
   <ui-empty wx:if="{{empty}}" text="暂无数据" />
 
-  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
-    <image class="item-img" src="{{item.image}}" mode="aspectFill" />
-    <view class="item-main">
-      <view class="item-title">{{item.nickname}}</view>
-      <view class="item-sub">
-        <text>{{item.areaText}}</text>
-        <text wx:if="{{item.distanceText}}"> | 距我 {{item.distanceText}}</text>
+  <view class="ticket-list" wx:if="{{!empty}}">
+    <view wx:for="{{list}}" wx:key="id" class="ticket-item page-card" data-id="{{item.id}}" bindtap="onTapItem">
+      <image class="ticket-img" src="{{item.image}}" mode="aspectFill" />
+      <view class="ticket-main">
+        <view class="ticket-title">{{item.nickname || '景区名称'}}</view>
+        <view class="ticket-sub">
+          <text>{{item.areaText || '榆林市'}}</text>
+          <text wx:if="{{item.distanceText}}"> | 距我 {{item.distanceText}}</text>
+        </view>
+        <view class="ticket-sub">评分：{{item.commentRate || 0}}（{{item.commentNum || 0}}条）</view>
+        <view class="ticket-price-row">
+          <text class="ticket-price">￥{{item.minPrice || 0}}</text>
+          <text class="ticket-price-suffix">起</text>
+        </view>
       </view>
-      <view class="item-sub">评分：{{item.commentRate}}（{{item.commentNum}}条）</view>
-      <view class="item-sub">门票 ￥{{item.minPrice}} 起</view>
     </view>
   </view>
 

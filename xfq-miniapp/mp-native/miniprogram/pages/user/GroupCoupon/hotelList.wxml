@@ -1,0 +1,53 @@
+<view class="hotel-list-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无酒店打卡任务" />
+
+  <view class="list" wx:if="{{list.length}}">
+    <view class="item page-card" wx:for="{{list}}" wx:key="id" data-index="{{index}}" bindtap="onTapItem">
+      <view class="head">
+        <view class="title">{{item.hotelName || '未命名酒店'}}</view>
+        <view class="arrow">›</view>
+      </view>
+      <view class="desc">打卡人数：{{item.touristCount || 0}}</view>
+      <view class="desc">创建时间：{{item.createTime || '-'}}</view>
+      <view class="desc">备注信息：{{item.remark || '-'}}</view>
+    </view>
+  </view>
+
+  <view class="bottom-space"></view>
+  <view class="bottom-bar">
+    <button class="create-btn" bindtap="onTapCreate">创建打卡任务</button>
+  </view>
+
+  <view wx:if="{{showForm}}" class="mask">
+    <view class="mask-panel page-card">
+      <view class="mask-title">生成酒店打卡任务</view>
+
+      <view class="field">
+        <view class="label">酒店名称</view>
+        <input class="input" value="{{hotelName}}" placeholder="请输入打卡酒店名称" bindinput="onInputHotelName" />
+      </view>
+
+      <view class="field">
+        <view class="label">备注信息</view>
+        <textarea
+          class="textarea"
+          value="{{remark}}"
+          placeholder="请输入旅行社名称 + 导游姓名 + 游客人数"
+          bindinput="onInputRemark"
+        />
+      </view>
+
+      <view class="mask-actions">
+        <view class="btn cancel" bindtap="onTapCloseForm">取消</view>
+        <view class="btn submit" bindtap="onTapSubmit">{{submitting ? '提交中...' : '提交'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

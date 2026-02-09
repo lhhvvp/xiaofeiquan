@@ -1,9 +1,9 @@
-<view class="container">
+<view class="my-coupon-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view wx:if="{{info}}" class="card">
+  <view wx:if="{{info}}" class="ticket-card page-card">
     <view wx:if="{{nowText && info.useType != 1}}" class="now-text">{{nowText}}</view>
     <view class="title">{{info.couponTitle}}</view>
     <view wx:if="{{info.couponPrice}}" class="price">金额：{{info.couponPrice}}</view>
@@ -14,7 +14,10 @@
       <view wx:if="{{qrcodeHint}}" class="qrcode-hint">{{qrcodeHint}}</view>
     </view>
 
-    <view wx:if="{{!showQrcode}}" class="status-text">{{info.statusText}}</view>
+    <view wx:if="{{!showQrcode}}" class="status-box">
+      <image wx:if="{{statusImage}}" class="status-image" src="{{statusImage}}" mode="aspectFit" />
+      <view wx:if="{{!statusImage}}" class="status-text">{{info.statusText}}</view>
+    </view>
 
     <view wx:if="{{info.userName || info.userIdcard}}" class="user-info">
       <view class="user-name">{{info.userName}}</view>
@@ -30,17 +33,17 @@
     </view>
   </view>
 
-  <view wx:if="{{info && info.remarkHtml}}" class="card">
+  <view wx:if="{{info && info.remarkHtml}}" class="card page-card">
     <view class="card-title">使用细则</view>
     <ui-rich-text nodes="{{info.remarkHtml}}"></ui-rich-text>
   </view>
 
-  <view wx:if="{{info && info.useTypeDescHtml}}" class="card">
+  <view wx:if="{{info && info.useTypeDescHtml}}" class="card page-card">
     <view class="card-title">核销规则</view>
     <ui-rich-text nodes="{{info.useTypeDescHtml}}"></ui-rich-text>
   </view>
 
-  <view wx:if="{{info && info.writeoff}}" class="card">
+  <view wx:if="{{info && info.writeoff}}" class="card page-card">
     <view class="card-title">核销信息</view>
     <view class="writeoff">
       <view wx:if="{{info.writeoff.userName}}">核销人：{{info.writeoff.userName}}</view>

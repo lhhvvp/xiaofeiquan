@@ -1,4 +1,5 @@
-.container {
+.person-add-page {
+  min-height: 100vh;
   padding: 24rpx 24rpx 140rpx;
 }
 
@@ -14,8 +15,6 @@
 
 .card {
   margin-top: 16rpx;
-  background: #fff;
-  border-radius: 20rpx;
   padding: 20rpx;
 }
 
@@ -34,8 +33,8 @@
 
 .label {
   width: 140rpx;
-  font-size: 28rpx;
-  font-weight: 600;
+  font-size: 27rpx;
+  font-weight: 500;
   color: #111827;
 }
 
@@ -44,6 +43,11 @@
   text-align: right;
   font-size: 26rpx;
   color: #111827;
+}
+
+.picker-arrow {
+  color: #9ca3af;
+  font-size: 30rpx;
 }
 
 .input {
@@ -64,9 +68,16 @@
   border-top: 1px solid #f3f4f6;
 }
 
+.submit-btn {
+  border-radius: 16rpx;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
 .error {
   margin-top: 16rpx;
   color: #b91c1c;
   word-break: break-all;
 }
-

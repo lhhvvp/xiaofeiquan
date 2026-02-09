@@ -34,10 +34,13 @@ Page({
     const id = Number(options && options.id) || 0
     this.setData({ id })
 
-    locationService.getLocation().then((coord) => {
-      this.setData({ latitude: coord.latitude, longitude: coord.longitude })
-      this.fetchNextPage()
-    })
+    locationService
+      .getLocation()
+      .then((coord) => {
+        this.setData({ latitude: coord.latitude, longitude: coord.longitude })
+      })
+      .catch(() => {})
+      .finally(() => this.fetchNextPage())
   },
   onReachBottom() {
     this.fetchNextPage()

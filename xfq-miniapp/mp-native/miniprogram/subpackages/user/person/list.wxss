@@ -1,4 +1,5 @@
-.container {
+.person-list-page {
+  min-height: 100vh;
   padding: 24rpx 24rpx 140rpx;
 }
 
@@ -12,13 +13,20 @@
   font-size: 26rpx;
 }
 
-.item {
+.card {
   margin-top: 16rpx;
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 18rpx;
+  padding: 10rpx 18rpx;
+}
+
+.item {
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f1f5f9;
   display: flex;
   gap: 12rpx;
+}
+
+.item:last-child {
+  border-bottom: none;
 }
 
 .left {
@@ -100,4 +108,3 @@
   background: #e5e7eb;
   color: #932027;
 }
-

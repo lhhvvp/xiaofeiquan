@@ -1,0 +1,21 @@
+<view class="order-group-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无核销记录" />
+
+  <view class="list" wx:if="{{list.length}}">
+    <view class="item page-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapItem">
+      <view class="title">{{item.title}}</view>
+      <view class="sub">核销时间：{{item.time || '-'}}</view>
+      <view class="foot">
+        <view class="price">{{item.price}}</view>
+        <view class="link">查看团券</view>
+      </view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{!empty && list.length}}" status="{{loadingStatus}}" />
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

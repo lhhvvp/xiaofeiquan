@@ -1,0 +1,164 @@
+.hotel-user-page {
+  min-height: 100vh;
+  padding: 20rpx 24rpx 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.list {
+  margin-top: 16rpx;
+  padding: 8rpx 20rpx;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f3f4f6;
+  gap: 12rpx;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.left {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 30rpx;
+  color: #111827;
+  font-weight: 700;
+}
+
+.mobile {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.right {
+  min-width: 150rpx;
+  text-align: right;
+}
+
+.clock-action {
+  display: inline-block;
+  padding: 6rpx 14rpx;
+  border-radius: 10rpx;
+  border: 1px solid #a00000;
+  color: #a00000;
+  font-size: 24rpx;
+}
+
+.clock-state {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+.clock-state.done {
+  color: #047857;
+}
+
+.phone {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #2563eb;
+}
+
+.mask {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+}
+
+.mask-panel {
+  width: 100%;
+  padding: 24rpx;
+}
+
+.mask-title {
+  text-align: center;
+  font-size: 32rpx;
+  color: #a00000;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+}
+
+.field {
+  margin-bottom: 18rpx;
+}
+
+.label {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 10rpx;
+}
+
+.input {
+  min-height: 74rpx;
+  border: 1px solid #e5e7eb;
+  border-radius: 10rpx;
+  padding: 0 18rpx;
+  font-size: 28rpx;
+  background: #fff;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 140rpx;
+  border: 1px solid #e5e7eb;
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  font-size: 26rpx;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.actions {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 4rpx;
+}
+
+.btn {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 12rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+}
+
+.btn.cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn.submit {
+  background: #a00000;
+  color: #fff;
+}
+
+.error {
+  margin-top: 12rpx;
+  color: #b91c1c;
+  font-size: 22rpx;
+  word-break: break-all;
+}

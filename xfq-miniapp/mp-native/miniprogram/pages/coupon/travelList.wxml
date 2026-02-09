@@ -1,0 +1,26 @@
+<view class="travel-list-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无旅行社线路" />
+
+  <view class="list" wx:if="{{list.length}}">
+    <view class="item page-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapItem">
+      <image class="cover" src="{{item.image}}" mode="aspectFill" />
+      <view class="main">
+        <view class="title">{{item.title}}</view>
+        <view class="tags" wx:if="{{item.tags.length}}">
+          <text wx:for="{{item.tags}}" wx:key="index" wx:for-item="tag">{{tag}}</text>
+        </view>
+        <view class="footer">
+          <view class="price">{{item.price}}</view>
+          <view class="access">浏览 {{item.accessCount}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{!empty}}" status="{{loadingStatus}}" />
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

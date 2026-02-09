@@ -1,0 +1,31 @@
+<view class="coupon-page" style="{{slideUrl ? 'background-image:url(' + slideUrl + ')' : ''}}">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="container page-card" style="{{slideUrl ? '' : 'margin-top:16rpx;'}}">
+    <view class="title-box">
+      <view class="line"></view>
+      <view class="title">{{title}}</view>
+      <view class="line reverse"></view>
+    </view>
+
+    <ui-empty wx:if="{{empty}}" text="暂无可领取消费券" />
+
+    <view class="coupon-list" wx:if="{{list.length}}">
+      <view class="coupon-item" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapCoupon">
+        <view class="left">
+          <view class="left-title">{{item.displayLeftTitle}}</view>
+          <view class="left-sub">{{item.displayLeftSub}}</view>
+        </view>
+        <view class="right">
+          <view class="btn">领 取</view>
+        </view>
+      </view>
+    </view>
+
+    <ui-list-footer wx:if="{{!empty}}" status="{{loadingStatus}}" />
+  </view>
+
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

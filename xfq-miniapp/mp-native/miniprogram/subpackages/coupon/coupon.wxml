@@ -1,10 +1,12 @@
-<view class="container">
+<view class="coupon-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view wx:if="{{detail}}" class="card">
+  <view wx:if="{{detail}}" class="coupon-card page-card">
+    <view class="badge" wx:if="{{detail.titleClass}}">{{detail.titleClass}}</view>
     <view class="title">{{detail.couponTitle}}</view>
+    <view class="price" wx:if="{{detail.couponPrice}}">{{detail.couponPrice}}</view>
     <view wx:if="{{detail.tips}}" class="tips">{{detail.tips}}</view>
     <view wx:if="{{detail.tipsExtend}}" class="tips">{{detail.tipsExtend}}</view>
 
@@ -24,21 +26,20 @@
     </view>
 
     <view class="actions">
-      <button type="primary" loading="{{receiving}}" bindtap="onTapReceive">领取</button>
-      <button bindtap="onTapOpenApplicableMerchants">适用商家</button>
+      <button class="primary-btn" type="primary" loading="{{receiving}}" disabled="{{receiveDisabled}}" bindtap="onTapReceive">{{receiveText}}</button>
+      <button class="secondary-btn" bindtap="onTapOpenApplicableMerchants">适用商家</button>
     </view>
   </view>
 
-  <view wx:if="{{detail && detail.remarkHtml}}" class="card">
+  <view wx:if="{{detail && detail.remarkHtml}}" class="card page-card">
     <view class="card-title">使用细则</view>
     <ui-rich-text nodes="{{detail.remarkHtml}}"></ui-rich-text>
   </view>
 
-  <view wx:if="{{detail && detail.useTypeDescHtml}}" class="card">
+  <view wx:if="{{detail && detail.useTypeDescHtml}}" class="card page-card">
     <view class="card-title">核销规则</view>
     <ui-rich-text nodes="{{detail.useTypeDescHtml}}"></ui-rich-text>
   </view>
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 </view>
-

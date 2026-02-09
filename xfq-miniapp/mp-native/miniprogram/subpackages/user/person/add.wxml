@@ -1,4 +1,4 @@
-<view class="container">
+<view class="person-add-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
@@ -7,11 +7,11 @@
     请先登录后再编辑游客信息
   </view>
 
-  <view wx:if="{{hasLogin}}" class="card">
+  <view wx:if="{{hasLogin}}" class="card page-card">
     <view class="row">
       <view class="label">证件类型</view>
       <picker mode="selector" range="{{certTypeOptions}}" range-key="text" value="{{certTypeIndex}}" bindchange="onPickCertType">
-        <view class="picker">{{certTypeText || '请选择'}}</view>
+        <view class="picker">{{certTypeText || '请选择'}} <text class="picker-arrow">›</text></view>
       </picker>
     </view>
     <view class="row">
@@ -29,9 +29,8 @@
   </view>
 
   <view class="footer">
-    <button type="primary" loading="{{saving}}" bindtap="onTapSave">保存</button>
+    <button class="submit-btn" type="primary" loading="{{saving}}" bindtap="onTapSave">保存</button>
   </view>
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 </view>
-

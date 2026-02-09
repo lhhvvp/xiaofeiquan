@@ -1,0 +1,43 @@
+<view class="group-coupon-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card page-card" wx:if="{{info}}">
+    <view class="title">{{info.couponIssue.coupon_title || '团券'}}</view>
+    <view class="sub">领取时间：{{info.create_time || '-'}}</view>
+    <view class="sub">旅行团：{{info.tour.name || '-'}}</view>
+    <view class="sub">{{statusText}}</view>
+
+    <view class="qrcode-box" wx:if="{{showQrcode}}">
+      <canvas class="qrcode-canvas" canvas-id="groupQrcode" id="groupQrcode"></canvas>
+    </view>
+
+    <view class="status-box" wx:if="{{!showQrcode}}">
+      <image wx:if="{{statusImage}}" class="status-image" src="{{statusImage}}" mode="aspectFit" />
+      <view wx:if="{{!statusImage}}" class="status-text">{{statusText}}</view>
+    </view>
+  </view>
+
+  <view class="card page-card" wx:if="{{info && info.couponIssue && info.couponIssue.remark}}">
+    <view class="section-title">使用细则</view>
+    <ui-rich-text nodes="{{info.couponIssue.remark}}"></ui-rich-text>
+  </view>
+
+  <view class="card page-card" wx:if="{{writeoffList.length}}">
+    <view class="section-title">打卡游客</view>
+    <view class="user-row" wx:for="{{writeoffList}}" wx:key="id">
+      <view class="user-main">
+        <view class="user-name">{{item.displayName}}</view>
+        <view class="user-mobile">{{item.displayMobile}}</view>
+      </view>
+      <view class="user-action">
+        <view class="clock {{item.is_clock==1?'done':''}}">{{item.is_clock==1?'已打卡':'未打卡'}}</view>
+        <view class="phone" data-mobile="{{item.displayMobile}}" bindtap="onTapPhone">联系TA</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

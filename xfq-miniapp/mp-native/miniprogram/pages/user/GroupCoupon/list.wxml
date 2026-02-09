@@ -1,0 +1,24 @@
+<view class="group-list-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无消费券" />
+
+  <view class="list" wx:if="{{list.length}}">
+    <view class="item page-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapCoupon">
+      <view class="head">
+        <view class="title">{{item.title || '消费券'}}</view>
+        <view class="status {{item.status===0?'unused':'used'}}">{{item.statusText}}</view>
+      </view>
+      <view class="desc">领取时间：{{item.createTime || '-'}}</view>
+      <view class="foot">
+        <view class="price">{{item.price}}</view>
+        <view class="link">查看券码</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

@@ -1,0 +1,13 @@
+<view class="tourist-page">
+  <ui-empty wx:if="{{empty}}" text="暂无游客信息" />
+
+  <view class="card page-card" wx:if="{{list.length}}">
+    <view class="row" wx:for="{{list}}" wx:key="id">
+      <view class="left">
+        <view class="name">{{item.name || item.fullname || '暂无'}}</view>
+        <view class="mobile">手机号：{{item.mobile || '-'}}</view>
+      </view>
+      <view class="right" data-phone="{{item.mobile}}" bindtap="onTapPhone">联系TA</view>
+    </view>
+  </view>
+</view>

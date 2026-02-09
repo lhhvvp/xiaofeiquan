@@ -1,22 +1,38 @@
-<view class="container">
+<view class="coupon-cav-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view class="card" wx:if="{{info}}">
-    <view class="title">{{info.couponTitle}}</view>
-    <view class="price">￥{{info.couponPrice}}</view>
-    <view class="sub">使用类型：{{info.useTypeText}}</view>
-    <view class="sub" wx:if="{{info.timeText}}">有效期：{{info.timeText}}</view>
+  <view class="card page-card" wx:if="{{info}}">
+    <view class="title-box">
+      <view class="title-label">商户核销</view>
+      <view class="title-arrow">›</view>
+    </view>
+    <view class="coupon-main">
+      <view class="title">{{info.couponTitle}}</view>
+      <view class="price">{{info.couponPrice}}</view>
+      <view class="sub">使用类型：{{info.useTypeText}}</view>
+    </view>
+    <view class="content-info">
+      <view class="info-row" wx:if="{{info.timeText}}">
+        <view class="info-label">优惠券有效期</view>
+        <view class="info-value">{{info.timeText}}</view>
+      </view>
+      <view class="info-row">
+        <view class="info-label">使用说明</view>
+        <view class="info-value">核销完成后状态将自动更新</view>
+      </view>
+    </view>
   </view>
 
-  <view class="card" wx:if="{{!info && hasBaseUrl}}">
+  <view class="card page-card" wx:if="{{!info && hasBaseUrl}}">
     <view class="sub">加载中..</view>
   </view>
 
   <view wx:if="{{showMask}}" class="mask">
     <view class="mask-card">
       <view class="mask-title">{{statusTitle}}</view>
+      <view class="status-img {{statusCode===1?'ok':'fail'}}">{{statusCode===1?'OK':'ERR'}}</view>
       <view class="mask-msg">{{statusMsg}}</view>
       <button type="primary" bindtap="onTapDone">确定</button>
     </view>
@@ -24,4 +40,3 @@
 
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 </view>
-

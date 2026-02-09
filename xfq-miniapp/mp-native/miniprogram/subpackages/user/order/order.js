@@ -28,6 +28,33 @@ function formatDateTime(input) {
   return String(input)
 }
 
+function toTimestamp(input) {
+  if (input === null || typeof input === 'undefined') return 0
+  if (typeof input === 'number') return input > 1e12 ? Math.floor(input / 1000) : input
+  const parsed = Date.parse(String(input))
+  if (Number.isNaN(parsed)) return 0
+  return Math.floor(parsed / 1000)
+}
+
+function buildValidTime(item, createTime) {
+  const issue = item && item.couponIssue && typeof item.couponIssue === 'object' ? item.couponIssue : {}
+  const isPermanent = Number(issue.is_permanent)
+  if (isPermanent === 1) return '有效时间：永久有效'
+  if (isPermanent === 2) {
+    const start = toTimestamp(issue.coupon_time_start)
+    const end = toTimestamp(issue.coupon_time_end)
+    const startText = start ? formatDateTime(start) : '-'
+    const endText = end ? formatDateTime(end) : '-'
+    return `有效时间：${startText} 至 ${endText}`
+  }
+  const day = Number(issue.day || 0)
+  if (day > 0 && createTime) {
+    const expire = createTime + day * 86400
+    return `有效时间：${formatDateTime(createTime)} 至 ${formatDateTime(expire)}`
+  }
+  return '有效时间：-'
+}
+
 function safeStorageSet(key, value) {
   try {
     wx.setStorageSync(key, value)
@@ -36,13 +63,15 @@ function safeStorageSet(key, value) {
 
 function normalizeItem(item) {
   if (!item || typeof item !== 'object') return null
+  const createTime = toTimestamp(item.create_time)
   const status = Number(item.status)
   const statusText = status === 0 ? '未使用' : status === 1 ? '已使用' : status === 2 ? '已过期' : String(item.status)
   return {
     id: item.id,
     title: item.coupon_title || '',
     price: item.coupon_price || '',
-    createTimeText: formatDateTime(item.create_time),
+    createTimeText: formatDateTime(createTime),
+    validTimeText: buildValidTime(item, createTime),
     status,
     statusText,
     raw: item,

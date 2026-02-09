@@ -1,0 +1,26 @@
+<view class="line-list-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无推荐线路" />
+
+  <view class="product-items" wx:if="{{list.length}}">
+    <view class="product-item page-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onTapItem">
+      <image class="product-top" src="{{item.image}}" mode="aspectFill" />
+      <view class="product-bottom">
+        <view class="tit">{{item.title || '-'}}</view>
+        <view class="tags" wx:if="{{item.tags.length}}">
+          <text>{{item.tags[0]}}</text>
+        </view>
+        <view class="price-box">
+          <view class="price">{{item.price}}</view>
+          <view class="eyes">浏览 {{item.accessCount}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <ui-list-footer wx:if="{{!empty}}" status="{{loadingStatus}}" />
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

@@ -1,37 +1,220 @@
-<view class="container">
-  <view class="title">我的（占位页）</view>
-  <view class="sub">envVersion: {{envVersion}}</view>
-  <view class="sub">baseUrl: {{baseUrl}}</view>
+<view class="user-page">
+  <view class="hero">
+    <view class="hero-bg"></view>
+    <view class="hero-card page-card" bindtap="onTapUserHeader">
+      <image class="avatar" src="{{displayUser.headimgurl || defaultAvatar}}" mode="aspectFill"></image>
+      <view class="profile-main">
+        <view class="name-row">
+          <text class="name">{{displayUser.name}}</text>
+          <text wx:if="{{displayUser.nickname}}" class="nickname">({{displayUser.nickname}})</text>
+        </view>
+        <view class="meta-row">
+          <text wx:if="{{displayUser.mobile}}" class="mobile">{{displayUser.mobile}}</text>
+          <text wx:if="{{displayUser.authStatusText}}" class="auth-status">{{displayUser.authStatusText}}</text>
+          <text wx:if="{{!displayUser.mobile && hasLogin}}" class="mobile">未绑定手机号</text>
+          <text wx:if="{{!hasLogin}}" class="mobile">点击去登录</text>
+        </view>
+      </view>
+      <button wx:if="{{hasLogin}}" class="profile-btn" bindtap="onTapGetUserProfile">同步微信资料</button>
+      <view wx:if="{{!hasLogin}}" class="login-tag">去登录</view>
+    </view>
 
-  <view wx:if="{{!hasBaseUrl}}" class="notice">
-    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+    <view wx:if="{{!hasBaseUrl}}" class="notice">
+      baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+    </view>
   </view>
 
-  <view class="actions">
-    <button type="primary" bindtap="onTapGoLogin">去登录页</button>
-    <button bindtap="onTapProfile">个人资料</button>
-    <button bindtap="onTapCollect">我的收藏</button>
-    <button bindtap="onTapComplaints">反馈与建议</button>
-    <button bindtap="onTapMyComments">我的评价</button>
-    <button bindtap="onTapMyCoupons">我的券</button>
-    <button bindtap="onTapTicketOrders">门票订单</button>
-    <button bindtap="onTapPayOrders">支付订单</button>
-    <button bindtap="onTapRefundLogs">售后（退款记录）</button>
-    <button bindtap="onTapTourists">常用游客</button>
-    <button bindtap="onTapMyAppointments">我的预约</button>
-    <button bindtap="onTapSignInTasks">打卡任务</button>
-    <button bindtap="onTapCouponClockTask">打卡券任务</button>
-    <button bindtap="onTapMyMap">当前位置地图</button>
-    <button wx:if="{{mid}}" bindtap="onTapScanWriteoff">扫码核销</button>
-    <button wx:if="{{mid}}" bindtap="onTapWriteoffLogs">核销记录</button>
-    <button bindtap="onTapNews">公告</button>
-    <button bindtap="onTapServiceAgreement">服务协议</button>
-    <button bindtap="onTapPrivacyPolicy">隐私政策</button>
-    <button bindtap="onTapLogout">退出登录</button>
+  <view class="coupon-status page-card">
+    <view class="status-item" data-state="1" bindtap="onTapCouponState">
+      <text class="status-icon">券</text>
+      <text class="status-text">未使用</text>
+    </view>
+    <view class="status-item" data-state="2" bindtap="onTapCouponState">
+      <text class="status-icon">券</text>
+      <text class="status-text">已使用</text>
+    </view>
+    <view class="status-item" data-state="3" bindtap="onTapCouponState">
+      <text class="status-icon">券</text>
+      <text class="status-text">已过期</text>
+    </view>
   </view>
 
-  <view class="box">
-    <view class="box-title">当前用户（storage: uerInfo）</view>
-    <text selectable="true" class="json">{{userText}}</text>
+  <view class="panel page-card">
+    <view class="panel-title">门票订单</view>
+    <view class="panel-grid">
+      <view class="grid-item" bindtap="onTapTicketOrders">
+        <image class="grid-icon" src="/static/icon/order.png" mode="aspectFit"></image>
+        <text class="grid-text">全部</text>
+      </view>
+      <view class="grid-item" bindtap="onTapTicketPaidOrders">
+        <image class="grid-icon" src="/static/icon/payment.png" mode="aspectFit"></image>
+        <text class="grid-text">已支付</text>
+      </view>
+      <view class="grid-item" bindtap="onTapRefundLogs">
+        <image class="grid-icon" src="/static/icon/refund.png" mode="aspectFit"></image>
+        <text class="grid-text">售后</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{mid}}" class="panel page-card">
+    <view class="panel-title">商户管理</view>
+    <view class="panel-grid">
+      <view class="grid-item" bindtap="onTapScanWriteoff">
+        <image class="grid-icon" src="/static/icon/qrcode.png" mode="aspectFit"></image>
+        <text class="grid-text">扫码核销</text>
+      </view>
+      <view class="grid-item" bindtap="onTapWriteoffLogs">
+        <image class="grid-icon" src="/static/icon/list.png" mode="aspectFit"></image>
+        <text class="grid-text">核销记录</text>
+      </view>
+      <view class="grid-item" bindtap="onTapMyMap">
+        <image class="grid-icon" src="/static/icon/address.png" mode="aspectFit"></image>
+        <text class="grid-text">当前位置</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-list page-card">
+    <view class="menu-item" bindtap="onTapSignInTasks">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/dakai.png" mode="aspectFit"></image>
+        <text class="menu-text">打卡任务</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapCouponClockTask">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/coupon.png" mode="aspectFit"></image>
+        <text class="menu-text">打卡券任务</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapTourists">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/yk.png" mode="aspectFit"></image>
+        <text class="menu-text">常用游客</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapMyAppointments">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/time.png" mode="aspectFit"></image>
+        <text class="menu-text">我的预约</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapCollect">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/sc.png" mode="aspectFit"></image>
+        <text class="menu-text">我的收藏</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapMyComments">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/message.png" mode="aspectFit"></image>
+        <text class="menu-text">我的评价</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapMyCoupons">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/coupon.png" mode="aspectFit"></image>
+        <text class="menu-text">我的券</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapPayOrders">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/payment.png" mode="aspectFit"></image>
+        <text class="menu-text">支付订单</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapComplaints">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/jy.png" mode="aspectFit"></image>
+        <text class="menu-text">反馈与建议</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapNews">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/list.png" mode="aspectFit"></image>
+        <text class="menu-text">公告</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapServiceAgreement">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/share.png" mode="aspectFit"></image>
+        <text class="menu-text">服务协议</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapPrivacyPolicy">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/share-.png" mode="aspectFit"></image>
+        <text class="menu-text">隐私政策</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapProfile">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/set.png" mode="aspectFit"></image>
+        <text class="menu-text">个人资料</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="onTapPhoneCall">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/tel.png" mode="aspectFit"></image>
+        <text class="menu-text">电话咨询</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <button class="menu-button" open-type="contact" show-message-card="true">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/kf.png" mode="aspectFit"></image>
+        <text class="menu-text">在线客服</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </button>
+
+    <view class="menu-item" bindtap="onTapClearCache">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/cache.png" mode="aspectFit"></image>
+        <text class="menu-text">清理缓存</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view wx:if="{{hasLogin}}" class="menu-item danger" bindtap="onTapLogout">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icon/set.png" mode="aspectFit"></image>
+        <text class="menu-text">退出登录</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="debug">
+    <text>env: {{envVersion}}</text>
+    <text class="debug-url">{{baseUrl || 'baseUrl 未配置'}}</text>
   </view>
 </view>

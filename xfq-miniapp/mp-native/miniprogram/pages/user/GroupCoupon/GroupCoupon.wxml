@@ -1,0 +1,32 @@
+<view class="group-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view wx:if="{{!hasLogin && hasBaseUrl}}" class="notice">
+    请先登录后查看旅行团任务
+  </view>
+
+  <ui-empty wx:if="{{hasLogin && empty}}" text="暂无旅行团数据" />
+
+  <view class="list" wx:if="{{hasLogin && list.length}}">
+    <view class="item page-card" wx:for="{{list}}" wx:key="id">
+      <view class="item-head">
+        <view class="title">{{item.title}}</view>
+        <view class="status {{item.status==5?'disabled':''}}">{{item.status==5?'已结束':'进行中'}}</view>
+      </view>
+      <view class="desc">创建时间：{{item.createTime || '-'}}</view>
+      <view class="desc">总票数：{{item.ticketCount || 0}} 张</view>
+      <view class="desc">计调人：{{item.planner || '-'}}</view>
+      <view class="desc">联系方式：{{item.mobile || '-'}}</view>
+      <view class="actions">
+        <view class="btn green" data-item="{{item}}" bindtap="onTapCoupons">消费券</view>
+        <view class="btn orange" data-item="{{item}}" bindtap="onTapTourists">游客信息</view>
+        <view class="btn red" data-item="{{item}}" bindtap="onTapHotels">酒店打卡</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

@@ -1,47 +1,52 @@
-<view class="container">
+<view class="merchant-page">
   <view wx:if="{{!hasBaseUrl}}" class="notice">
     baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
   </view>
 
-  <view class="search" bindtap="onTapSearch">
-    <view class="search-box">请输入关键字搜索商家</view>
+  <view class="top-card page-card">
+    <view class="search" bindtap="onTapSearch">
+      <view class="search-icon">🔍</view>
+      <view class="search-box">请输入关键字搜索商家</view>
+    </view>
+
+    <scroll-view scroll-x class="tabs" wx:if="{{categories.length}}">
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="tab {{index===currentIndex?'active':''}}"
+        data-index="{{index}}"
+        bindtap="onTapTab"
+      >
+        {{item.class_name}}
+      </view>
+    </scroll-view>
   </view>
 
-  <scroll-view scroll-x class="tabs" wx:if="{{categories.length}}">
+  <ui-empty wx:if="{{categoryData.length && categoryData[currentIndex].empty}}" text="暂无商家" />
+
+  <view class="merchant-list" wx:if="{{categoryData.length && categoryData[currentIndex].list.length}}">
     <view
-      wx:for="{{categories}}"
+      wx:for="{{categoryData[currentIndex].list}}"
       wx:key="id"
-      class="tab {{index===currentIndex?'active':''}}"
-      data-index="{{index}}"
-      bindtap="onTapTab"
+      class="merchant-item page-card"
+      data-id="{{item.id}}"
+      bindtap="onTapMerchant"
     >
-      {{item.class_name}}
-    </view>
-  </scroll-view>
-
-  <ui-empty wx:if="{{categoryData.length && categoryData[currentIndex].empty}}" text="暂无数据" />
-
-  <view
-    wx:for="{{categoryData.length ? categoryData[currentIndex].list : []}}"
-    wx:key="id"
-    class="item"
-    data-id="{{item.id}}"
-    bindtap="onTapMerchant"
-  >
-    <image class="item-img" src="{{item.image}}" mode="aspectFill" />
-    <view class="item-main">
-      <view class="item-title">
-        <text class="item-name">{{item.nickname}}</text>
-        <text class="item-distance">{{item.distanceText}}</text>
+      <image class="merchant-img" src="{{item.image}}" mode="aspectFill" />
+      <view class="merchant-main">
+        <view class="merchant-title">
+          <text class="merchant-name">{{item.nickname || '未命名商家'}}</text>
+          <text class="merchant-distance">{{item.distanceText || '--'}}</text>
+        </view>
+        <view class="merchant-sub">电话：{{item.mobile || '暂无电话'}}</view>
+        <view class="merchant-sub">营业时间：{{item.do_business_time || '-'}}</view>
+        <view class="merchant-sub">地址：{{item.address || '暂无地址'}}</view>
       </view>
-      <view class="item-sub">电话：{{item.mobile}}</view>
-      <view class="item-sub">营业时间：{{item.do_business_time}}</view>
-      <view class="item-sub">地址：{{item.address}}</view>
     </view>
   </view>
 
   <ui-list-footer
-    wx:if="{{categoryData.length && !categoryData[currentIndex].empty}}"
+    wx:if="{{categoryData.length && !categoryData[currentIndex].empty && categoryData[currentIndex].list.length}}"
     status="{{categoryData[currentIndex].loadingStatus}}"
   />
 </view>

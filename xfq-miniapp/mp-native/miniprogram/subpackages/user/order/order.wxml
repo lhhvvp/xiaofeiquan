@@ -1,40 +1,50 @@
-<view class="container">
+<view class="coupon-order-page">
   <view wx:if="{{!hasLogin}}" class="notice">
-    <view>请先登录后查看我的券</view>
-    <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+    <view class="notice-main">
+      <view>请先登录后查看我的券</view>
+      <ui-button type="primary" size="mini" text="去登录" bind:tap="ensureLoginOrPrompt" />
+    </view>
   </view>
 
-  <scroll-view scroll-x class="tabs">
-    <view
-      wx:for="{{tabs}}"
-      wx:key="title"
-      class="tab {{index===currentIndex?'active':''}}"
-      data-index="{{index}}"
-      bindtap="onTapTab"
-    >
-      {{item.title}}
-    </view>
-  </scroll-view>
+  <view class="tabs-wrap page-card">
+    <scroll-view scroll-x class="tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="title"
+        class="tab {{index===currentIndex?'active':''}}"
+        data-index="{{index}}"
+        bindtap="onTapTab"
+      >
+        {{item.title}}
+      </view>
+    </scroll-view>
+  </view>
 
   <ui-empty wx:if="{{tabState[currentIndex].empty}}" text="暂无数据" />
 
-  <view
-    wx:for="{{tabState[currentIndex].list}}"
-    wx:key="id"
-    class="item"
-    data-id="{{item.id}}"
-    data-index="{{index}}"
-    bindtap="onTapItem"
-  >
-    <view class="item-head">
-      <view class="item-title">{{item.title}}</view>
-      <view class="tag {{item.status===0?'ok':item.status===1?'used':'expired'}}">{{item.statusText}}</view>
+  <view class="list-wrap" wx:if="{{!tabState[currentIndex].empty}}">
+    <view
+      wx:for="{{tabState[currentIndex].list}}"
+      wx:key="id"
+      class="item page-card"
+      data-id="{{item.id}}"
+      data-index="{{index}}"
+      bindtap="onTapItem"
+    >
+      <view class="item-head">
+        <view class="item-title">{{item.title}}</view>
+        <view class="tag {{item.status===0?'ok':item.status===1?'used':'expired'}}">{{item.statusText}}</view>
+      </view>
+      <view class="item-sub">领取时间：{{item.createTimeText}}</view>
+      <view class="item-sub">{{item.validTimeText}}</view>
+      <view class="item-foot">
+        <view class="item-price">{{item.price}}</view>
+        <view class="item-link">查看详情</view>
+      </view>
     </view>
-    <view class="item-sub">领取时间：{{item.createTimeText}}</view>
-    <view class="item-sub">金额：{{item.price}}</view>
   </view>
 
-  <ui-list-footer wx:if="{{!tabState[currentIndex].empty}}" status="{{tabState[currentIndex].loadingStatus}}" />
+  <ui-list-footer wx:if="{{!tabState[currentIndex].empty && tabState[currentIndex].list.length}}" status="{{tabState[currentIndex].loadingStatus}}" />
 
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
 </view>

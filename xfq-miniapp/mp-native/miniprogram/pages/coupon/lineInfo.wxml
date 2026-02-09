@@ -1,0 +1,52 @@
+<view class="line-info-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty && !loading}}" text="暂无线路详情" />
+
+  <view wx:if="{{info}}" class="content-wrap">
+    <image class="banner" src="{{info.image}}" mode="widthFix" />
+
+    <view class="card page-card">
+      <view class="title">{{info.title}}</view>
+      <view class="tag-list" wx:if="{{info.tags.length}}">
+        <view class="tag" wx:for="{{info.tags}}" wx:key="index">{{item}}</view>
+      </view>
+      <view class="meta">所属分类：{{info.lineCategoryName}}</view>
+    </view>
+
+    <view class="card page-card">
+      <view class="section-title">行程安排</view>
+      <ui-rich-text nodes="{{info.content || '-'}}"></ui-rich-text>
+    </view>
+
+    <view class="card page-card">
+      <view class="section-title">费用包含</view>
+      <view class="plain-text">{{info.feeinclude || '-'}}</view>
+    </view>
+
+    <view class="card page-card">
+      <view class="section-title">注意事项</view>
+      <ui-rich-text nodes="{{info.notice || '-'}}"></ui-rich-text>
+    </view>
+
+    <view class="card page-card" wx:if="{{info.photos.length}}">
+      <view class="section-title">相册</view>
+      <view class="photo-list">
+        <image
+          class="photo-item"
+          wx:for="{{info.photos}}"
+          wx:key="index"
+          data-index="{{index}}"
+          src="{{item}}"
+          mode="aspectFill"
+          bindtap="onTapPhoto"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

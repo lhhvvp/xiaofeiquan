@@ -1,6 +1,9 @@
-<view class="container">
-  <view class="search">
-    <input class="search-input" placeholder="请输入搜索内容" bindinput="onInputKeyword" />
+<view class="coupon-list-page">
+  <view class="search-wrap page-card">
+    <view class="search-main">
+      <view class="search-icon">🔍</view>
+      <input class="search-input" placeholder="请输入搜索内容" bindinput="onInputKeyword" />
+    </view>
     <button class="search-btn" size="mini" bindtap="onTapSearch">搜索</button>
   </view>
 
@@ -10,13 +13,16 @@
 
   <ui-empty wx:if="{{empty}}" text="暂无数据" />
 
-  <view wx:for="{{list}}" wx:key="id" class="item" data-id="{{item.id}}" bindtap="onTapItem">
-    <view class="left">
-      <view class="title">{{item.nickname}}</view>
-      <view class="addr">{{item.address}}</view>
-    </view>
-    <view class="right">
-      <view wx:if="{{item.distanceText}}" class="distance">{{item.distanceText}}</view>
+  <view class="merchant-list" wx:if="{{!empty}}">
+    <view wx:for="{{list}}" wx:key="id" class="item page-card" data-id="{{item.id}}" bindtap="onTapItem">
+      <view class="left">
+        <view class="title">{{item.nickname || '商家名称'}}</view>
+        <view class="addr">{{item.address || '暂无地址'}}</view>
+      </view>
+      <view class="right">
+        <view wx:if="{{item.distanceText}}" class="distance">{{item.distanceText}}</view>
+        <view class="arrow">›</view>
+      </view>
     </view>
   </view>
 

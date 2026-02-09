@@ -1,0 +1,89 @@
+.line-list-page {
+  min-height: 100vh;
+  padding: 20rpx 24rpx 24rpx;
+}
+
+.notice {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border: 1px dashed #f59e0b;
+  background: #fffbeb;
+  border-radius: 12rpx;
+  color: #92400e;
+  font-size: 26rpx;
+}
+
+.product-items {
+  margin-top: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-item {
+  width: 48%;
+  margin-top: 16rpx;
+  overflow: hidden;
+}
+
+.product-top {
+  width: 100%;
+  height: 220rpx;
+  display: block;
+}
+
+.product-bottom {
+  padding: 16rpx;
+}
+
+.tit {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+  min-height: 82rpx;
+  overflow: hidden;
+}
+
+.tags {
+  margin-top: 10rpx;
+}
+
+.tags text {
+  display: inline-block;
+  font-size: 20rpx;
+  color: #ffe6e6;
+  background: #a00000;
+  border-radius: 8rpx;
+  padding: 4rpx 10rpx;
+}
+
+.price-box {
+  margin-top: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 34rpx;
+  color: #a00000;
+  font-weight: 700;
+}
+
+.price::before {
+  content: '￥';
+  font-size: 22rpx;
+}
+
+.eyes {
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+.error {
+  margin-top: 12rpx;
+  color: #b91c1c;
+  font-size: 22rpx;
+  word-break: break-all;
+}

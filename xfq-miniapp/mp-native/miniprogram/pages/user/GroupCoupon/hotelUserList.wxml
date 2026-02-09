@@ -1,0 +1,49 @@
+<view class="hotel-user-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无游客打卡信息" />
+
+  <view class="list page-card" wx:if="{{list.length}}">
+    <view class="row" wx:for="{{list}}" wx:key="id">
+      <view class="left">
+        <view class="name">{{item.name || '暂无'}}</view>
+        <view class="mobile">{{item.mobile || '暂无手机号'}}</view>
+      </view>
+      <view class="right">
+        <view wx:if="{{item.isClock === 0}}" class="clock-action" data-index="{{index}}" bindtap="onTapClock">代打卡</view>
+        <view class="clock-state {{item.isClock === 1 ? 'done' : ''}}">{{item.statusText}}</view>
+        <view wx:if="{{item.mobile}}" class="phone" data-mobile="{{item.mobile}}" bindtap="onTapPhone">联系TA</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showClockForm}}" class="mask">
+    <view class="mask-panel page-card">
+      <view class="mask-title">游客代打卡</view>
+
+      <view class="field">
+        <view class="label">打卡地点</view>
+        <input class="input" value="{{spotName}}" placeholder="请输入打卡地点" bindinput="onInputSpotName" />
+      </view>
+
+      <view class="field">
+        <view class="label">打卡说明</view>
+        <textarea class="textarea" value="{{desc}}" placeholder="请输入备注（可选）" bindinput="onInputDesc" />
+      </view>
+
+      <view class="field">
+        <view class="label">图片地址（可选）</view>
+        <input class="input" value="{{imageUrl}}" placeholder="可粘贴图片 URL，不填将使用默认图" bindinput="onInputImageUrl" />
+      </view>
+
+      <view class="actions">
+        <view class="btn cancel" bindtap="onTapCloseClockForm">取消</view>
+        <view class="btn submit" bindtap="submitClock">{{submitting ? '提交中...' : '确认打卡'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>

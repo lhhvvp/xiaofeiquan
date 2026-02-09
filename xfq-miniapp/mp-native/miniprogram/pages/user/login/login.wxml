@@ -1,21 +1,50 @@
-<view class="container">
-  <view class="title">登录 / 授权</view>
-  <view class="sub">redirect: {{redirect}}</view>
-  <view class="sub">baseUrl: {{baseUrl}}</view>
-
-  <view wx:if="{{!hasBaseUrl}}" class="notice">
-    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+<view class="login-page">
+  <view class="hero">
+    <view class="hero-overlay"></view>
+    <view class="hero-content">
+      <view class="hero-title">榆林市文旅电子消费券</view>
+      <view class="hero-subtitle">登录后即可查看领券、下单、核销完整服务</view>
+    </view>
   </view>
 
-  <view class="actions">
-    <button type="primary" bindtap="onTapLogin">微信登录（/index/miniwxlogin）</button>
-    <button bindtap="onTapClearLogin">清空登录态</button>
+  <view class="card page-card">
+    <view class="card-title">账号登录</view>
+    <view class="card-desc">未注册手机号登录后将自动生成账号</view>
+
+    <view wx:if="{{!hasBaseUrl}}" class="notice">
+      baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+    </view>
+
+    <button class="primary-btn" bindtap="onTapStart">{{hasLogin ? '立即进入' : '立即登录'}}</button>
+    <button wx:if="{{hasLogin}}" class="ghost-btn" bindtap="onTapClearLogin">退出并清空登录态</button>
+
+    <view class="agreement">
+      登录/注册即表示同意
+      <text class="agreement-link" data-type="service" bindtap="onTapAgreement">服务协议</text>
+      与
+      <text class="agreement-link" data-type="privacy" bindtap="onTapAgreement">隐私政策</text>
+    </view>
   </view>
 
+  <view wx:if="{{redirect}}" class="debug-line">redirect: {{redirect}}</view>
+  <view class="debug-line debug-url">baseUrl: {{baseUrl || '未配置'}}</view>
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 
-  <view wx:if="{{loginResultText}}" class="box">
-    <view class="box-title">响应（JSON）</view>
-    <text selectable="true" class="json">{{loginResultText}}</text>
+  <view wx:if="{{showAuthSheet}}" class="mask-box">
+    <view class="mask-panel">
+      <view class="mask-title">授权确认</view>
+      <view class="mask-content">
+        未注册手机号登录后自动生成账号，请阅读并同意服务协议与隐私政策后继续。
+      </view>
+      <view class="mask-actions">
+        <button class="mask-btn plain" bindtap="onTapCloseAuthSheet">不同意</button>
+        <button class="mask-btn primary" bindtap="onTapAgreeAuth">同意授权</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loginResultText}}" class="result page-card">
+    <view class="result-title">最近一次登录响应（调试）</view>
+    <text selectable="true" class="result-json">{{loginResultText}}</text>
   </view>
 </view>

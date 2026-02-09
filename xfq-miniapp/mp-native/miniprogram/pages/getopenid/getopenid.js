@@ -16,6 +16,31 @@ function parseScene(sceneStr) {
   return obj
 }
 
+function decodeScene(rawScene) {
+  if (!rawScene) return ''
+  try {
+    return decodeURIComponent(rawScene)
+  } catch (e) {
+    return String(rawScene)
+  }
+}
+
+function buildUserFromLoginResp(ret) {
+  const info = ret && ret.data && ret.data.userinfo
+  return {
+    token: ret && ret.data && ret.data.token,
+    uid: info && info.id,
+    name: info && info.name,
+    idcard: info && info.idcard,
+    mobile: info && info.mobile,
+    nickname: info && info.nickname,
+    headimgurl: info && info.headimgurl,
+    openid: info && info.openid,
+    uuid: info && info.uuid,
+    no: info && info.no,
+  }
+}
+
 function ensureLogin() {
   const user = auth.getUser()
   if (user && user.openid && user.uid && user.token) return Promise.resolve(user)
@@ -29,21 +54,11 @@ function ensureLogin() {
           return
         }
 
-        request({ path: '/index/miniwxlogin', data: { code } })
+        request({ path: '/index/miniwxlogin', data: { code }, showLoading: true })
           .then((ret) => {
             if (!ret || typeof ret !== 'object') throw new Error('登录返回异常')
             if (ret.code === 0) {
-              const info = ret.data && ret.data.userinfo
-              const nextUser = {
-                token: ret.data && ret.data.token,
-                uid: info && info.id,
-                name: !!(info && info.name),
-                idcard: !!(info && info.idcard),
-                mobile: !!(info && info.mobile),
-                openid: info && info.openid,
-                uuid: info && info.uuid,
-                no: info && info.no,
-              }
+              const nextUser = buildUserFromLoginResp(ret)
               auth.setUser(nextUser)
               resolve(nextUser)
               return
@@ -66,7 +81,6 @@ Page({
   data: {
     baseUrl: config.baseUrl,
     hasBaseUrl: !!(config.baseUrl && String(config.baseUrl).trim()),
-
     sceneRaw: '',
     scene: {},
     uuid: '',
@@ -74,22 +88,40 @@ Page({
     statusText: '',
     error: null,
   },
+
   onLoad(options) {
-    const raw = options && options.scene ? decodeURIComponent(options.scene) : ''
+    const raw = decodeScene(options && options.scene)
     const scene = parseScene(raw)
     const uuid = (scene && scene.uid) || ''
     const mid = (scene && scene.mid) || ''
-    this.setData({ sceneRaw: raw, scene, uuid: String(uuid), mid: String(mid) })
+    this.setData({
+      sceneRaw: raw,
+      scene,
+      uuid: String(uuid),
+      mid: String(mid),
+    })
   },
+
+  onShareAppMessage() {
+    return { title: '榆林市旅游消费平台', path: '/pages/index/index' }
+  },
+
+  onShareTimeline() {
+    return { title: '榆林市旅游消费平台', path: '/pages/index/index' }
+  },
+
+  ensureBaseUrl() {
+    if (this.data.hasBaseUrl) return true
+    ui.showModal({
+      title: '提示',
+      content: 'baseUrl 未配置：请创建 `miniprogram/config/local.js` 并设置 { baseUrl }',
+      showCancel: false,
+    })
+    return false
+  },
+
   onTapAuthorize() {
-    if (!this.data.hasBaseUrl) {
-      ui.showModal({
-        title: '提示',
-        content: 'baseUrl 未配置：请创建 `miniprogram/config/local.js` 并设置 { baseUrl }',
-        showCancel: false,
-      })
-      return
-    }
+    if (!this.ensureBaseUrl()) return
     if (!this.data.uuid && !this.data.mid) {
       ui.showModal({ title: '提示', content: '参数错误：缺少 mid/uid', showCancel: false })
       return
@@ -110,8 +142,8 @@ Page({
             confirmText: '确定',
             cancelText: '取消',
           })
-          .then((modalRes) => {
-            if (!modalRes || !modalRes.confirm) return null
+          .then((res) => {
+            if (!res || !res.confirm) return null
             this.setData({ statusText: '提交绑定...' })
             return request({
               path: '/seller/bindCheckOpenid',
@@ -128,17 +160,16 @@ Page({
       })
       .then((res) => {
         if (!res) return
+        const msg = (res && res.msg) || '绑定完成'
         this.setData({ statusText: '完成' })
-        const msg = (res && res.msg) || '操作完成'
-        ui
-          .showModal({ title: '提示', content: msg, showCancel: false })
-          .then(() => wx.reLaunch({ url: '/pages/index/index' }))
+        ui.showModal({ title: '提示', content: msg, showCancel: false }).then(() => {
+          wx.reLaunch({ url: '/pages/index/index' })
+        })
       })
       .catch((err) => {
         const msg = String((err && (err.errMsg || err.message)) || err)
-        this.setData({ error: msg, statusText: '' })
+        this.setData({ statusText: '', error: msg })
         ui.showModal({ title: '失败', content: msg, showCancel: false })
       })
   },
 })
-

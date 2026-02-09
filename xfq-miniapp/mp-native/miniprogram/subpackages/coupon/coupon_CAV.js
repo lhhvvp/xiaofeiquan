@@ -20,12 +20,21 @@ function safeParseJson(val) {
 function normalizeInfo(data) {
   if (!data || typeof data !== 'object') return null
   const useType = Number(data.use_type)
+  const isPermanent = Number(data.is_permanent)
+  let timeText = ''
+  if (isPermanent === 1) {
+    timeText = '永久有效'
+  } else if (isPermanent === 2) {
+    timeText = `${String(data.coupon_time_start || '-')} 至 ${String(data.coupon_time_end || '-')}`
+  } else if (typeof data.day !== 'undefined') {
+    timeText = `领取后 ${data.day} 天`
+  }
   return {
     couponTitle: data.coupon_title || '',
     couponPrice: data.coupon_price || '',
     useType,
     useTypeText: useType === 1 ? '线上' : '线下',
-    timeText: '',
+    timeText,
   }
 }
 
@@ -44,6 +53,7 @@ Page({
 
     info: null,
     showMask: false,
+    statusCode: -1,
     statusTitle: '核销中',
     statusMsg: '正在核销，请稍候..',
     error: null,
@@ -68,10 +78,13 @@ Page({
       return
     }
 
-    this.coordPromise = locationService.getLocation().then((c) => {
-      this.setData({ vrLatitude: c.latitude, vrLongitude: c.longitude })
-      return c
-    })
+    this.coordPromise = locationService
+      .getLocation()
+      .then((c) => {
+        this.setData({ vrLatitude: c.latitude, vrLongitude: c.longitude })
+        return c
+      })
+      .catch(() => ({ latitude: 0, longitude: 0 }))
 
     if (this.data.hasBaseUrl) this.init()
   },
@@ -137,16 +150,16 @@ Page({
       )
       .then((res) => {
         if (!res || typeof res !== 'object') {
-          this.setData({ statusTitle: '核销失败', statusMsg: '返回数据异常' })
+          this.setData({ statusCode: 0, statusTitle: '核销失败', statusMsg: '返回数据异常' })
           return
         }
         if (res.code === 0) {
-          this.setData({ statusTitle: '核销成功', statusMsg: res.msg || '核销成功' })
+          this.setData({ statusCode: 1, statusTitle: '核销成功', statusMsg: res.msg || '核销成功' })
           return
         }
-        this.setData({ statusTitle: '核销失败', statusMsg: res.msg || '核销失败' })
+        this.setData({ statusCode: 0, statusTitle: '核销失败', statusMsg: res.msg || '核销失败' })
       })
-      .catch(() => this.setData({ statusTitle: '核销失败', statusMsg: '核销失败，请稍后重试' }))
+      .catch(() => this.setData({ statusCode: 0, statusTitle: '核销失败', statusMsg: '核销失败，请稍后重试' }))
   },
   onTapDone() {
     wx.navigateBack()

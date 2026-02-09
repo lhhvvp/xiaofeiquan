@@ -1,0 +1,35 @@
+<view class="logistics-page">
+  <view wx:if="{{!hasBaseUrl}}" class="notice">
+    baseUrl 未配置：请创建 miniprogram/config/local.js 并设置 { baseUrl }
+  </view>
+
+  <view class="card page-card" wx:if="{{trackingNumber}}">
+    <view class="meta-row">
+      <text class="meta-label">物流公司</text>
+      <text class="meta-value">{{company}}</text>
+    </view>
+    <view class="meta-row">
+      <text class="meta-label">物流单号</text>
+      <text class="meta-value">{{trackingNumber}}</text>
+    </view>
+  </view>
+
+  <ui-empty wx:if="{{empty}}" text="暂无物流轨迹" />
+
+  <view class="timeline page-card" wx:if="{{list.length}}">
+    <view class="node {{index === 0 ? 'latest' : ''}}" wx:for="{{list}}" wx:key="index">
+      <view class="left">
+        <view class="dot"></view>
+        <view wx:if="{{index !== list.length - 1}}" class="line"></view>
+      </view>
+      <view class="right">
+        <view class="content">{{item.content}}</view>
+        <view wx:if="{{item.location}}" class="location">{{item.location}}</view>
+        <view class="time">{{item.time || '-'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中..</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+</view>
