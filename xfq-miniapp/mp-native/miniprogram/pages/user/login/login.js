@@ -38,6 +38,9 @@ function buildUserFromLoginResp(ret) {
 
 Page({
   data: {
+    envVersion: config.envVersion,
+    isMock: !!config.mock,
+    modeTag: config.mock ? 'MOCK' : 'REAL',
     redirect: '',
     baseUrl: config.baseUrl,
     hasBaseUrl: !!(config.baseUrl && String(config.baseUrl).trim()),

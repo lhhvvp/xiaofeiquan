@@ -27,7 +27,9 @@
   </view>
 
   <view wx:if="{{redirect}}" class="debug-line">redirect: {{redirect}}</view>
+  <view class="debug-line">mode: {{modeTag}} | env: {{envVersion}}</view>
   <view class="debug-line debug-url">baseUrl: {{baseUrl || '未配置'}}</view>
+  <view class="debug-line">mock: {{isMock ? 'true' : 'false'}}</view>
   <view wx:if="{{error}}" class="error">error: {{error}}</view>
 
   <view wx:if="{{showAuthSheet}}" class="mask-box">

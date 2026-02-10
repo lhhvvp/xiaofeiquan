@@ -85,6 +85,6 @@
     <text selectable="true" class="debug-json">{{debugText}}</text>
   </view>
 
-  <view class="float-debug" bindtap="onTapToggleDebug">{{debugOpen ? '关闭调试' : '调试'}}</view>
+  <view class="float-debug" bindtap="onTapToggleDebug">{{debugOpen ? ('关闭调试(' + modeTag + ')') : ('调试(' + modeTag + ')')}}</view>
   <ui-error wx:if="{{error}}" message="{{error}}" bind:retry="onRetry" />
 </view>

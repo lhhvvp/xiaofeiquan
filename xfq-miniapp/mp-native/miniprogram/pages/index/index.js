@@ -50,6 +50,8 @@ function buildVisibleSections(sectionList, navId) {
 Page({
   data: {
     envVersion: config.envVersion,
+    isMock: !!config.mock,
+    modeTag: config.mock ? 'MOCK' : 'REAL',
     baseUrl: config.baseUrl,
     hasBaseUrl: !!(config.baseUrl && String(config.baseUrl).trim()),
     hasLogin: false,
@@ -230,6 +232,8 @@ Page({
       ? JSON.stringify(
           {
             envVersion: this.data.envVersion,
+            isMock: this.data.isMock,
+            modeTag: this.data.modeTag,
             baseUrl: this.data.baseUrl,
             hasLogin: this.data.hasLogin,
             newsCount: this.data.news.length,
