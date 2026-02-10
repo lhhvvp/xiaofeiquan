@@ -194,7 +194,19 @@
 - 自动化校验：
   - `npm run check`：通过（`pages=62, js=93, json=69, warnings=0`）
   - `npm run mock:smoke`：通过（`ALL OK (81 steps)`）
+- 高风险真实 API 回归：
+  - `p0/miniapp`：`66/68` 通过（`2` 条为数据面差异）
+  - `p0_success`：`49/49` 通过
+  - 关键接口补跑：`/index/miniwxlogin`、`/seller/bindCheckOpenid`、`/ticket/getTravelOrderDetail`、`/ticket/travelOrderPay` 均通过
+- Wave1 自动化补跑（入口与主链路）：
+  - `p0/miniapp`：`7/8` 通过（`getScenicList` 1 条数据面差异）
+  - `p0/stubs/api`：`4/4` 通过（登录 + travel）
+  - `p0_success`：`6/6` 通过
 - B14 产物：
   - `xfq-miniapp/doc/b14-full-regression-checklist.md`
+  - `xfq-miniapp/doc/b14-next-manual-regression.md`
+  - `xfq-miniapp/doc/b14-wave1-execution-report.md`
+  - `xfq-miniapp/doc/b14-wave1-manual-regression-log.md`
+  - `xfq-miniapp/doc/b14-defect-register.csv`
   - `xfq-miniapp/doc/b14-go-nogo-template.md`
   - `xfq-miniapp/doc/b14-readiness-report.md`

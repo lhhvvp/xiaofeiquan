@@ -13,8 +13,13 @@
 - `xfq-miniapp/doc/m3-smoke-test.md`：M3（交易闭环）自测/冒烟用例清单（支付/订单/退款/核销）。  
 - `xfq-miniapp/doc/m4-smoke-test.md`：M4（非核心补齐）自测/冒烟用例清单（公告/协议）。  
 - `xfq-miniapp/doc/b14-full-regression-checklist.md`：B14 全量回归执行清单（一次切换前总闸门）。  
+- `xfq-miniapp/doc/b14-next-manual-regression.md`：B14 下一轮人工回归执行单（按 Wave 串行推进）。  
+- `xfq-miniapp/doc/b14-wave1-execution-report.md`：B14 Wave1 自动化执行报告（入口主链路结果与阻断项）。  
+- `xfq-miniapp/doc/b14-wave1-manual-regression-log.md`：B14 Wave1 人工回归记录模板（逐页填写）。  
+- `xfq-miniapp/doc/b14-defect-register.csv`：B14 缺陷登记表（Wave 维度，研发/QA共用）。  
 - `xfq-miniapp/doc/b14-go-nogo-template.md`：B14 Go/No-Go 评审模板（发布签字单）。  
 - `xfq-miniapp/doc/b14-readiness-report.md`：B14 当前就绪度快照与剩余工作。  
+- `xfq-miniapp/doc/fullstack-local-startup.md`：前后端联跑启动手册（真实 API / 全 mock 双模式）。  
 - `xfq-miniapp/mp-native/tools/check-miniprogram.js`：原生小程序自检（路由文件存在性 + JS/JSON 语法校验）。运行：`cd xfq-miniapp/mp-native && npm run check`
 - `xfq-miniapp/mp-native/tools/mock-smoke-test.js`：mock 模式冒烟自测（覆盖主要接口与 mockPayment）。运行：`cd xfq-miniapp/mp-native && npm run mock:smoke`
 

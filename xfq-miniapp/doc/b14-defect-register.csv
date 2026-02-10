@@ -1,0 +1,3 @@
+defect_id,wave,module,page_path,severity,priority,status,summary,repro_steps,expected,actual,owner,created_at,resolved_at,verify_result,notes
+BUG-B14-W1-001,Wave1,tickets,pages/tickets/tickets,High,P1,open,getScenicList 数据口径与 baseline 不一致,"打开 tickets 页并触发 /api/ticket/getScenicList，执行 p0-miniapp-get-api-ticket-getScenicList-001","字段类型和值与 baseline 一致","comment_rate: 0->0.0；min_price: null->\"100.00\"",,2026-02-09,,,自动化回归发现；需确认“更新 baseline”或“后端归一”
+BUG-B14-W1-XXX,Wave1,,,,open,,,,,,,,,
